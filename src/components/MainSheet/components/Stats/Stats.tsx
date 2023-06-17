@@ -3,7 +3,10 @@ import styles from './stats.module.scss';
 import { STATS_CONFIGS } from 'constants/stats';
 import { getModifier } from 'utils/statUtils';
 import { addNumberSign } from 'utils/stringUtils';
-import { getProficiencyBonus } from 'constants/proficiencyUtils';
+import {
+  getProficiencyBonus,
+  hasProficiency,
+} from 'constants/proficiencyUtils';
 
 export const Stats = () => {
   const {
@@ -31,16 +34,19 @@ export const Stats = () => {
               <div>{addNumberSign(getModifier(value))}</div>
               <div>
                 <div>
-                  <span onClick={() => onToggleSavingThrowProficiency(stat)}>
-                    Saving Throw:
+                  <span>
+                    <span>Saving Throw:</span>
+                    <button
+                      onClick={() => onToggleSavingThrowProficiency(stat)}>
+                      {hasProficiency(savingThrows[stat]) ? 'O' : 'X'}
+                    </button>
                   </span>
-                </div>
-                <div>
-                  {addNumberSign(
-                    getModifier(value) +
-                      getProficiencyBonus(savingThrows[stat], profBonus),
-                  )}
-                  {}
+                  <span>
+                    {addNumberSign(
+                      getModifier(value) +
+                        getProficiencyBonus(savingThrows[stat], profBonus),
+                    )}
+                  </span>
                 </div>
               </div>
             </div>

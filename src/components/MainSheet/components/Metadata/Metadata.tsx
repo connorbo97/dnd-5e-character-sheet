@@ -3,7 +3,7 @@ import styles from './metadata.module.scss';
 import { entries } from 'lodash';
 
 export const Metadata = () => {
-  const { levels } = useCharacterSheet();
+  const { levels, profBonus } = useCharacterSheet();
 
   return (
     <div className={styles['container']}>
@@ -15,6 +15,10 @@ export const Metadata = () => {
             .map(([classType, { total }]) => `${total} (${classType})`)
             .join(', ')}
         </span>
+      </div>
+      <div>
+        <span>PB: </span>
+        <span>{profBonus}</span>
       </div>
     </div>
   );
