@@ -49,7 +49,13 @@ export const DEFAULT_SHEET: CharacterSheet = {
   },
   skills: {},
   savingThrows: {},
-  tools: {},
+  tools: {
+    TEST: {
+      label: "Smith's Tools",
+      stat: Stats.STR,
+      category: 'Armor',
+    },
+  },
   otherProficiencies: {
     TEST: {
       label: 'test',
