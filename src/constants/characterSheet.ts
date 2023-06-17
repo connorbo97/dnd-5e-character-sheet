@@ -142,13 +142,13 @@ export const DEFAULT_SHEET: CharacterSheet = {
       },
       damage: [
         {
-          base: '1d6 + 1d4',
+          base: ['1d6', '1d4'],
           stat: STATS.CHA,
           crit: '1d6',
           type: 'Slashing',
         },
         {
-          base: '2d6',
+          base: ['2d6'],
           stat: STATS.STR,
         },
       ],
