@@ -21,3 +21,5 @@ export const DICE_CONFIGS: { [d in DICE]: DiceConfig } = {
   [DICE.d20]: {},
   [DICE.d100]: {},
 };
+
+export const DiceRegex = /[0-9]d[0-9]/;

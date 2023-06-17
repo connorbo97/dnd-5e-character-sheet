@@ -60,7 +60,7 @@ export const Attacks = () => {
                           label={`damage-${i}`}
                           value={
                             <div className={styles['block']}>
-                              <Tag label="base" value={base} />
+                              <Tag label="base" value={base.join(' + ')} />
                               <Tag label="stat" value={damageStat} />
                               <Tag label="mod" value={damageMod?.value} />
                               <Tag label="type" value={type} />

@@ -1,4 +1,5 @@
 import { ModBlock } from './general';
+import { Rollable } from './rollable';
 import { STATS } from './stats';
 
 export enum AttackTypes {
@@ -18,7 +19,7 @@ export type AttackEntry = {
     critRange: number;
   };
   damage?: Array<{
-    base: string;
+    base: Rollable;
     stat: STATS | 'SPELL' | null;
     mod?: ModBlock;
     type?: string;
