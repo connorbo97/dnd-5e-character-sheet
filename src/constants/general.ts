@@ -14,4 +14,5 @@ export type ProficiencyConfig = {
 export type ModBlock = {
   value: number;
   source: string;
+  isStatic?: boolean;
 };

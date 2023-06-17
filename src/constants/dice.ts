@@ -8,3 +8,16 @@ export enum DICE {
   d20 = 'd20',
   d100 = 'd100',
 }
+
+type DiceConfig = {};
+
+export const DICE_CONFIGS: { [d in DICE]: DiceConfig } = {
+  [DICE.d2]: {},
+  [DICE.d4]: {},
+  [DICE.d6]: {},
+  [DICE.d8]: {},
+  [DICE.d10]: {},
+  [DICE.d12]: {},
+  [DICE.d20]: {},
+  [DICE.d100]: {},
+};

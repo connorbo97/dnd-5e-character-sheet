@@ -91,11 +91,11 @@ export const DEFAULT_SHEET: CharacterSheet = {
   hitDice: {
     [DICE.d12]: {
       total: 1,
-      max: 5,
+      max: 1,
     },
-    [DICE.d10]: {
+    [DICE.d8]: {
       total: 2,
-      max: 5,
+      max: 2,
     },
   },
   customBonuses: {
@@ -109,6 +109,17 @@ export const DEFAULT_SHEET: CharacterSheet = {
         value: -2,
 
         source: 'Some other feature',
+      },
+    ],
+    hp: [
+      {
+        value: 1,
+        source: 'Tough',
+      },
+      {
+        value: 5,
+        source: 'Custom',
+        isStatic: true,
       },
     ],
   },

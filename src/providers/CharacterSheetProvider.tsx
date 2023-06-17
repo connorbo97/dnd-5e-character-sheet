@@ -121,7 +121,7 @@ export const useCharacterSheet = () => {
   };
 
   const totalLevels = useMemo(
-    () => values(levels).map((l) => l.total),
+    () => values(levels).reduce((acc, { total }) => acc + total, 0),
     [levels],
   );
 
