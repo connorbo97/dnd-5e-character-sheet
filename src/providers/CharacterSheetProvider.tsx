@@ -87,12 +87,10 @@ export const useCharacterSheet = () => {
   const onToggleToolProficiency = useCallback(
     (tool) => {
       setSheet(
-        iUpdate(sheet, `tools.${tool}`, (prev) => {
-          return {
-            ...prev,
-            proficient: !prev?.proficient,
-          };
-        }),
+        iUpdate(sheet, `tools.${tool}`, (prev) => ({
+          ...prev,
+          proficient: !prev?.proficient,
+        })),
       );
     },
     [setSheet, sheet],
@@ -107,6 +105,16 @@ export const useCharacterSheet = () => {
     },
     [stats],
   );
+
+  const onToggleDeathSaveByIndex = (index, isSuccess = false) => {
+    setSheet(
+      iUpdate(
+        sheet,
+        `deathSaves.${isSuccess ? 'successes' : 'failures'}.${index}`,
+        (prev) => !prev,
+      ),
+    );
+  };
 
   return {
     sheet,
@@ -127,5 +135,7 @@ export const useCharacterSheet = () => {
     onToggleSavingThrowProficiency,
 
     onToggleToolProficiency,
+
+    onToggleDeathSaveByIndex,
   };
 };

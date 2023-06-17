@@ -34,6 +34,10 @@ export type CharacterSheet = {
   money: {
     [s in Money]?: number;
   };
+  deathSaves: {
+    successes: [boolean?, boolean?, boolean?];
+    failures: [boolean?, boolean?, boolean?];
+  };
 };
 
 export const DEFAULT_SHEET: CharacterSheet = {
@@ -63,4 +67,8 @@ export const DEFAULT_SHEET: CharacterSheet = {
     },
   },
   money: {},
+  deathSaves: {
+    successes: [],
+    failures: [],
+  },
 };
