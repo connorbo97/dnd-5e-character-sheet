@@ -43,7 +43,8 @@ export type CharacterSheet = {
     };
   };
   customBonuses: {
-    initiative?: ModBlock;
+    initiative?: Array<ModBlock>;
+    hp?: Array<ModBlock>;
   };
 };
 
@@ -98,10 +99,17 @@ export const DEFAULT_SHEET: CharacterSheet = {
     },
   },
   customBonuses: {
-    initiative: {
-      value: 1,
+    initiative: [
+      {
+        value: 1,
 
-      source: 'Testing',
-    },
+        source: 'Some feature',
+      },
+      {
+        value: -2,
+
+        source: 'Some other feature',
+      },
+    ],
   },
 };
