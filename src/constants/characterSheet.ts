@@ -1,3 +1,4 @@
+import { AttackEntry } from './attacks';
 import { CLASSES } from './classes';
 import { DICE } from './dice';
 import { ModBlock, ProficiencyConfig } from './general';
@@ -46,6 +47,7 @@ export type CharacterSheet = {
     initiative?: Array<ModBlock>;
     hp?: Array<ModBlock>;
   };
+  attacks: Array<AttackEntry>;
 };
 
 export const DEFAULT_SHEET: CharacterSheet = {
@@ -123,4 +125,53 @@ export const DEFAULT_SHEET: CharacterSheet = {
       },
     ],
   },
+  attacks: [
+    {
+      label: 'Test Label',
+      source: 'test source',
+      description: 'test description',
+      attack: {
+        stat: STATS.CHA,
+        mod: {
+          value: 1,
+          source: '',
+        },
+        proficient: true,
+        range: '30/60',
+        critRange: 20,
+      },
+      damage: [
+        {
+          base: '1d6 + 1d4',
+          stat: STATS.CHA,
+          crit: '1d6',
+          type: 'Slashing',
+        },
+        {
+          base: '2d6',
+          stat: STATS.STR,
+        },
+      ],
+    },
+    {
+      label: 'Second Attack',
+      source: 'test source 2 ',
+      description: 'test description 2',
+      attack: {
+        stat: STATS.STR,
+        mod: {
+          value: 2,
+          source: '',
+        },
+        proficient: false,
+        range: '30/90',
+        critRange: 19,
+      },
+      savingThrow: {
+        stat: STATS.DEX,
+        dc: 'SPELL',
+        effect: 'On a successful save, take half damage.',
+      },
+    },
+  ],
 };
