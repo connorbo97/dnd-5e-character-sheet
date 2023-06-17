@@ -10,3 +10,8 @@ export type ProficiencyConfig = {
   stat?: STATS;
   label?: string;
 };
+
+export type ModBlock = {
+  value: number;
+  source: string;
+};

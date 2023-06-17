@@ -1,5 +1,5 @@
 import { DICE } from './dice';
-import { ProficiencyConfig } from './general';
+import { ModBlock, ProficiencyConfig } from './general';
 import { Money } from './money';
 import { Skills } from './skills';
 import { STATS } from './stats';
@@ -34,6 +34,9 @@ export type CharacterSheet = {
       total: number;
       max: number;
     };
+  };
+  customBonuses: {
+    initiative?: ModBlock;
   };
 };
 
@@ -76,6 +79,12 @@ export const DEFAULT_SHEET: CharacterSheet = {
     [DICE.d10]: {
       total: 2,
       max: 5,
+    },
+  },
+  customBonuses: {
+    initiative: {
+      value: 1,
+      source: 'Testing',
     },
   },
 };
