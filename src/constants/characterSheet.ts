@@ -1,7 +1,7 @@
 import { DICE } from './dice';
 import { Money } from './money';
 import { Skills } from './skills';
-import { Stats } from './stats';
+import { STATS } from './stats';
 
 export type ProficiencyConfig = {
   proficient?: boolean;
@@ -10,7 +10,7 @@ export type ProficiencyConfig = {
   mod?: number;
 
   category?: string;
-  stat?: Stats;
+  stat?: STATS;
   label?: string;
 };
 
@@ -18,10 +18,10 @@ export type CharacterSheet = {
   name: string;
   profBonus: number;
   stats: {
-    [s in Stats]: number;
+    [s in STATS]: number;
   };
   savingThrows: {
-    [s in Stats]?: ProficiencyConfig;
+    [s in STATS]?: ProficiencyConfig;
   };
   skills: {
     [s in Skills]?: ProficiencyConfig;
@@ -63,7 +63,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
   tools: {
     TEST: {
       label: "Smith's Tools",
-      stat: Stats.STR,
+      stat: STATS.STR,
       category: 'Armor',
     },
   },

@@ -1,4 +1,4 @@
-export enum Stats {
+export enum STATS {
   STR = 'STR',
   DEX = 'DEX',
   CON = 'CON',
@@ -11,7 +11,7 @@ type StatsConfig = {
   label: string;
   shortLabel: string;
 };
-export const STATS_CONFIGS: { [s in Stats]: StatsConfig } = {
+export const STATS_CONFIGS: { [s in STATS]: StatsConfig } = {
   STR: {
     label: 'Strength',
     shortLabel: 'Str',

@@ -1,4 +1,4 @@
-import { Stats } from './stats';
+import { STATS } from './stats';
 
 export enum Skills {
   ACROBATICS = 'ACROBATICS',
@@ -23,79 +23,79 @@ export enum Skills {
 
 type SkillConfig = {
   label: string;
-  stat: Stats;
+  stat: STATS;
 };
 export const SKILL_CONFIGS: { [s in Skills]: SkillConfig } = {
   [Skills.ACROBATICS]: {
     label: 'Acrobatics',
-    stat: Stats.DEX,
+    stat: STATS.DEX,
   },
   [Skills.ANIMAL_HANDLING]: {
     label: 'Animal Handling',
-    stat: Stats.WIS,
+    stat: STATS.WIS,
   },
   [Skills.ARCANA]: {
     label: 'Arcana',
-    stat: Stats.INT,
+    stat: STATS.INT,
   },
   [Skills.ATHLETICS]: {
     label: 'Athletics',
-    stat: Stats.STR,
+    stat: STATS.STR,
   },
   [Skills.DECEPTION]: {
     label: 'Deception',
-    stat: Stats.CHA,
+    stat: STATS.CHA,
   },
   [Skills.HISTORY]: {
     label: 'History',
-    stat: Stats.INT,
+    stat: STATS.INT,
   },
   [Skills.INSIGHT]: {
     label: 'Insight',
-    stat: Stats.WIS,
+    stat: STATS.WIS,
   },
   [Skills.INTIMIDATION]: {
     label: 'Intimidation',
-    stat: Stats.CHA,
+    stat: STATS.CHA,
   },
   [Skills.INVESTIGATION]: {
     label: 'Investigation',
-    stat: Stats.INT,
+    stat: STATS.INT,
   },
   [Skills.MEDICINE]: {
     label: 'Medicine',
-    stat: Stats.WIS,
+    stat: STATS.WIS,
   },
   [Skills.NATURE]: {
     label: 'Nature',
-    stat: Stats.INT,
+    stat: STATS.INT,
   },
   [Skills.PERCEPTION]: {
     label: 'Perception',
-    stat: Stats.WIS,
+    stat: STATS.WIS,
   },
   [Skills.PERFORMANCE]: {
     label: 'Performance',
-    stat: Stats.CHA,
+    stat: STATS.CHA,
   },
   [Skills.PERSUASION]: {
     label: 'Persuasion',
-    stat: Stats.CHA,
+    stat: STATS.CHA,
   },
   [Skills.RELIGION]: {
     label: 'Religion',
-    stat: Stats.INT,
+    stat: STATS.INT,
   },
   [Skills.SLEIGHT_OF_HAND]: {
     label: 'Sleight of Hand',
-    stat: Stats.DEX,
+    stat: STATS.DEX,
   },
   [Skills.STEALTH]: {
     label: 'Stealth',
-    stat: Stats.DEX,
+    stat: STATS.DEX,
   },
   [Skills.SURVIVAL]: {
     label: 'Survival',
-    stat: Stats.WIS,
+    stat: STATS.WIS,
   },
 };
