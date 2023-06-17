@@ -83,7 +83,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
   },
   otherProficiencies: {
     TEST: {
-      label: 'test',
+      label: 'Light Armor',
       category: 'Armor',
     },
   },
