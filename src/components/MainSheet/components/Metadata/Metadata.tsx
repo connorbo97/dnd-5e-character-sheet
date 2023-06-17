@@ -12,6 +12,7 @@ export const Metadata = () => {
         <span>Level: </span>
         <span>
           {entries(levels)
+            .sort((a, b) => (a[1].isMain ? -1 : b[1].isMain ? 1 : 0))
             .map(([classType, { total }]) => `${total} (${classType})`)
             .join(', ')}
         </span>

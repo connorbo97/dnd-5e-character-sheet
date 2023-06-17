@@ -1,19 +1,24 @@
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import styles from './hitPoints.module.scss';
-import { entries, partition } from 'lodash';
+import { entries, findKey, partition } from 'lodash';
 import { STATS } from 'constants/stats';
-import { getDiceAverage } from 'utils/diceUtils';
+import { getDiceAverage, getDiceMax } from 'utils/diceUtils';
 import { conditionalJoinStrings } from 'utils/stringUtils';
+import { CLASS_CONFIGS } from 'constants/classes';
 
 export const HitPoints = () => {
-  const { customBonuses, hitDice, totalLevels, getStatModifier } =
+  const { customBonuses, levels, hitDice, totalLevels, getStatModifier } =
     useCharacterSheet();
   const { hp: customHpBonuses } = customBonuses;
 
-  const hitDiceHp = entries(hitDice).reduce(
-    (acc, [diceType, { max }]) => acc + max * getDiceAverage(diceType),
-    0,
-  );
+  const mainClass = findKey(levels, { isMain: true }) || '';
+
+  const mainClassHp = getDiceMax(CLASS_CONFIGS[mainClass]?.hitDice);
+  const hitDiceHp = entries(hitDice).reduce((acc, [diceType, { max }]) => {
+    const diceMax =
+      diceType === CLASS_CONFIGS[mainClass]?.hitDice ? max - 1 : max;
+    return acc + diceMax * getDiceAverage(diceType);
+  }, 0);
   const conHp = totalLevels * getStatModifier(STATS.CON);
   const [staticBonuses, stackingBonuses] = partition(
     customHpBonuses,
@@ -27,7 +32,8 @@ export const HitPoints = () => {
     (acc, { value }) => acc + value * totalLevels,
     0,
   );
-  const totalHp = hitDiceHp + conHp + staticBonusesHp + stackingBonusesHp;
+  const totalHp =
+    mainClassHp + hitDiceHp + conHp + staticBonusesHp + stackingBonusesHp;
   return (
     <div className={styles['container']}>
       <h3>Hit Points</h3>
@@ -35,10 +41,11 @@ export const HitPoints = () => {
       <div>
         {conditionalJoinStrings(
           [
-            `${hitDiceHp} (Hit Dice)`,
-            `${conHp} (CON)`,
+            `${mainClassHp} (Level 1 Hit Dice)`,
+            `${hitDiceHp} (Level 1+ Hit Dice)`,
+            `${conHp} (CON * LEVEL)`,
             `${staticBonusesHp} (Static Bonuses)`,
-            `${stackingBonusesHp} (Stacking Bonuses)`,
+            `${stackingBonusesHp} (Stacking Bonuses * Level)`,
           ],
           ' + ',
         )}

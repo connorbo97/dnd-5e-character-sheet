@@ -7,15 +7,17 @@ import { Money } from './money';
 import { Skills } from './skills';
 import { STATS } from './stats';
 
+export type CharacterSheetLevels = {
+  [c in CLASSES]?: {
+    total: number;
+    isMain?: boolean;
+  };
+};
+
 export type CharacterSheet = {
   name: string;
   profBonus: number;
-  levels: {
-    [c in CLASSES]?: {
-      total: number;
-      isMain?: boolean;
-    };
-  };
+  levels: CharacterSheetLevels;
   stats: {
     [s in STATS]: number;
   };
@@ -58,10 +60,10 @@ export const DEFAULT_SHEET: CharacterSheet = {
   levels: {
     [CLASSES.BARBARIAN]: {
       total: 1,
-      isMain: true,
     },
     [CLASSES.CLERIC]: {
       total: 2,
+      isMain: true,
     },
   },
   stats: {
