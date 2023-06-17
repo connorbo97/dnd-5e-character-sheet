@@ -1,5 +1,11 @@
 import { DICE } from './dice';
+import { STATS } from './stats';
 
-export type RollableEntry = number | DICE | string;
+export enum ROLLABLES {
+  PB = 'PB',
+  SPELL = 'SPELL',
+}
+
+export type RollableEntry = number | DICE | string | STATS | ROLLABLES;
 
 export type Rollable = Array<RollableEntry>;
