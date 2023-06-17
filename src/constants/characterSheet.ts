@@ -2,6 +2,7 @@ import { AttackEntry } from './attacks';
 import { CLASSES } from './classes';
 import { DICE } from './dice';
 import { ModBlock, ProficiencyConfig } from './general';
+import { InventoryItem } from './inventory';
 import { Money } from './money';
 import { Skills } from './skills';
 import { STATS } from './stats';
@@ -33,6 +34,7 @@ export type CharacterSheet = {
   money: {
     [s in Money]?: number;
   };
+  inventory: Array<InventoryItem>;
   deathSaves: {
     successes: [boolean?, boolean?, boolean?];
     failures: [boolean?, boolean?, boolean?];
@@ -172,6 +174,20 @@ export const DEFAULT_SHEET: CharacterSheet = {
         dc: 'SPELL',
         effect: 'On a successful save, take half damage.',
       },
+    },
+  ],
+  inventory: [
+    {
+      label: 'Leather Armor',
+      description: 'some description',
+      source: 'character creation',
+      mods: {
+        ac: [11, STATS.DEX],
+      },
+      equipped: true,
+      total: 1,
+      weight: 10,
+      useAsResource: false,
     },
   ],
 };

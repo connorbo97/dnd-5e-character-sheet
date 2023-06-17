@@ -29,7 +29,7 @@ export const HitPoints = () => {
   );
   const totalHp = hitDiceHp + conHp + staticBonusesHp + stackingBonusesHp;
   return (
-    <div>
+    <div className={styles['container']}>
       <h3>Hit Points</h3>
       <h5>{totalHp}</h5>
       <div>

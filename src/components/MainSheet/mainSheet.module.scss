@@ -2,7 +2,14 @@
 
 .grid {
   display: grid;
-  grid-template-areas: 'stats skills auto';
+  grid-auto-columns: 1fr;
+  grid-auto-rows: min-content;
+  grid-auto-flow: column;
+  grid-template-areas:
+    'metadata hit-points death-saves initiative'
+    'stats skills attacks attacks'
+    'inventory money other-prof tools'
+    'hit-dice - - -';
   background-color: white;
   row-gap: 5px;
   column-gap: 5px;

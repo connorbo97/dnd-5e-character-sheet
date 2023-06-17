@@ -1,5 +1,9 @@
 @import 'styles/_colors';
 
+.container {
+  grid-area: attacks;
+}
+
 .block {
   margin: 2.5px;
   padding: 5px;

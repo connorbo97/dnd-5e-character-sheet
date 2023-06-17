@@ -11,6 +11,7 @@ import { Initiative } from './components/Initiative/Initiative';
 import { HitPoints } from './components/HitPoints/HitPoints';
 import { Metadata } from './components/Metadata/Metadata';
 import { Attacks } from './components/Attacks/Attacks';
+import { Inventory } from './components/Inventory/Inventory';
 
 export const MainSheet = () => {
   return (
@@ -24,6 +25,7 @@ export const MainSheet = () => {
         <DeathSaves />
         <HitDice />
         <Initiative />
+        <Inventory />
         <HitPoints />
         <Metadata />
         <Attacks />
