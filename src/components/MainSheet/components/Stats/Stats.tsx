@@ -3,9 +3,16 @@ import styles from './stats.module.scss';
 import { STATS_CONFIGS } from 'constants/stats';
 import { getModifier } from 'utils/statUtils';
 import { addNumberSign } from 'utils/stringUtils';
+import { getProficiencyBonus } from 'constants/proficiencyUtils';
 
 export const Stats = () => {
-  const { stats, onChangeStat } = useCharacterSheet();
+  const {
+    profBonus,
+    stats,
+    onChangeStat,
+    savingThrows,
+    onToggleSavingThrowProficiency,
+  } = useCharacterSheet();
   return (
     <div className={styles['container']}>
       <h3>Stats</h3>
@@ -21,6 +28,20 @@ export const Stats = () => {
               max={30}
             />
             <div>{addNumberSign(getModifier(value))}</div>
+            <div>
+              <div>
+                <span onClick={() => onToggleSavingThrowProficiency(stat)}>
+                  Saving Throw {}:
+                </span>
+              </div>
+              <div>
+                {addNumberSign(
+                  getModifier(value) +
+                    getProficiencyBonus(savingThrows[stat], stat, profBonus),
+                )}
+                {}
+              </div>
+            </div>
           </div>
         ))}
       </div>

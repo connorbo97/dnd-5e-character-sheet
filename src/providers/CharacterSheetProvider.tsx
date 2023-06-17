@@ -15,6 +15,7 @@ type CharacterSheetContextValue = {
 };
 const initialSheet = {
   name: 'Placeholder',
+  profBonus: 2,
   stats: {
     STR: 10,
     DEX: 10,
@@ -24,6 +25,7 @@ const initialSheet = {
     CHA: 10,
   },
   skills: {},
+  savingThrows: {},
 };
 const initialState: CharacterSheetContextValue = {
   sheet: initialSheet,
@@ -47,7 +49,14 @@ export const CharacterSheetProvider = ({ ...rest }) => {
 
 export const useCharacterSheet = () => {
   const { sheet, setSheet } = useContext(CharacterSheetContext);
-  const { name, stats, skills } = sheet;
+  const { name, stats, skills, savingThrows, profBonus } = sheet;
+
+  const onChangeProfBonus = useCallback(
+    (val) => {
+      setSheet(iSet(sheet, 'profBonus', val));
+    },
+    [setSheet, sheet],
+  );
 
   const onChangeName = useCallback(
     (val) => {
@@ -82,6 +91,18 @@ export const useCharacterSheet = () => {
     [setSheet, sheet],
   );
 
+  const onToggleSavingThrowProficiency = useCallback(
+    (stat) => {
+      setSheet(
+        iUpdate(sheet, `savingThrows.${stat}`, (prev) => ({
+          ...prev,
+          proficient: !prev?.proficient,
+        })),
+      );
+    },
+    [setSheet, sheet],
+  );
+
   return {
     sheet,
     setSheet,
@@ -89,11 +110,17 @@ export const useCharacterSheet = () => {
     name,
     onChangeName,
 
+    profBonus,
+    onChangeProfBonus,
+
     stats,
     onChangeStat,
 
     skills,
     onChangeSkill,
     onToggleSkillProficiency,
+
+    savingThrows,
+    onToggleSavingThrowProficiency,
   };
 };
