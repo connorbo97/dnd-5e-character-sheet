@@ -1,3 +1,4 @@
+import { CLASSES } from './classes';
 import { DICE } from './dice';
 import { ModBlock, ProficiencyConfig } from './general';
 import { Money } from './money';
@@ -7,6 +8,12 @@ import { STATS } from './stats';
 export type CharacterSheet = {
   name: string;
   profBonus: number;
+  levels: {
+    [c in CLASSES]?: {
+      total: number;
+      isMain?: boolean;
+    };
+  };
   stats: {
     [s in STATS]: number;
   };
@@ -43,6 +50,15 @@ export type CharacterSheet = {
 export const DEFAULT_SHEET: CharacterSheet = {
   name: 'Placeholder',
   profBonus: 2,
+  levels: {
+    [CLASSES.BARBARIAN]: {
+      total: 1,
+      isMain: true,
+    },
+    [CLASSES.CLERIC]: {
+      total: 2,
+    },
+  },
   stats: {
     STR: 10,
     DEX: 10,
@@ -84,6 +100,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
   customBonuses: {
     initiative: {
       value: 1,
+
       source: 'Testing',
     },
   },

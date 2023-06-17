@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { noop } from 'lodash';
+import { noop, values } from 'lodash';
 import { iSet, iUpdate } from 'utils/lodashUtils';
 import { getModifier } from 'utils/statUtils';
 
@@ -30,7 +30,7 @@ export const CharacterSheetProvider = ({ ...rest }) => {
 
 export const useCharacterSheet = () => {
   const { sheet, setSheet } = useContext(CharacterSheetContext);
-  const { stats } = sheet;
+  const { stats, levels } = sheet;
 
   const onChangeProfBonus = useCallback(
     (val) => {
@@ -120,11 +120,18 @@ export const useCharacterSheet = () => {
     setSheet(iSet(sheet, `hitDice.${diceType}.total`, newTotal));
   };
 
+  const totalLevels = useMemo(
+    () => values(levels).map((l) => l.total),
+    [levels],
+  );
+
   return {
     sheet,
     setSheet,
 
     ...sheet,
+    totalLevels,
+
     getStatModifier,
 
     onChangeName,
