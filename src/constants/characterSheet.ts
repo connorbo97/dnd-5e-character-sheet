@@ -1,18 +1,8 @@
 import { DICE } from './dice';
+import { ProficiencyConfig } from './general';
 import { Money } from './money';
 import { Skills } from './skills';
 import { STATS } from './stats';
-
-export type ProficiencyConfig = {
-  proficient?: boolean;
-  expertise?: boolean;
-
-  mod?: number;
-
-  category?: string;
-  stat?: STATS;
-  label?: string;
-};
 
 export type CharacterSheet = {
   name: string;

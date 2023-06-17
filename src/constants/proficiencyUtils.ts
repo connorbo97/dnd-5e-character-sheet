@@ -1,4 +1,4 @@
-import { ProficiencyConfig } from 'constants/characterSheet';
+import { ProficiencyConfig } from './general';
 
 export const hasProficiency = (config: ProficiencyConfig) => {
   return !!config?.proficient;
