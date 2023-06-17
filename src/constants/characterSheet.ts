@@ -1,3 +1,4 @@
+import { DICE } from './dice';
 import { Money } from './money';
 import { Skills } from './skills';
 import { Stats } from './stats';
@@ -38,6 +39,12 @@ export type CharacterSheet = {
     successes: [boolean?, boolean?, boolean?];
     failures: [boolean?, boolean?, boolean?];
   };
+  hitDice: {
+    [d in DICE]?: {
+      total: number;
+      max: number;
+    };
+  };
 };
 
 export const DEFAULT_SHEET: CharacterSheet = {
@@ -70,5 +77,15 @@ export const DEFAULT_SHEET: CharacterSheet = {
   deathSaves: {
     successes: [],
     failures: [],
+  },
+  hitDice: {
+    [DICE.d12]: {
+      total: 1,
+      max: 5,
+    },
+    [DICE.d10]: {
+      total: 2,
+      max: 5,
+    },
   },
 };

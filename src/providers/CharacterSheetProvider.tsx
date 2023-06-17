@@ -116,6 +116,10 @@ export const useCharacterSheet = () => {
     );
   };
 
+  const onChangeHitDiceTotalByType = (diceType, newTotal) => {
+    setSheet(iSet(sheet, `hitDice.${diceType}.total`, newTotal));
+  };
+
   return {
     sheet,
     setSheet,
@@ -137,5 +141,7 @@ export const useCharacterSheet = () => {
     onToggleToolProficiency,
 
     onToggleDeathSaveByIndex,
+
+    onChangeHitDiceTotalByType,
   };
 };
