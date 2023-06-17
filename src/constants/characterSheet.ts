@@ -1,3 +1,4 @@
+import { Money } from './money';
 import { Skills } from './skills';
 import { Stats } from './stats';
 
@@ -30,6 +31,9 @@ export type CharacterSheet = {
   otherProficiencies: {
     [s: string]: ProficiencyConfig;
   };
+  money: {
+    [s in Money]?: number;
+  };
 };
 
 export const DEFAULT_SHEET: CharacterSheet = {
@@ -45,11 +49,12 @@ export const DEFAULT_SHEET: CharacterSheet = {
   },
   skills: {},
   savingThrows: {},
-  tools: {
+  tools: {},
+  otherProficiencies: {
     TEST: {
       label: 'test',
-      stat: Stats.STR,
+      category: 'Armor',
     },
   },
-  otherProficiencies: {},
+  money: {},
 };

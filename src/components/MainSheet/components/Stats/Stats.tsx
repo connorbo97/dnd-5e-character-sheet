@@ -18,28 +18,30 @@ export const Stats = () => {
       <h3>Stats</h3>
       <div>
         {Object.entries(stats).map(([stat, value]) => (
-          <div>
-            <u>{STATS_CONFIGS[stat].label}:</u>
-            <input
-              value={value}
-              onChange={(e) => onChangeStat(e.target.value, stat)}
-              type="number"
-              min={1}
-              max={30}
-            />
-            <div>{addNumberSign(getModifier(value))}</div>
-            <div>
+          <div className={styles['stat-container']}>
+            <u className={styles['label']}>{STATS_CONFIGS[stat].label}:</u>
+            <div className={styles['content']}>
+              <input
+                value={value}
+                onChange={(e) => onChangeStat(e.target.value, stat)}
+                type="number"
+                min={1}
+                max={30}
+              />
+              <div>{addNumberSign(getModifier(value))}</div>
               <div>
-                <span onClick={() => onToggleSavingThrowProficiency(stat)}>
-                  Saving Throw {}:
-                </span>
-              </div>
-              <div>
-                {addNumberSign(
-                  getModifier(value) +
-                    getProficiencyBonus(savingThrows[stat], profBonus),
-                )}
-                {}
+                <div>
+                  <span onClick={() => onToggleSavingThrowProficiency(stat)}>
+                    Saving Throw:
+                  </span>
+                </div>
+                <div>
+                  {addNumberSign(
+                    getModifier(value) +
+                      getProficiencyBonus(savingThrows[stat], profBonus),
+                  )}
+                  {}
+                </div>
               </div>
             </div>
           </div>
