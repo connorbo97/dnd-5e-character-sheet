@@ -1,6 +1,6 @@
 @import 'styles/_colors';
 
-.container {
-    display: flex;
-    flex-wrap: wrap;    
+.grid {
+    display: grid;
+    grid-template-areas: "stats skills auto";
 }

@@ -37,7 +37,7 @@ export const Stats = () => {
               <div>
                 {addNumberSign(
                   getModifier(value) +
-                    getProficiencyBonus(savingThrows[stat], stat, profBonus),
+                    getProficiencyBonus(savingThrows[stat], profBonus),
                 )}
                 {}
               </div>

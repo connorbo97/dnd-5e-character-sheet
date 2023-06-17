@@ -1,4 +1,4 @@
-import { CharacterSheet } from 'constants/characterSheet';
+import { DEFAULT_SHEET } from 'constants/characterSheet';
 import {
   createContext,
   useCallback,
@@ -8,34 +8,15 @@ import {
 } from 'react';
 import { noop } from 'lodash';
 import { iSet, iUpdate } from 'utils/lodashUtils';
+import { getModifier } from 'utils/statUtils';
 
-type CharacterSheetContextValue = {
-  sheet: CharacterSheet;
-  setSheet: Function;
-};
-const initialSheet = {
-  name: 'Placeholder',
-  profBonus: 2,
-  stats: {
-    STR: 10,
-    DEX: 10,
-    CON: 10,
-    INT: 10,
-    WIS: 10,
-    CHA: 10,
-  },
-  skills: {},
-  savingThrows: {},
-};
-const initialState: CharacterSheetContextValue = {
-  sheet: initialSheet,
+const CharacterSheetContext = createContext({
+  sheet: DEFAULT_SHEET,
   setSheet: noop,
-};
-
-const CharacterSheetContext = createContext(initialState);
+});
 
 export const CharacterSheetProvider = ({ ...rest }) => {
-  const [sheet, setSheet] = useState(initialSheet);
+  const [sheet, setSheet] = useState(DEFAULT_SHEET);
 
   const value = useMemo(
     () => ({
@@ -49,7 +30,7 @@ export const CharacterSheetProvider = ({ ...rest }) => {
 
 export const useCharacterSheet = () => {
   const { sheet, setSheet } = useContext(CharacterSheetContext);
-  const { name, stats, skills, savingThrows, profBonus } = sheet;
+  const { stats } = sheet;
 
   const onChangeProfBonus = useCallback(
     (val) => {
@@ -103,24 +84,48 @@ export const useCharacterSheet = () => {
     [setSheet, sheet],
   );
 
+  const onToggleToolProficiency = useCallback(
+    (tool) => {
+      setSheet(
+        iUpdate(sheet, `tools.${tool}`, (prev) => {
+          return {
+            ...prev,
+            proficient: !prev?.proficient,
+          };
+        }),
+      );
+    },
+    [setSheet, sheet],
+  );
+
+  const getStatModifier = useCallback(
+    (stat) => {
+      if (!stat) {
+        return 0;
+      }
+      return getModifier(stats[stat]);
+    },
+    [stats],
+  );
+
   return {
     sheet,
     setSheet,
 
-    name,
+    ...sheet,
+    getStatModifier,
+
     onChangeName,
 
-    profBonus,
     onChangeProfBonus,
 
-    stats,
     onChangeStat,
 
-    skills,
     onChangeSkill,
     onToggleSkillProficiency,
 
-    savingThrows,
     onToggleSavingThrowProficiency,
+
+    onToggleToolProficiency,
   };
 };
