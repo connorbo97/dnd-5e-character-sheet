@@ -6,7 +6,7 @@ import { Tag } from 'common/components/Tag/Tag';
 import { RACE_CONFIGS } from 'constants/race';
 
 export const Metadata = () => {
-  const { levels, race, profBonus } = useCharacterSheet();
+  const { levels, race, alignment, profBonus } = useCharacterSheet();
 
   return (
     <div className={styles['container']}>
@@ -27,6 +27,7 @@ export const Metadata = () => {
       />
       <Tag label={'PB'} value={profBonus} />
       <Tag label={'Race'} value={RACE_CONFIGS[race].label} />
+      <Tag label={'Alignment'} value={alignment} />
     </div>
   );
 };

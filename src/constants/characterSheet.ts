@@ -1,3 +1,4 @@
+import { ALIGNMENTS } from './alignments';
 import { AttackEntry } from './attacks';
 import { CLASSES } from './classes';
 import { DICE } from './dice';
@@ -20,6 +21,7 @@ export type CharacterSheet = {
   profBonus: number;
   levels: CharacterSheetLevels;
   race: RACES;
+  alignment: ALIGNMENTS;
   stats: {
     [s in STATS]: number;
   };
@@ -69,6 +71,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
     },
   },
   race: RACES.HUMAN,
+  alignment: ALIGNMENTS.N,
   stats: {
     STR: 10,
     DEX: 10,
