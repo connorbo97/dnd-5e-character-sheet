@@ -1,4 +1,4 @@
-import { Rollable } from './rollable';
+import { StaticRollable } from './rollable';
 
 export type InventoryItem = {
   label: string;
@@ -8,7 +8,7 @@ export type InventoryItem = {
   equipped: boolean;
   description: string;
   mods: {
-    ac?: Rollable;
+    ac?: StaticRollable;
   };
 
   useAsResource: boolean;
