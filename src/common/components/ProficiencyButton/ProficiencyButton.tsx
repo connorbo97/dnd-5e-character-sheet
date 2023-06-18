@@ -5,17 +5,6 @@ import classnames from 'classnames/bind';
 const classNameBuilder = classnames.bind(styles);
 
 export const ProficiencyButton = ({ config, onToggle }) => {
-  console.log(
-    classNameBuilder(
-      'button',
-      {
-        proficient: hasProficiency(config),
-      },
-      {
-        expertise: hasExpertise(config),
-      },
-    ),
-  );
   return (
     <button
       className={classNameBuilder(
