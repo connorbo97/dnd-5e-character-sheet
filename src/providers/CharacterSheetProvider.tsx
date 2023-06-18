@@ -60,6 +60,10 @@ export const useCharacterSheet = () => {
     [setSheet, sheet],
   );
 
+  const onToggleInspiration = useCallback(() => {
+    setSheet(iUpdate(sheet, 'inspiration', (prev) => !prev));
+  }, [setSheet, sheet]);
+
   const onToggleSkillProficiency = useCallback(
     (skill) => {
       setSheet(
@@ -160,6 +164,8 @@ export const useCharacterSheet = () => {
     getStatModifier,
 
     onChangeName,
+
+    onToggleInspiration,
 
     onChangeProfBonus,
 

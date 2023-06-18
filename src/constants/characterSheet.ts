@@ -55,6 +55,7 @@ export type CharacterSheet = {
     successes: [boolean?, boolean?, boolean?];
     failures: [boolean?, boolean?, boolean?];
   };
+  inspiration: boolean;
   curHp: number;
   tempHp: number;
   tempMaxHp: number;
@@ -119,6 +120,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
     successes: [],
     failures: [],
   },
+  inspiration: false,
   curHp: 20,
   tempMaxHp: 0,
   tempHp: 0,

@@ -5,10 +5,18 @@ import { CLASS_CONFIGS } from 'constants/classes';
 import { Tag } from 'common/components/Tag/Tag';
 import { RACE_CONFIGS } from 'constants/race';
 import { BACKGROUND_CONFIGS } from 'constants/backgrounds';
+import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
 
 export const Metadata = () => {
-  const { levels, race, alignment, profBonus, background } =
-    useCharacterSheet();
+  const {
+    levels,
+    race,
+    alignment,
+    profBonus,
+    inspiration,
+    onToggleInspiration,
+    background,
+  } = useCharacterSheet();
   const raceLabel = RACE_CONFIGS[race.value].label;
 
   const fullRaceLabel = [race.subRace, raceLabel].filter(identity).join(' ');
@@ -36,6 +44,15 @@ export const Metadata = () => {
       <Tag
         label={'Background'}
         value={BACKGROUND_CONFIGS[background.value].label}
+      />
+      <Tag
+        label={'Inspiration'}
+        value={
+          <ProficiencyButton
+            config={{ proficient: inspiration }}
+            onToggle={() => onToggleInspiration()}
+          />
+        }
       />
     </div>
   );
