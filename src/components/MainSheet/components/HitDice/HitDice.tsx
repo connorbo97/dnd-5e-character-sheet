@@ -9,7 +9,7 @@ export const HitDice = () => {
       <h3>Hit Dice</h3>
       <div>
         {Object.entries(hitDice).map(([diceType, { total, max }]) => (
-          <div>
+          <div key={diceType}>
             <span
               onClick={() =>
                 onChangeHitDiceTotalByType(diceType, Math.max(total - 1, 0))

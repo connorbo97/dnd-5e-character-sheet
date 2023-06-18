@@ -21,7 +21,7 @@ export const Stats = () => {
       <h3>Stats</h3>
       <div>
         {Object.entries(stats).map(([stat, value]) => (
-          <div className={styles['stat-container']}>
+          <div className={styles['stat-container']} key={stat}>
             <u className={styles['label']}>{STATS_CONFIGS[stat].label}:</u>
             <div className={styles['content']}>
               <input
