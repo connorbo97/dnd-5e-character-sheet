@@ -1,4 +1,4 @@
-import { SKILL_CONFIGS } from 'constants/skills';
+import { SKILLS, SKILL_CONFIGS } from 'constants/skills';
 import styles from './skills.module.scss';
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import { STATS, STATS_CONFIGS } from 'constants/stats';
@@ -39,7 +39,7 @@ export const Skills = () => {
         <br />
         <Tag
           label="Passive Perception"
-          value={10 + calculateSkillModifier('PERCEPTION', STATS.WIS)}
+          value={10 + calculateSkillModifier(SKILLS.PERCEPTION, STATS.WIS)}
         />
       </div>
     </div>

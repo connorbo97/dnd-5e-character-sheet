@@ -1,6 +1,6 @@
 import { STATS } from './stats';
 
-export enum Skills {
+export enum SKILLS {
   ACROBATICS = 'ACROBATICS',
   ANIMAL_HANDLING = 'ANIMAL_HANDLING',
   ARCANA = 'ARCANA',
@@ -25,76 +25,76 @@ type SkillConfig = {
   label: string;
   stat: STATS;
 };
-export const SKILL_CONFIGS: { [s in Skills]: SkillConfig } = {
-  [Skills.ACROBATICS]: {
+export const SKILL_CONFIGS: { [s in SKILLS]: SkillConfig } = {
+  [SKILLS.ACROBATICS]: {
     label: 'Acrobatics',
     stat: STATS.DEX,
   },
-  [Skills.ANIMAL_HANDLING]: {
+  [SKILLS.ANIMAL_HANDLING]: {
     label: 'Animal Handling',
     stat: STATS.WIS,
   },
-  [Skills.ARCANA]: {
+  [SKILLS.ARCANA]: {
     label: 'Arcana',
     stat: STATS.INT,
   },
-  [Skills.ATHLETICS]: {
+  [SKILLS.ATHLETICS]: {
     label: 'Athletics',
     stat: STATS.STR,
   },
-  [Skills.DECEPTION]: {
+  [SKILLS.DECEPTION]: {
     label: 'Deception',
     stat: STATS.CHA,
   },
-  [Skills.HISTORY]: {
+  [SKILLS.HISTORY]: {
     label: 'History',
     stat: STATS.INT,
   },
-  [Skills.INSIGHT]: {
+  [SKILLS.INSIGHT]: {
     label: 'Insight',
     stat: STATS.WIS,
   },
-  [Skills.INTIMIDATION]: {
+  [SKILLS.INTIMIDATION]: {
     label: 'Intimidation',
     stat: STATS.CHA,
   },
-  [Skills.INVESTIGATION]: {
+  [SKILLS.INVESTIGATION]: {
     label: 'Investigation',
     stat: STATS.INT,
   },
-  [Skills.MEDICINE]: {
+  [SKILLS.MEDICINE]: {
     label: 'Medicine',
     stat: STATS.WIS,
   },
-  [Skills.NATURE]: {
+  [SKILLS.NATURE]: {
     label: 'Nature',
     stat: STATS.INT,
   },
-  [Skills.PERCEPTION]: {
+  [SKILLS.PERCEPTION]: {
     label: 'Perception',
     stat: STATS.WIS,
   },
-  [Skills.PERFORMANCE]: {
+  [SKILLS.PERFORMANCE]: {
     label: 'Performance',
     stat: STATS.CHA,
   },
-  [Skills.PERSUASION]: {
+  [SKILLS.PERSUASION]: {
     label: 'Persuasion',
     stat: STATS.CHA,
   },
-  [Skills.RELIGION]: {
+  [SKILLS.RELIGION]: {
     label: 'Religion',
     stat: STATS.INT,
   },
-  [Skills.SLEIGHT_OF_HAND]: {
+  [SKILLS.SLEIGHT_OF_HAND]: {
     label: 'Sleight of Hand',
     stat: STATS.DEX,
   },
-  [Skills.STEALTH]: {
+  [SKILLS.STEALTH]: {
     label: 'Stealth',
     stat: STATS.DEX,
   },
-  [Skills.SURVIVAL]: {
+  [SKILLS.SURVIVAL]: {
     label: 'Survival',
     stat: STATS.WIS,
   },

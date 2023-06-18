@@ -5,9 +5,9 @@ import { CLASSES } from './classes';
 import { DICE } from './dice';
 import { ModBlock, ProficiencyConfig } from './general';
 import { InventoryItem } from './inventory';
-import { Money } from './money';
+import { MONEY } from './money';
 import { RACES } from './race';
-import { Skills } from './skills';
+import { SKILLS } from './skills';
 import { STATS } from './stats';
 
 export type CharacterSheetLevels = {
@@ -39,7 +39,7 @@ export type CharacterSheet = {
     [s in STATS]?: ProficiencyConfig;
   };
   skills: {
-    [s in Skills]?: ProficiencyConfig;
+    [s in SKILLS]?: ProficiencyConfig;
   };
   tools: {
     [s: string]: ProficiencyConfig;
@@ -48,7 +48,7 @@ export type CharacterSheet = {
     [s: string]: ProficiencyConfig;
   };
   money: {
-    [s in Money]?: number;
+    [s in MONEY]?: number;
   };
   inventory: Array<InventoryItem>;
   deathSaves: {

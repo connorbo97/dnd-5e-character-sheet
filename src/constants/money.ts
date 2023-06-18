@@ -1,4 +1,4 @@
-export enum Money {
+export enum MONEY {
   COPPER = 'COPPER',
   SILVER = 'SILVER',
   ELECTRUM = 'ELECTRUM',
@@ -10,7 +10,7 @@ type MoneyConfig = {
   label: string;
   shortLabel: string;
 };
-export const MONEY_CONFIGS: { [s in Money]: MoneyConfig } = {
+export const MONEY_CONFIGS: { [s in MONEY]: MoneyConfig } = {
   COPPER: {
     label: 'Copper',
     shortLabel: 'CP',
