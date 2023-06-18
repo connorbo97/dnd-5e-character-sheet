@@ -37,7 +37,6 @@ export const ArmorClass = () => {
   }, [inventory, profBonus, stats]);
 
   const max = Math.max(inventoryAC.total, basicAC);
-  console.log(inventoryAC, basicAC);
 
   return (
     <div className={styles['container']}>

@@ -47,7 +47,7 @@ export const HitPoints = () => {
   );
   const totalHp =
     mainClassHp + hitDiceHp + conHp + staticBonusesHp + stackingBonusesHp;
-  console.log(totalHp, tempMaxHp);
+
   return (
     <div className={styles['container']}>
       <h5>Hit Points </h5>
