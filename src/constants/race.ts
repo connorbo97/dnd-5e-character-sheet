@@ -7,6 +7,7 @@ export enum RACES {
   HALF_ORC = 'HALF_ORC',
   HUMAN = 'HUMAN',
   TIEFLING = 'TIEFLING',
+  TASHA_CUSTOM = 'TASHA_CUSTOM',
 }
 
 type RaceConfigs = {
@@ -21,4 +22,5 @@ export const RACE_CONFIGS: RaceConfigs = {
   [RACES.HALF_ORC]: { label: 'Half Orc' },
   [RACES.HUMAN]: { label: 'Human' },
   [RACES.TIEFLING]: { label: 'Tiefling' },
+  [RACES.TASHA_CUSTOM]: { label: "Tasha's Custom Lineage" },
 };
