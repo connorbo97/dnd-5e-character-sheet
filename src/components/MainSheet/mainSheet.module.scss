@@ -6,10 +6,9 @@
   grid-auto-rows: min-content;
   grid-auto-flow: column;
   grid-template-areas:
-    'metadata hit-points death-saves combat-stats'
+    'metadata combat-stats death-saves shit-dice '
     'stats skills attacks attacks'
-    'inventory money other-prof tools'
-    'hit-dice - - -';
+    'inventory money other-prof tools';
   background-color: white;
   row-gap: 5px;
   column-gap: 5px;

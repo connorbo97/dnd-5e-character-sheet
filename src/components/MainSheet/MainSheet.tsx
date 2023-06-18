@@ -7,7 +7,6 @@ import { OtherProficiencies } from './components/OtherProficiencies/OtherProfici
 import { Money } from './components/Money/Money';
 import { DeathSaves } from './components/DeathSaves/DeathSaves';
 import { HitDice } from './components/HitDice/HitDice';
-import { HitPoints } from './components/HitPoints/HitPoints';
 import { Metadata } from './components/Metadata/Metadata';
 import { Attacks } from './components/Attacks/Attacks';
 import { Inventory } from './components/Inventory/Inventory';
@@ -25,7 +24,6 @@ export const MainSheet = () => {
         <DeathSaves />
         <HitDice />
         <Inventory />
-        <HitPoints />
         <Metadata />
         <Attacks />
         <CombatStats />
