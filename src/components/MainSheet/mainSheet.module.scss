@@ -6,7 +6,7 @@
   grid-auto-rows: min-content;
   grid-auto-flow: column;
   grid-template-areas:
-    'metadata hit-points death-saves initiative'
+    'metadata hit-points death-saves combat-stats'
     'stats skills attacks attacks'
     'inventory money other-prof tools'
     'hit-dice - - -';

@@ -7,11 +7,11 @@ import { OtherProficiencies } from './components/OtherProficiencies/OtherProfici
 import { Money } from './components/Money/Money';
 import { DeathSaves } from './components/DeathSaves/DeathSaves';
 import { HitDice } from './components/HitDice/HitDice';
-import { Initiative } from './components/Initiative/Initiative';
 import { HitPoints } from './components/HitPoints/HitPoints';
 import { Metadata } from './components/Metadata/Metadata';
 import { Attacks } from './components/Attacks/Attacks';
 import { Inventory } from './components/Inventory/Inventory';
+import { CombatStats } from './components/CombatStats/CombatStats';
 
 export const MainSheet = () => {
   return (
@@ -24,11 +24,11 @@ export const MainSheet = () => {
         <Money />
         <DeathSaves />
         <HitDice />
-        <Initiative />
         <Inventory />
         <HitPoints />
         <Metadata />
         <Attacks />
+        <CombatStats />
       </div>
     </div>
   );

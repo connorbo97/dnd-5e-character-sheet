@@ -16,9 +16,8 @@ export const Initiative = () => {
   const total = dexBonus + totalBonus;
   return (
     <div className={styles['container']}>
-      <h3>Initiative</h3>
-      <h5>{total}</h5>
-      <div>
+      <h5>Initiative: {total}</h5>
+      {/* <div>
         {conditionalJoinStrings([
           dexBonus,
           '(DEX)',
@@ -28,7 +27,7 @@ export const Initiative = () => {
             )
             .join(' '),
         ])}
-      </div>
+      </div> */}
     </div>
   );
 };

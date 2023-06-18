@@ -4,6 +4,7 @@ import { DICE } from './dice';
 import { ModBlock, ProficiencyConfig } from './general';
 import { InventoryItem } from './inventory';
 import { Money } from './money';
+import { RACES } from './race';
 import { Skills } from './skills';
 import { STATS } from './stats';
 
@@ -18,6 +19,7 @@ export type CharacterSheet = {
   name: string;
   profBonus: number;
   levels: CharacterSheetLevels;
+  race: RACES;
   stats: {
     [s in STATS]: number;
   };
@@ -66,6 +68,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       isMain: true,
     },
   },
+  race: RACES.HUMAN,
   stats: {
     STR: 10,
     DEX: 10,
@@ -184,7 +187,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       description: 'some description',
       source: 'character creation',
       mods: {
-        ac: [11, STATS.DEX],
+        ac: [16],
       },
       equipped: true,
       total: 1,
