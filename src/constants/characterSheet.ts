@@ -55,6 +55,9 @@ export type CharacterSheet = {
     successes: [boolean?, boolean?, boolean?];
     failures: [boolean?, boolean?, boolean?];
   };
+  curHp: number;
+  tempHp: number;
+  tempMaxHp: number;
   hitDice: {
     [d in DICE]?: {
       total: number;
@@ -116,6 +119,9 @@ export const DEFAULT_SHEET: CharacterSheet = {
     successes: [],
     failures: [],
   },
+  curHp: 20,
+  tempMaxHp: 0,
+  tempHp: 0,
   hitDice: {
     [DICE.d12]: {
       total: 1,

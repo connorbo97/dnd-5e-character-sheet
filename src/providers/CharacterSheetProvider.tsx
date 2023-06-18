@@ -30,7 +30,7 @@ export const CharacterSheetProvider = ({ ...rest }) => {
 
 export const useCharacterSheet = () => {
   const { sheet, setSheet } = useContext(CharacterSheetContext);
-  const { stats, levels } = sheet;
+  const { stats, levels, curHp } = sheet;
 
   const onChangeProfBonus = useCallback(
     (val) => {
@@ -120,6 +120,31 @@ export const useCharacterSheet = () => {
     setSheet(iSet(sheet, `hitDice.${diceType}.total`, newTotal));
   };
 
+  const onChangeCurHp = useCallback(
+    (val) => {
+      setSheet(iSet(sheet, 'curHp', val));
+    },
+    [setSheet, sheet],
+  );
+
+  const onChangeTempHp = useCallback(
+    (val) => {
+      setSheet(iSet(sheet, 'tempHp', val));
+    },
+    [setSheet, sheet],
+  );
+
+  const onChangeTempMaxHp = useCallback(
+    (val, totalHp) => {
+      setSheet(iSet(sheet, 'tempMaxHp', val));
+
+      if (curHp > totalHp + val) {
+        onChangeCurHp(totalHp + val);
+      }
+    },
+    [curHp, onChangeCurHp, setSheet, sheet],
+  );
+
   const totalLevels = useMemo(
     () => values(levels).reduce((acc, { total }) => acc + total, 0),
     [levels],
@@ -139,6 +164,10 @@ export const useCharacterSheet = () => {
     onChangeProfBonus,
 
     onChangeStat,
+
+    onChangeCurHp,
+    onChangeTempHp,
+    onChangeTempMaxHp,
 
     onChangeSkill,
     onToggleSkillProficiency,
