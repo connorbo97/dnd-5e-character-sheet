@@ -1,5 +1,6 @@
 import { ALIGNMENTS } from './alignments';
 import { AttackEntry } from './attacks';
+import { BACKGROUNDS } from './backgrounds';
 import { CLASSES } from './classes';
 import { DICE } from './dice';
 import { ModBlock, ProficiencyConfig } from './general';
@@ -20,7 +21,16 @@ export type CharacterSheet = {
   name: string;
   profBonus: number;
   levels: CharacterSheetLevels;
-  race: RACES;
+  race: {
+    value: RACES;
+    subRace: string;
+    custom?: object;
+  };
+  background: {
+    value: BACKGROUNDS;
+    custom?: object;
+  };
+  subRace?: string;
   alignment: ALIGNMENTS;
   stats: {
     [s in STATS]: number;
@@ -70,7 +80,13 @@ export const DEFAULT_SHEET: CharacterSheet = {
       isMain: true,
     },
   },
-  race: RACES.HUMAN,
+  race: {
+    value: RACES.HUMAN,
+    subRace: 'Standard',
+  },
+  background: {
+    value: BACKGROUNDS.ACOLYTE,
+  },
   alignment: ALIGNMENTS.N,
   stats: {
     STR: 10,

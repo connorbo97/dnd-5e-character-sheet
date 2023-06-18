@@ -1,12 +1,15 @@
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import styles from './metadata.module.scss';
-import { entries } from 'lodash';
+import { entries, identity } from 'lodash';
 import { CLASS_CONFIGS } from 'constants/classes';
 import { Tag } from 'common/components/Tag/Tag';
 import { RACE_CONFIGS } from 'constants/race';
 
 export const Metadata = () => {
   const { levels, race, alignment, profBonus } = useCharacterSheet();
+  const raceLabel = RACE_CONFIGS[race.value].label;
+
+  const fullRaceLabel = [race.subRace, raceLabel].filter(identity).join(' ');
 
   return (
     <div className={styles['container']}>
@@ -26,7 +29,7 @@ export const Metadata = () => {
         }
       />
       <Tag label={'PB'} value={profBonus} />
-      <Tag label={'Race'} value={RACE_CONFIGS[race].label} />
+      <Tag label={'Race'} value={fullRaceLabel} />
       <Tag label={'Alignment'} value={alignment} />
     </div>
   );

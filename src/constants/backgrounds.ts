@@ -1,0 +1,5 @@
+export enum BACKGROUNDS {
+  ACOLYTE = 'ACOLYTE',
+  SOLDIER = 'SOLDIER',
+  CUSTOM = 'CUSTOM',
+}
