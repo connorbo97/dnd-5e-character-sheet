@@ -1,0 +1,35 @@
+@import 'styles/_colors';
+
+$base-color: gray;
+$expertise: green;
+$proficient: $tertiary;
+
+.button {
+  cursor: pointer;
+  border-radius: 100%;
+  border: 1px solid $base-color;
+  background-color: transparent;
+  padding: 0.1rem;
+
+  &.proficient {
+    border-color: $proficient;
+  }
+  &.expertise {
+    border-color: $expertise;
+  }
+}
+
+.inner-circle {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 100%;
+  background-color: $base-color;
+  margin: 0.1rem;
+  &.proficient {
+    background-color: $proficient;
+  }
+  &.expertise {
+    background-color: $expertise;
+  }
+}

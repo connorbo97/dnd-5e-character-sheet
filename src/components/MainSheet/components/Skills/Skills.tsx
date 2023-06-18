@@ -2,11 +2,9 @@ import { SKILL_CONFIGS } from 'constants/skills';
 import styles from './skills.module.scss';
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import { STATS_CONFIGS } from 'constants/stats';
-import {
-  getProficiencyBonus,
-  hasProficiency,
-} from 'constants/proficiencyUtils';
+import { getProficiencyBonus } from 'constants/proficiencyUtils';
 import { addNumberSign } from 'utils/stringUtils';
+import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
 
 export const Skills = () => {
   const {
@@ -15,6 +13,7 @@ export const Skills = () => {
     getStatModifier,
     profBonus,
   } = useCharacterSheet();
+
   return (
     <div className={styles['container']}>
       <h3>Skills</h3>
@@ -24,9 +23,10 @@ export const Skills = () => {
             <u>
               {label} ({STATS_CONFIGS[stat].shortLabel})
             </u>
-            <button onClick={() => onToggleSkillProficiency(skillType)}>
-              {hasProficiency(playerSkills[skillType]) ? 'O' : 'X'}
-            </button>
+            <ProficiencyButton
+              config={playerSkills[skillType]}
+              onToggle={() => onToggleSkillProficiency(skillType)}
+            />
             <span>
               :{' '}
               {addNumberSign(
