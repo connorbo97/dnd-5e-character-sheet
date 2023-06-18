@@ -3,7 +3,6 @@ import styles from './hitPoints.module.scss';
 import { entries, findKey, partition } from 'lodash';
 import { STATS } from 'constants/stats';
 import { getDiceAverage, getDiceMax } from 'utils/diceUtils';
-import { conditionalJoinStrings } from 'utils/stringUtils';
 import { CLASS_CONFIGS } from 'constants/classes';
 import { Tag } from 'common/components/Tag/Tag';
 
