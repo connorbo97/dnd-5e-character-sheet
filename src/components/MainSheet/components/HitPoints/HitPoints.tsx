@@ -38,7 +38,7 @@ export const HitPoints = () => {
     <div className={styles['container']}>
       <h3>Hit Points</h3>
       <h5>{totalHp}</h5>
-      <div>
+      {/* <div>
         {conditionalJoinStrings(
           [
             `${mainClassHp} (Level 1 Hit Dice)`,
@@ -49,7 +49,7 @@ export const HitPoints = () => {
           ],
           ' + ',
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
