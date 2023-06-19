@@ -30,7 +30,7 @@ export const CharacterSheetProvider = ({ ...rest }) => {
 
 export const useCharacterSheet = () => {
   const { sheet, setSheet } = useContext(CharacterSheetContext);
-  const { stats, levels, curHp } = sheet;
+  const { stats, levels, curHp, spellcastingAbility, profBonus } = sheet;
 
   const onChangeProfBonus = useCallback(
     (val) => {
@@ -154,12 +154,22 @@ export const useCharacterSheet = () => {
     [levels],
   );
 
+  const rollableConfig = useMemo(
+    () => ({
+      stats,
+      spellcastingAbility,
+      profBonus,
+    }),
+    [profBonus, spellcastingAbility, stats],
+  );
+
   return {
     sheet,
     setSheet,
 
     ...sheet,
     totalLevels,
+    rollableConfig,
 
     getStatModifier,
 
