@@ -9,8 +9,8 @@ export const Chat = () => {
     <div className={styles['container']}>
       <h3>Chat</h3>
       <div className={styles['chats']}>
-        {rolls.map((entry) => (
-          <ChatEntry {...entry} />
+        {rolls.map((entry, i) => (
+          <ChatEntry key={i} {...entry} />
         ))}
       </div>
     </div>

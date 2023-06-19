@@ -14,7 +14,7 @@ export const Skills = () => {
       <h3>Skills</h3>
       <div>
         {Object.entries(SKILL_CONFIGS).map(([skillType, config]) => (
-          <Skill config={config} type={skillType} />
+          <Skill config={config} type={skillType} key={skillType} />
         ))}
         <br />
         <Tag
