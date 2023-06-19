@@ -9,6 +9,9 @@ export enum DICE {
   d100 = 'd100',
 }
 
+export const DICE_VALUES = Object.values(DICE);
+export const DICE_VALUES_SET = new Set(DICE_VALUES);
+
 type DiceConfig = {};
 
 export const DICE_CONFIGS: { [d in DICE]: DiceConfig } = {

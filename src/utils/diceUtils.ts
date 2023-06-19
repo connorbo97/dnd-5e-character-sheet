@@ -5,3 +5,5 @@ export const getDiceMax = (diceType: DICE | string) =>
 
 export const getDiceAverage = (diceType: DICE | string) =>
   getDiceMax(diceType) / 2 + 1;
+
+export const isDice = (input) => Object.values(DICE).findIndex(input) !== -1;

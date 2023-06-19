@@ -7,7 +7,7 @@ export enum ROLLABLES {
 }
 
 export type StaticRollableEntry = number | STATS | ROLLABLES;
-export type RollableEntry = StaticRollableEntry | DICE | string;
+export type RollableEntry = StaticRollableEntry | [number, DICE];
 
 export type StaticRollable = Array<StaticRollableEntry>;
 export type Rollable = Array<RollableEntry>;
