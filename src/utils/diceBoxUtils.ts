@@ -105,12 +105,9 @@ export const rollVisualDice = (
       resultSum: number,
       { hideResult = false } = {},
     ) => {
-      console.log(roll, sanitizedRoll);
       const label = resultArray.reduce((acc, cur, i) => {
         const prefixSpace = i === 0 ? '' : ' ';
         const val = i === 0 ? cur : addNumberSign(cur, ' ');
-
-        console.log(i, sanitizedRoll[i], roll[i]);
 
         const suffix = isDiceRoll(roll[i]) ? ` (${sanitizedRoll[i]})` : '';
 
