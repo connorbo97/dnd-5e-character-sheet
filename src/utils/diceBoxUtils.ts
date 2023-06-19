@@ -1,6 +1,6 @@
 import { DICE } from 'constants/dice';
 import { addNumberSign } from './stringUtils';
-import { ROLL_AUDIOS } from 'constants/diceBox';
+import { DiceBoxResult, ROLL_AUDIOS } from 'constants/diceBox';
 import {
   calculateRollable,
   getRandom,
@@ -15,7 +15,6 @@ const getDiceBoxResult = () => document.getElementById('dice-box-result');
 const convertDiceBoxResultToValues = (
   res: Array<{ value: number; groupId: number }>,
 ) => {
-  console.log(res);
   const result = res.reduce((acc, { value, groupId }) => {
     if (!acc[groupId]) {
       acc[groupId] = [value];
@@ -59,7 +58,7 @@ export const rollVisualDice = (
     chatEntryOnRes?: any;
     db?: any;
   } = {},
-): Promise<{ value: number; resultArray: Array<any>; resultText: string }> => {
+): Promise<DiceBoxResult> => {
   return new Promise((resolve) => {
     let waitFlag = true;
     let clearTimer: any = null;
@@ -76,10 +75,9 @@ export const rollVisualDice = (
 
     if (options?.chatEntryOnRes) {
       finalResolve = async (result: any, ...args) => {
-        const db = options?.db;
-        const roll = result?.value;
-        const rollTooltip = result?.resultText;
-        console.log(db, roll, rollTooltip);
+        // const db = options?.db;
+        // const roll = result?.value;
+        // const rollTooltip = result?.resultText;
 
         // addEntryToChat(db, {
         // 	...options?.chatEntryOnRes,
@@ -134,7 +132,6 @@ export const rollVisualDice = (
         submitReturn();
       } else if (!rollHasFinished && !options?.disableRollOnCancel) {
         const diceRolls: Array<any> = roll.filter((r) => isDiceRoll(r));
-        console.log(diceRolls);
         const resultArray = [
           ...diceRolls.map((dr) => {
             const [numRolls, dice] = dr;

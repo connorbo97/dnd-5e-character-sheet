@@ -21,3 +21,9 @@ export const ROLL_AUDIOS = [
   new Audio('roll-3.mp3'),
   new Audio('roll-4.mp3'),
 ];
+
+export type DiceBoxResult = {
+  value: number;
+  resultArray: Array<number | Array<number>>;
+  resultText: string;
+};
