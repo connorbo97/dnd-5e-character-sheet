@@ -1,7 +1,15 @@
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import styles from './attacks.module.scss';
 import { Tag } from 'common/components/Tag/Tag';
-import { printRollable } from 'utils/rollableUtils';
+import {
+  D20_DICE,
+  calculateRollable,
+  printRollable,
+} from 'utils/rollableUtils';
+import { RollableText } from 'common/components/RollableText/RollableText';
+import { ROLLABLES, Rollable } from 'constants/rollable';
+import { isNil } from 'lodash';
+import { addNumberSign, wrapInParens } from 'utils/stringUtils';
 
 export const Attacks = () => {
   const { attacks, rollableConfig } = useCharacterSheet();
@@ -23,14 +31,38 @@ export const Attacks = () => {
               critRange,
             } = attack || {};
             const { stat: savingThrowStat, dc, effect } = savingThrow || {};
+
+            let attackRoll: Rollable = [D20_DICE];
+
+            if (attackStat) {
+              attackRoll.push(attackStat);
+            }
+            if (!isNil(attackMod?.value)) {
+              attackRoll.push(attackMod?.value as number);
+            }
+            if (proficient) {
+              attackRoll.push(ROLLABLES.PB);
+            }
+
             return (
               <div
                 key={`${index}-${label}`}
                 className={styles['attack-container']}>
-                <b>{label}</b>
+                <RollableText
+                  value={label}
+                  roll={attackRoll}
+                  chatConfig={{
+                    label: label,
+                    labelSuffix: wrapInParens(
+                      addNumberSign(
+                        calculateRollable(attackRoll.slice(1), rollableConfig),
+                      ),
+                    ),
+                  }}
+                />
                 {attack && (
                   <Tag
-                    label="attack"
+                    label={'attack'}
                     value={
                       <div className={styles['block']}>
                         <Tag label="stat" value={attackStat} />
