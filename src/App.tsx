@@ -6,6 +6,7 @@ import { DEFAULT_DICE_OPTIONS } from 'constants/diceBox';
 import { rollVisualDice } from 'utils/diceBoxUtils';
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import { DICE } from 'constants/dice';
+import { STATS } from 'constants/stats';
 
 function App() {
   const { rollableConfig } = useCharacterSheet();
@@ -47,16 +48,14 @@ function App() {
   }, []);
   return (
     <div className={styles['app']}>
-      <div id="dice-box"></div>
-      <div id="dice-box-result"></div>
+      <div id="dice-box">
+        <div id="dice-box-result"></div>
+      </div>
       <Header />
       <button
         onClick={() =>
           rollVisualDice(
-            [
-              [3, DICE.d20],
-              [6, DICE.d4],
-            ],
+            [[3, DICE.d20], 1, STATS.STR, [6, DICE.d4]],
             rollableConfig,
           ).then((res) => console.log(res))
         }>

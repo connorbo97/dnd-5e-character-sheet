@@ -1,9 +1,15 @@
-export const addNumberSign = (num, spacer = '') => {
+import { isNumber } from 'lodash';
+
+export const addNumberSign = (val, spacer = '') => {
+  const isNumberValue = isNumber(val);
+  const isNegativeNumber = isNumberValue && val < 0;
   if (spacer) {
-    return `${num < 0 ? '-' : '+'} ${Math.abs(num)}`;
+    return `${isNegativeNumber ? '-' : '+'} ${
+      isNumberValue ? Math.abs(val) : val
+    }`;
   }
 
-  return num < 0 ? num.toString() : `+${num}`;
+  return isNegativeNumber ? val.toString() : `+${val}`;
 };
 
 export const conditionalJoinStrings = (strings, joiner = ' ') =>
