@@ -7,3 +7,9 @@ export const iSet = (obj, path, val) => {
 export const iUpdate = (obj, path, updater) => {
   return fpUpdate(path, updater, obj);
 };
+
+export const sleep = async (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve('done'), time);
+  });
+};
