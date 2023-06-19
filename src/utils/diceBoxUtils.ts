@@ -5,12 +5,11 @@ import {
   calculateRollable,
   getRandom,
   isDiceRoll,
-  parseRollableArray,
+  parseRollable,
 } from './rollableUtils';
 import { Rollable, RollableUtilConfig } from 'constants/rollable';
 import { isNumber, partition, sum, values } from 'lodash';
 
-export const getDiceFaces = (d: DICE) => parseInt(d.split('d')[1]);
 const getDiceBoxResult = () => document.getElementById('dice-box-result');
 
 const convertDiceBoxResultToValues = (
@@ -69,7 +68,7 @@ export const rollVisualDice = (
     let rollHasFinished = false;
 
     const [sanitizedRoll, modifiers] = partition(
-      parseRollableArray(roll, rollableConfig),
+      parseRollable(roll, rollableConfig),
       (r) => !isNumber(r),
     );
 
@@ -134,8 +133,19 @@ export const rollVisualDice = (
       if (submitReturn) {
         submitReturn();
       } else if (!rollHasFinished && !options?.disableRollOnCancel) {
+        const diceRolls: Array<any> = roll.filter((r) => isDiceRoll(r));
+        console.log(diceRolls);
         const resultArray = [
-          ...roll.map((r) => calculateRollable([r])),
+          ...diceRolls.map((dr) => {
+            const [numRolls, dice] = dr;
+            let drRes: Array<number> = [];
+
+            for (let i = 0; i < numRolls; i++) {
+              drRes.push(calculateRollable([[1, dice]]));
+            }
+
+            return drRes;
+          }),
           ...modifiers,
         ];
         const resultSum = sum(resultArray.flat());

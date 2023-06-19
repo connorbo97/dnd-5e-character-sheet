@@ -2,7 +2,7 @@ import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import styles from './armorClass.module.scss';
 import { useMemo } from 'react';
 import { STATS } from 'constants/stats';
-import { calculateStaticRollable } from 'utils/rollableUtils';
+import { parseStaticRollable } from 'utils/rollableUtils';
 
 export const ArmorClass = () => {
   const { inventory, getStatModifier, stats, profBonus } = useCharacterSheet();
@@ -14,7 +14,7 @@ export const ArmorClass = () => {
     const mappedACs = inventoryWithAC.map(({ label, mods }) => ({
       label,
       formula: mods?.ac,
-      total: calculateStaticRollable(mods?.ac || [], {
+      total: parseStaticRollable(mods?.ac || [], {
         stats,
         spellcastingAbility: STATS.WIS,
         profBonus,

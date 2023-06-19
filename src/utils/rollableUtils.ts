@@ -11,6 +11,7 @@ import { isNil, isNumber, sum } from 'lodash';
 import { getModifier } from './statUtils';
 import { DICE, DICE_VALUES_SET } from 'constants/dice';
 import { DEFAULT_SHEET } from 'constants/characterSheet';
+import { getDiceMax } from './diceUtils';
 
 const DEFAULT_CONFIG = {
   stats: DEFAULT_SHEET.stats,
@@ -18,9 +19,10 @@ const DEFAULT_CONFIG = {
   spellcastingAbility: 'NONE',
 };
 
-export const getRandom = (n) => Math.floor(Math.random() * n);
+export const getRandom = (n, { baseNum = 0 } = {}) =>
+  Math.floor(Math.random() * n) + baseNum;
 
-export const calculateStaticRollableEntry = (
+export const parseStaticRollableEntry = (
   entry: StaticRollableEntry,
   config?: RollableUtilConfig,
 ) => {
@@ -55,7 +57,7 @@ export const isDiceRoll = (entry: RollableEntry) => {
   );
 };
 
-export const calculateRollableEntry = (
+export const parseRollableEntry = (
   entry: RollableEntry,
   config?: RollableUtilConfig,
   options?: {
@@ -68,16 +70,16 @@ export const calculateRollableEntry = (
       : (entry as [number, DICE]).join('');
   }
 
-  return calculateStaticRollableEntry(entry as StaticRollableEntry, config);
+  return parseStaticRollableEntry(entry as StaticRollableEntry, config);
 };
 
-export const calculateStaticRollable = (
+export const parseStaticRollable = (
   staticRollable: StaticRollable,
   { stats, spellcastingAbility, profBonus },
 ) => {
   return sum(
     staticRollable.map((e) =>
-      calculateStaticRollableEntry(e, {
+      parseStaticRollableEntry(e, {
         stats,
         spellcastingAbility,
         profBonus,
@@ -86,25 +88,29 @@ export const calculateStaticRollable = (
   );
 };
 
-export const parseRollableArray = (
+export const parseRollable = (
   rollable: Rollable,
   config?: RollableUtilConfig,
   options?: {
     disableDiceParse?: boolean;
   },
 ) => {
-  return rollable.map((e) => calculateRollableEntry(e, config, options));
+  return rollable.map((e) => parseRollableEntry(e, config, options));
 };
 
 export const calculateRollable = (
   rollable: Rollable,
   config?: RollableUtilConfig,
 ) => {
-  const parsed = parseRollableArray(rollable, config, {
+  const parsed = parseRollable(rollable, config, {
     disableDiceParse: true,
   });
 
-  return sum(parsed.map((p) => (isDiceRoll(p) ? p[0] * getRandom(p[1]) : p)));
+  return sum(
+    parsed.map((p) =>
+      isDiceRoll(p) ? p[0] * getRandom(getDiceMax(p[1]), { baseNum: 1 }) : p,
+    ),
+  );
 };
 
 export const printRollable = (
@@ -114,7 +120,7 @@ export const printRollable = (
   // @ts-ignore
   const input: Array<RollableEntry> = rawInput.filter((i) => !isNil(i));
   return input
-    .map((i) => calculateRollableEntry(i, config))
+    .map((i) => parseRollableEntry(i, config))
     .map((val, i) => {
       if (i === 0) {
         return val;
