@@ -55,23 +55,28 @@ const playDiceNoises = (roll: Rollable) => {
   });
 };
 
+const DEFAULT_ROLL_OPTIONS = {
+  disableResultBox: false,
+  autoDismissTimeout: null,
+  customResultBoxLabel: null,
+};
+
 export const rollVisualDice = (
   roll: Rollable = [[1, DICE.d20]],
   rollableConfig?: RollableUtilConfig,
   options: {
-    disableRollOnCancel?: any;
     disableResultBox?: boolean;
-    onRollResult?: Function;
-    clearTimeout?: number;
+    autoDismissTimeout?: number;
     customResultBoxLabel?: Function;
-    chatEntryOnRes?: any;
-    db?: any;
   } = {},
 ): Promise<DiceBoxResult> => {
-  return new Promise((resolve) => {
+  return new Promise((promiseResolve) => {
     let waitFlag = true;
     let clearTimer: any = null;
-    let submitReturn: any = null;
+    const autoDismissTimeout =
+      options.autoDismissTimeout || DEFAULT_ROLL_OPTIONS.autoDismissTimeout;
+    const customResultBoxLabel =
+      options.customResultBoxLabel || DEFAULT_ROLL_OPTIONS.customResultBoxLabel;
 
     let rollHasFinished = false;
 
@@ -80,23 +85,11 @@ export const rollVisualDice = (
       (r) => !isNumber(r),
     );
 
-    let finalResolve = resolve;
-
-    if (options?.chatEntryOnRes) {
-      finalResolve = async (result: any, ...args) => {
-        // const db = options?.db;
-        // const roll = result?.value;
-        // const rollTooltip = result?.resultText;
-
-        // addEntryToChat(db, {
-        // 	...options?.chatEntryOnRes,
-        // 	roll,
-        // 	rollTooltip,
-        // })
-
-        resolve(result, ...args);
-      };
-    }
+    const resolve = (...args) => {
+      // add here anything that needs to happen prior to resolve
+      // @ts-ignore
+      promiseResolve(...args);
+    };
 
     const getBasicLabel = (
       resultArray: Array<number>,
@@ -138,9 +131,8 @@ export const rollVisualDice = (
         clearTimeout(clearTimer);
       }
 
-      if (submitReturn) {
-        submitReturn();
-      } else if (!rollHasFinished && !options?.disableRollOnCancel) {
+      // if the roll hasn't finished yet
+      if (!rollHasFinished) {
         const diceRolls: Array<any> = roll.filter((r) => isDiceRoll(r));
         const resultArray = [
           ...diceRolls.map((dr) => {
@@ -157,7 +149,7 @@ export const rollVisualDice = (
         ];
         const resultSum = sum(resultArray.flat());
 
-        finalResolve({
+        resolve({
           value: resultSum,
           resultText: getBasicLabel(resultArray, resultSum, {
             hideResult: true,
@@ -193,9 +185,9 @@ export const rollVisualDice = (
         const resultBox = getDiceBoxResult();
         if (resultBox && !options.disableResultBox) {
           resultBox.style.opacity = '1';
-          resultBox.innerHTML = options?.customResultBoxLabel
-            ? options?.customResultBoxLabel(resultArray, resultSum, {
-                sanitizedDice: roll,
+          resultBox.innerHTML = customResultBoxLabel
+            ? customResultBoxLabel(resultArray, resultSum, {
+                sanitizedRoll,
               })
             : getBasicLabel(resultArray, resultSum);
         }
@@ -208,14 +200,11 @@ export const rollVisualDice = (
           value: resultSum,
         };
 
-        if (options.clearTimeout) {
-          // @ts-ignore
-          submitReturn = () => finalResolve(returnValue);
-          clearTimer = setTimeout(onClearDiceRoll, options.clearTimeout);
-        } else {
-          // @ts-ignore
-          finalResolve(returnValue);
+        if (autoDismissTimeout) {
+          clearTimer = setTimeout(onClearDiceRoll, autoDismissTimeout);
         }
+
+        resolve(returnValue);
       });
 
     window.diceBoxContainer.style.pointerEvents = 'auto';

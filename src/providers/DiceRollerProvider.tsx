@@ -7,11 +7,18 @@ import {
 } from 'react';
 import { noop } from 'lodash';
 import { rollVisualDice } from 'utils/diceBoxUtils';
+import { ChatEntry, ChatType } from 'constants/chat';
+import { useCharacterSheet } from './CharacterSheetProvider';
+
+type DiceRollerContextValue = {
+  rolls: Array<ChatEntry>;
+  setRolls: Function;
+};
 
 const DiceRollerContext = createContext({
   rolls: [],
   setRolls: noop,
-});
+} as DiceRollerContextValue);
 
 export const DiceRollerProvider = ({ ...rest }) => {
   const [rolls, setRolls] = useState([]);
@@ -27,13 +34,14 @@ export const DiceRollerProvider = ({ ...rest }) => {
 };
 
 export const useDiceRoller = () => {
+  const { name } = useCharacterSheet();
   const { rolls, setRolls } = useContext(DiceRollerContext);
 
   const onRoll = useCallback(
-    async (roll, config, options = {}) => {
+    async (roll, config, chatConfig, rollOptions = {}) => {
       let res;
       try {
-        res = await rollVisualDice(roll, config, options);
+        res = await rollVisualDice(roll, config, rollOptions);
 
         setRolls((prevRolls) => {
           let newRolls = [...prevRolls];
@@ -42,19 +50,25 @@ export const useDiceRoller = () => {
             newRolls = prevRolls.splice(0, 1);
           }
 
-          newRolls.push(res);
+          const newChatEntry: ChatEntry = {
+            playerName: name,
+            type: ChatType.BASIC,
+            result: res.value,
+            ...chatConfig,
+          };
+          newRolls.push(newChatEntry);
 
           return newRolls;
         });
 
         return res;
       } catch (err: any) {
-        console.log(err.toString());
+        console.error(err);
 
         return null;
       }
     },
-    [setRolls],
+    [name, setRolls],
   );
 
   return {

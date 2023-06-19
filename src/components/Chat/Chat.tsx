@@ -1,5 +1,6 @@
 import { useDiceRoller } from 'providers/DiceRollerProvider';
 import styles from './chat.module.scss';
+import { ChatEntry } from './ChatEntry';
 
 export const Chat = () => {
   const { rolls } = useDiceRoller();
@@ -8,8 +9,8 @@ export const Chat = () => {
     <div className={styles['container']}>
       <h3>Chat</h3>
       <div className={styles['chats']}>
-        {rolls.map(({ value }) => (
-          <div>{value}</div>
+        {rolls.map((entry) => (
+          <ChatEntry {...entry} />
         ))}
       </div>
     </div>

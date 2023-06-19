@@ -16,11 +16,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <DiceRollerProvider>
-    <CharacterSheetProvider>
+  <CharacterSheetProvider>
+    <DiceRollerProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </CharacterSheetProvider>
-  </DiceRollerProvider>,
+    </DiceRollerProvider>
+  </CharacterSheetProvider>,
 );
