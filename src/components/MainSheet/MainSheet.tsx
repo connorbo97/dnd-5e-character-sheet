@@ -11,6 +11,7 @@ import { Metadata } from './components/Metadata/Metadata';
 import { Attacks } from './components/Attacks/Attacks';
 import { Inventory } from './components/Inventory/Inventory';
 import { CombatStats } from './components/CombatStats/CombatStats';
+import { Chat } from 'components/Chat/Chat';
 
 export const MainSheet = () => {
   return (
@@ -27,6 +28,7 @@ export const MainSheet = () => {
         <Metadata />
         <Attacks />
         <CombatStats />
+        <Chat />
       </div>
     </div>
   );
