@@ -26,14 +26,14 @@ export const Skill = ({ type, config }) => {
       />
       <RollableText
         className={styles['label']}
-        value={finalLabel}
+        value={finalLabel + ':'}
         roll={[D20_DICE, statModifier]}
         chatConfig={{
           label: finalLabel,
           labelSuffix: `(${labelStatModifier})`,
         }}
       />
-      <span>: {labelStatModifier}</span>
+      <span>{labelStatModifier}</span>
     </div>
   );
 };
