@@ -7,32 +7,33 @@ import { ProficiencyButton } from 'common/components/ProficiencyButton/Proficien
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import { addNumberSign } from 'utils/stringUtils';
 import { getProficiencyBonus } from 'constants/proficiencyUtils';
+import { RollableText } from 'common/components/RollableText/RollableText';
 
 export const Skill = ({ type, config }) => {
   const { skills, onToggleSkillProficiency, getStatModifier, profBonus } =
     useCharacterSheet();
-  const { onRoll } = useDiceRoller();
   const { stat, label } = config;
 
   const statModifier =
     getStatModifier(stat) + getProficiencyBonus(skills[type], profBonus);
   const labelStatModifier = addNumberSign(statModifier);
 
+  const finalLabel = `${label}(${STATS_CONFIGS[stat].shortLabel})`;
+
   return (
-    <div key={type}>
-      <u
-        className={styles['label']}
-        onClick={() =>
-          onRoll([getRollableDice(DICE.d20), statModifier], {
-            label: `${label}(${STATS_CONFIGS[stat].shortLabel})`,
-            labelSuffix: `(${labelStatModifier})`,
-          })
-        }>
-        {label} ({STATS_CONFIGS[stat].shortLabel})
-      </u>
+    <div key={type} className={styles['container']}>
       <ProficiencyButton
         config={skills[type]}
         onToggle={() => onToggleSkillProficiency(type)}
+      />
+      <RollableText
+        className={styles['label']}
+        value={finalLabel}
+        roll={[getRollableDice(DICE.d20), statModifier]}
+        chatConfig={{
+          label: finalLabel,
+          labelSuffix: `(${labelStatModifier})`,
+        }}
       />
       <span>: {labelStatModifier}</span>
     </div>

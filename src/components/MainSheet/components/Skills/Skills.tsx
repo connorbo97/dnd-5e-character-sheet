@@ -12,13 +12,14 @@ export const Skills = () => {
   return (
     <div className={styles['container']}>
       <h3>Skills</h3>
-      <div>
+      <div className={styles['skills']}>
         {Object.entries(SKILL_CONFIGS).map(([skillType, config]) => (
           <Skill config={config} type={skillType} key={skillType} />
         ))}
         <br />
         <Tag
           label="Passive Perception"
+          labelClassName={styles['passive-label']}
           value={
             10 +
             getProficiencyBonus(skills[SKILLS.PERCEPTION], profBonus) +

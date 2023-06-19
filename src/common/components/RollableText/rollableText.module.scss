@@ -1,0 +1,10 @@
+@import 'styles/_colors';
+
+.container {
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: $tertiary;
+  }
+}

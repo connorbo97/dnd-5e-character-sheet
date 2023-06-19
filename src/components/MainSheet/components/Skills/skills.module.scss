@@ -1,8 +1,17 @@
 @import 'styles/_colors';
 
 .container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    grid-area: skills;
+  grid-area: skills;
+}
+
+.skills {
+  display: flex;
+  flex-direction: column;
+}
+
+.passive-label {
+  text-decoration: none;
 }

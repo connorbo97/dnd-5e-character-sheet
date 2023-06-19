@@ -3,10 +3,10 @@ import classnames from 'classnames/bind';
 
 const classNameBuilder = classnames.bind(styles);
 
-export const Tag = ({ label, value, className = '' }) => {
+export const Tag = ({ label, value, className = '', labelClassName = '' }) => {
   return (
     <div className={classNameBuilder('container', className)}>
-      <u>{label}:</u>
+      <u className={labelClassName}>{label}:</u>
       <span> {value}</span>
     </div>
   );
