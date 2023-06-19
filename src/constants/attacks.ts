@@ -19,6 +19,7 @@ export type AttackEntry = {
     critRange: number;
   };
   damage?: Array<{
+    label?: string;
     base: Rollable;
     stat: STATS | ROLLABLES.SPELL | null;
     mod?: ModBlock;

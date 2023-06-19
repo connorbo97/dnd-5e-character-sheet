@@ -67,12 +67,14 @@ export const parseRollableEntry = (
   config?: RollableUtilConfig,
   options?: {
     disableDiceParse?: boolean;
+    shouldDoubleDice?: boolean;
   },
 ) => {
   if (isDiceRoll(entry)) {
-    return options?.disableDiceParse
-      ? entry
-      : (entry as [number, DICE]).join('');
+    const newDice = options?.shouldDoubleDice
+      ? [entry[0] * 2, entry[1]]
+      : (entry as [number, DICE]);
+    return options?.disableDiceParse ? newDice : newDice.join('');
   }
 
   return parseStaticRollableEntry(entry as StaticRollableEntry, config);
@@ -98,6 +100,7 @@ export const parseRollable = (
   config?: RollableUtilConfig,
   options?: {
     disableDiceParse?: boolean;
+    shouldDoubleDice?: boolean;
   },
 ) => {
   return rollable.map((e) => parseRollableEntry(e, config, options));
@@ -106,8 +109,12 @@ export const parseRollable = (
 export const calculateRollable = (
   rollable: Rollable,
   config: RollableUtilConfig,
+  options?: {
+    shouldDoubleDice?: boolean;
+  },
 ) => {
   const parsed = parseRollable(rollable, config, {
+    ...options,
     disableDiceParse: true,
   });
 

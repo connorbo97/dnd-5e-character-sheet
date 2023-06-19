@@ -191,6 +191,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
         {
           base: [[2, DICE.d6]],
           stat: STATS.STR,
+          label: "Hunter's Mark",
         },
       ],
     },

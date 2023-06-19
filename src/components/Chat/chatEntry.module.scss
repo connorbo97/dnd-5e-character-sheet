@@ -40,6 +40,10 @@
     justify-content: flex-start;
     width: 100%;
   }
+
+  &.follow-up {
+    min-height: 3rem;
+  }
 }
 
 .label {
@@ -51,6 +55,15 @@
   align-items: baseline;
 
   column-gap: 5px;
+
+  &.follow-up {
+    border: 1px solid $white;
+    padding: 0.2rem;
+    border-radius: 5px;
+    color: $white;
+    background-color: $secondary;
+    cursor: pointer;
+  }
 }
 
 .label-suffix {
@@ -69,13 +82,4 @@
 
 .failure {
   color: red;
-}
-
-.follow-up {
-  border: 1px solid $white;
-  padding: 0.2rem;
-  border-radius: 5px;
-  color: $white;
-  background-color: $secondary;
-  cursor: pointer;
 }

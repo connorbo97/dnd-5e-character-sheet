@@ -59,6 +59,7 @@ const DEFAULT_ROLL_OPTIONS = {
   disableResultBox: false,
   autoDismissTimeout: null,
   customResultBoxLabel: null,
+  shouldDoubleDice: false,
 };
 
 export const rollVisualDice = (
@@ -68,6 +69,7 @@ export const rollVisualDice = (
     disableResultBox?: boolean;
     autoDismissTimeout?: number;
     customResultBoxLabel?: Function;
+    shouldDoubleDice?: boolean;
   } = {},
 ): Promise<DiceBoxResult> => {
   return new Promise((promiseResolve) => {
@@ -77,11 +79,13 @@ export const rollVisualDice = (
       options.autoDismissTimeout || DEFAULT_ROLL_OPTIONS.autoDismissTimeout;
     const customResultBoxLabel =
       options.customResultBoxLabel || DEFAULT_ROLL_OPTIONS.customResultBoxLabel;
+    const shouldDoubleDice =
+      options.shouldDoubleDice || DEFAULT_ROLL_OPTIONS.shouldDoubleDice;
 
     let rollHasFinished = false;
 
     const [sanitizedRoll, modifiers] = partition(
-      parseRollable(roll, rollableConfig),
+      parseRollable(roll, rollableConfig, { shouldDoubleDice }),
       (r) => !isNumber(r),
     );
 
@@ -144,6 +148,9 @@ export const rollVisualDice = (
                 calculateRollable(
                   [[1, dice]],
                   rollableConfig as RollableUtilConfig,
+                  {
+                    shouldDoubleDice,
+                  },
                 ),
               );
             }

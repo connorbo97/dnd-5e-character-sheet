@@ -4,11 +4,10 @@ import { ROLLABLES, Rollable } from 'constants/rollable';
 import {
   D20_DICE,
   calculateRollable,
-  isDiceRoll,
   printRollable,
 } from 'utils/rollableUtils';
 import { isNil } from 'lodash';
-import { ChatEntryFollowUp, ChatType } from 'constants/chat';
+import { ChatEntryFollowUp, ChatEntryInputs, ChatType } from 'constants/chat';
 import { addNumberSign, wrapInParens } from 'utils/stringUtils';
 import { RollableText } from 'common/components/RollableText/RollableText';
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
@@ -49,7 +48,14 @@ export const AttackEntry = (props: any) => {
   let attackCritRange = 20;
   let damageRollFollowups: Array<ChatEntryFollowUp> = (damage || []).map(
     (d) => {
-      const { base, stat: damageStat, mod: damageMod, type, crit } = d;
+      const {
+        base,
+        stat: damageStat,
+        mod: damageMod,
+        type,
+        crit,
+        label: damageLabel,
+      } = d;
 
       let damageRoll = [...base];
 
@@ -65,25 +71,17 @@ export const AttackEntry = (props: any) => {
         attackCritRange = Math.min(attackCritRange, crit);
       }
 
-      const chatConfig = {
+      const chatConfig: ChatEntryInputs = {
         type: ChatType.DAMAGE,
         description: type,
-        label: label,
-        labelSuffix: wrapInParens(
-          addNumberSign(
-            calculateRollable(
-              damageRoll.filter((r) => isDiceRoll(r)),
-              rollableConfig,
-            ),
-          ),
-        ),
+        label: damageLabel,
       };
 
       return {
         config: chatConfig,
         critRange: crit,
         roll: damageRoll,
-      } as ChatEntryFollowUp;
+      };
     },
   );
 
@@ -122,12 +120,19 @@ export const AttackEntry = (props: any) => {
       {damage && (
         <div>
           {damage.map((d, i) => {
-            const { base, stat: damageStat, mod: damageMod, type, crit } = d;
+            const {
+              base,
+              stat: damageStat,
+              mod: damageMod,
+              type,
+              crit,
+              label: damageLabel,
+            } = d;
             console.log(damageRollFollowups[i].config);
             return (
               <div>
                 <RollableText
-                  value={`Damage-${i}`}
+                  value={damageLabel || `Damage-${i}`}
                   roll={damageRollFollowups[i].roll}
                   chatConfig={{
                     ...damageRollFollowups[i].config,

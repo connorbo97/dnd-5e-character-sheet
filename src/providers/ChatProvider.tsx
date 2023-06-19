@@ -59,13 +59,18 @@ export const useChat = () => {
     async (roll: Rollable, chatConfig: ChatEntryInputs, rollOptions = {}) => {
       let res;
       try {
-        res = await rollVisualDice(roll, rollableConfig, rollOptions);
+        const { isCrit } = chatConfig;
+        res = await rollVisualDice(roll, rollableConfig, {
+          ...rollOptions,
+          shouldDoubleDice: isCrit,
+        });
 
         const newChatEntry: ChatEntry = {
           playerName: name,
           type: ChatType.BASIC,
           result: res.value,
           resultArray: res.resultArray,
+          detailedResult: res.resultText,
           ...chatConfig,
         };
 

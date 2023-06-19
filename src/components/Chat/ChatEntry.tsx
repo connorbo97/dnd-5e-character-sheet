@@ -10,6 +10,7 @@ interface Props extends ChatEntryType {}
 
 export const ChatEntry = ({
   result,
+  detailedResult,
   type,
   label,
   labelSuffix,
@@ -17,6 +18,7 @@ export const ChatEntry = ({
   description,
   critRange,
   followUp,
+  isFollowUp,
   resultArray,
 }: Props) => {
   const { onRoll } = useChat();
@@ -41,13 +43,15 @@ export const ChatEntry = ({
 
   return (
     <div className={styles['container']}>
-      <div className={styles['header']}>{finalPlayerName}</div>
+      {!isFollowUp && <div className={styles['header']}>{finalPlayerName}</div>}
       <div className={styles['content']}>
         <span
           className={classNameBuilder('result', type, {
             crit: isCritSuccess,
             failure: isCritFailure,
-          })}>
+            'follow-up': isFollowUp,
+          })}
+          title={detailedResult}>
           {result}
         </span>
         {description && (
@@ -64,7 +68,11 @@ export const ChatEntry = ({
                     for (let i = 0; i < followUp.length; i++) {
                       await onRoll(
                         followUp[i].roll,
-                        { ...followUp[i].config, isCrit: isCritSuccess },
+                        {
+                          ...followUp[i].config,
+                          isCrit: isCritSuccess,
+                          isFollowUp: true,
+                        },
                         {},
                       );
                     }
