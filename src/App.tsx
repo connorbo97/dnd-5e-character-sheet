@@ -4,8 +4,12 @@ import { Header } from './components/Header';
 import { Content } from 'components/Content';
 import { DEFAULT_DICE_OPTIONS } from 'constants/diceBox';
 import { rollVisualDice } from 'utils/diceBoxUtils';
+import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { DICE } from 'constants/dice';
 
 function App() {
+  const { rollableConfig } = useCharacterSheet();
+
   useEffect(() => {
     import('@3d-dice/dice-box')
       .then((DiceBox) => {
@@ -16,6 +20,10 @@ function App() {
           );
         } catch (err) {
           console.log(err);
+        }
+
+        if (document.getElementById('dice-canvas')) {
+          return;
         }
         //@ts-ignore
         const diceBox = new DiceBox.default('#dice-box', {
@@ -44,7 +52,13 @@ function App() {
       <Header />
       <button
         onClick={() =>
-          rollVisualDice(['1d20']).then((res) => console.log(res))
+          rollVisualDice(
+            [
+              [3, DICE.d20],
+              [6, DICE.d4],
+            ],
+            rollableConfig,
+          ).then((res) => console.log(res))
         }>
         Test
       </button>
