@@ -1,3 +1,13 @@
 .container {
   grid-area: hit-dice;
 }
+
+.entry {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.counter {
+  flex: 1;
+}

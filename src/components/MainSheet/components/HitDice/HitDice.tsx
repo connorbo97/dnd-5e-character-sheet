@@ -1,5 +1,9 @@
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import styles from './hitDice.module.scss';
+import { RollableText } from 'common/components/RollableText/RollableText';
+import { getRollableDice } from 'utils/rollableUtils';
+import { DICE } from 'constants/dice';
+import { STATS } from 'constants/stats';
 
 export const HitDice = () => {
   const { hitDice, onChangeHitDiceTotalByType } = useCharacterSheet();
@@ -9,15 +13,21 @@ export const HitDice = () => {
       <h3>Hit Dice</h3>
       <div>
         {Object.entries(hitDice).map(([diceType, { total, max }]) => (
-          <div key={diceType}>
-            <span
-              onClick={() =>
+          <div key={diceType} className={styles['entry']}>
+            <RollableText
+              value={`${diceType}:`}
+              disabled={total <= 0}
+              onRollStart={() =>
                 onChangeHitDiceTotalByType(diceType, Math.max(total - 1, 0))
-              }>
-              <u>{diceType}:</u>
-              <span>
-                {total}/{max}
-              </span>
+              }
+              roll={[getRollableDice(diceType as DICE, 1), STATS.CON]}
+              chatConfig={{
+                label: `Hit Dice`,
+                labelSuffix: `(${diceType})`,
+              }}
+            />
+            <span className={styles['counter']}>
+              {total}/{max}
             </span>
             <button onClick={() => onChangeHitDiceTotalByType(diceType, max)}>
               Reset

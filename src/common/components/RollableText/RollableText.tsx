@@ -9,6 +9,7 @@ const classNameBuilder = classnames.bind(styles);
 
 type Props = {
   value: any;
+  disabled?: boolean;
   className?: string;
   roll: Rollable;
   chatConfig?: ChatEntryInputs;
@@ -18,6 +19,7 @@ type Props = {
 
 export const RollableText = ({
   value,
+  disabled,
   className = '',
   roll,
   chatConfig = {},
@@ -29,8 +31,13 @@ export const RollableText = ({
 
   return (
     <span
-      className={classNameBuilder('container', className)}
+      className={classNameBuilder('container', className, {
+        disabled,
+      })}
       onClick={(e) => {
+        if (disabled) {
+          return;
+        }
         onRollStart(e);
         onRoll(roll, chatConfig, rollOptions);
       }}

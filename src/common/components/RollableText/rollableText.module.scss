@@ -7,4 +7,13 @@
   &:hover {
     color: $tertiary;
   }
+
+  &.disabled {
+    color: $light-gray;
+    cursor: not-allowed;
+
+    &:hover {
+      color: $light-gray;
+    }
+  }
 }
