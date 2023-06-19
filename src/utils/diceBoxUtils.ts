@@ -115,7 +115,7 @@ export const rollVisualDice = (
           sanitizedValue = addNumberSign(sanitizedValue, ' ');
         }
 
-        const suffix = !!sanitizedRoll[i] ? ` (${sanitizedRoll[i]})` : '';
+        const suffix = !!sanitizedRoll[i] ? `[${sanitizedRoll[i]}]` : '';
 
         return `${acc}${prefixSpace}${sanitizedValue}${suffix}`;
       }, '');
