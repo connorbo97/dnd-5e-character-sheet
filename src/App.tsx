@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './App.module.scss';
 import { Header } from './components/Header';
 import { Content } from 'components/Content';
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import { DICE } from 'constants/dice';
 import { STATS } from 'constants/stats';
 import { useDiceRoller } from 'providers/DiceRollerProvider';
 import { loadDiceBox } from 'utils/diceBoxPackageUtils';
 
 function App() {
-  const { rollableConfig } = useCharacterSheet();
   const { onRoll } = useDiceRoller();
 
   useEffect(() => {
@@ -33,7 +31,7 @@ function App() {
       <Header />
       <button
         onClick={() =>
-          onRoll([[3, DICE.d20], 1, STATS.STR, [6, DICE.d4]], rollableConfig, {
+          onRoll([[3, DICE.d20], 1, STATS.STR, [6, DICE.d4]], {
             description: 'test',
           }).then((res) => console.log(res))
         }>
