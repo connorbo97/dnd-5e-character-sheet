@@ -5,7 +5,7 @@ export const HitDice = () => {
   const { hitDice, onChangeHitDiceTotalByType } = useCharacterSheet();
 
   return (
-    <div>
+    <div className={styles['container']}>
       <h3>Hit Dice</h3>
       <div>
         {Object.entries(hitDice).map(([diceType, { total, max }]) => (
