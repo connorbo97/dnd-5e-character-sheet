@@ -140,7 +140,12 @@ export const rollVisualDice = (
             let drRes: Array<number> = [];
 
             for (let i = 0; i < numRolls; i++) {
-              drRes.push(calculateRollable([[1, dice]]));
+              drRes.push(
+                calculateRollable(
+                  [[1, dice]],
+                  rollableConfig as RollableUtilConfig,
+                ),
+              );
             }
 
             return drRes;

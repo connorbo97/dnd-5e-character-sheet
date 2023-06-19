@@ -105,7 +105,7 @@ export const parseRollable = (
 
 export const calculateRollable = (
   rollable: Rollable,
-  config?: RollableUtilConfig,
+  config: RollableUtilConfig,
 ) => {
   const parsed = parseRollable(rollable, config, {
     disableDiceParse: true,

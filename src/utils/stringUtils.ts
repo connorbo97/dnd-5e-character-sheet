@@ -12,5 +12,7 @@ export const addNumberSign = (val, spacer = '') => {
   return isNegativeNumber ? val.toString() : `+${val}`;
 };
 
+export const wrapInParens = (input) => `(${input.toString()})`;
+
 export const conditionalJoinStrings = (strings, joiner = ' ') =>
   strings.filter((s) => !!s || s === 0).join(joiner);
