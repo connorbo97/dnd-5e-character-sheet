@@ -46,6 +46,7 @@ export const Chat = () => {
         className={styles['chat-input']}
         value={userChat}
         rows={5}
+        placeholder="Type here and hit enter to type in chat..."
         onChange={(e) => {
           setUserChat(e.target.value);
         }}
