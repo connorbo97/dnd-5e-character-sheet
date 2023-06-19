@@ -13,6 +13,7 @@ export type ChatEntry = {
   type: ChatType;
 
   label?: string;
+  labelSuffix?: string;
 
   result: string;
   description?: string;

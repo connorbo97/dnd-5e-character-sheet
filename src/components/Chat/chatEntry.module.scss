@@ -37,9 +37,20 @@
 .label {
   text-transform: capitalize;
   font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+
+  column-gap: 5px;
+}
+
+.label-suffix {
+  color: $light-gray;
+  font-size: 10px;
 }
 
 .description {
-  color: #b2b2b2;
+  color: $light-gray;
   font-size: 10px;
 }

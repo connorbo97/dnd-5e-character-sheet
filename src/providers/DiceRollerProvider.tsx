@@ -9,6 +9,7 @@ import { noop } from 'lodash';
 import { rollVisualDice } from 'utils/diceBoxUtils';
 import { ChatEntry, ChatType } from 'constants/chat';
 import { useCharacterSheet } from './CharacterSheetProvider';
+import { Rollable } from 'constants/rollable';
 
 type DiceRollerContextValue = {
   rolls: Array<ChatEntry>;
@@ -34,14 +35,14 @@ export const DiceRollerProvider = ({ ...rest }) => {
 };
 
 export const useDiceRoller = () => {
-  const { name } = useCharacterSheet();
+  const { name, rollableConfig } = useCharacterSheet();
   const { rolls, setRolls } = useContext(DiceRollerContext);
 
   const onRoll = useCallback(
-    async (roll, config, chatConfig, rollOptions = {}) => {
+    async (roll: Rollable, chatConfig, rollOptions = {}) => {
       let res;
       try {
-        res = await rollVisualDice(roll, config, rollOptions);
+        res = await rollVisualDice(roll, rollableConfig, rollOptions);
 
         setRolls((prevRolls) => {
           let newRolls = [...prevRolls];

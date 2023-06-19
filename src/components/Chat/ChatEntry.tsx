@@ -6,6 +6,7 @@ interface Props extends ChatEntryType {}
 export const ChatEntry = ({
   result,
   label,
+  labelSuffix,
   playerName,
   description,
 }: Props) => {
@@ -17,7 +18,14 @@ export const ChatEntry = ({
         {description && (
           <span className={styles['description']}>{description}</span>
         )}
-        {label && <span className={styles['label']}>{label}</span>}
+        {label && (
+          <span className={styles['label']}>
+            {label}
+            {labelSuffix && (
+              <span className={styles['label-suffix']}>{labelSuffix}</span>
+            )}
+          </span>
+        )}
       </div>
     </div>
   );

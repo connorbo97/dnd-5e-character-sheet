@@ -7,7 +7,10 @@ export const hasExpertise = (config: ProficiencyConfig) => {
   return !!config?.expertise;
 };
 
-export const getProficiencyBonus = (config: ProficiencyConfig, profBonus) => {
+export const getProficiencyBonus = (
+  config: ProficiencyConfig | undefined,
+  profBonus,
+) => {
   if (!config) {
     return 0;
   }

@@ -1,45 +1,29 @@
 import { SKILLS, SKILL_CONFIGS } from 'constants/skills';
 import styles from './skills.module.scss';
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
-import { STATS, STATS_CONFIGS } from 'constants/stats';
-import { getProficiencyBonus } from 'constants/proficiencyUtils';
-import { addNumberSign } from 'utils/stringUtils';
-import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
+import { STATS } from 'constants/stats';
 import { Tag } from 'common/components/Tag/Tag';
+import { Skill } from './Skill';
+import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { getProficiencyBonus } from 'constants/proficiencyUtils';
 
 export const Skills = () => {
-  const {
-    skills: playerSkills,
-    onToggleSkillProficiency,
-    getStatModifier,
-    profBonus,
-  } = useCharacterSheet();
+  const { skills, getStatModifier, profBonus } = useCharacterSheet();
 
-  const calculateSkillModifier = (skillType, stat) =>
-    getStatModifier(stat) +
-    getProficiencyBonus(playerSkills[skillType], profBonus);
   return (
     <div className={styles['container']}>
       <h3>Skills</h3>
       <div>
-        {Object.entries(SKILL_CONFIGS).map(([skillType, { label, stat }]) => (
-          <div key={skillType}>
-            <u>
-              {label} ({STATS_CONFIGS[stat].shortLabel})
-            </u>
-            <ProficiencyButton
-              config={playerSkills[skillType]}
-              onToggle={() => onToggleSkillProficiency(skillType)}
-            />
-            <span>
-              : {addNumberSign(calculateSkillModifier(skillType, stat))}
-            </span>
-          </div>
+        {Object.entries(SKILL_CONFIGS).map(([skillType, config]) => (
+          <Skill config={config} type={skillType} />
         ))}
         <br />
         <Tag
           label="Passive Perception"
-          value={10 + calculateSkillModifier(SKILLS.PERCEPTION, STATS.WIS)}
+          value={
+            10 +
+            getProficiencyBonus(skills[SKILLS.PERCEPTION], profBonus) +
+            getStatModifier(STATS.WIS)
+          }
         />
       </div>
     </div>
