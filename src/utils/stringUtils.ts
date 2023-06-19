@@ -1,5 +1,3 @@
-import { isNil } from 'lodash';
-
 export const addNumberSign = (num, spacer = '') => {
   if (spacer) {
     return `${num < 0 ? '-' : '+'} ${Math.abs(num)}`;

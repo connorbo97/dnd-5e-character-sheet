@@ -10,6 +10,10 @@ import { RACES } from './race';
 import { SKILLS } from './skills';
 import { STATS } from './stats';
 
+export type CharacterSheetStats = {
+  [s in STATS]: number;
+};
+
 export type CharacterSheetLevels = {
   [c in CLASSES]?: {
     total: number;
@@ -21,6 +25,7 @@ export type CharacterSheet = {
   name: string;
   profBonus: number;
   levels: CharacterSheetLevels;
+  spellcastingAbility: STATS | 'NONE';
   race: {
     value: RACES;
     subRace: string;
@@ -32,9 +37,7 @@ export type CharacterSheet = {
   };
   subRace?: string;
   alignment: ALIGNMENTS;
-  stats: {
-    [s in STATS]: number;
-  };
+  stats: CharacterSheetStats;
   savingThrows: {
     [s in STATS]?: ProficiencyConfig;
   };
@@ -75,6 +78,7 @@ export type CharacterSheet = {
 export const DEFAULT_SHEET: CharacterSheet = {
   name: 'Placeholder',
   profBonus: 2,
+  spellcastingAbility: 'NONE',
   levels: {
     [CLASSES.BARBARIAN]: {
       total: 1,
@@ -176,13 +180,16 @@ export const DEFAULT_SHEET: CharacterSheet = {
       },
       damage: [
         {
-          base: ['1d6', '1d4'],
+          base: [
+            [1, DICE.d6],
+            [1, DICE.d4],
+          ],
           stat: STATS.CHA,
           crit: '1d6',
           type: 'Slashing',
         },
         {
-          base: ['2d6'],
+          base: [[2, DICE.d6]],
           stat: STATS.STR,
         },
       ],
