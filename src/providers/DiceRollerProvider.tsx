@@ -38,29 +38,37 @@ export const useDiceRoller = () => {
   const { name, rollableConfig } = useCharacterSheet();
   const { rolls, setRolls } = useContext(DiceRollerContext);
 
+  const appendRoll = useCallback(
+    (entry: ChatEntry) => {
+      setRolls((prevRolls) => {
+        let newRolls = [...prevRolls];
+
+        if (prevRolls.length > 199) {
+          newRolls = prevRolls.splice(0, 1);
+        }
+
+        newRolls.push(entry);
+
+        return newRolls;
+      });
+    },
+    [setRolls],
+  );
+
   const onRoll = useCallback(
     async (roll: Rollable, chatConfig: ChatEntryInputs, rollOptions = {}) => {
       let res;
       try {
         res = await rollVisualDice(roll, rollableConfig, rollOptions);
 
-        setRolls((prevRolls) => {
-          let newRolls = [...prevRolls];
+        const newChatEntry: ChatEntry = {
+          playerName: name,
+          type: ChatType.BASIC,
+          result: res.value,
+          ...chatConfig,
+        };
 
-          if (prevRolls.length > 199) {
-            newRolls = prevRolls.splice(0, 1);
-          }
-
-          const newChatEntry: ChatEntry = {
-            playerName: name,
-            type: ChatType.BASIC,
-            result: res.value,
-            ...chatConfig,
-          };
-          newRolls.push(newChatEntry);
-
-          return newRolls;
-        });
+        appendRoll(newChatEntry);
 
         return res;
       } catch (err: any) {
@@ -69,7 +77,7 @@ export const useDiceRoller = () => {
         return null;
       }
     },
-    [name, rollableConfig, setRolls],
+    [appendRoll, name, rollableConfig],
   );
 
   return {
@@ -77,5 +85,6 @@ export const useDiceRoller = () => {
     setRolls,
 
     onRoll,
+    appendRoll,
   };
 };

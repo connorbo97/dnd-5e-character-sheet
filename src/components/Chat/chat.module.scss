@@ -1,7 +1,25 @@
+@import 'styles/_colors';
+
 .container {
   grid-area: chat;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .chats {
   padding: 0.5rem;
+  overflow: auto;
+  flex: 1;
+  border-top: 1px solid $white;
+  border-bottom: 1px solid $white;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+
+  max-height: 80vh;
+}
+
+.chat-input {
+  margin: 0.5rem;
 }

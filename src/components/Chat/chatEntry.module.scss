@@ -10,6 +10,7 @@
 
 .header {
   font-weight: bold;
+  font-style: italic;
   font-size: 1.3rem;
   margin-left: 0.5rem;
 }
@@ -32,6 +33,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  white-space: pre-line;
+
+  &.chat {
+    justify-content: flex-start;
+    width: 100%;
+  }
 }
 
 .label {

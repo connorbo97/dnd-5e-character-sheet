@@ -1,10 +1,10 @@
 import { Rollable } from './rollable';
 
 export enum ChatType {
-  BASIC = 'BASIC',
-  SPELL = 'SPELL',
-  CHAT = 'CHAT',
-  DAMAGE = 'DAMAGE',
+  BASIC = 'basic',
+  SPELL = 'spell',
+  CHAT = 'chat',
+  DAMAGE = 'damage',
 }
 
 export type ChatEntryInputs = {
