@@ -11,6 +11,8 @@ import { Rollable, RollableUtilConfig } from 'constants/rollable';
 import { isNumber, partition, sum, values } from 'lodash';
 
 const getDiceBoxResult = () => document.getElementById('dice-box-result');
+const getDiceBoxInstructions = () =>
+  document.getElementById('dice-box-instructions');
 
 const convertDiceBoxResultToValues = (
   res: Array<{ value: number; groupId: number }>,
@@ -33,6 +35,13 @@ const pauseAndResetAllRollAudios = () => {
     a.pause();
     a.currentTime = 0;
   });
+};
+
+const showDiceBoxInstructions = () => {
+  const resultInstructions = getDiceBoxInstructions();
+  if (resultInstructions) {
+    resultInstructions.style.opacity = '1';
+  }
 };
 
 const playDiceNoises = (roll: Rollable) => {
@@ -123,6 +132,7 @@ export const rollVisualDice = (
       window.diceBox.clear();
       window.diceBoxContainer.style.pointerEvents = 'none';
       (getDiceBoxResult()?.style || { opacity: 0 }).opacity = 0;
+      (getDiceBoxInstructions()?.style || { opacity: 0 }).opacity = 0;
 
       if (clearTimer) {
         clearTimeout(clearTimer);
@@ -161,6 +171,8 @@ export const rollVisualDice = (
 
     playDiceNoises(roll);
 
+    showDiceBoxInstructions();
+
     // roll dice in box
     window.diceBox
       .roll(sanitizedRoll)
@@ -177,6 +189,7 @@ export const rollVisualDice = (
         ];
         const resultSum = sum(resultArray.flat());
 
+        // render the dice box result
         const resultBox = getDiceBoxResult();
         if (resultBox && !options.disableResultBox) {
           resultBox.style.opacity = '1';

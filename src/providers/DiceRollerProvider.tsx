@@ -26,11 +26,11 @@ export const DiceRollerProvider = ({ ...rest }) => {
   return <DiceRollerContext.Provider value={value} {...rest} />;
 };
 
-export const useDiceRollerProvider = () => {
+export const useDiceRoller = () => {
   const { rolls, setRolls } = useContext(DiceRollerContext);
 
   const onRoll = useCallback(
-    async (roll, config, options) => {
+    async (roll, config, options = {}) => {
       let res;
       try {
         res = await rollVisualDice(roll, config, options);
@@ -43,6 +43,8 @@ export const useDiceRollerProvider = () => {
           }
 
           newRolls.push(res);
+
+          return newRolls;
         });
 
         return res;
