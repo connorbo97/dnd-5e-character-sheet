@@ -1,3 +1,4 @@
+import { Tag } from 'common/components/Tag/Tag';
 import { ArmorClass } from '../ArmorClass/ArmorClass';
 import { HitPoints } from '../HitPoints/HitPoints';
 import { Initiative } from '../Initiative/Initiative';
@@ -10,6 +11,7 @@ export const CombatStats = () => {
       <Initiative />
       <ArmorClass />
       <HitPoints />
+      <Tag label="Movement Speed" value="30 ft" />
     </div>
   );
 };

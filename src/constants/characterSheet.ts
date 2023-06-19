@@ -221,7 +221,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       description: 'some description',
       source: 'character creation',
       mods: {
-        ac: [16],
+        ac: [11, STATS.DEX],
       },
       equipped: true,
       total: 1,

@@ -1,10 +1,20 @@
 import { DICE } from 'constants/dice';
 import { addNumberSign } from './stringUtils';
 import { ROLL_AUDIOS } from 'constants/diceBox';
+import {
+  calculateRollable,
+  getRandom,
+  isDiceRoll,
+  parseRollableArray,
+} from './rollableUtils';
+import { Rollable, RollableUtilConfig } from 'constants/rollable';
+import { sum, values } from 'lodash';
 
 export const getDiceFaces = (d: DICE) => parseInt(d.split('d')[1]);
 const getDiceBoxResult = () => document.getElementById('dice-box-result');
 
+const convertDiceBoxResultToValues = (res: Array<{ value: number }>) =>
+  res.map(({ value }) => value);
 const pauseAndResetAllRollAudios = () => {
   ROLL_AUDIOS.forEach((a) => {
     a.pause();
@@ -12,11 +22,22 @@ const pauseAndResetAllRollAudios = () => {
   });
 };
 
+const playDiceNoises = (roll: Rollable) => {
+  // make a roll noise for each dice in the roll
+  roll.forEach((r) => {
+    if (!isDiceRoll(r)) {
+      return;
+    }
+
+    ROLL_AUDIOS[getRandom(values(ROLL_AUDIOS).length)].play();
+  });
+};
+
 export const rollVisualDice = (
-  dice: any = [DICE.d20],
+  roll: Rollable = [[1, DICE.d20]],
+  rollableConfig?: RollableUtilConfig,
   options: {
     disableRollOnCancel?: any;
-    modifier?: Array<any>;
     disableResultBox?: boolean;
     onRollResult?: Function;
     clearTimeout?: number;
@@ -32,7 +53,7 @@ export const rollVisualDice = (
 
     let rollHasFinished = false;
 
-    // const sanitizedDice = sanitizeDice
+    const sanitizedRoll = parseRollableArray(roll, rollableConfig);
 
     let finalResolve = resolve;
 
@@ -66,99 +87,74 @@ export const rollVisualDice = (
       if (submitReturn) {
         submitReturn();
       } else if (!rollHasFinished && !options?.disableRollOnCancel) {
-        // const resultArray = dice.map((die: any) => rollCalc([die]));
-        // const finalCalc = [...resultArray, ...(options?.modifier || [])];
-        // const finalCalcResult = rollCalc([
-        //   ...resultArray,
-        //   ...(options?.modifier || []),
-        // ]);
+        const resultArray = roll.map((r) => calculateRollable([r]));
+        const resultSum = sum(resultArray);
 
         finalResolve({
-          // value: finalCalcResult,
-          // resultText: getDefaultLabel(finalCalc, finalCalcResult, {
-          //   hideResult: true,
-          // }),
-          // resultArray,
-          value: 1,
-          resultText: getDefaultLabel([1], '1', {
+          value: resultSum,
+          resultText: getBasicLabel(resultArray, resultSum, {
             hideResult: true,
           }),
-          resultArray: ['1'],
+          resultArray,
         });
       }
     };
 
-    const getDefaultLabel = (
-      finalCalc,
-      finalCalcResult,
+    const getBasicLabel = (
+      resultArray: Array<number>,
+      resultSum: number,
       { hideResult = false } = {},
     ) => {
-      let defaultFront;
-
-      defaultFront = finalCalc.reduce((acc, cur, i) => {
-        const prefix = i === 0 ? '' : ' ';
+      console.log(roll, sanitizedRoll);
+      const label = resultArray.reduce((acc, cur, i) => {
+        const prefixSpace = i === 0 ? '' : ' ';
         const val = i === 0 ? cur : addNumberSign(cur, ' ');
-        // if (sanitizedDice[i] !== dice[i]) {
-        // 	return acc + prefix + `${val} (${dice[i]})`;
-        // 	// return acc + prefix + `${val} (Ceil(${originalResult} / 2))`;
-        // } else {
-        // 	return acc + prefix + val;
-        // }
-        return acc + prefix + `${val}${i >= dice.length ? '' : `(${dice[i]})`}`;
+
+        console.log(i, sanitizedRoll[i], roll[i]);
+
+        const suffix = isDiceRoll(roll[i]) ? ` (${sanitizedRoll[i]})` : '';
+
+        return `${acc}${prefixSpace}${val}${suffix}`;
       }, '');
 
       if (hideResult) {
-        return defaultFront;
+        return label;
       }
 
-      return `${defaultFront} = ${finalCalcResult}`;
+      return `${label} = ${resultSum}`;
     };
 
     pauseAndResetAllRollAudios();
-    const setToRoll = [0, 1, 2, 3];
-    dice.forEach(() => {
-      if (!setToRoll.length) {
-        return;
-      }
-      const random = Math.floor(Math.random() * setToRoll.length);
-      const [indexToPlay] = setToRoll.splice(random, 1);
 
-      ROLL_AUDIOS[indexToPlay].play();
-    });
+    playDiceNoises(roll);
 
-    window.diceBox.roll(dice).then((res: any) => {
+    // roll dice in box
+    window.diceBox.roll(sanitizedRoll).then((res: Array<{ value: number }>) => {
       rollHasFinished = true;
 
       if (!waitFlag) {
         return;
       }
 
-      let hasUnrealDice = false;
-
-      const originalResult = res.map(({ value }: { value: any }) => value);
-      const dieResult = res.map(({ value }: { value: any }, index: number) => {
-        return value;
-      });
-
-      const finalCalc = [...dieResult, ...(options.modifier || [])];
-      const finalCalcResult = 'test';
+      const resultArray = convertDiceBoxResultToValues(res);
+      const resultSum = sum(resultArray);
 
       const resultBox = getDiceBoxResult();
       if (resultBox && !options.disableResultBox) {
         resultBox.style.opacity = '1';
         resultBox.innerHTML = options?.customResultBoxLabel
-          ? options?.customResultBoxLabel(finalCalc, finalCalcResult, {
-              sanitizedDice: dice,
+          ? options?.customResultBoxLabel(resultArray, resultSum, {
+              sanitizedDice: roll,
             })
-          : getDefaultLabel(finalCalc, finalCalcResult);
+          : getBasicLabel(resultArray, resultSum);
       }
 
       const returnValue = {
-        resultArray: finalCalc,
-        resultText: getDefaultLabel(finalCalc, finalCalcResult, {
+        resultArray,
+        resultText: getBasicLabel(resultArray, resultSum, {
           hideResult: true,
         }),
-        value: finalCalcResult,
+        value: resultSum,
       };
 
       if (options.clearTimeout) {
