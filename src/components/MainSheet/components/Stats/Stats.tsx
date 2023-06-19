@@ -31,6 +31,10 @@ export const Stats = () => {
               className={styles['label']}
               value={`${STATS_CONFIGS[stat].label}:`}
               roll={[D20_DICE, stat as STATS]}
+              chatConfig={{
+                label: `${STATS_CONFIGS[stat].label} Check`,
+                labelSuffix: wrapInParens(addNumberSign(getModifier(value))),
+              }}
             />
             <div className={styles['content']}>
               <input
