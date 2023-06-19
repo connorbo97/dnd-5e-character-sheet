@@ -4,11 +4,11 @@ import { Header } from './components/Header';
 import { Content } from 'components/Content';
 import { DICE } from 'constants/dice';
 import { STATS } from 'constants/stats';
-import { useDiceRoller } from 'providers/DiceRollerProvider';
+import { useChat } from 'providers/ChatProvider';
 import { loadDiceBox } from 'utils/diceBoxPackageUtils';
 
 function App() {
-  const { onRoll } = useDiceRoller();
+  const { onRoll } = useChat();
 
   useEffect(() => {
     let diceBoxOptions;

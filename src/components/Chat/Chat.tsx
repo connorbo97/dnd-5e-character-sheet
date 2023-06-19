@@ -1,4 +1,4 @@
-import { useDiceRoller } from 'providers/DiceRollerProvider';
+import { useChat } from 'providers/ChatProvider';
 import styles from './chat.module.scss';
 import { ChatEntry } from './ChatEntry';
 import { useLayoutEffect, useRef, useState } from 'react';
@@ -9,7 +9,7 @@ export const Chat = () => {
   const chatsRef: { current: any } = useRef();
   const lastResolvedScroll = useRef(-1);
   const lastResolvedScrollHeight = useRef(-1);
-  const { rolls, appendRoll } = useDiceRoller();
+  const { chats, appendChat } = useChat();
   const { name } = useCharacterSheet();
   const [userChat, setUserChat] = useState('');
 
@@ -30,15 +30,15 @@ export const Chat = () => {
       chat.scrollTop = chat.scrollHeight;
     }
 
-    lastResolvedScroll.current = rolls.length;
+    lastResolvedScroll.current = chats.length;
     lastResolvedScrollHeight.current = chat.scrollHeight;
-  }, [rolls]);
+  }, [chats]);
 
   return (
     <div className={styles['container']}>
       <h3>Chat</h3>
       <div className={styles['chats']} ref={chatsRef}>
-        {rolls.map((entry, i) => (
+        {chats.map((entry, i) => (
           <ChatEntry key={i} {...entry} />
         ))}
       </div>
@@ -51,7 +51,7 @@ export const Chat = () => {
         }}
         onKeyUp={(e) => {
           if (e.key === 'Enter' && !e.shiftKey && userChat) {
-            appendRoll({
+            appendChat({
               playerName: name,
               type: ChatType.CHAT,
               result: userChat,

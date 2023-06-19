@@ -1,4 +1,4 @@
-import { useDiceRoller } from 'providers/DiceRollerProvider';
+import { useChat } from 'providers/ChatProvider';
 import styles from './rollableText.module.scss';
 import classnames from 'classnames/bind';
 import { Rollable } from 'constants/rollable';
@@ -27,7 +27,7 @@ export const RollableText = ({
   onRollStart = noop,
   ...rest
 }: Props) => {
-  const { onRoll } = useDiceRoller();
+  const { onRoll } = useChat();
 
   return (
     <span

@@ -11,48 +11,48 @@ import { ChatEntry, ChatEntryInputs, ChatType } from 'constants/chat';
 import { useCharacterSheet } from './CharacterSheetProvider';
 import { Rollable } from 'constants/rollable';
 
-type DiceRollerContextValue = {
-  rolls: Array<ChatEntry>;
-  setRolls: Function;
+type ChatContextValue = {
+  chats: Array<ChatEntry>;
+  setChats: Function;
 };
 
-const DiceRollerContext = createContext({
-  rolls: [],
-  setRolls: noop,
-} as DiceRollerContextValue);
+const ChatContext = createContext({
+  chats: [],
+  setChats: noop,
+} as ChatContextValue);
 
-export const DiceRollerProvider = ({ ...rest }) => {
-  const [rolls, setRolls] = useState([]);
+export const ChatProvider = ({ ...rest }) => {
+  const [chats, setChats] = useState([]);
 
   const value = useMemo(
     () => ({
-      rolls,
-      setRolls,
+      chats,
+      setChats,
     }),
-    [rolls],
+    [chats],
   );
-  return <DiceRollerContext.Provider value={value} {...rest} />;
+  return <ChatContext.Provider value={value} {...rest} />;
 };
 
-export const useDiceRoller = () => {
+export const useChat = () => {
   const { name, rollableConfig } = useCharacterSheet();
-  const { rolls, setRolls } = useContext(DiceRollerContext);
+  const { chats, setChats } = useContext(ChatContext);
 
-  const appendRoll = useCallback(
+  const appendChat = useCallback(
     (entry: ChatEntry) => {
-      setRolls((prevRolls) => {
-        let newRolls = [...prevRolls];
+      setChats((prevChats) => {
+        let newChats = [...prevChats];
 
-        if (prevRolls.length > 199) {
-          newRolls = prevRolls.splice(0, 1);
+        if (prevChats.length > 199) {
+          newChats = prevChats.splice(0, 1);
         }
 
-        newRolls.push(entry);
+        newChats.push(entry);
 
-        return newRolls;
+        return newChats;
       });
     },
-    [setRolls],
+    [setChats],
   );
 
   const onRoll = useCallback(
@@ -68,7 +68,7 @@ export const useDiceRoller = () => {
           ...chatConfig,
         };
 
-        appendRoll(newChatEntry);
+        appendChat(newChatEntry);
 
         return res;
       } catch (err: any) {
@@ -77,14 +77,14 @@ export const useDiceRoller = () => {
         return null;
       }
     },
-    [appendRoll, name, rollableConfig],
+    [appendChat, name, rollableConfig],
   );
 
   return {
-    rolls,
-    setRolls,
+    chats,
+    setChats,
 
     onRoll,
-    appendRoll,
+    appendChat,
   };
 };
