@@ -65,6 +65,7 @@ export const useChat = () => {
           playerName: name,
           type: ChatType.BASIC,
           result: res.value,
+          resultArray: res.resultArray,
           ...chatConfig,
         };
 

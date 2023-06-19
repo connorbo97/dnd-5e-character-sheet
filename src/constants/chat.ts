@@ -17,11 +17,15 @@ export type ChatEntryFollowUp = {
 export type ChatEntryInputs = {
   playerName?: string;
   result?: string;
+  resultArray?: Array<number>;
   type?: ChatType;
   label?: string;
   labelSuffix?: string;
 
+  // used for attacks; if you roll >= this, its a crit
   critRange?: number;
+  // used for damage; if this is true, double any dice
+  isCrit?: boolean;
 
   description?: string;
   dc?: number;
