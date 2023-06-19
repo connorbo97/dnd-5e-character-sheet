@@ -3,6 +3,7 @@ import './index.scss';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { CharacterSheetProvider } from 'providers/CharacterSheetProvider';
+import { DiceRollerProvider } from 'providers/DiceRollerProvider';
 
 declare global {
   interface Window {
@@ -15,9 +16,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <CharacterSheetProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </CharacterSheetProvider>,
+  <DiceRollerProvider>
+    <CharacterSheetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </CharacterSheetProvider>
+  </DiceRollerProvider>,
 );
