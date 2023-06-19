@@ -70,3 +70,12 @@
 .failure {
   color: red;
 }
+
+.follow-up {
+  border: 1px solid $white;
+  padding: 0.2rem;
+  border-radius: 5px;
+  color: $white;
+  background-color: $secondary;
+  cursor: pointer;
+}

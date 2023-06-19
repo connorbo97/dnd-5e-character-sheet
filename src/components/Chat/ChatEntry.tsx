@@ -60,11 +60,16 @@ export const ChatEntry = ({
             })}
             onClick={
               hasFollowUp
-                ? noop
-                : () =>
-                    followUp?.forEach((f) => {
-                      onRoll(f.roll, { ...f.config, isCrit: isCritSuccess });
-                    })
+                ? async () => {
+                    for (let i = 0; i < followUp.length; i++) {
+                      await onRoll(
+                        followUp[i].roll,
+                        { ...followUp[i].config, isCrit: isCritSuccess },
+                        {},
+                      );
+                    }
+                  }
+                : noop
             }>
             {label}
             {labelSuffix && (
