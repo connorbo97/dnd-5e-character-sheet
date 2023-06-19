@@ -1,9 +1,10 @@
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import styles from './attacks.module.scss';
 import { Tag } from 'common/components/Tag/Tag';
+import { printRollable } from 'utils/rollableUtils';
 
 export const Attacks = () => {
-  const { attacks, profBonus } = useCharacterSheet();
+  const { attacks, rollableConfig } = useCharacterSheet();
 
   return (
     <div className={styles['container']}>
@@ -60,7 +61,10 @@ export const Attacks = () => {
                           label={`damage-${i}`}
                           value={
                             <div className={styles['block']}>
-                              <Tag label="base" value={base.join(' + ')} />
+                              <Tag
+                                label="base"
+                                value={printRollable(base, rollableConfig)}
+                              />
                               <Tag label="stat" value={damageStat} />
                               <Tag label="mod" value={damageMod?.value} />
                               <Tag label="type" value={type} />

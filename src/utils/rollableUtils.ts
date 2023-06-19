@@ -2,18 +2,20 @@ import {
   ROLLABLES,
   Rollable,
   RollableEntry,
+  RollableUtilConfig,
   StaticRollable,
   StaticRollableEntry,
 } from 'constants/rollable';
 import { STATS } from 'constants/stats';
-import { isNumber, sum } from 'lodash';
+import { isNil, isNumber, sum } from 'lodash';
 import { getModifier } from './statUtils';
 import { DICE, DICE_VALUES_SET } from 'constants/dice';
 
 export const calculateStaticRollableEntry = (
   entry: StaticRollableEntry,
-  { stats, spellcastingAbility, profBonus },
+  config: RollableUtilConfig,
 ) => {
+  const { stats, spellcastingAbility, profBonus } = config;
   if (entry in STATS) {
     return getModifier(stats[entry]);
   }
@@ -46,17 +48,13 @@ export const isDiceRoll = (entry: RollableEntry) => {
 
 export const calculateRollableEntry = (
   entry: RollableEntry,
-  { stats, spellcastingAbility, profBonus },
+  config: RollableUtilConfig,
 ) => {
   if (isDiceRoll(entry)) {
     return (entry as [number, DICE]).join('');
   }
 
-  return calculateStaticRollableEntry(entry as StaticRollableEntry, {
-    stats,
-    spellcastingAbility,
-    profBonus,
-  });
+  return calculateStaticRollableEntry(entry as StaticRollableEntry, config);
 };
 
 export const calculateStaticRollable = (
@@ -76,15 +74,30 @@ export const calculateStaticRollable = (
 
 export const calculateRollable = (
   rollable: Rollable,
-  { stats, spellcastingAbility, profBonus },
+  config: RollableUtilConfig,
 ) => {
-  return sum(
-    rollable.map((e) =>
-      calculateRollableEntry(e, {
-        stats,
-        spellcastingAbility,
-        profBonus,
-      }),
-    ),
-  );
+  return sum(rollable.map((e) => calculateRollableEntry(e, config)));
+};
+
+export const printRollable = (
+  rawInput: Array<RollableEntry | undefined | null>,
+  config: RollableUtilConfig,
+) => {
+  // @ts-ignore
+  const input: Array<RollableEntry> = rawInput.filter((i) => !isNil(i));
+  return input
+    .map((i) => calculateRollableEntry(i, config))
+    .map((val, i) => {
+      if (i === 0) {
+        return val;
+      }
+
+      const parsedVal = parseInt(val);
+
+      if (parsedVal < 0) {
+        return `- ${val}`;
+      }
+      return `+ ${val}`;
+    })
+    .join(' ');
 };
