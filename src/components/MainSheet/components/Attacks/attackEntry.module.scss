@@ -1,0 +1,17 @@
+@import 'styles/_colors';
+
+.container {
+  padding: 5px;
+  border-top: 2px dashed $white;
+}
+
+.block {
+  margin: 2.5px;
+  padding: 5px;
+  border: 1px solid $white;
+  display: flex;
+  column-gap: 5px;
+  row-gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+}

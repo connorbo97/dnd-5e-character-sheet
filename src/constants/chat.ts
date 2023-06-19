@@ -21,7 +21,7 @@ export type ChatEntryInputs = {
   isFollowUp?: boolean;
   followUp?: {
     roll: Rollable;
-    type: ChatType;
+    config: ChatEntryInputs;
   };
 };
 
