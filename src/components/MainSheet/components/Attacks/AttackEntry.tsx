@@ -46,6 +46,7 @@ export const AttackEntry = (props: any) => {
     attackRoll.push(ROLLABLES.PB);
   }
 
+  let attackCritRange = 20;
   let damageRollFollowups: Array<ChatEntryFollowUp> = (damage || []).map(
     (d) => {
       const { base, stat: damageStat, mod: damageMod, type, crit } = d;
@@ -58,6 +59,10 @@ export const AttackEntry = (props: any) => {
 
       if (!isNil(damageMod?.value)) {
         damageRoll.push(damageMod?.value as number);
+      }
+
+      if (!isNil(crit)) {
+        attackCritRange = Math.min(attackCritRange, crit);
       }
 
       const chatConfig = {
@@ -74,7 +79,11 @@ export const AttackEntry = (props: any) => {
         ),
       };
 
-      return { config: chatConfig, critModifier: crit, roll: damageRoll };
+      return {
+        config: chatConfig,
+        critRange: crit,
+        roll: damageRoll,
+      } as ChatEntryFollowUp;
     },
   );
 
@@ -84,6 +93,8 @@ export const AttackEntry = (props: any) => {
         value={label}
         roll={attackRoll}
         chatConfig={{
+          type: ChatType.ATTACK,
+          critRange: attackCritRange,
           label: label,
           labelSuffix: wrapInParens(
             addNumberSign(

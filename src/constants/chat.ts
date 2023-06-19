@@ -2,6 +2,7 @@ import { Rollable } from './rollable';
 
 export enum ChatType {
   BASIC = 'basic',
+  ATTACK = 'attack',
   SPELL = 'spell',
   CHAT = 'chat',
   DAMAGE = 'damage',
@@ -9,7 +10,7 @@ export enum ChatType {
 
 export type ChatEntryFollowUp = {
   roll: Rollable;
-  critModifier?: number;
+  critRange?: number;
   config: ChatEntryInputs;
 };
 
@@ -19,6 +20,8 @@ export type ChatEntryInputs = {
   type?: ChatType;
   label?: string;
   labelSuffix?: string;
+
+  critRange?: number;
 
   description?: string;
   dc?: number;
