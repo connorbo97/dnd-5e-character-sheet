@@ -7,6 +7,12 @@ export enum ChatType {
   DAMAGE = 'damage',
 }
 
+export type ChatEntryFollowUp = {
+  roll: Rollable;
+  critModifier?: number;
+  config: ChatEntryInputs;
+};
+
 export type ChatEntryInputs = {
   playerName?: string;
   result?: string;
@@ -19,10 +25,7 @@ export type ChatEntryInputs = {
   detailedResult?: string;
 
   isFollowUp?: boolean;
-  followUp?: {
-    roll: Rollable;
-    config: ChatEntryInputs;
-  };
+  followUp?: Array<ChatEntryFollowUp>;
 };
 
 export interface ChatEntry extends ChatEntryInputs {

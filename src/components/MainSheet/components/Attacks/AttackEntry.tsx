@@ -4,10 +4,11 @@ import { ROLLABLES, Rollable } from 'constants/rollable';
 import {
   D20_DICE,
   calculateRollable,
+  isDiceRoll,
   printRollable,
 } from 'utils/rollableUtils';
 import { isNil } from 'lodash';
-import { ChatType } from 'constants/chat';
+import { ChatEntryFollowUp, ChatType } from 'constants/chat';
 import { addNumberSign, wrapInParens } from 'utils/stringUtils';
 import { RollableText } from 'common/components/RollableText/RollableText';
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
@@ -45,15 +46,37 @@ export const AttackEntry = (props: any) => {
     attackRoll.push(ROLLABLES.PB);
   }
 
-  let damageRoll = [];
+  let damageRollFollowups: Array<ChatEntryFollowUp> = (damage || []).map(
+    (d) => {
+      const { base, stat: damageStat, mod: damageMod, type, crit } = d;
 
-  const damageChatConfig = {
-    type: ChatType.DAMAGE,
-    label: label,
-    labelSuffix: wrapInParens(
-      addNumberSign(calculateRollable(damageRoll.slice(1), rollableConfig)),
-    ),
-  };
+      let damageRoll = [...base];
+
+      if (damageStat) {
+        damageRoll.push(damageStat);
+      }
+
+      if (!isNil(damageMod?.value)) {
+        damageRoll.push(damageMod?.value as number);
+      }
+
+      const chatConfig = {
+        type: ChatType.DAMAGE,
+        description: type,
+        label: label,
+        labelSuffix: wrapInParens(
+          addNumberSign(
+            calculateRollable(
+              damageRoll.filter((r) => isDiceRoll(r)),
+              rollableConfig,
+            ),
+          ),
+        ),
+      };
+
+      return { config: chatConfig, critModifier: crit, roll: damageRoll };
+    },
+  );
 
   return (
     <div key={`${index}-${label}`} className={styles['container']}>
@@ -68,10 +91,7 @@ export const AttackEntry = (props: any) => {
             ),
           ),
           description: range,
-          followUp: {
-            roll: damageRoll,
-            config: damageChatConfig,
-          },
+          followUp: damageRollFollowups,
         }}
       />
       {attack && (
@@ -92,23 +112,28 @@ export const AttackEntry = (props: any) => {
         <div>
           {damage.map((d, i) => {
             const { base, stat: damageStat, mod: damageMod, type, crit } = d;
+            console.log(damageRollFollowups[i].config);
             return (
-              <Tag
-                key={i}
-                label={`damage-${i}`}
-                value={
-                  <div className={styles['block']}>
-                    <Tag
-                      label="base"
-                      value={printRollable(base, rollableConfig)}
-                    />
-                    <Tag label="stat" value={damageStat} />
-                    <Tag label="mod" value={damageMod?.value} />
-                    <Tag label="type" value={type} />
-                    <Tag label="crit" value={crit} />
-                  </div>
-                }
-              />
+              <div>
+                <RollableText
+                  value={`Damage-${i}`}
+                  roll={damageRollFollowups[i].roll}
+                  chatConfig={{
+                    ...damageRollFollowups[i].config,
+                    label: undefined,
+                  }}
+                />
+                <div className={styles['block']}>
+                  <Tag
+                    label="base"
+                    value={printRollable(base, rollableConfig)}
+                  />
+                  <Tag label="stat" value={damageStat} />
+                  <Tag label="mod" value={damageMod?.value} />
+                  <Tag label="type" value={type} />
+                  <Tag label="crit" value={crit} />
+                </div>
+              </div>
             );
           })}
         </div>
