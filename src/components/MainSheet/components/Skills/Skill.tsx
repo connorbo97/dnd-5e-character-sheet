@@ -1,7 +1,5 @@
-import { getRollableDice } from 'utils/rollableUtils';
+import { D20_DICE } from 'utils/rollableUtils';
 import styles from './skill.module.scss';
-import { useDiceRoller } from 'providers/DiceRollerProvider';
-import { DICE } from 'constants/dice';
 import { STATS_CONFIGS } from 'constants/stats';
 import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
@@ -29,7 +27,7 @@ export const Skill = ({ type, config }) => {
       <RollableText
         className={styles['label']}
         value={finalLabel}
-        roll={[getRollableDice(DICE.d20), statModifier]}
+        roll={[D20_DICE, statModifier]}
         chatConfig={{
           label: finalLabel,
           labelSuffix: `(${labelStatModifier})`,

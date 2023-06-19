@@ -7,15 +7,13 @@ export enum ChatType {
   DAMAGE = 'DAMAGE',
 }
 
-export type ChatEntry = {
-  playerName: string;
-
-  type: ChatType;
-
+export type ChatEntryInputs = {
+  playerName?: string;
+  result?: string;
+  type?: ChatType;
   label?: string;
   labelSuffix?: string;
 
-  result: string;
   description?: string;
   dc?: number;
   detailedResult?: string;
@@ -26,3 +24,9 @@ export type ChatEntry = {
     type: ChatType;
   };
 };
+
+export interface ChatEntry extends ChatEntryInputs {
+  playerName: string;
+  result: string;
+  type: ChatType;
+}

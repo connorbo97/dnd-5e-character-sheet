@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { noop } from 'lodash';
 import { rollVisualDice } from 'utils/diceBoxUtils';
-import { ChatEntry, ChatType } from 'constants/chat';
+import { ChatEntry, ChatEntryInputs, ChatType } from 'constants/chat';
 import { useCharacterSheet } from './CharacterSheetProvider';
 import { Rollable } from 'constants/rollable';
 
@@ -39,7 +39,7 @@ export const useDiceRoller = () => {
   const { rolls, setRolls } = useContext(DiceRollerContext);
 
   const onRoll = useCallback(
-    async (roll: Rollable, chatConfig, rollOptions = {}) => {
+    async (roll: Rollable, chatConfig: ChatEntryInputs, rollOptions = {}) => {
       let res;
       try {
         res = await rollVisualDice(roll, rollableConfig, rollOptions);
@@ -69,7 +69,7 @@ export const useDiceRoller = () => {
         return null;
       }
     },
-    [name, setRolls],
+    [name, rollableConfig, setRolls],
   );
 
   return {

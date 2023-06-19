@@ -22,9 +22,10 @@ const DEFAULT_CONFIG = {
 export const getRandom = (n, { baseNum = 0 } = {}) =>
   Math.floor(Math.random() * n) + baseNum;
 
-export const getRollableDice = (dice: DICE, n: number = 1) => {
+export const getRollableDice = (dice: DICE, n: number = 1): [number, DICE] => {
   return [n, dice];
 };
+export const D20_DICE = getRollableDice(DICE.d20, 1);
 
 export const parseStaticRollableEntry = (
   entry: StaticRollableEntry,
