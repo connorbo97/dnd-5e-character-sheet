@@ -1,0 +1,14 @@
+@import 'src/styles/_colors.scss';
+
+:export {
+  black: $black;
+  white: $white;
+  primary: $primary;
+  secondary: $secondary;
+  tertiary: $tertiary;
+  bg: $bg;
+  text: $text;
+  lightGray: $light-gray;
+  green: $green;
+  red: $red;
+}

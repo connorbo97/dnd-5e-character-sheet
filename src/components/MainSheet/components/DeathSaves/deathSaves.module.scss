@@ -1,3 +1,9 @@
 .container {
   grid-area: death-saves;
 }
+
+.buttons {
+  margin-top: 5px;
+  display: flex;
+  column-gap: 5px;
+}

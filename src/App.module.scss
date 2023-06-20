@@ -1,7 +1,7 @@
-@import 'styles/_colors.scss';
+@import 'src/styles/_colors.scss';
 
 .app {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

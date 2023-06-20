@@ -1,4 +1,4 @@
-@import 'styles/_colors';
+@import 'src/styles/_colors';
 
 .container {
   cursor: default;
@@ -77,9 +77,9 @@
 }
 
 .crit {
-  color: rgb(43, 181, 43);
+  color: $green;
 }
 
 .failure {
-  color: red;
+  color: $red;
 }
