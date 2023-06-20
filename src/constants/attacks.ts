@@ -12,6 +12,7 @@ export type AttackEntry = {
   source: string;
   description?: string;
   attack?: {
+    isEnabled;
     stat: STATS | ROLLABLES.SPELL | null;
     mod?: ModBlock;
     proficient?: boolean;
@@ -19,6 +20,7 @@ export type AttackEntry = {
     critRange: number;
   };
   damage?: Array<{
+    isEnabled: boolean;
     label?: string;
     base: Rollable;
     stat: STATS | ROLLABLES.SPELL | null;
@@ -27,8 +29,10 @@ export type AttackEntry = {
     crit?: Rollable;
   }>;
   savingThrow?: {
+    isEnabled: boolean;
     stat: STATS;
-    dc: 'SPELL' | 'FLAT' | STATS;
+    dc: 'SPELL' | STATS;
+    dcSave: STATS;
     effect: string;
   };
 };

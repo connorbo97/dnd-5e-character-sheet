@@ -169,6 +169,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       source: 'test source',
       description: 'test description',
       attack: {
+        isEnabled: true,
         stat: STATS.CHA,
         mod: {
           value: 1,
@@ -180,6 +181,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       },
       damage: [
         {
+          isEnabled: true,
           base: [
             [1, DICE.d6],
             [1, DICE.d4],
@@ -189,6 +191,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
           type: 'Slashing',
         },
         {
+          isEnabled: true,
           base: [[2, DICE.d6]],
           stat: STATS.STR,
           label: "Hunter's Mark",
@@ -200,6 +203,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       source: 'test source 2 ',
       description: 'test description 2',
       attack: {
+        isEnabled: true,
         stat: STATS.STR,
         mod: {
           value: 2,
@@ -210,8 +214,10 @@ export const DEFAULT_SHEET: CharacterSheet = {
         critRange: 19,
       },
       savingThrow: {
+        isEnabled: true,
         stat: STATS.DEX,
         dc: 'SPELL',
+        dcSave: STATS.INT,
         effect: 'On a successful save, take half damage.',
       },
     },

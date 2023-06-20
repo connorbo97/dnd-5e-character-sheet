@@ -2,16 +2,90 @@
 
 .container {
   padding: 5px;
-  border-top: 2px dashed $white;
 }
 
 .block {
-  margin: 2.5px;
   padding: 5px;
-  border: 1px solid $white;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  flex-wrap: wrap;
+}
+
+.section-header {
+  display: flex;
+  column-gap: 0.2rem;
+  align-items: center;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 80px;
+  > * {
+    border-right: 1px solid $white;
+  }
+  border-bottom: 1px solid $white;
+}
+
+.header {
+  display: grid;
+  column-gap: 5px;
+  grid-template-columns: 2fr 1fr;
+}
+
+@mixin hide-overflow-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  border-radius: 5px;
+}
+
+.label {
+  text-decoration: none;
+  padding: 0.5rem;
+  background-color: $secondary;
+}
+
+.attack-roll-header {
   display: flex;
   column-gap: 5px;
-  row-gap: 5px;
-  align-items: center;
-  flex-wrap: wrap;
+  cursor: pointer;
+  > * {
+    @include hide-overflow-text;
+  }
+
+  &:hover {
+    color: $tertiary;
+  }
+}
+
+.attack-name-label {
+  flex-basis: 66%;
+}
+.attack-mod-label {
+  flex-basis: 33%;
+  text-align: center;
+}
+
+.damage-label {
+  margin-right: 5px;
+  cursor: pointer;
+  @include hide-overflow-text;
+
+  &:hover {
+    color: $tertiary;
+  }
+}
+
+.saving-throw {
+  border-right: none;
+}
+
+.description,
+.source {
+  grid-column-start: span 2;
+  border-top: 1px solid $white;
+  border-right: none;
 }

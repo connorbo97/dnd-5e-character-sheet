@@ -7,12 +7,11 @@ import {
   StaticRollableEntry,
 } from 'constants/rollable';
 import { STATS } from 'constants/stats';
-import { identity, isNil, isNumber, partition, sum } from 'lodash';
+import { isNil, isNumber, partition, sum } from 'lodash';
 import { getModifier } from './statUtils';
 import { DICE, DICE_VALUES_SET } from 'constants/dice';
 import { DEFAULT_SHEET } from 'constants/characterSheet';
 import { getDiceMax } from './diceUtils';
-import { addNumberSign } from './stringUtils';
 
 const DEFAULT_CONFIG = {
   stats: DEFAULT_SHEET.stats,
@@ -39,7 +38,7 @@ export const parseStaticRollableEntry = (
 
   if (entry === ROLLABLES.SPELL) {
     return stats[spellcastingAbility]
-      ? profBonus + stats[spellcastingAbility] + 8
+      ? profBonus + stats[spellcastingAbility]
       : 0;
   }
 
@@ -119,10 +118,9 @@ export const simplifyRollable = (
 ) => {
   const parsed = parseRollable(roll, config, options);
   const [dice, numbers] = partition(parsed, (p) => !isNumber(p));
-  const diceStr = dice.join(' + ');
-  const numberStr = numbers.length ? addNumberSign(sum(numbers)) : '';
+  const numbersArr = numbers.length ? [sum(numbers)] : numbers;
 
-  return [diceStr, numberStr].filter(identity).join('') || '+0';
+  return [...dice, ...numbersArr];
 };
 
 export const calculateRollable = (
@@ -144,25 +142,30 @@ export const calculateRollable = (
   );
 };
 
+export const printParsedRollable = (rawInput: Array<string | number>) => {
+  return rawInput
+    .map((val, i) => {
+      if (i === 0) {
+        return val;
+      }
+
+      const parsedVal = parseInt(val + '');
+
+      if (!isNaN(parsedVal) && parsedVal < 0) {
+        return `- ${val}`;
+      }
+
+      return `+ ${val}`;
+    })
+    .join(' ');
+};
+
 export const printRollable = (
   rawInput: Array<RollableEntry | undefined | null>,
   config: RollableUtilConfig,
 ) => {
   // @ts-ignore
   const input: Array<RollableEntry> = rawInput.filter((i) => !isNil(i));
-  return input
-    .map((i) => parseRollableEntry(i, config))
-    .map((val, i) => {
-      if (i === 0) {
-        return val;
-      }
 
-      const parsedVal = parseInt(val);
-
-      if (parsedVal < 0) {
-        return `- ${val}`;
-      }
-      return `+ ${val}`;
-    })
-    .join(' ');
+  return printParsedRollable(parseRollable(input, config));
 };
