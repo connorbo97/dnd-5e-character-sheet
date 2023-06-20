@@ -13,11 +13,26 @@ export const CollapsibleCard = ({
   headerClassName = '',
 }) => {
   const [open, setOpen] = useState(initialOpen);
+  const [closed, setClosed] = useState(!initialOpen);
 
   return (
     <Collapsible
       open={open}
-      handleTriggerClick={() => setOpen((prev) => !prev)}
+      handleTriggerClick={() => {
+        if (open) {
+          setOpen((prev) => !prev);
+
+          window.requestAnimationFrame(() => {
+            setClosed((prev) => !prev);
+          });
+        } else {
+          setClosed((prev) => !prev);
+
+          window.requestAnimationFrame(() => {
+            setOpen((prev) => !prev);
+          });
+        }
+      }}
       transitionTime={1}
       trigger={
         <div className={classNameBuilder('header', headerClassName, { open })}>
@@ -26,7 +41,7 @@ export const CollapsibleCard = ({
         </div>
       }>
       <div className={classNameBuilder('content', contentClassName)}>
-        {children}
+        {closed ? null : children}
       </div>
     </Collapsible>
   );
