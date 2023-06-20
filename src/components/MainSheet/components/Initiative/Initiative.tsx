@@ -1,4 +1,4 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import { STATS } from 'constants/stats';
 import styles from './initiative.module.scss';
 import { RollableText } from 'common/components/RollableText/RollableText';
@@ -6,7 +6,7 @@ import { D20_DICE } from 'utils/rollableUtils';
 import { addNumberSign, wrapInParens } from 'utils/stringUtils';
 
 export const Initiative = () => {
-  const { customBonuses, getStatModifier } = useCharacterSheet();
+  const { customBonuses, getStatModifier } = useFullSheet();
   const { initiative: initiativeBonus = [] } = customBonuses;
 
   const dexBonus = getStatModifier(STATS.DEX);

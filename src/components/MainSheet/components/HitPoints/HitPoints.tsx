@@ -1,4 +1,4 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './hitPoints.module.scss';
 import { entries, findKey, partition } from 'lodash';
 import { STATS } from 'constants/stats';
@@ -20,7 +20,7 @@ export const HitPoints = () => {
     onChangeCurHp,
     onChangeTempHp,
     onChangeTempMaxHp,
-  } = useCharacterSheet();
+  } = useFullSheet();
   const { hp: customHpBonuses } = customBonuses;
 
   const mainClass = findKey(levels, { isMain: true }) || '';

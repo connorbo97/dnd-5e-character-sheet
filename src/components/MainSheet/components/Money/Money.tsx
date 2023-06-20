@@ -1,9 +1,9 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './money.module.scss';
 import { MONEY_CONFIGS } from 'constants/money';
 
 export const Money = () => {
-  const { money } = useCharacterSheet();
+  const { money } = useFullSheet();
   return (
     <div className={styles['container']}>
       <h3>Money</h3>

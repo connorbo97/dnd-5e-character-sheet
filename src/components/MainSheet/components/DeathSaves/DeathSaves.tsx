@@ -1,4 +1,4 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './deathSaves.module.scss';
 import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
 import colors from 'styles/colors.module.scss';
@@ -11,7 +11,7 @@ export const DeathSaves = () => {
     onToggleDeathSaveByIndex,
     onDeathSaveSuccess,
     onDeathSaveFailure,
-  } = useCharacterSheet();
+  } = useFullSheet();
   const { successes, failures } = deathSaves;
 
   return (

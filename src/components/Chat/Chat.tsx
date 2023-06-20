@@ -2,7 +2,7 @@ import { useChat } from 'providers/ChatProvider';
 import styles from './chat.module.scss';
 import { ChatEntry } from './ChatEntry';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import { ChatType } from 'constants/chat';
 
 export const Chat = () => {
@@ -10,7 +10,7 @@ export const Chat = () => {
   const lastResolvedScroll = useRef(-1);
   const lastResolvedScrollHeight = useRef(-1);
   const { chats, appendChat } = useChat();
-  const { name } = useCharacterSheet();
+  const { name } = useFullSheet();
   const [userChat, setUserChat] = useState('');
 
   // attempt to set the scroll to the bottom when a new chat is added

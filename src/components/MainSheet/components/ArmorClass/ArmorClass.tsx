@@ -1,11 +1,11 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './armorClass.module.scss';
 import { useMemo } from 'react';
 import { STATS } from 'constants/stats';
 import { parseStaticRollable } from 'utils/rollableUtils';
 
 export const ArmorClass = () => {
-  const { inventory, getStatModifier, stats, profBonus } = useCharacterSheet();
+  const { inventory, getStatModifier, stats, profBonus } = useFullSheet();
 
   const basicAC = 10 + getStatModifier(STATS.DEX);
 

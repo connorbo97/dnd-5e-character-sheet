@@ -1,4 +1,4 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './metadata.module.scss';
 import { entries, identity } from 'lodash';
 import { CLASS_CONFIGS } from 'constants/classes';
@@ -16,7 +16,7 @@ export const Metadata = () => {
     inspiration,
     onToggleInspiration,
     background,
-  } = useCharacterSheet();
+  } = useFullSheet();
   const raceLabel = RACE_CONFIGS[race.value].label;
 
   const fullRaceLabel = [race.subRace, raceLabel].filter(identity).join(' ');

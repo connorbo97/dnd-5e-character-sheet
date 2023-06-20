@@ -1,4 +1,4 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './tools.module.scss';
 import { STATS_CONFIGS } from 'constants/stats';
 import { getProficiencyBonus } from 'constants/proficiencyUtils';
@@ -6,7 +6,7 @@ import { addNumberSign } from 'utils/stringUtils';
 
 export const Tools = () => {
   const { getStatModifier, tools, onToggleToolProficiency, profBonus } =
-    useCharacterSheet();
+    useFullSheet();
 
   return (
     <div className={styles['container']}>

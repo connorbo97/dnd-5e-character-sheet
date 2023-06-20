@@ -1,4 +1,4 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './stats.module.scss';
 import { STATS, STATS_CONFIGS } from 'constants/stats';
 import { getModifier } from 'utils/statUtils';
@@ -20,7 +20,7 @@ export const Stats = () => {
     savingThrows,
     onToggleSavingThrowProficiency,
     rollableConfig,
-  } = useCharacterSheet();
+  } = useFullSheet();
   return (
     <div className={styles['container']}>
       <h3>Stats</h3>

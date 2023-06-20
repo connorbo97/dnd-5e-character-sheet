@@ -2,14 +2,14 @@ import { D20_DICE } from 'utils/rollableUtils';
 import styles from './skill.module.scss';
 import { STATS_CONFIGS } from 'constants/stats';
 import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import { addNumberSign } from 'utils/stringUtils';
 import { getProficiencyBonus } from 'constants/proficiencyUtils';
 import { RollableText } from 'common/components/RollableText/RollableText';
 
 export const Skill = ({ type, config }) => {
   const { skills, onToggleSkillProficiency, getStatModifier, profBonus } =
-    useCharacterSheet();
+    useFullSheet();
   const { stat, label } = config;
 
   const statModifier =

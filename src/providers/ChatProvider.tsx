@@ -8,8 +8,8 @@ import {
 import { noop } from 'lodash';
 import { rollVisualDice } from 'utils/diceBoxUtils';
 import { ChatEntry, ChatEntryInputs, ChatType } from 'constants/chat';
-import { useCharacterSheet } from './CharacterSheetProvider';
 import { Rollable } from 'constants/rollable';
+import { useFullSheet } from './CharacterSheetProvider/useFullSheet';
 
 type ChatContextValue = {
   chats: Array<ChatEntry>;
@@ -35,7 +35,7 @@ export const ChatProvider = ({ ...rest }) => {
 };
 
 export const useChat = () => {
-  const { name, rollableConfig } = useCharacterSheet();
+  const { name, rollableConfig } = useFullSheet();
   const { chats, setChats } = useContext(ChatContext);
 
   const appendChat = useCallback(

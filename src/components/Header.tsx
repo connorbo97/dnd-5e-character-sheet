@@ -2,10 +2,10 @@ import React from 'react';
 import styles from './header.module.scss';
 import { PAGES, PAGE_CONFIGS, PAGE_CONFIGS_ENTRIES } from '../constants/pages';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 
 export const Header = () => {
-  const { name, onChangeName } = useCharacterSheet();
+  const { name, onChangeName } = useFullSheet();
   const navigate = useNavigate();
 
   return (

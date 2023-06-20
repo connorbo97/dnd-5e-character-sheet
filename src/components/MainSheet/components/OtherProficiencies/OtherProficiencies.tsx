@@ -1,8 +1,8 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './otherProficiencies.module.scss';
 
 export const OtherProficiencies = () => {
-  const { otherProficiencies } = useCharacterSheet();
+  const { otherProficiencies } = useFullSheet();
 
   return (
     <div className={styles['container']}>

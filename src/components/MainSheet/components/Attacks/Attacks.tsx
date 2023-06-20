@@ -1,9 +1,9 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './attacks.module.scss';
 import { AttackEntry } from './AttackEntry';
 
 export const Attacks = () => {
-  const { attacks } = useCharacterSheet();
+  const { attacks } = useFullSheet();
 
   return (
     <div className={styles['container']}>

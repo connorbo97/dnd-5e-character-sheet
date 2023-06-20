@@ -3,11 +3,11 @@ import styles from './skills.module.scss';
 import { STATS } from 'constants/stats';
 import { Tag } from 'common/components/Tag/Tag';
 import { Skill } from './Skill';
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import { getProficiencyBonus } from 'constants/proficiencyUtils';
 
 export const Skills = () => {
-  const { skills, getStatModifier, profBonus } = useCharacterSheet();
+  const { skills, getStatModifier, profBonus } = useFullSheet();
 
   return (
     <div className={styles['container']}>

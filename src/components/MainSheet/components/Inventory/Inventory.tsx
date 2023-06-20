@@ -1,9 +1,9 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './inventory.module.scss';
 import { InventoryItem } from './InventoryItem';
 
 export const Inventory = () => {
-  const { inventory } = useCharacterSheet();
+  const { inventory } = useFullSheet();
 
   return (
     <div className={styles['container']}>

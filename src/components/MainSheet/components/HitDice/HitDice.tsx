@@ -1,4 +1,4 @@
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './hitDice.module.scss';
 import { RollableText } from 'common/components/RollableText/RollableText';
 import { getRollableDice } from 'utils/rollableUtils';
@@ -6,7 +6,7 @@ import { DICE } from 'constants/dice';
 import { STATS } from 'constants/stats';
 
 export const HitDice = () => {
-  const { hitDice, onChangeHitDiceTotalByType } = useCharacterSheet();
+  const { hitDice, onChangeHitDiceTotalByType } = useFullSheet();
 
   return (
     <div className={styles['container']}>

@@ -12,7 +12,7 @@ import {
 import { get, isNil, noop } from 'lodash';
 import { ChatEntryFollowUp, ChatEntryInputs, ChatType } from 'constants/chat';
 import { RollableText } from 'common/components/RollableText/RollableText';
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import { CollapsibleCard } from 'common/components/CollapsibleCard/CollapsibleCard';
 import classnames from 'classnames/bind';
 import { addNumberSign, wrapInParens } from 'utils/stringUtils';
@@ -36,7 +36,7 @@ export const AttackEntry = (props: any) => {
     savingThrow,
     index,
   } = props;
-  const { rollableConfig } = useCharacterSheet();
+  const { rollableConfig } = useFullSheet();
   const { onRoll } = useChat();
 
   const {
