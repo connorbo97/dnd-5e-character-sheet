@@ -15,6 +15,7 @@ type Props = {
   chatConfig?: ChatEntryInputs;
   rollOptions?: object;
   onRollStart?: Function;
+  onRollEnd?: Function;
 };
 
 export const RollableText = ({
@@ -25,6 +26,7 @@ export const RollableText = ({
   chatConfig = {},
   rollOptions = {},
   onRollStart = noop,
+  onRollEnd = noop,
   ...rest
 }: Props) => {
   const { onRoll } = useChat();
@@ -34,12 +36,18 @@ export const RollableText = ({
       className={classNameBuilder('container', className, {
         disabled,
       })}
-      onClick={(e) => {
+      onClick={async (e) => {
         if (disabled) {
           return;
         }
         onRollStart(e);
-        onRoll(roll, chatConfig, rollOptions);
+        let res;
+        try {
+          res = await onRoll(roll, chatConfig, rollOptions);
+          onRollEnd(res);
+        } catch (err) {
+          console.error(err);
+        }
       }}
       {...rest}>
       {value}

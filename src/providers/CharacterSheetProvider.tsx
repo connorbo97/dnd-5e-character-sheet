@@ -30,7 +30,8 @@ export const CharacterSheetProvider = ({ ...rest }) => {
 
 export const useCharacterSheet = () => {
   const { sheet, setSheet } = useContext(CharacterSheetContext);
-  const { stats, levels, curHp, spellcastingAbility, profBonus } = sheet;
+  const { stats, levels, curHp, spellcastingAbility, profBonus, deathSaves } =
+    sheet;
 
   const onChangeProfBonus = useCallback(
     (val) => {
@@ -111,13 +112,42 @@ export const useCharacterSheet = () => {
   );
 
   const onToggleDeathSaveByIndex = (index, isSuccess = false) => {
-    setSheet(
+    setSheet((prevSheet) =>
       iUpdate(
-        sheet,
+        prevSheet,
         `deathSaves.${isSuccess ? 'successes' : 'failures'}.${index}`,
         (prev) => !prev,
       ),
     );
+  };
+
+  const onDeathSaveSuccess = (n = 1) => {
+    let numSuccessesAdded = 0;
+
+    for (let i = 0; i < 3; i++) {
+      if (!deathSaves.successes[i]) {
+        onToggleDeathSaveByIndex(i, true);
+        numSuccessesAdded += 1;
+
+        if (numSuccessesAdded === n) {
+          break;
+        }
+      }
+    }
+  };
+
+  const onDeathSaveFailure = (n = 1) => {
+    let numFailuresAdded = 0;
+    for (let i = 0; i < 3; i++) {
+      if (!deathSaves.failures[i]) {
+        onToggleDeathSaveByIndex(i, false);
+        numFailuresAdded += 1;
+
+        if (numFailuresAdded === n) {
+          break;
+        }
+      }
+    }
   };
 
   const onChangeHitDiceTotalByType = (diceType, newTotal) => {
@@ -193,6 +223,8 @@ export const useCharacterSheet = () => {
     onToggleToolProficiency,
 
     onToggleDeathSaveByIndex,
+    onDeathSaveSuccess,
+    onDeathSaveFailure,
 
     onChangeHitDiceTotalByType,
   };
