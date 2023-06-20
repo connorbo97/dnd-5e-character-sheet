@@ -5,7 +5,13 @@ import classnames from 'classnames/bind';
 
 const classNameBuilder = classnames.bind(styles);
 
-export const CollapsibleCard = ({ initialOpen = false, header, children }) => {
+export const CollapsibleCard = ({
+  initialOpen = false,
+  header,
+  children,
+  contentClassName = '',
+  headerClassName = '',
+}) => {
   const [open, setOpen] = useState(initialOpen);
 
   return (
@@ -14,12 +20,14 @@ export const CollapsibleCard = ({ initialOpen = false, header, children }) => {
       handleTriggerClick={() => setOpen((prev) => !prev)}
       transitionTime={1}
       trigger={
-        <div className={classNameBuilder('header', { open })}>
+        <div className={classNameBuilder('header', headerClassName, { open })}>
           <div className={styles['label']}>{header}</div>
           <div className={styles['caret']}>v</div>
         </div>
       }>
-      {children}
+      <div className={classNameBuilder('content', contentClassName)}>
+        {children}
+      </div>
     </Collapsible>
   );
 };
