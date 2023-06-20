@@ -4,27 +4,33 @@ import classnames from 'classnames/bind';
 
 const classNameBuilder = classnames.bind(styles);
 
-export const ProficiencyButton = ({ config, onToggle }) => {
+export const ProficiencyButton = ({ config, onToggle, color = '' }) => {
+  const hasProficiencyBool = hasProficiency(config);
+  const hasExpertiseBool = hasExpertise(config);
+  const hasEither = hasProficiencyBool || hasExpertiseBool;
+
   return (
     <button
+      style={{ borderColor: hasEither ? color : undefined }}
       className={classNameBuilder(
         'button',
         {
-          proficient: hasProficiency(config),
+          proficient: hasProficiencyBool,
         },
         {
-          expertise: hasExpertise(config),
+          expertise: hasExpertiseBool,
         },
       )}
       onClick={onToggle}>
       <div
+        style={{ backgroundColor: hasEither ? color : undefined }}
         className={classNameBuilder(
           'inner-circle',
           {
-            proficient: hasProficiency(config),
+            proficient: hasProficiencyBool,
           },
           {
-            expertise: hasExpertise(config),
+            expertise: hasExpertiseBool,
           },
         )}
       />
