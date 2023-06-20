@@ -11,6 +11,7 @@ import { useName } from './useName';
 import { useStats } from './useStats';
 import { useRollableConfig } from './useRollableConfig';
 import { useLevels } from './useLevels';
+import { useAttacks } from './useAttacks';
 
 export const useFullSheet = () => {
   const { sheet } = useCharacterSheet();
@@ -26,6 +27,7 @@ export const useFullSheet = () => {
   const statsHook = useStats();
   const rollableConfigHook = useRollableConfig();
   const levelsHook = useLevels();
+  const attacksHook = useAttacks();
 
   return {
     ...sheet,
@@ -41,5 +43,6 @@ export const useFullSheet = () => {
     ...statsHook,
     ...rollableConfigHook,
     ...levelsHook,
+    ...attacksHook,
   };
 };
