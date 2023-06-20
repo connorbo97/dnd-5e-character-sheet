@@ -3,6 +3,7 @@ import styles from './chatEntry.module.scss';
 import classnames from 'classnames/bind';
 import { noop } from 'lodash';
 import { useChat } from 'providers/ChatProvider';
+import { Tooltip } from 'react-mint';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -50,8 +51,8 @@ export const ChatEntry = ({
             crit: isCritSuccess,
             failure: isCritFailure,
             'follow-up': isFollowUp,
-          })}
-          title={detailedResult}>
+          })}>
+          <Tooltip interactive>{detailedResult}</Tooltip>
           {result}
         </span>
         {description && (
