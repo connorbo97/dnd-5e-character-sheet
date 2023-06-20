@@ -1,0 +1,25 @@
+@import 'src/styles/_colors';
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+
+  .label {
+    flex: 1;
+    font-weight: bold;
+  }
+  .caret {
+    transition: transform 0.1s ease-in-out;
+    transform: rotate(270deg);
+  }
+}
+
+.open {
+  &.header {
+    border-bottom: 1px solid $white;
+  }
+  .caret {
+    transform: rotate(360deg);
+  }
+}

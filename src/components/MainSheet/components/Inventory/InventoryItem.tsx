@@ -1,11 +1,6 @@
-import Collapsible from 'react-collapsible';
 import styles from './inventoryItem.module.scss';
 import { Tag } from 'common/components/Tag/Tag';
-
-import classnames from 'classnames/bind';
-import { useState } from 'react';
-
-const classNameBuilder = classnames.bind(styles);
+import { CollapsibleCard } from 'common/components/CollapsibleCard/CollapsibleCard';
 
 export const InventoryItem = (props: any) => {
   const {
@@ -17,22 +12,12 @@ export const InventoryItem = (props: any) => {
     total,
     useAsResource,
     weight,
-    index,
   } = props;
-  const [open, setOpen] = useState(false);
+
   return (
     <div className={styles['container']}>
-      <Collapsible
-        open={open}
-        handleTriggerClick={() => setOpen((prev) => !prev)}
-        transitionTime={1}
-        trigger={
-          <div className={classNameBuilder('header', { open })}>
-            <div className={styles['label']}>{label}</div>
-            <div className={styles['caret']}>v</div>
-          </div>
-        }>
-        <div key={index} className={styles['content']}>
+      <CollapsibleCard header={label}>
+        <div className={styles['content']}>
           <Tag label="description" value={description} />
           <Tag label="source" value={source} />
           <Tag label="equipped" value={equipped ? 'yes' : 'no'} />
@@ -42,7 +27,7 @@ export const InventoryItem = (props: any) => {
           <Tag label="total weight" value={total * weight} />
           <Tag label="ac mod" value={mods?.ac?.join(' + ')} />
         </div>
-      </Collapsible>
+      </CollapsibleCard>
     </div>
   );
 };

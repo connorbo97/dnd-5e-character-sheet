@@ -10,7 +10,7 @@ export const Inventory = () => {
       <h3>Inventory</h3>
       <div className={styles['content']}>
         {inventory.map((item, index) => (
-          <InventoryItem {...item} index={index} key={index} />
+          <InventoryItem {...item} key={index} />
         ))}
       </div>
     </div>
