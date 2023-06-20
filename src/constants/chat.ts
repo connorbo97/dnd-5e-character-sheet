@@ -10,7 +10,7 @@ export enum ChatType {
 
 export type ChatEntryFollowUp = {
   roll: Rollable;
-  critRange?: number;
+  critDamage?: Rollable;
   config: ChatEntryInputs;
 };
 

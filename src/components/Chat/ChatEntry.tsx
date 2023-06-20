@@ -67,8 +67,13 @@ export const ChatEntry = ({
               hasFollowUp
                 ? async () => {
                     for (let i = 0; i < followUp.length; i++) {
+                      const followUpConfig = followUp[i];
+                      const critDmg =
+                        isCritSuccess && followUpConfig.critDamage
+                          ? followUpConfig.critDamage
+                          : [];
                       await onRoll(
-                        followUp[i].roll,
+                        [...followUp[i].roll, ...critDmg],
                         {
                           ...followUp[i].config,
                           isCrit: isCritSuccess,

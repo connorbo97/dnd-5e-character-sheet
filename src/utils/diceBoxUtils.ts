@@ -64,7 +64,7 @@ const DEFAULT_ROLL_OPTIONS = {
 
 export const rollVisualDice = (
   roll: Rollable = [[1, DICE.d20]],
-  rollableConfig?: RollableUtilConfig,
+  rollableConfig: RollableUtilConfig,
   options: {
     disableResultBox?: boolean;
     autoDismissTimeout?: number;

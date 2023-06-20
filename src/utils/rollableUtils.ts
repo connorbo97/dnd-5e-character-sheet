@@ -7,11 +7,12 @@ import {
   StaticRollableEntry,
 } from 'constants/rollable';
 import { STATS } from 'constants/stats';
-import { isNil, isNumber, sum } from 'lodash';
+import { identity, isNil, isNumber, partition, sum } from 'lodash';
 import { getModifier } from './statUtils';
 import { DICE, DICE_VALUES_SET } from 'constants/dice';
 import { DEFAULT_SHEET } from 'constants/characterSheet';
 import { getDiceMax } from './diceUtils';
+import { addNumberSign } from './stringUtils';
 
 const DEFAULT_CONFIG = {
   stats: DEFAULT_SHEET.stats,
@@ -64,7 +65,7 @@ export const isDiceRoll = (entry: RollableEntry) => {
 
 export const parseRollableEntry = (
   entry: RollableEntry,
-  config?: RollableUtilConfig,
+  config: RollableUtilConfig,
   options?: {
     disableDiceParse?: boolean;
     shouldDoubleDice?: boolean;
@@ -82,8 +83,10 @@ export const parseRollableEntry = (
 
 export const parseStaticRollable = (
   staticRollable: StaticRollable,
-  { stats, spellcastingAbility, profBonus },
+  config: RollableUtilConfig,
 ) => {
+  const { stats, spellcastingAbility, profBonus } = config;
+
   return sum(
     staticRollable.map((e) =>
       parseStaticRollableEntry(e, {
@@ -97,13 +100,29 @@ export const parseStaticRollable = (
 
 export const parseRollable = (
   rollable: Rollable,
-  config?: RollableUtilConfig,
+  config: RollableUtilConfig,
   options?: {
     disableDiceParse?: boolean;
     shouldDoubleDice?: boolean;
   },
 ) => {
   return rollable.map((e) => parseRollableEntry(e, config, options));
+};
+
+export const simplifyRollable = (
+  roll: Rollable,
+  config: RollableUtilConfig,
+  options?: {
+    disableDiceParse?: boolean;
+    shouldDoubleDice?: boolean;
+  },
+) => {
+  const parsed = parseRollable(roll, config, options);
+  const [dice, numbers] = partition(parsed, (p) => !isNumber(p));
+  const diceStr = dice.join(' + ');
+  const numberStr = numbers.length ? addNumberSign(sum(numbers)) : '';
+
+  return [diceStr, numberStr].filter(identity).join('') || '+0';
 };
 
 export const calculateRollable = (
@@ -127,7 +146,7 @@ export const calculateRollable = (
 
 export const printRollable = (
   rawInput: Array<RollableEntry | undefined | null>,
-  config?: RollableUtilConfig,
+  config: RollableUtilConfig,
 ) => {
   // @ts-ignore
   const input: Array<RollableEntry> = rawInput.filter((i) => !isNil(i));

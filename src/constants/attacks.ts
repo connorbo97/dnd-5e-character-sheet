@@ -24,7 +24,7 @@ export type AttackEntry = {
     stat: STATS | ROLLABLES.SPELL | null;
     mod?: ModBlock;
     type?: string;
-    crit?: string;
+    crit?: Rollable;
   }>;
   savingThrow?: {
     stat: STATS;
