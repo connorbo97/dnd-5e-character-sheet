@@ -6,7 +6,9 @@ const classNameBuilder = classnames.bind(styles);
 export const Tag = ({ label, value, className = '', labelClassName = '' }) => {
   return (
     <div className={classNameBuilder('container', className)}>
-      <u className={labelClassName}>{label}:</u>
+      <span className={classNameBuilder('label', labelClassName)}>
+        {label}:
+      </span>
       <span> {value}</span>
     </div>
   );
