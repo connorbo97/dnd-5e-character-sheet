@@ -185,7 +185,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
             [1, DICE.d4],
           ],
           stat: STATS.CHA,
-          crit: '1d6',
+          crit: [[1, DICE.d6]],
           type: 'Slashing',
         },
         {
