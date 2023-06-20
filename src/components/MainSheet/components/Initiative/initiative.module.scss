@@ -1,3 +1,7 @@
 .container {
   grid-area: initiative;
+
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
 }
