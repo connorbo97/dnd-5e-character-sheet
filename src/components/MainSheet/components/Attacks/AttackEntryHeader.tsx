@@ -85,7 +85,14 @@ export const AttackEntryHeader = (props: Props) => {
       attackDCDescription,
       attackModifierRollDescription,
     };
-  }, [attackMod?.value, attackStat, dc, proficient, rollableConfig]);
+  }, [
+    attackMod?.value,
+    attackStat,
+    dc,
+    proficient,
+    rollableConfig,
+    savingThrowIsEnabled,
+  ]);
 
   const { attackRollModifierString, attackRollModifierHelpString } =
     useMemo(() => {
