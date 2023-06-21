@@ -143,16 +143,20 @@ export const calculateRollable = (
   );
 };
 
-export const printParsedRollable = (rawInput: Array<string | number>) => {
+export const printParsedRollable = (
+  rawInput: Array<string | number | DiceRoll>,
+) => {
   return rawInput
     .map((val, i) => {
       if (i === 0) {
         return val;
       }
 
-      const parsedVal = parseInt(val + '');
+      const parsedVal = isDiceRoll(val)
+        ? (val as DiceRoll).join('')
+        : parseInt(val + '');
 
-      if (!isNaN(parsedVal) && parsedVal < 0) {
+      if (isNumber(parsedVal) && !isNaN(parsedVal) && parsedVal < 0) {
         return `- ${val}`;
       }
 
