@@ -16,6 +16,8 @@ import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableC
 import { AttackEntry as AttackEntryType } from 'constants/attacks';
 import { AttackEntryHeader } from './AttackEntryHeader';
 import { Rollable } from 'constants/rollable';
+import { Dropdown } from 'common/components/Dropdown/Dropdown';
+import { STATS_OPTIONS } from 'constants/stats';
 
 interface Props extends AttackEntryType {
   index: number;
@@ -36,6 +38,9 @@ export const AttackEntry = (props: Props) => {
     onToggleIsEnabled,
     onChangeAttackDescriptionByIndex,
     onChangeAttackSourceByIndex,
+    onChangeAttackStatByIndex,
+    onChangeAttackModByIndex,
+    onToggleAttackProficiencyByIndex,
   } = useAttacks();
 
   const {
@@ -100,7 +105,7 @@ export const AttackEntry = (props: Props) => {
 
     return { damageRollFollowups, damageRollDescription };
   }, [damage, rollableConfig]);
-
+  console.log(proficient, index);
   return (
     <div key={`${index}-${label}`} className={styles['container']}>
       <CollapsibleCard
@@ -121,9 +126,39 @@ export const AttackEntry = (props: Props) => {
             <h5>Attack Roll</h5>
           </span>
           <div className={styles['block']}>
-            <Tag label="stat" value={attackStat} />
-            <Tag label="mod" value={attackMod?.value} />
-            <Tag label="proficient" value={proficient ? 'yes' : 'no'} />
+            <Tag
+              label="stat"
+              value={
+                <Dropdown
+                  options={STATS_OPTIONS}
+                  value={attackStat}
+                  onChange={(e) =>
+                    onChangeAttackStatByIndex(index, e.target.value)
+                  }
+                />
+              }
+            />
+            <Tag
+              label="mod"
+              value={
+                <input
+                  value={attackMod?.value || 0}
+                  type="number"
+                  onChange={(e) =>
+                    onChangeAttackModByIndex(index, e.target.value)
+                  }
+                />
+              }
+            />
+            <Tag
+              label="proficient"
+              value={
+                <ProficiencyButton
+                  config={{ proficient: proficient }}
+                  onToggle={() => onToggleAttackProficiencyByIndex(index)}
+                />
+              }
+            />
             <Tag label="range" value={range} />
             <Tag label="crit range" value={attackCritRange} />
           </div>

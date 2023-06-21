@@ -1,3 +1,5 @@
+import { values } from 'lodash';
+
 export enum STATS {
   STR = 'STR',
   DEX = 'DEX',
@@ -37,3 +39,8 @@ export const STATS_CONFIGS: { [s in STATS]: StatsConfig } = {
     shortLabel: 'Cha',
   },
 };
+
+export const STATS_OPTIONS = values(STATS).map((v) => ({
+  value: v,
+  label: STATS_CONFIGS[v].shortLabel,
+}));

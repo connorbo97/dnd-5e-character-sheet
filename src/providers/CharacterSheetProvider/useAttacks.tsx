@@ -16,6 +16,28 @@ export const useAttacks = () => {
     );
   };
 
+  const onChangeAttackPropertyByIndex = (index, property, value) => {
+    setSheet((prevSheet) =>
+      iSet(prevSheet, `attacks.${index}.attack.${property}`, value),
+    );
+  };
+
+  const onChangeAttackStatByIndex = (index, value) => {
+    onChangeAttackPropertyByIndex(index, 'stat', value);
+  };
+  const onChangeAttackModByIndex = (index, value) => {
+    onChangeAttackPropertyByIndex(index, 'mod.value', value);
+  };
+  const onToggleAttackProficiencyByIndex = (index) => {
+    setSheet((prevSheet) =>
+      iUpdate(
+        prevSheet,
+        ['attacks', index, 'attack', 'proficient'],
+        (prev) => !prev,
+      ),
+    );
+  };
+
   const onChangeAttackDescriptionByIndex = useCallback(
     (index, val) => {
       setSheet((prevSheet) =>
@@ -24,7 +46,6 @@ export const useAttacks = () => {
     },
     [setSheet],
   );
-
   const onChangeAttackSourceByIndex = useCallback(
     (index, val) => {
       setSheet((prevSheet) =>
@@ -36,7 +57,13 @@ export const useAttacks = () => {
 
   return {
     attacks,
+
     onToggleIsEnabled,
+
+    onChangeAttackStatByIndex,
+    onChangeAttackModByIndex,
+    onToggleAttackProficiencyByIndex,
+
     onChangeAttackDescriptionByIndex,
     onChangeAttackSourceByIndex,
   };

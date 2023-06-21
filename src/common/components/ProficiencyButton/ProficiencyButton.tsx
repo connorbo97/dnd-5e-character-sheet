@@ -8,7 +8,6 @@ export const ProficiencyButton = ({ config, onToggle, color = '' }) => {
   const hasProficiencyBool = hasProficiency(config);
   const hasExpertiseBool = hasExpertise(config);
   const hasEither = hasProficiencyBool || hasExpertiseBool;
-
   return (
     <button
       style={{ borderColor: hasEither ? color : undefined }}
