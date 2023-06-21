@@ -105,7 +105,7 @@ export const AttackEntry = (props: Props) => {
 
     return { damageRollFollowups, damageRollDescription };
   }, [damage, rollableConfig]);
-  console.log(proficient, index);
+
   return (
     <div key={`${index}-${label}`} className={styles['container']}>
       <CollapsibleCard
