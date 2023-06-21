@@ -1,10 +1,6 @@
 import { Tag } from 'common/components/Tag/Tag';
 import styles from './attackEntry.module.scss';
-import { ROLLABLES, Rollable } from 'constants/rollable';
 import {
-  D20_DICE,
-  calculateRollable,
-  parseRollable,
   printParsedRollable,
   printRollable,
   simplifyRollable,
@@ -13,17 +9,12 @@ import { get, isNil } from 'lodash';
 import { ChatEntryFollowUp, ChatEntryInputs, ChatType } from 'constants/chat';
 import { RollableText } from 'common/components/RollableText/RollableText';
 import { CollapsibleCard } from 'common/components/CollapsibleCard/CollapsibleCard';
-import classnames from 'classnames/bind';
-import { addNumberSign, wrapInParens } from 'utils/stringUtils';
-import { Tooltip } from 'react-mint';
-import { useCallback, useMemo } from 'react';
-import { useChat } from 'providers/ChatProvider';
+import { useMemo } from 'react';
 import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
 import { useAttacks } from 'providers/CharacterSheetProvider/useAttacks';
 import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableConfig';
 import { AttackEntry as AttackEntryType } from 'constants/attacks';
-
-const classNameBuilder = classnames.bind(styles);
+import { AttackEntryHeader } from './AttackEntryHeader';
 
 interface Props extends AttackEntryType {
   index: number;
@@ -45,7 +36,6 @@ export const AttackEntry = (props: Props) => {
     onChangeAttackDescriptionByIndex,
     onChangeAttackSourceByIndex,
   } = useAttacks();
-  const { onRoll } = useChat();
 
   const {
     isEnabled: attackIsEnabled,
@@ -115,114 +105,16 @@ export const AttackEntry = (props: Props) => {
     return { damageRollFollowups, damageRollDescription };
   }, [damage, rollableConfig]);
 
-  const {
-    attackRoll,
-    attackModifierRoll,
-    attackDCDescription,
-    attackModifierRollDescription,
-  } = useMemo(() => {
-    let attackRoll: Rollable = [D20_DICE];
-    let attackModifierRollDescription: Array<string> = [];
-
-    if (attackStat) {
-      attackRoll.push(attackStat);
-      attackModifierRollDescription.push(attackStat);
-    }
-    if (!isNil(attackMod?.value)) {
-      attackRoll.push(attackMod?.value as number);
-      attackModifierRollDescription.push('Mod');
-    }
-    if (proficient) {
-      attackRoll.push(ROLLABLES.PB);
-      attackModifierRollDescription.push('PB');
-    }
-
-    const attackModifierRoll = attackRoll.slice(1);
-
-    let attackDCDescription = dc
-      ? `DC${8 + calculateRollable([dc], rollableConfig)}`
-      : '';
-
-    return {
-      attackRoll,
-      attackModifierRoll,
-      attackDCDescription,
-      attackModifierRollDescription,
-    };
-  }, [attackMod?.value, attackStat, dc, proficient, rollableConfig]);
-
-  const { attackRollModifierString, attackRollModifierHelpString } =
-    useMemo(() => {
-      const attackRollModifierString = addNumberSign(
-        simplifyRollable(attackModifierRoll, rollableConfig),
-      );
-      const calculatedAttackRollModifier = parseRollable(
-        attackModifierRoll,
-        rollableConfig,
-      );
-      const attackRollModifierHelpString = calculatedAttackRollModifier
-        .map((cur, i) => {
-          const formattedVal = i === 0 ? cur : addNumberSign(cur, ' ');
-          return `${formattedVal} (${attackModifierRollDescription[i]})`;
-        })
-        .join('');
-
-      return {
-        attackRollModifierString,
-        attackRollModifierHelpString,
-      };
-    }, [attackModifierRoll, attackModifierRollDescription, rollableConfig]);
-
-  const onRollAttack = useCallback(
-    (e) => {
-      e.stopPropagation();
-      onRoll(attackRoll, {
-        type: ChatType.ATTACK,
-        critRange: attackCritRange,
-        label: label,
-        labelSuffix: wrapInParens(
-          addNumberSign(calculateRollable(attackModifierRoll, rollableConfig)),
-        ),
-        description: range,
-        followUp: damageRollFollowups,
-      });
-    },
-    [
-      attackCritRange,
-      attackModifierRoll,
-      attackRoll,
-      damageRollFollowups,
-      label,
-      onRoll,
-      range,
-      rollableConfig,
-    ],
-  );
-
-  const collapsibleHeader = (
-    <div className={styles['header']}>
-      <div className={styles['attack-roll-header']} onClick={onRollAttack}>
-        <span className={classNameBuilder('attack-name-label', 'label')}>
-          {label}
-        </span>
-        <span className={classNameBuilder('attack-mod-label', 'label')}>
-          {attackIsEnabled && <Tooltip>{attackRollModifierHelpString}</Tooltip>}
-          {attackIsEnabled
-            ? attackRollModifierString
-            : attackDCDescription || '-'}
-        </span>
-      </div>
-      <span className={classNameBuilder('damage-label', 'label')}>
-        <Tooltip>{damageRollDescription}</Tooltip>
-        {damageRollDescription}
-      </span>
-    </div>
-  );
-
   return (
     <div key={`${index}-${label}`} className={styles['container']}>
       <CollapsibleCard
-        header={collapsibleHeader}
+        header={
+          <AttackEntryHeader
+            {...props}
+            damageRollFollowups={damageRollFollowups}
+            damageRollDescription={damageRollDescription}
+          />
+        }
         contentClassName={styles['content']}>
         <div>
           <span className={styles['section-header']}>

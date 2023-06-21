@@ -28,57 +28,6 @@
   border-bottom: 1px solid $white;
 }
 
-.header {
-  display: grid;
-  column-gap: 5px;
-  grid-template-columns: 2fr 1fr;
-}
-
-@mixin hide-overflow-text {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  border-radius: 5px;
-}
-
-.label {
-  text-decoration: none;
-  padding: 0.5rem;
-  background-color: $secondary;
-}
-
-.attack-roll-header {
-  display: flex;
-  column-gap: 5px;
-  cursor: pointer;
-  > * {
-    @include hide-overflow-text;
-  }
-
-  &:hover {
-    color: $tertiary;
-  }
-}
-
-.attack-name-label {
-  flex-basis: 66%;
-}
-.attack-mod-label {
-  flex-basis: 33%;
-  text-align: center;
-}
-
-.damage-label {
-  margin-right: 5px;
-  cursor: pointer;
-  @include hide-overflow-text;
-
-  &:hover {
-    color: $tertiary;
-  }
-}
-
 .saving-throw {
   border-right: none;
 }
