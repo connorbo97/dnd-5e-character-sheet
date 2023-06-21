@@ -52,7 +52,7 @@ export const ChatEntry = ({
             failure: isCritFailure,
             'follow-up': isFollowUp,
           })}>
-          <Tooltip interactive>{detailedResult}</Tooltip>
+          {detailedResult && <Tooltip interactive>{detailedResult}</Tooltip>}
           {result}
         </span>
         {description && (
@@ -60,7 +60,7 @@ export const ChatEntry = ({
         )}
         {label && (
           <span
-            className={classNameBuilder('label', {
+            className={classNameBuilder('label', type, {
               'follow-up': hasFollowUp,
             })}
             onClick={
@@ -72,10 +72,13 @@ export const ChatEntry = ({
                         isCritSuccess && followUpConfig.critDamage
                           ? followUpConfig.critDamage
                           : [];
+                      const followUpRoll = Array.isArray(followUpConfig.roll)
+                        ? [...followUpConfig.roll, ...critDmg]
+                        : followUp[i].roll;
                       await onRoll(
-                        [...followUp[i].roll, ...critDmg],
+                        followUpRoll,
                         {
-                          ...followUp[i].config,
+                          ...followUpConfig.config,
                           isCrit: isCritSuccess,
                           isFollowUp: true,
                         },

@@ -64,6 +64,10 @@
     background-color: $secondary;
     cursor: pointer;
   }
+
+  &.damage {
+    font-size: 1.2rem;
+  }
 }
 
 .label-suffix {

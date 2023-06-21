@@ -56,14 +56,22 @@ export const useChat = () => {
   );
 
   const onRoll = useCallback(
-    async (roll: Rollable, chatConfig: ChatEntryInputs, rollOptions = {}) => {
+    async (
+      roll: Rollable | string,
+      chatConfig: ChatEntryInputs,
+      rollOptions = {},
+    ) => {
       let res;
       try {
         const { isCrit } = chatConfig;
-        res = await rollVisualDice(roll, rollableConfig, {
-          ...rollOptions,
-          shouldDoubleDice: isCrit,
-        });
+        if (Array.isArray(roll)) {
+          res = await rollVisualDice(roll, rollableConfig, {
+            ...rollOptions,
+            shouldDoubleDice: isCrit,
+          });
+        } else {
+          res = { value: roll, resultArray: [roll], resultText: roll };
+        }
 
         const newChatEntry: ChatEntry = {
           playerName: name,

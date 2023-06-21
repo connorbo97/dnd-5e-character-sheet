@@ -15,6 +15,7 @@ import { useChat } from 'providers/ChatProvider';
 import { isNil } from 'lodash';
 import { ChatEntryFollowUp, ChatType } from 'constants/chat';
 import { Tooltip } from 'react-mint';
+import { STATS_CONFIGS } from 'constants/stats';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -42,13 +43,7 @@ export const AttackEntryHeader = (props: Props) => {
     range,
     critRange: attackCritRange,
   } = attack;
-  const {
-    isEnabled: savingThrowIsEnabled,
-    stat: savingThrowStat,
-    dc,
-    dcSave,
-    effect,
-  } = savingThrow;
+  const { isEnabled: savingThrowIsEnabled, dc, dcSave, effect } = savingThrow;
 
   const {
     attackRoll,
@@ -59,24 +54,26 @@ export const AttackEntryHeader = (props: Props) => {
     let attackRoll: Rollable = [D20_DICE];
     let attackModifierRollDescription: Array<string> = [];
 
-    if (attackStat) {
-      attackRoll.push(attackStat);
-      attackModifierRollDescription.push(attackStat);
-    }
-    if (!isNil(attackMod?.value)) {
-      attackRoll.push(attackMod?.value as number);
-      attackModifierRollDescription.push('Mod');
-    }
-    if (proficient) {
-      attackRoll.push(ROLLABLES.PB);
-      attackModifierRollDescription.push('PB');
+    if (attackIsEnabled) {
+      if (attackStat) {
+        attackRoll.push(attackStat);
+        attackModifierRollDescription.push(attackStat);
+      }
+      if (!isNil(attackMod?.value)) {
+        attackRoll.push(attackMod?.value as number);
+        attackModifierRollDescription.push('Mod');
+      }
+      if (proficient) {
+        attackRoll.push(ROLLABLES.PB);
+        attackModifierRollDescription.push('PB');
+      }
     }
 
     const attackModifierRoll = attackRoll.slice(1);
 
     let attackDCDescription =
       savingThrowIsEnabled && dc
-        ? `DC${8 + calculateRollable([dc], rollableConfig)}`
+        ? `DC ${calculateRollable([8, ROLLABLES.PB, dc], rollableConfig)}`
         : '';
 
     return {
@@ -86,6 +83,7 @@ export const AttackEntryHeader = (props: Props) => {
       attackModifierRollDescription,
     };
   }, [
+    attackIsEnabled,
     attackMod?.value,
     attackStat,
     dc,
@@ -99,11 +97,10 @@ export const AttackEntryHeader = (props: Props) => {
       const attackRollModifierString = addNumberSign(
         simplifyRollable(attackModifierRoll, rollableConfig),
       );
-      const calculatedAttackRollModifier = parseRollable(
+      const attackRollModifierHelpString = parseRollable(
         attackModifierRoll,
         rollableConfig,
-      );
-      const attackRollModifierHelpString = calculatedAttackRollModifier
+      )
         .map((cur, i) => {
           const formattedVal = i === 0 ? cur : addNumberSign(cur, ' ');
           return `${formattedVal} (${attackModifierRollDescription[i]})`;
@@ -117,28 +114,69 @@ export const AttackEntryHeader = (props: Props) => {
     }, [attackModifierRoll, attackModifierRollDescription, rollableConfig]);
 
   const onRollAttack = useCallback(
-    (e) => {
+    async (e) => {
       e.stopPropagation();
-      onRoll(attackRoll, {
-        type: ChatType.ATTACK,
-        critRange: attackCritRange,
-        label: label,
-        labelSuffix: wrapInParens(
-          addNumberSign(calculateRollable(attackModifierRoll, rollableConfig)),
-        ),
-        description: range,
-        followUp: damageRollFollowups,
-      });
+      let roll;
+      let savingThrowConfig = {
+        type: ChatType.DAMAGE,
+        description: effect,
+        result: attackDCDescription,
+        label: `${STATS_CONFIGS[dcSave].label} Save`,
+      };
+      const followUp = savingThrowIsEnabled
+        ? [
+            {
+              roll: null,
+              config: { ...savingThrowConfig },
+            },
+            ...damageRollFollowups,
+          ]
+        : damageRollFollowups;
+      let config;
+
+      if (attackIsEnabled) {
+        roll = attackRoll;
+        config = {
+          type: ChatType.ATTACK,
+          critRange: attackCritRange,
+          label: label,
+          labelSuffix: wrapInParens(
+            addNumberSign(
+              calculateRollable(attackModifierRoll, rollableConfig),
+            ),
+          ),
+          description: range,
+          followUp,
+        };
+
+        onRoll(roll, config);
+      } else if (savingThrowIsEnabled) {
+        roll = null;
+        config = savingThrowConfig;
+        await onRoll(roll, config);
+
+        for (let i = 0; i < damageRollFollowups.length; i++) {
+          await onRoll(damageRollFollowups[i].roll as Rollable, {
+            ...damageRollFollowups[i].config,
+            isFollowUp: true,
+          });
+        }
+      }
     },
     [
       attackCritRange,
+      attackDCDescription,
+      attackIsEnabled,
       attackModifierRoll,
       attackRoll,
       damageRollFollowups,
+      dcSave,
+      effect,
       label,
       onRoll,
       range,
       rollableConfig,
+      savingThrowIsEnabled,
     ],
   );
 

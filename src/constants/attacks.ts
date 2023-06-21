@@ -41,7 +41,6 @@ export type AttackEntry = {
   ];
   savingThrow: {
     isEnabled: boolean;
-    stat: STATS;
     dc: ROLLABLES.SPELL | STATS;
     dcSave: STATS;
     effect: string;

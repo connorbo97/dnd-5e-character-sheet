@@ -15,6 +15,7 @@ import { useAttacks } from 'providers/CharacterSheetProvider/useAttacks';
 import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableConfig';
 import { AttackEntry as AttackEntryType } from 'constants/attacks';
 import { AttackEntryHeader } from './AttackEntryHeader';
+import { Rollable } from 'constants/rollable';
 
 interface Props extends AttackEntryType {
   index: number;
@@ -45,13 +46,7 @@ export const AttackEntry = (props: Props) => {
     range,
     critRange: attackCritRange,
   } = attack;
-  const {
-    isEnabled: savingThrowIsEnabled,
-    stat: savingThrowStat,
-    dc,
-    dcSave,
-    effect,
-  } = savingThrow;
+  const { isEnabled: savingThrowIsEnabled, dc, dcSave, effect } = savingThrow;
 
   const { damageRollFollowups, damageRollDescription } = useMemo(() => {
     let damageRollFollowups: Array<ChatEntryFollowUp> = damage
@@ -92,9 +87,10 @@ export const AttackEntry = (props: Props) => {
     const damageRollDescription =
       damageRollFollowups
         .map(({ config, roll }) => {
-          const simplified = simplifyRollable(roll, rollableConfig).filter(
-            (i) => i !== 0,
-          );
+          const simplified = simplifyRollable(
+            roll as Rollable,
+            rollableConfig,
+          ).filter((i) => i !== 0);
 
           return `${printParsedRollable(simplified as Array<string | number>)}${
             config.description ? ' ' + config.description : ''
@@ -184,7 +180,6 @@ export const AttackEntry = (props: Props) => {
             <h5>Saving Throw</h5>
           </span>
           <div className={styles['block']}>
-            <Tag label="stat" value={savingThrowStat} />
             <Tag label="dc" value={dc} />
             <Tag label="dc save" value={dcSave} />
             <Tag label="effect" value={effect} />

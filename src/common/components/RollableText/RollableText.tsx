@@ -11,7 +11,7 @@ type Props = {
   value: any;
   disabled?: boolean;
   className?: string;
-  roll: Rollable;
+  roll: Rollable | string;
   chatConfig?: ChatEntryInputs;
   rollOptions?: object;
   onRollStart?: Function;
