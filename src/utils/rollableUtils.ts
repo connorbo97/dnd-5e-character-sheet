@@ -1,4 +1,5 @@
 import {
+  DiceRoll,
   ROLLABLES,
   Rollable,
   RollableEntry,
@@ -29,8 +30,8 @@ export const D20_DICE = getRollableDice(DICE.d20, 1);
 
 export const parseStaticRollableEntry = (
   entry: StaticRollableEntry,
-  config?: RollableUtilConfig,
-) => {
+  config: RollableUtilConfig,
+): number | string => {
   const { stats, spellcastingAbility, profBonus } = config || DEFAULT_CONFIG;
   if (entry in STATS) {
     return getModifier(stats[entry]);
@@ -38,7 +39,7 @@ export const parseStaticRollableEntry = (
 
   if (entry === ROLLABLES.SPELL) {
     return stats[spellcastingAbility]
-      ? profBonus + stats[spellcastingAbility]
+      ? profBonus + getModifier(stats[spellcastingAbility])
       : 0;
   }
 
@@ -53,7 +54,7 @@ export const parseStaticRollableEntry = (
   return 0;
 };
 
-export const isDiceRoll = (entry: RollableEntry) => {
+export const isDiceRoll = (entry: RollableEntry | string) => {
   return (
     Array.isArray(entry) &&
     entry.length === 2 &&
@@ -69,12 +70,12 @@ export const parseRollableEntry = (
     disableDiceParse?: boolean;
     shouldDoubleDice?: boolean;
   },
-) => {
+): string | number | DiceRoll => {
   if (isDiceRoll(entry)) {
-    const newDice = options?.shouldDoubleDice
+    const newDice: DiceRoll = options?.shouldDoubleDice
       ? [entry[0] * 2, entry[1]]
-      : (entry as [number, DICE]);
-    return options?.disableDiceParse ? newDice : newDice.join('');
+      : (entry as DiceRoll);
+    return options?.disableDiceParse ? (newDice as DiceRoll) : newDice.join('');
   }
 
   return parseStaticRollableEntry(entry as StaticRollableEntry, config);
@@ -104,7 +105,7 @@ export const parseRollable = (
     disableDiceParse?: boolean;
     shouldDoubleDice?: boolean;
   },
-) => {
+): Array<number | string | DiceRoll> => {
   return rollable.map((e) => parseRollableEntry(e, config, options));
 };
 

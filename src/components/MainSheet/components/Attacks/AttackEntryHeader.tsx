@@ -74,9 +74,10 @@ export const AttackEntryHeader = (props: Props) => {
 
     const attackModifierRoll = attackRoll.slice(1);
 
-    let attackDCDescription = dc
-      ? `DC${8 + calculateRollable([dc], rollableConfig)}`
-      : '';
+    let attackDCDescription =
+      savingThrowIsEnabled && dc
+        ? `DC${8 + calculateRollable([dc], rollableConfig)}`
+        : '';
 
     return {
       attackRoll,

@@ -163,7 +163,7 @@ export const rollVisualDice = (
 
         resolve({
           value: resultSum,
-          resultText: getBasicLabel(resultArray, resultSum, {
+          resultText: getBasicLabel(resultArray as Array<number>, resultSum, {
             hideResult: true,
           }),
           resultArray,

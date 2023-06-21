@@ -96,7 +96,7 @@ export const AttackEntry = (props: Props) => {
             (i) => i !== 0,
           );
 
-          return `${printParsedRollable(simplified)}${
+          return `${printParsedRollable(simplified as Array<string | number>)}${
             config.description ? ' ' + config.description : ''
           }`;
         })

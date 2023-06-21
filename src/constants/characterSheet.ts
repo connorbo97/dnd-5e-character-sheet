@@ -79,7 +79,7 @@ export type CharacterSheet = {
 export const DEFAULT_SHEET: CharacterSheet = {
   name: 'Placeholder',
   profBonus: 2,
-  spellcastingAbility: 'NONE',
+  spellcastingAbility: STATS.WIS,
   levels: {
     [CLASSES.BARBARIAN]: {
       total: 1,
