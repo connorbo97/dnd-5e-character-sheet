@@ -11,7 +11,7 @@ export type AttackEntry = {
   label: string;
   source: string;
   description?: string;
-  attack?: {
+  attack: {
     isEnabled;
     stat: STATS | ROLLABLES.SPELL | null;
     mod?: ModBlock;
@@ -19,19 +19,30 @@ export type AttackEntry = {
     range?: string;
     critRange: number;
   };
-  damage?: Array<{
-    isEnabled: boolean;
-    label?: string;
-    base: Rollable;
-    stat: STATS | ROLLABLES.SPELL | null;
-    mod?: ModBlock;
-    type?: string;
-    crit?: Rollable;
-  }>;
-  savingThrow?: {
+  damage: [
+    {
+      isEnabled: boolean;
+      label?: string;
+      base: Rollable;
+      stat: STATS | ROLLABLES.SPELL | null;
+      mod?: ModBlock;
+      type?: string;
+      crit?: Rollable;
+    },
+    {
+      isEnabled: boolean;
+      label?: string;
+      base: Rollable;
+      stat: STATS | ROLLABLES.SPELL | null;
+      mod?: ModBlock;
+      type?: string;
+      crit?: Rollable;
+    },
+  ];
+  savingThrow: {
     isEnabled: boolean;
     stat: STATS;
-    dc: 'SPELL' | STATS;
+    dc: ROLLABLES.SPELL | STATS;
     dcSave: STATS;
     effect: string;
   };

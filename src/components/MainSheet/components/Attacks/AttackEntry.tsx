@@ -9,10 +9,9 @@ import {
   printRollable,
   simplifyRollable,
 } from 'utils/rollableUtils';
-import { get, isNil, noop } from 'lodash';
+import { get, isNil } from 'lodash';
 import { ChatEntryFollowUp, ChatEntryInputs, ChatType } from 'constants/chat';
 import { RollableText } from 'common/components/RollableText/RollableText';
-import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import { CollapsibleCard } from 'common/components/CollapsibleCard/CollapsibleCard';
 import classnames from 'classnames/bind';
 import { addNumberSign, wrapInParens } from 'utils/stringUtils';
@@ -20,13 +19,17 @@ import { Tooltip } from 'react-mint';
 import { useCallback, useMemo } from 'react';
 import { useChat } from 'providers/ChatProvider';
 import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
+import { useAttacks } from 'providers/CharacterSheetProvider/useAttacks';
+import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableConfig';
+import { AttackEntry as AttackEntryType } from 'constants/attacks';
 
 const classNameBuilder = classnames.bind(styles);
 
-// used to have an array of size 2 for damage types
-const DAMAGES_TEMPLATE = [null, null];
+interface Props extends AttackEntryType {
+  index: number;
+}
 
-export const AttackEntry = (props: any) => {
+export const AttackEntry = (props: Props) => {
   const {
     label,
     source,
@@ -36,7 +39,12 @@ export const AttackEntry = (props: any) => {
     savingThrow,
     index,
   } = props;
-  const { rollableConfig } = useFullSheet();
+  const { rollableConfig } = useRollableConfig();
+  const {
+    onToggleIsEnabled,
+    onChangeAttackDescriptionByIndex,
+    onChangeAttackSourceByIndex,
+  } = useAttacks();
   const { onRoll } = useChat();
 
   const {
@@ -46,18 +54,19 @@ export const AttackEntry = (props: any) => {
     proficient,
     range,
     critRange: attackCritRange,
-  } = attack || {};
+  } = attack;
   const {
     isEnabled: savingThrowIsEnabled,
     stat: savingThrowStat,
     dc,
     dcSave,
     effect,
-  } = savingThrow || {};
+  } = savingThrow;
 
   const { damageRollFollowups, damageRollDescription } = useMemo(() => {
-    let damageRollFollowups: Array<ChatEntryFollowUp> = (damage || []).map(
-      (d) => {
+    let damageRollFollowups: Array<ChatEntryFollowUp> = damage
+      .filter((d) => d.isEnabled)
+      .map((d) => {
         const {
           base,
           stat: damageStat,
@@ -88,8 +97,7 @@ export const AttackEntry = (props: any) => {
           critDamage: crit,
           roll: damageRoll,
         };
-      },
-    );
+      });
 
     const damageRollDescription =
       damageRollFollowups
@@ -220,7 +228,7 @@ export const AttackEntry = (props: any) => {
           <span className={styles['section-header']}>
             <ProficiencyButton
               config={{ proficient: attackIsEnabled }}
-              onToggle={noop}
+              onToggle={() => onToggleIsEnabled(index, `attack`)}
             />
             <h5>Attack Roll</h5>
           </span>
@@ -232,7 +240,7 @@ export const AttackEntry = (props: any) => {
             <Tag label="crit range" value={attackCritRange} />
           </div>
         </div>
-        {DAMAGES_TEMPLATE.map((unused, i) => {
+        {damage.map((d, i) => {
           const {
             base = [],
             isEnabled: damageIsEnabled,
@@ -241,18 +249,18 @@ export const AttackEntry = (props: any) => {
             type,
             crit,
             label: damageLabel,
-          } = damage[i] || {};
+          } = d;
 
           const damageRoll = get(damageRollFollowups, [i, 'roll']) || [];
           const damageRollConfig =
             get(damageRollFollowups, [i, 'config']) || {};
 
           return (
-            <div>
+            <div key={i}>
               <span className={styles['section-header']}>
                 <ProficiencyButton
                   config={{ proficient: damageIsEnabled }}
-                  onToggle={noop}
+                  onToggle={() => onToggleIsEnabled(index, `damage.${i}`)}
                 />
                 <RollableText
                   value={`Damage${i > 0 ? `${i + 1}` : ''}:`}
@@ -279,7 +287,7 @@ export const AttackEntry = (props: any) => {
           <span className={styles['section-header']}>
             <ProficiencyButton
               config={{ proficient: savingThrowIsEnabled }}
-              onToggle={noop}
+              onToggle={() => onToggleIsEnabled(index, `savingThrow`)}
             />
             <h5>Saving Throw</h5>
           </span>
@@ -293,11 +301,19 @@ export const AttackEntry = (props: any) => {
 
         <div className={styles['description']}>
           <h5>Description</h5>
-          <textarea value={description} />
+          <textarea
+            value={description}
+            onChange={(e) =>
+              onChangeAttackDescriptionByIndex(index, e.target.value)
+            }
+          />
         </div>
         <div className={styles['source']}>
           <h5>source</h5>
-          <textarea value={source} />
+          <textarea
+            value={source}
+            onChange={(e) => onChangeAttackSourceByIndex(index, e.target.value)}
+          />
         </div>
       </CollapsibleCard>
     </div>

@@ -7,6 +7,7 @@ import { ModBlock, ProficiencyConfig } from './general';
 import { InventoryItem } from './inventory';
 import { MONEY } from './money';
 import { RACES } from './race';
+import { ROLLABLES } from './rollable';
 import { SKILLS } from './skills';
 import { STATS } from './stats';
 
@@ -197,6 +198,13 @@ export const DEFAULT_SHEET: CharacterSheet = {
           label: "Hunter's Mark",
         },
       ],
+      savingThrow: {
+        isEnabled: false,
+        stat: STATS.STR,
+        dc: ROLLABLES.SPELL,
+        dcSave: STATS.INT,
+        effect: 'test',
+      },
     },
     {
       label: 'Second Attack',
@@ -213,10 +221,32 @@ export const DEFAULT_SHEET: CharacterSheet = {
         range: '30/90',
         critRange: 19,
       },
+      damage: [
+        {
+          isEnabled: false,
+          base: [
+            [1, DICE.d6],
+            [1, DICE.d4],
+          ],
+          stat: STATS.CHA,
+          crit: [[1, DICE.d6]],
+          type: 'Slashing',
+        },
+        {
+          isEnabled: false,
+          base: [
+            [1, DICE.d6],
+            [1, DICE.d4],
+          ],
+          stat: STATS.CHA,
+          crit: [[1, DICE.d6]],
+          type: 'Slashing',
+        },
+      ],
       savingThrow: {
         isEnabled: true,
         stat: STATS.DEX,
-        dc: 'SPELL',
+        dc: ROLLABLES.SPELL,
         dcSave: STATS.INT,
         effect: 'On a successful save, take half damage.',
       },

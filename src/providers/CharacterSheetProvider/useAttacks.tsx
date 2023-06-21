@@ -1,19 +1,43 @@
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
-import { iUpdate } from 'utils/lodashUtils';
+import { useCallback } from 'react';
+import { iSet, iUpdate } from 'utils/lodashUtils';
 
 export const useAttacks = () => {
   const { sheet, setSheet } = useCharacterSheet();
   const { attacks } = sheet;
 
-  const onToggleIsDisabled = (attackIndex, path) => {
+  const onToggleIsEnabled = (attackIndex, path) => {
     setSheet((prevSheet) =>
       iUpdate(
         prevSheet,
-        ['attacks', attackIndex, path, 'isEnabled'],
+        `attacks.${attackIndex}.${path}.isEnabled`,
         (prev) => !prev,
       ),
     );
   };
 
-  return { attacks, onToggleIsDisabled };
+  const onChangeAttackDescriptionByIndex = useCallback(
+    (index, val) => {
+      setSheet((prevSheet) =>
+        iSet(prevSheet, ['attacks', index, 'description'], val),
+      );
+    },
+    [setSheet],
+  );
+
+  const onChangeAttackSourceByIndex = useCallback(
+    (index, val) => {
+      setSheet((prevSheet) =>
+        iSet(prevSheet, ['attacks', index, 'source'], val),
+      );
+    },
+    [setSheet],
+  );
+
+  return {
+    attacks,
+    onToggleIsEnabled,
+    onChangeAttackDescriptionByIndex,
+    onChangeAttackSourceByIndex,
+  };
 };
