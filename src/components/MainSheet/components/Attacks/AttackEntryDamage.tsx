@@ -5,17 +5,27 @@ import { printRollable } from 'utils/rollableUtils';
 import { useAttacks } from 'providers/CharacterSheetProvider/useAttacks';
 import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
 import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableConfig';
+import { DelayedInput } from 'common/components/DelayedInput/DelayedInput';
+import { useMemo } from 'react';
 
 export const AttackEntryDamage = ({ attackIndex, damageRollFollowups }) => {
-  const { attacks, onToggleIsEnabled } = useAttacks();
+  const { attacks, onToggleIsEnabled, onChangeAttackDamageBaseByIndex } =
+    useAttacks();
   const { rollableConfig } = useRollableConfig();
   const damage = attacks[attackIndex].damage;
+
+  const damageBases = useMemo(
+    () =>
+      [damage[0].base, damage[1].base].map((d) =>
+        printRollable(d, rollableConfig),
+      ),
+    [damage, rollableConfig],
+  );
 
   return (
     <>
       {damage.map((d, i) => {
         const {
-          base = [],
           isEnabled: damageIsEnabled,
           stat: damageStat,
           mod: damageMod,
@@ -34,7 +44,17 @@ export const AttackEntryDamage = ({ attackIndex, damageRollFollowups }) => {
               <h5>{`Damage${i > 0 ? `${i + 1}` : ''}:`}</h5>
             </span>
             <div className={attackEntryStyles['block']}>
-              <Tag label="base" value={printRollable(base, rollableConfig)} />
+              <Tag
+                label="base"
+                value={
+                  <DelayedInput
+                    value={damageBases[i]}
+                    onSubmit={(val) =>
+                      onChangeAttackDamageBaseByIndex(attackIndex, i, val)
+                    }
+                  />
+                }
+              />
               <Tag label="stat" value={damageStat} />
               <Tag label="mod" value={damageMod?.value} />
               <Tag label="type" value={type} />
