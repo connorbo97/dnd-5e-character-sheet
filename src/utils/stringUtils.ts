@@ -17,6 +17,6 @@ export const wrapInParens = (input) => `(${input.toString()})`;
 export const conditionalJoinStrings = (strings, joiner = ' ') =>
   strings.filter((s) => !!s || s === 0).join(joiner);
 
-export const getNumMatches = (target, matchString) => {
-  return target.match(new RegExp(`\\${matchString}\\g`)).length;
+export const getNumMatches = (target, regex) => {
+  return [...target.matchAll(regex)].length;
 };

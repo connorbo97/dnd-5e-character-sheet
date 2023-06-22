@@ -16,6 +16,7 @@ import { getModifier } from './statUtils';
 import { DICE, DICE_VALUES_SET } from 'constants/dice';
 import { DEFAULT_SHEET } from 'constants/characterSheet';
 import { getDiceMax } from './diceUtils';
+import { getNumMatches } from './stringUtils';
 
 const DEFAULT_CONFIG = {
   stats: DEFAULT_SHEET.stats,
@@ -213,9 +214,7 @@ export const generateRollableFromString = (input) => {
 
     const pieceAsNumber = parseInt(piece);
     const pieceIsNumber =
-      // @ts-ignore
-      [...piece.matchAll(/[-0-9]/g)].length === piece.length &&
-      !isNaN(pieceAsNumber);
+      getNumMatches(piece, /[-0-9]/g) === piece.length && !isNaN(pieceAsNumber);
     const pieceAsDice = parseStringDiceRoll(piece);
     const isValidRollableString =
       STATS_SET.has(piece as STATS) || ROLLABLES_SET.has(piece as ROLLABLES);
