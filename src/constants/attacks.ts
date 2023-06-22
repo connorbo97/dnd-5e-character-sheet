@@ -42,7 +42,8 @@ export type AttackEntry = {
   ];
   savingThrow: {
     isEnabled: boolean;
-    dc: ROLLABLES.SPELL | STATS;
+    dc: ROLLABLES.SPELL | STATS | 'FLAT';
+    flatDC: number;
     dcSave: STATS;
     effect: string;
   };
@@ -52,4 +53,9 @@ export const ATTACK_STAT_DROPDOWN_OPTIONS = [
   { value: null, label: '-' },
   ...STATS_OPTIONS,
   { value: ROLLABLES.SPELL, label: 'Spell' },
+];
+export const SAVING_THROW_DROPDOWN_OPTIONS = [
+  { value: ROLLABLES.SPELL, label: 'SPELL' },
+  ...STATS_OPTIONS,
+  { value: 'FLAT', label: 'FLAT' },
 ];

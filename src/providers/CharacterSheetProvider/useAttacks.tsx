@@ -111,6 +111,31 @@ export const useAttacks = () => {
     );
   };
 
+  // saving throws
+  const onChangeAttackSavingThrowPropertyByIndex = useCallback(
+    (index, property, value) => {
+      setSheet((prevSheet) =>
+        iSet(prevSheet, `attacks.${index}.savingThrow.${property}`, value),
+      );
+    },
+    [setSheet],
+  );
+  const onChangeAttackSavingThrowDCByIndex = (index, value) => {
+    onChangeAttackSavingThrowPropertyByIndex(index, 'dc', value);
+  };
+  const onChangeAttackSavingThrowFlatDCByIndex = (index, value) => {
+    const parsed = parseInt(value);
+    const finalValue = !isNaN(parsed) ? parsed : 10;
+
+    onChangeAttackSavingThrowPropertyByIndex(index, 'flatDC', finalValue);
+  };
+  const onChangeAttackSavingThrowDCSaveByIndex = (index, value) => {
+    onChangeAttackSavingThrowPropertyByIndex(index, 'dcSave', value);
+  };
+  const onChangeAttackSavingThrowEffectByIndex = (index, value) => {
+    onChangeAttackSavingThrowPropertyByIndex(index, 'dcSave', value);
+  };
+
   // metadata
   const onChangeAttackDescriptionByIndex = useCallback(
     (index, val) => {
@@ -153,6 +178,12 @@ export const useAttacks = () => {
     onChangeAttackDamageTypeByIndex,
     onChangeAttackDamageCritByIndex,
     onChangeAttackDamageLabelByIndex,
+
+    // saving throw
+    onChangeAttackSavingThrowDCByIndex,
+    onChangeAttackSavingThrowDCSaveByIndex,
+    onChangeAttackSavingThrowEffectByIndex,
+    onChangeAttackSavingThrowFlatDCByIndex,
 
     onChangeAttackDescriptionByIndex,
     onChangeAttackSourceByIndex,

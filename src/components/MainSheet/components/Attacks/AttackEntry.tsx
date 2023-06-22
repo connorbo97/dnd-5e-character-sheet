@@ -1,11 +1,9 @@
-import { Tag } from 'common/components/Tag/Tag';
 import styles from './attackEntry.module.scss';
 import { printParsedRollable, simplifyRollable } from 'utils/rollableUtils';
 import { isNil } from 'lodash';
 import { ChatEntryFollowUp, ChatEntryInputs, ChatType } from 'constants/chat';
 import { CollapsibleCard } from 'common/components/CollapsibleCard/CollapsibleCard';
 import { useMemo, useState } from 'react';
-import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
 import { useAttacks } from 'providers/CharacterSheetProvider/useAttacks';
 import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableConfig';
 import { AttackEntry as AttackEntryType } from 'constants/attacks';
@@ -13,23 +11,22 @@ import { AttackEntryHeader } from './AttackEntryHeader';
 import { Rollable } from 'constants/rollable';
 import { AttackEntryAttack } from './AttackEntryAttack';
 import { AttackEntryDamage } from './AttackEntryDamage';
+import { AttackEntrySavingThrow } from './AttackEntrySavingThrow';
 
 interface Props extends AttackEntryType {
   index: number;
 }
 
 export const AttackEntry = (props: Props) => {
-  const { label, source, description, damage = [], savingThrow, index } = props;
+  const { label, source, description, damage = [], index } = props;
   const { rollableConfig } = useRollableConfig();
   const {
-    onToggleIsEnabled,
     onChangeAttackLabelByIndex,
     onChangeAttackDescriptionByIndex,
     onChangeAttackSourceByIndex,
   } = useAttacks();
   const [contentOpen, setContentOpen] = useState(false);
 
-  const { isEnabled: savingThrowIsEnabled, dc, dcSave, effect } = savingThrow;
   const { damageRollFollowups, damageRollDescription } = useMemo(() => {
     let damageRollFollowups: Array<ChatEntryFollowUp> = damage
       .filter((d) => d.isEnabled)
@@ -105,20 +102,7 @@ export const AttackEntry = (props: Props) => {
         </div>
         <AttackEntryAttack attackIndex={index} />
         <AttackEntryDamage attackIndex={index} />
-        <div className={styles['saving-throw']}>
-          <span className={styles['section-header']}>
-            <ProficiencyButton
-              config={{ proficient: savingThrowIsEnabled }}
-              onToggle={() => onToggleIsEnabled(index, `savingThrow`)}
-            />
-            <h5>Saving Throw</h5>
-          </span>
-          <div className={styles['block']}>
-            <Tag label="dc" value={dc} />
-            <Tag label="dc save" value={dcSave} />
-            <Tag label="effect" value={effect} />
-          </div>
-        </div>
+        <AttackEntrySavingThrow attackIndex={index} />
         <div className={styles['metadata']}>
           <div className={styles['description']}>
             <h5>Description</h5>

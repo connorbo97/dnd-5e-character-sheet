@@ -43,7 +43,13 @@ export const AttackEntryHeader = (props: Props) => {
     range,
     critRange: attackCritRange,
   } = attack;
-  const { isEnabled: savingThrowIsEnabled, dc, dcSave, effect } = savingThrow;
+  const {
+    isEnabled: savingThrowIsEnabled,
+    dc,
+    dcSave,
+    flatDC,
+    effect,
+  } = savingThrow;
   const damageIsEnabled = damageRollFollowups.length > 0;
 
   const {
@@ -72,10 +78,13 @@ export const AttackEntryHeader = (props: Props) => {
 
     const attackModifierRoll = attackRoll.slice(1);
 
-    let attackDCDescription =
-      savingThrowIsEnabled && dc
-        ? `DC ${calculateRollable([8, ROLLABLES.PB, dc], rollableConfig)}`
-        : '';
+    let dcNumber = flatDC;
+
+    if (dc !== 'FLAT') {
+      dcNumber = calculateRollable([8, ROLLABLES.PB, dc], rollableConfig);
+    }
+
+    let attackDCDescription = savingThrowIsEnabled ? `DC ${dcNumber}` : '';
 
     return {
       attackRoll,
@@ -88,6 +97,7 @@ export const AttackEntryHeader = (props: Props) => {
     attackMod?.value,
     attackStat,
     dc,
+    flatDC,
     proficient,
     rollableConfig,
     savingThrowIsEnabled,

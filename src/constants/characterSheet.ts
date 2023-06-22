@@ -199,6 +199,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       savingThrow: {
         isEnabled: false,
         dc: ROLLABLES.SPELL,
+        flatDC: 10,
         dcSave: STATS.INT,
         effect: 'test',
       },
@@ -243,6 +244,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       savingThrow: {
         isEnabled: true,
         dc: ROLLABLES.SPELL,
+        flatDC: 10,
         dcSave: STATS.INT,
         effect: 'On a successful save, take half damage.',
       },
