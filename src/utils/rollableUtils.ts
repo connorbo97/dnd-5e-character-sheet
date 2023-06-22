@@ -161,7 +161,7 @@ export const printParsedRollable = (
         : parseInt(val + '');
 
       if (isNumber(parsedVal) && !isNaN(parsedVal) && parsedVal < 0) {
-        return `- ${val}`;
+        return `- ${Math.abs(parsedVal)}`;
       }
 
       return `+ ${val}`;
@@ -180,16 +180,12 @@ export const printRollable = (
 };
 
 export const generateRollableFromString = (input) => {
-  const DEFAULT = [];
-
-  if (!input) {
-    return DEFAULT;
+  if (isNil(input)) {
+    return [];
   }
 
   const pieces: Array<string> = input.trim().split(/\s+/);
-  if (!pieces.length) {
-    return DEFAULT;
-  }
+
   let curOperator: string = OPERATORS.PLUS;
   // get(pieces, '0.0') === OPERATORS.MINUS ? OPERATORS.MINUS : ;
   let finalPieces: Rollable = [];
@@ -198,14 +194,14 @@ export const generateRollableFromString = (input) => {
     const piece = pieces[i];
 
     if (!piece) {
-      return DEFAULT;
+      throw new Error(`empty piece encountered: ${piece}`);
     }
 
     // if there's no operator
     if (!curOperator) {
       // and the piece isn't an operator, then invalid
       if (!OPERATORS_SET.has(piece as OPERATORS)) {
-        return DEFAULT;
+        throw new Error(`piece should be operator: ${piece}`);
       }
 
       curOperator = piece;
@@ -222,7 +218,7 @@ export const generateRollableFromString = (input) => {
       if (pieceIsNumber) {
         finalPieces.push(-1 * pieceAsNumber);
       } else {
-        return DEFAULT;
+        throw new Error(`piece has negative but is not a number: ${piece}`);
       }
     } else if (pieceIsNumber) {
       finalPieces.push(pieceAsNumber);
@@ -231,7 +227,7 @@ export const generateRollableFromString = (input) => {
     } else if (isValidRollableString) {
       finalPieces.push(piece as RollableEntry);
     } else {
-      return DEFAULT;
+      throw new Error(`piece is not a number, dice, or rollable: ${piece}`);
     }
 
     curOperator = '';
