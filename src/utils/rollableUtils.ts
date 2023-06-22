@@ -6,8 +6,11 @@ import {
   RollableUtilConfig,
   StaticRollable,
   StaticRollableEntry,
+  OPERATORS,
+  OPERATORS_SET,
+  ROLLABLES_SET,
 } from 'constants/rollable';
-import { STATS } from 'constants/stats';
+import { STATS, STATS_SET } from 'constants/stats';
 import { isNil, isNumber, partition, sum } from 'lodash';
 import { getModifier } from './statUtils';
 import { DICE, DICE_VALUES_SET } from 'constants/dice';
@@ -173,4 +176,91 @@ export const printRollable = (
   const input: Array<RollableEntry> = rawInput.filter((i) => !isNil(i));
 
   return printParsedRollable(parseRollable(input, config));
+};
+
+export const generateRollableFromString = (input) => {
+  const DEFAULT = [];
+
+  if (!input) {
+    return DEFAULT;
+  }
+
+  const pieces: Array<string> = input.trim().split(/\s+/);
+  if (!pieces.length) {
+    return DEFAULT;
+  }
+  let curOperator: string = OPERATORS.PLUS;
+  // get(pieces, '0.0') === OPERATORS.MINUS ? OPERATORS.MINUS : ;
+  let finalPieces: Rollable = [];
+
+  for (let i = 0; i < pieces.length; i++) {
+    const piece = pieces[i];
+
+    if (!piece) {
+      return DEFAULT;
+    }
+
+    // if there's no operator
+    if (!curOperator) {
+      // and the piece isn't an operator, then invalid
+      if (!OPERATORS_SET.has(piece as OPERATORS)) {
+        return DEFAULT;
+      }
+
+      curOperator = piece;
+      continue;
+    }
+
+    const pieceAsNumber = parseInt(piece);
+    const pieceIsNumber =
+      // @ts-ignore
+      [...piece.matchAll(/[-0-9]/g)].length === piece.length &&
+      !isNaN(pieceAsNumber);
+    const pieceAsDice = parseStringDiceRoll(piece);
+    const isValidRollableString =
+      STATS_SET.has(piece as STATS) || ROLLABLES_SET.has(piece as ROLLABLES);
+    if (curOperator === OPERATORS.MINUS) {
+      if (pieceIsNumber) {
+        finalPieces.push(-1 * pieceAsNumber);
+      } else {
+        return DEFAULT;
+      }
+    } else if (pieceIsNumber) {
+      finalPieces.push(pieceAsNumber);
+    } else if (pieceAsDice !== null) {
+      finalPieces.push(pieceAsDice);
+    } else if (isValidRollableString) {
+      finalPieces.push(piece as RollableEntry);
+    } else {
+      return DEFAULT;
+    }
+
+    curOperator = '';
+  }
+
+  return finalPieces;
+};
+
+export const isStringDiceRoll = (entry: string) =>
+  parseStringDiceRoll(entry) === null;
+export const parseStringDiceRoll = (entry: string) => {
+  if (isNil(entry)) {
+    return null;
+  }
+
+  const [rawTotal, diceFace] = entry.split('d');
+  const total = parseInt(rawTotal);
+  const dice = `d${diceFace}`;
+
+  if (!DICE_VALUES_SET.has(dice as DICE)) {
+    return null;
+  }
+
+  if (isNaN(total) || total < 0 || total.toString() !== rawTotal) {
+    return null;
+  }
+
+  const result: DiceRoll = [total, dice as DICE];
+
+  return result;
 };

@@ -8,6 +8,7 @@ export enum STATS {
   WIS = 'WIS',
   CHA = 'CHA',
 }
+export const STATS_SET = new Set(values(STATS));
 
 type StatsConfig = {
   label: string;
