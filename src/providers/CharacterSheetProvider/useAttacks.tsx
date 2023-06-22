@@ -53,9 +53,49 @@ export const useAttacks = () => {
       iSet(prevSheet, `attacks.${index}.damage.${property}`, value),
     );
   };
+  const onChangeAttackDamageModByIndex = (attackIndex, damageIndex, value) => {
+    onChangeAttackDamagePropertyByIndex(
+      attackIndex,
+      `${damageIndex}.mod.value`,
+      value,
+    );
+  };
+  const onChangeAttackDamageTypeByIndex = (attackIndex, damageIndex, value) => {
+    onChangeAttackDamagePropertyByIndex(
+      attackIndex,
+      `${damageIndex}.type`,
+      value,
+    );
+  };
+  const onChangeAttackDamageLabelByIndex = (
+    attackIndex,
+    damageIndex,
+    value,
+  ) => {
+    onChangeAttackDamagePropertyByIndex(
+      attackIndex,
+      `${damageIndex}.label`,
+      value,
+    );
+  };
+  const onChangeAttackDamageCritByIndex = (attackIndex, damageIndex, value) => {
+    setSheet((prevSheet) =>
+      iUpdate(
+        prevSheet,
+        ['attacks', attackIndex, 'damage', damageIndex, 'crit'],
+        (prev) => {
+          try {
+            const a = generateRollableFromString(value);
+            console.log(a);
+            return a;
+          } catch (err) {
+            return prev;
+          }
+        },
+      ),
+    );
+  };
   const onChangeAttackDamageBaseByIndex = (attackIndex, damageIndex, value) => {
-    const rollable = generateRollableFromString(value);
-
     setSheet((prevSheet) =>
       iUpdate(
         prevSheet,
@@ -68,11 +108,6 @@ export const useAttacks = () => {
           }
         },
       ),
-    );
-    onChangeAttackDamagePropertyByIndex(
-      attackIndex,
-      `${damageIndex}.base`,
-      rollable,
     );
   };
 
@@ -114,6 +149,10 @@ export const useAttacks = () => {
 
     // damage
     onChangeAttackDamageBaseByIndex,
+    onChangeAttackDamageModByIndex,
+    onChangeAttackDamageTypeByIndex,
+    onChangeAttackDamageCritByIndex,
+    onChangeAttackDamageLabelByIndex,
 
     onChangeAttackDescriptionByIndex,
     onChangeAttackSourceByIndex,

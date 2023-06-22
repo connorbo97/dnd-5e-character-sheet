@@ -9,8 +9,15 @@ import { DelayedInput } from 'common/components/DelayedInput/DelayedInput';
 import { useMemo } from 'react';
 
 export const AttackEntryDamage = ({ attackIndex, damageRollFollowups }) => {
-  const { attacks, onToggleIsEnabled, onChangeAttackDamageBaseByIndex } =
-    useAttacks();
+  const {
+    attacks,
+    onToggleIsEnabled,
+    onChangeAttackDamageBaseByIndex,
+    onChangeAttackDamageModByIndex,
+    onChangeAttackDamageTypeByIndex,
+    onChangeAttackDamageCritByIndex,
+    onChangeAttackDamageLabelByIndex,
+  } = useAttacks();
   const { rollableConfig } = useRollableConfig();
   const damage = attacks[attackIndex].damage;
 
@@ -21,7 +28,14 @@ export const AttackEntryDamage = ({ attackIndex, damageRollFollowups }) => {
       ),
     [damage, rollableConfig],
   );
-
+  const critDamages = useMemo(
+    () =>
+      [damage[0].crit, damage[1].crit].map((c) =>
+        printRollable(c || [], rollableConfig),
+      ),
+    [damage, rollableConfig],
+  );
+  console.log({ damageBases, critDamages });
   return (
     <>
       {damage.map((d, i) => {
@@ -30,7 +44,6 @@ export const AttackEntryDamage = ({ attackIndex, damageRollFollowups }) => {
           stat: damageStat,
           mod: damageMod,
           type,
-          crit,
           label: damageLabel,
         } = d;
 
@@ -57,10 +70,72 @@ export const AttackEntryDamage = ({ attackIndex, damageRollFollowups }) => {
                 }
               />
               <Tag label="stat" value={damageStat} />
-              <Tag label="mod" value={damageMod?.value} />
-              <Tag label="type" value={type} />
-              <Tag label="crit" value={crit} />
-              <Tag label="label" value={damageLabel} />
+              <Tag
+                label="mod"
+                value={
+                  <input
+                    placeholder="0"
+                    value={damageMod?.value || ''}
+                    min={-100}
+                    max={100}
+                    type="number"
+                    onChange={(e) =>
+                      onChangeAttackDamageModByIndex(
+                        attackIndex,
+                        i,
+                        e.target.value,
+                      )
+                    }
+                  />
+                }
+              />
+              <Tag
+                label="type"
+                value={
+                  <input
+                    placeholder="Slashing"
+                    value={type || ''}
+                    className={styles['input']}
+                    onChange={(e) =>
+                      onChangeAttackDamageTypeByIndex(
+                        attackIndex,
+                        i,
+                        e.target.value,
+                      )
+                    }
+                  />
+                }
+              />
+              <Tag
+                label="crit"
+                value={
+                  <DelayedInput
+                    className={styles['input']}
+                    value={critDamages[i]}
+                    placeholder="1d6"
+                    onSubmit={(val) =>
+                      onChangeAttackDamageCritByIndex(attackIndex, i, val)
+                    }
+                  />
+                }
+              />
+              <Tag
+                label="type"
+                value={
+                  <input
+                    placeholder="Name"
+                    value={damageLabel || ''}
+                    className={styles['input']}
+                    onChange={(e) =>
+                      onChangeAttackDamageLabelByIndex(
+                        attackIndex,
+                        i,
+                        e.target.value,
+                      )
+                    }
+                  />
+                }
+              />
             </div>
           </div>
         );
