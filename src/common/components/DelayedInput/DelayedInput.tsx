@@ -1,11 +1,21 @@
 import { useLayoutEffect, useState } from 'react';
 
-export const DelayedInput = ({ className = '', value, onSubmit, ...rest }) => {
+export const DelayedInput = ({
+  className = '',
+  value,
+  onSubmit: propOnSubmit,
+  ...rest
+}) => {
   const [display, setDisplay] = useState(value);
 
   useLayoutEffect(() => {
     setDisplay(value);
   }, [value]);
+
+  const onSubmit = (val) => {
+    setDisplay(value);
+    propOnSubmit(val);
+  };
 
   return (
     <input
