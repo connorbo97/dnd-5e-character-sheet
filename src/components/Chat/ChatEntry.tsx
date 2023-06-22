@@ -42,6 +42,14 @@ export const ChatEntry = ({
     isCritFailure = d20Result.some((r) => r === 1);
   }
 
+  let sanitizedLabel = label;
+
+  if (!sanitizedLabel) {
+    if (type === ChatType.ATTACK) {
+      sanitizedLabel = 'Attack Roll';
+    }
+  }
+
   return (
     <div className={styles['container']}>
       {!isFollowUp && <div className={styles['header']}>{finalPlayerName}</div>}
@@ -58,7 +66,7 @@ export const ChatEntry = ({
         {description && (
           <span className={styles['description']}>{description}</span>
         )}
-        {label && (
+        {sanitizedLabel && (
           <span
             className={classNameBuilder('label', type, {
               'follow-up': hasFollowUp,
@@ -88,7 +96,7 @@ export const ChatEntry = ({
                   }
                 : noop
             }>
-            {label}
+            {sanitizedLabel}
             {labelSuffix && (
               <span className={styles['label-suffix']}>{labelSuffix}</span>
             )}
