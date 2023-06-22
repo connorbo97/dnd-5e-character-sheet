@@ -43,7 +43,7 @@ export const parseStaticRollableEntry = (
 
   if (entry === ROLLABLES.SPELL) {
     return stats[spellcastingAbility]
-      ? profBonus + getModifier(stats[spellcastingAbility])
+      ? getModifier(stats[spellcastingAbility])
       : 0;
   }
 
