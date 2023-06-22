@@ -1,19 +1,19 @@
 import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
-import styles from './tools.module.scss';
+import styles from './customChecks.module.scss';
 import { STATS_CONFIGS } from 'constants/stats';
-import { getProficiencyBonus } from 'constants/proficiencyUtils';
 import { addNumberSign } from 'utils/stringUtils';
+import { getProficiencyBonus } from 'constants/proficiencyUtils';
 
-export const Tools = () => {
-  const { getStatModifier, tools, onToggleToolProficiency, profBonus } =
+export const CustomChecks = () => {
+  const { getStatModifier, customChecks, onToggleToolProficiency, profBonus } =
     useFullSheet();
 
   return (
     <div className={styles['container']}>
-      <h3>Tools</h3>
+      <h3>Custom Checks</h3>
       <div>
-        {Object.entries(tools).map(([toolType, { label, stat }]) => (
-          <div key={toolType} onClick={() => onToggleToolProficiency(toolType)}>
+        {customChecks.map(({ label, stat }, index) => (
+          <div key={index} onClick={() => onToggleToolProficiency(index)}>
             <u>
               {label} ({stat ? STATS_CONFIGS[stat].shortLabel : 'NO STAT'})
             </u>
@@ -21,7 +21,7 @@ export const Tools = () => {
               :{' '}
               {addNumberSign(
                 getStatModifier(stat) +
-                  getProficiencyBonus(tools[toolType], profBonus),
+                  getProficiencyBonus(customChecks[index], profBonus),
               )}
             </span>
           </div>

@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './mainSheet.module.scss';
 import { Stats } from './components/Stats/Stats';
 import { Skills } from './components/Skills/Skills';
-import { Tools } from './components/Tools/Tools';
 import { OtherProficiencies } from './components/OtherProficiencies/OtherProficiencies';
 import { Money } from './components/Money/Money';
 import { DeathSaves } from './components/DeathSaves/DeathSaves';
@@ -12,6 +11,7 @@ import { Attacks } from './components/Attacks/Attacks';
 import { Inventory } from './components/Inventory/Inventory';
 import { CombatStats } from './components/CombatStats/CombatStats';
 import { Chat } from 'components/Chat/Chat';
+import { CustomChecks } from './components/CustomChecks/CustomChecks';
 
 export const MainSheet = () => {
   return (
@@ -19,7 +19,7 @@ export const MainSheet = () => {
       <div className={styles['grid']}>
         <Stats />
         <Skills />
-        <Tools />
+        <CustomChecks />
         <OtherProficiencies />
         <Money />
         <DeathSaves />

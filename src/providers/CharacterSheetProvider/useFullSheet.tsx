@@ -5,7 +5,7 @@ import { useHp } from './useHp';
 import { useInspiration } from './useInspiration';
 import { useSavingThrows } from './useSavingThrows';
 import { useSkills } from './useSkills';
-import { useTools } from './useTools';
+import { useCustomChecks } from './useCustomChecks';
 import { useProfBonus } from './useProfBonus';
 import { useName } from './useName';
 import { useStats } from './useStats';
@@ -19,7 +19,7 @@ export const useFullSheet = () => {
   const skillsHook = useSkills();
   const inspirationHook = useInspiration();
   const savingThrowsHook = useSavingThrows();
-  const toolsHook = useTools();
+  const customChecksHook = useCustomChecks();
   const hpHook = useHp();
   const hitDiceHook = useHitDice();
   const profBonusHook = useProfBonus();
@@ -35,7 +35,7 @@ export const useFullSheet = () => {
     ...skillsHook,
     ...inspirationHook,
     ...savingThrowsHook,
-    ...toolsHook,
+    ...customChecksHook,
     ...hpHook,
     ...hitDiceHook,
     ...profBonusHook,

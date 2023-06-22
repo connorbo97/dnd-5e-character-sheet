@@ -45,9 +45,7 @@ export type CharacterSheet = {
   skills: {
     [s in SKILLS]?: ProficiencyConfig;
   };
-  tools: {
-    [s: string]: ProficiencyConfig;
-  };
+  customChecks: Array<ProficiencyConfig>;
   otherProficiencies: {
     [s: string]: ProficiencyConfig;
   };
@@ -107,13 +105,13 @@ export const DEFAULT_SHEET: CharacterSheet = {
   },
   skills: {},
   savingThrows: {},
-  tools: {
-    TEST: {
+  customChecks: [
+    {
       label: "Smith's Tools",
       stat: STATS.STR,
       category: 'Armor',
     },
-  },
+  ],
   otherProficiencies: {
     TEST: {
       label: 'Light Armor',

@@ -10,7 +10,7 @@ $border-width: 5px;
   grid-template-areas:
     'metadata combat-stats death-saves hit-dice chat'
     'stats skills attacks attacks chat'
-    'inventory money other-prof tools chat'
+    'inventory money other-prof custom-checks chat'
     'dice - - - chat';
   > * {
     background-color: $primary;
