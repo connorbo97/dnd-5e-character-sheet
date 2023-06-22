@@ -48,6 +48,7 @@ export const AttackEntryDamage = ({ attackIndex, damageRollFollowups }) => {
                 label="base"
                 value={
                   <DelayedInput
+                    className={styles['input']}
                     value={damageBases[i]}
                     onSubmit={(val) =>
                       onChangeAttackDamageBaseByIndex(attackIndex, i, val)
