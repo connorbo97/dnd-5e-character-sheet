@@ -3,3 +3,34 @@
 .container {
   grid-area: custom-checks;
 }
+
+.entry {
+  display: grid;
+  column-gap: 5px;
+  grid-template-columns: 1fr repeat(3, min-content);
+  grid-template-rows: min-height;
+  align-items: center;
+}
+.section {
+  display: flex;
+  cursor: pointer;
+  background-color: $secondary;
+  border-radius: 5px;
+
+  padding: 0.5rem;
+  font-weight: bold;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &:hover {
+    color: $tertiary;
+  }
+}
+
+.mod {
+  display: flex;
+  align-items: center;
+  column-gap: 0.2rem;
+}
