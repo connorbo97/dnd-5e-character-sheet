@@ -8,7 +8,7 @@ import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableC
 import { DelayedInput } from 'common/components/DelayedInput/DelayedInput';
 import { useMemo } from 'react';
 
-export const AttackEntryDamage = ({ attackIndex, damageRollFollowups }) => {
+export const AttackEntryDamage = ({ attackIndex }) => {
   const {
     attacks,
     onToggleIsEnabled,

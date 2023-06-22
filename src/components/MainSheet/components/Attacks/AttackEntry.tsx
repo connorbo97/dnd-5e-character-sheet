@@ -104,10 +104,7 @@ export const AttackEntry = (props: Props) => {
           />
         </div>
         <AttackEntryAttack attackIndex={index} />
-        <AttackEntryDamage
-          attackIndex={index}
-          damageRollFollowups={damageRollFollowups}
-        />
+        <AttackEntryDamage attackIndex={index} />
         <div className={styles['saving-throw']}>
           <span className={styles['section-header']}>
             <ProficiencyButton

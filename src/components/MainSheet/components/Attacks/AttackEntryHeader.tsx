@@ -93,6 +93,16 @@ export const AttackEntryHeader = (props: Props) => {
     savingThrowIsEnabled,
   ]);
 
+  const savingThrowConfig = useMemo(
+    () => ({
+      type: ChatType.DAMAGE,
+      description: effect,
+      result: attackDCDescription,
+      label: `${STATS_CONFIGS[dcSave].label} Save`,
+    }),
+    [attackDCDescription, dcSave, effect],
+  );
+
   const { attackRollModifierString, attackRollModifierHelpString } =
     useMemo(() => {
       const attackRollModifierString = addNumberSign(
@@ -118,12 +128,6 @@ export const AttackEntryHeader = (props: Props) => {
     async (e) => {
       e.stopPropagation();
       let roll;
-      let savingThrowConfig = {
-        type: ChatType.DAMAGE,
-        description: effect,
-        result: attackDCDescription,
-        label: `${STATS_CONFIGS[dcSave].label} Save`,
-      };
       const followUp = savingThrowIsEnabled
         ? [
             {
@@ -166,17 +170,15 @@ export const AttackEntryHeader = (props: Props) => {
     },
     [
       attackCritRange,
-      attackDCDescription,
       attackIsEnabled,
       attackModifierRoll,
       attackRoll,
       damageRollFollowups,
-      dcSave,
-      effect,
       label,
       onRoll,
       range,
       rollableConfig,
+      savingThrowConfig,
       savingThrowIsEnabled,
     ],
   );
@@ -185,14 +187,21 @@ export const AttackEntryHeader = (props: Props) => {
     async (e) => {
       e.stopPropagation();
 
-      for (let i = 0; i < damageRollFollowups.length; i++) {
-        await onRoll(damageRollFollowups[i].roll, {
-          ...damageRollFollowups[i].config,
+      let rolls: Array<ChatEntryFollowUp> = [];
+
+      if (savingThrowIsEnabled) {
+        rolls.push({ roll: '', config: savingThrowConfig });
+      }
+
+      rolls = [...rolls, ...damageRollFollowups];
+      for (let i = 0; i < rolls.length; i++) {
+        await onRoll(rolls[i].roll, {
+          ...rolls[i].config,
           isFollowUp: i !== 0,
         });
       }
     },
-    [damageRollFollowups, onRoll],
+    [damageRollFollowups, onRoll, savingThrowConfig, savingThrowIsEnabled],
   );
 
   return (
