@@ -1,6 +1,7 @@
+import { values } from 'lodash';
 import { ModBlock } from './general';
 import { ROLLABLES, Rollable } from './rollable';
-import { STATS } from './stats';
+import { STATS, STATS_OPTIONS } from './stats';
 
 export enum AttackTypes {
   WEAPON = 'WEAPON',
@@ -46,3 +47,9 @@ export type AttackEntry = {
     effect: string;
   };
 };
+
+export const ATTACK_STAT_DROPDOWN_OPTIONS = [
+  { value: null, label: '-' },
+  ...STATS_OPTIONS,
+  { value: ROLLABLES.SPELL, label: 'Spell' },
+];

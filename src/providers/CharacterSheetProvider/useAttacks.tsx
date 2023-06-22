@@ -28,6 +28,13 @@ export const useAttacks = () => {
   const onChangeAttackModByIndex = (index, value) => {
     onChangeAttackPropertyByIndex(index, 'mod.value', value);
   };
+  const onChangeAttackRangeByIndex = (index, value) => {
+    onChangeAttackPropertyByIndex(index, 'range', value);
+  };
+  const onChangeAttackCritRangeByIndex = (index, value) => {
+    onChangeAttackPropertyByIndex(index, 'critRange', value);
+  };
+
   const onToggleAttackProficiencyByIndex = (index) => {
     setSheet((prevSheet) =>
       iUpdate(
@@ -62,6 +69,8 @@ export const useAttacks = () => {
 
     onChangeAttackStatByIndex,
     onChangeAttackModByIndex,
+    onChangeAttackRangeByIndex,
+    onChangeAttackCritRangeByIndex,
     onToggleAttackProficiencyByIndex,
 
     onChangeAttackDescriptionByIndex,

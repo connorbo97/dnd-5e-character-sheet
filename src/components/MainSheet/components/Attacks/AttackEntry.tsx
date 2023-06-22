@@ -16,41 +16,22 @@ import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableC
 import { AttackEntry as AttackEntryType } from 'constants/attacks';
 import { AttackEntryHeader } from './AttackEntryHeader';
 import { Rollable } from 'constants/rollable';
-import { Dropdown } from 'common/components/Dropdown/Dropdown';
-import { STATS_OPTIONS } from 'constants/stats';
+import { AttackEntryAttack } from './AttackEntryAttack';
+import { AttackEntryDamage } from './AttackEntryDamage';
 
 interface Props extends AttackEntryType {
   index: number;
 }
 
 export const AttackEntry = (props: Props) => {
-  const {
-    label,
-    source,
-    description,
-    attack,
-    damage = [],
-    savingThrow,
-    index,
-  } = props;
+  const { label, source, description, damage = [], savingThrow, index } = props;
   const { rollableConfig } = useRollableConfig();
   const {
     onToggleIsEnabled,
     onChangeAttackDescriptionByIndex,
     onChangeAttackSourceByIndex,
-    onChangeAttackStatByIndex,
-    onChangeAttackModByIndex,
-    onToggleAttackProficiencyByIndex,
   } = useAttacks();
 
-  const {
-    isEnabled: attackIsEnabled,
-    stat: attackStat,
-    mod: attackMod,
-    proficient,
-    range,
-    critRange: attackCritRange,
-  } = attack;
   const { isEnabled: savingThrowIsEnabled, dc, dcSave, effect } = savingThrow;
 
   const { damageRollFollowups, damageRollDescription } = useMemo(() => {
@@ -117,95 +98,11 @@ export const AttackEntry = (props: Props) => {
           />
         }
         contentClassName={styles['content']}>
-        <div>
-          <span className={styles['section-header']}>
-            <ProficiencyButton
-              config={{ proficient: attackIsEnabled }}
-              onToggle={() => onToggleIsEnabled(index, `attack`)}
-            />
-            <h5>Attack Roll</h5>
-          </span>
-          <div className={styles['block']}>
-            <Tag
-              label="stat"
-              value={
-                <Dropdown
-                  options={STATS_OPTIONS}
-                  value={attackStat}
-                  onChange={(e) =>
-                    onChangeAttackStatByIndex(index, e.target.value)
-                  }
-                />
-              }
-            />
-            <Tag
-              label="mod"
-              value={
-                <input
-                  value={attackMod?.value || 0}
-                  type="number"
-                  onChange={(e) =>
-                    onChangeAttackModByIndex(index, e.target.value)
-                  }
-                />
-              }
-            />
-            <Tag
-              label="proficient"
-              value={
-                <ProficiencyButton
-                  config={{ proficient: proficient }}
-                  onToggle={() => onToggleAttackProficiencyByIndex(index)}
-                />
-              }
-            />
-            <Tag label="range" value={range} />
-            <Tag label="crit range" value={attackCritRange} />
-          </div>
-        </div>
-        {damage.map((d, i) => {
-          const {
-            base = [],
-            isEnabled: damageIsEnabled,
-            stat: damageStat,
-            mod: damageMod,
-            type,
-            crit,
-            label: damageLabel,
-          } = d;
-
-          const damageRoll = get(damageRollFollowups, [i, 'roll']) || [];
-          const damageRollConfig =
-            get(damageRollFollowups, [i, 'config']) || {};
-
-          return (
-            <div key={i}>
-              <span className={styles['section-header']}>
-                <ProficiencyButton
-                  config={{ proficient: damageIsEnabled }}
-                  onToggle={() => onToggleIsEnabled(index, `damage.${i}`)}
-                />
-                <RollableText
-                  value={`Damage${i > 0 ? `${i + 1}` : ''}:`}
-                  disabled={!!damageRollFollowups[i]}
-                  roll={damageRoll}
-                  chatConfig={{
-                    ...damageRollConfig,
-                    label: undefined,
-                  }}
-                />
-              </span>
-              <div className={styles['block']}>
-                <Tag label="base" value={printRollable(base, rollableConfig)} />
-                <Tag label="stat" value={damageStat} />
-                <Tag label="mod" value={damageMod?.value} />
-                <Tag label="type" value={type} />
-                <Tag label="crit" value={crit} />
-                <Tag label="label" value={damageLabel} />
-              </div>
-            </div>
-          );
-        })}
+        <AttackEntryAttack attackIndex={index} />
+        <AttackEntryDamage
+          attackIndex={index}
+          damageRollFollowups={damageRollFollowups}
+        />
         <div className={styles['saving-throw']}>
           <span className={styles['section-header']}>
             <ProficiencyButton

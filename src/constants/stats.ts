@@ -42,5 +42,5 @@ export const STATS_CONFIGS: { [s in STATS]: StatsConfig } = {
 
 export const STATS_OPTIONS = values(STATS).map((v) => ({
   value: v,
-  label: STATS_CONFIGS[v].shortLabel,
+  label: v,
 }));
