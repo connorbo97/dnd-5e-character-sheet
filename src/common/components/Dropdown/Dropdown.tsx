@@ -17,11 +17,12 @@ export const Dropdown = ({ options, value, onChange }: Props) => {
   }, [options]);
 
   const formattedValue = isObject(value) ? value.value : value;
-
   return (
     <select value={formattedValue} onChange={(e) => onChange(e)}>
       {formattedOptions.map((o) => (
-        <option key={o.value}>{o.label}</option>
+        <option key={o.value} value={o.value}>
+          {o.label}
+        </option>
       ))}
     </select>
   );
