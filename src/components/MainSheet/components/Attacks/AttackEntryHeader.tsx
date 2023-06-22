@@ -44,6 +44,7 @@ export const AttackEntryHeader = (props: Props) => {
     critRange: attackCritRange,
   } = attack;
   const { isEnabled: savingThrowIsEnabled, dc, dcSave, effect } = savingThrow;
+  const damageIsEnabled = damageRollFollowups.length > 0;
 
   const {
     attackRoll,
@@ -180,9 +181,27 @@ export const AttackEntryHeader = (props: Props) => {
     ],
   );
 
+  const onRollDamage = useCallback(
+    async (e) => {
+      e.stopPropagation();
+
+      for (let i = 0; i < damageRollFollowups.length; i++) {
+        await onRoll(damageRollFollowups[i].roll, {
+          ...damageRollFollowups[i].config,
+          isFollowUp: i !== 0,
+        });
+      }
+    },
+    [damageRollFollowups, onRoll],
+  );
+
   return (
     <div className={styles['header']}>
-      <div className={styles['attack-roll-header']} onClick={onRollAttack}>
+      <div
+        className={classNameBuilder('attack-roll-header', {
+          disabled: !attackIsEnabled,
+        })}
+        onClick={onRollAttack}>
         <span className={classNameBuilder('attack-name-label', 'label')}>
           {label}
         </span>
@@ -193,7 +212,11 @@ export const AttackEntryHeader = (props: Props) => {
             : attackDCDescription || '-'}
         </span>
       </div>
-      <span className={classNameBuilder('damage-label', 'label')}>
+      <span
+        className={classNameBuilder('damage-label', 'label', {
+          disabled: !damageIsEnabled,
+        })}
+        onClick={onRollDamage}>
         <Tooltip>{damageRollDescription}</Tooltip>
         {damageRollDescription}
       </span>
