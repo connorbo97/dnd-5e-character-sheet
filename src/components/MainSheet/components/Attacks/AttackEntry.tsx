@@ -1,15 +1,10 @@
 import { Tag } from 'common/components/Tag/Tag';
 import styles from './attackEntry.module.scss';
-import {
-  printParsedRollable,
-  printRollable,
-  simplifyRollable,
-} from 'utils/rollableUtils';
-import { get, isNil } from 'lodash';
+import { printParsedRollable, simplifyRollable } from 'utils/rollableUtils';
+import { isNil } from 'lodash';
 import { ChatEntryFollowUp, ChatEntryInputs, ChatType } from 'constants/chat';
-import { RollableText } from 'common/components/RollableText/RollableText';
 import { CollapsibleCard } from 'common/components/CollapsibleCard/CollapsibleCard';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
 import { useAttacks } from 'providers/CharacterSheetProvider/useAttacks';
 import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableConfig';
@@ -28,12 +23,13 @@ export const AttackEntry = (props: Props) => {
   const { rollableConfig } = useRollableConfig();
   const {
     onToggleIsEnabled,
+    onChangeAttackLabelByIndex,
     onChangeAttackDescriptionByIndex,
     onChangeAttackSourceByIndex,
   } = useAttacks();
+  const [contentOpen, setContentOpen] = useState(false);
 
   const { isEnabled: savingThrowIsEnabled, dc, dcSave, effect } = savingThrow;
-
   const { damageRollFollowups, damageRollDescription } = useMemo(() => {
     let damageRollFollowups: Array<ChatEntryFollowUp> = damage
       .filter((d) => d.isEnabled)
@@ -88,7 +84,7 @@ export const AttackEntry = (props: Props) => {
   }, [damage, rollableConfig]);
 
   return (
-    <div key={`${index}-${label}`} className={styles['container']}>
+    <div className={styles['container']}>
       <CollapsibleCard
         header={
           <AttackEntryHeader
@@ -97,7 +93,16 @@ export const AttackEntry = (props: Props) => {
             damageRollDescription={damageRollDescription}
           />
         }
+        open={contentOpen}
+        setOpen={setContentOpen}
         contentClassName={styles['content']}>
+        <div className={styles['label-input-container']}>
+          <input
+            value={label}
+            placeholder="Attack Name"
+            onChange={(e) => onChangeAttackLabelByIndex(index, e.target.value)}
+          />
+        </div>
         <AttackEntryAttack attackIndex={index} />
         <AttackEntryDamage
           attackIndex={index}
@@ -117,22 +122,25 @@ export const AttackEntry = (props: Props) => {
             <Tag label="effect" value={effect} />
           </div>
         </div>
-
-        <div className={styles['description']}>
-          <h5>Description</h5>
-          <textarea
-            value={description}
-            onChange={(e) =>
-              onChangeAttackDescriptionByIndex(index, e.target.value)
-            }
-          />
-        </div>
-        <div className={styles['source']}>
-          <h5>source</h5>
-          <textarea
-            value={source}
-            onChange={(e) => onChangeAttackSourceByIndex(index, e.target.value)}
-          />
+        <div className={styles['metadata']}>
+          <div className={styles['description']}>
+            <h5>Description</h5>
+            <textarea
+              value={description}
+              onChange={(e) =>
+                onChangeAttackDescriptionByIndex(index, e.target.value)
+              }
+            />
+          </div>
+          <div className={styles['source']}>
+            <h5>source</h5>
+            <textarea
+              value={source}
+              onChange={(e) =>
+                onChangeAttackSourceByIndex(index, e.target.value)
+              }
+            />
+          </div>
         </div>
       </CollapsibleCard>
     </div>

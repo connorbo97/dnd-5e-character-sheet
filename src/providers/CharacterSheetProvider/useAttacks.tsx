@@ -53,6 +53,11 @@ export const useAttacks = () => {
     },
     [setSheet],
   );
+  const onChangeAttackLabelByIndex = (index, value) => {
+    setSheet((prevSheet) =>
+      iSet(prevSheet, ['attacks', index, 'label'], value),
+    );
+  };
   const onChangeAttackSourceByIndex = useCallback(
     (index, val) => {
       setSheet((prevSheet) =>
@@ -67,6 +72,7 @@ export const useAttacks = () => {
 
     onToggleIsEnabled,
 
+    onChangeAttackLabelByIndex,
     onChangeAttackStatByIndex,
     onChangeAttackModByIndex,
     onChangeAttackRangeByIndex,
