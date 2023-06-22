@@ -9,6 +9,7 @@ export const Chat = () => {
   const chatsRef: { current: any } = useRef();
   const lastResolvedScroll = useRef(-1);
   const lastResolvedScrollHeight = useRef(-1);
+  const lastResolvedChatHeight = useRef(-1);
   const { chats, appendChat } = useChat();
   const { name } = useFullSheet();
   const [userChat, setUserChat] = useState('');
@@ -25,13 +26,19 @@ export const Chat = () => {
       Math.abs(
         lastResolvedScrollHeight.current - chat.scrollTop - chat.clientHeight,
       ) < 1;
+    const heightChanged = lastResolvedChatHeight.current !== chat.clientHeight;
 
-    if (scrolledToBottom || lastResolvedScroll.current === -1) {
+    if (
+      heightChanged ||
+      scrolledToBottom ||
+      lastResolvedScroll.current === -1
+    ) {
       chat.scrollTop = chat.scrollHeight;
     }
 
     lastResolvedScroll.current = chats.length;
     lastResolvedScrollHeight.current = chat.scrollHeight;
+    lastResolvedChatHeight.current = chat.clientHeight;
   }, [chats]);
 
   return (
