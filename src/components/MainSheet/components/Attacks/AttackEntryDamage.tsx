@@ -35,7 +35,7 @@ export const AttackEntryDamage = ({ attackIndex }) => {
       ),
     [damage, rollableConfig],
   );
-  console.log({ damageBases, critDamages });
+
   return (
     <>
       {damage.map((d, i) => {
