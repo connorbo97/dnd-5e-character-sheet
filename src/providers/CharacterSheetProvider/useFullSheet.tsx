@@ -14,6 +14,7 @@ import { useLevels } from './useLevels';
 import { useAttacks } from './useAttacks';
 import { useMoney } from './useMoney';
 import { useInventory } from './useInventory';
+import { useAdvantageToggle } from './useAdvantageToggle';
 
 export const useFullSheet = () => {
   const { sheet } = useCharacterSheet();
@@ -32,6 +33,7 @@ export const useFullSheet = () => {
   const attacksHook = useAttacks();
   const moneyHook = useMoney();
   const inventoryHook = useInventory();
+  const advantageToggle = useAdvantageToggle();
 
   return {
     ...sheet,
@@ -50,5 +52,6 @@ export const useFullSheet = () => {
     ...attacksHook,
     ...moneyHook,
     ...inventoryHook,
+    ...advantageToggle,
   };
 };

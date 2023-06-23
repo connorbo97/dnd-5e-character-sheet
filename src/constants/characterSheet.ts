@@ -1,3 +1,4 @@
+import { ADVANTAGE_TOGGLE } from './advantageToggle';
 import { ALIGNMENTS } from './alignments';
 import { AttackEntry } from './attacks';
 import { BACKGROUNDS } from './backgrounds';
@@ -24,6 +25,7 @@ export type CharacterSheetLevels = {
 
 export type CharacterSheet = {
   name: string;
+  advantageToggle: ADVANTAGE_TOGGLE;
   profBonus: number;
   levels: CharacterSheetLevels;
   spellcastingAbility: STATS | 'NONE';
@@ -76,6 +78,7 @@ export type CharacterSheet = {
 
 export const DEFAULT_SHEET: CharacterSheet = {
   name: 'Placeholder',
+  advantageToggle: ADVANTAGE_TOGGLE.NORMAL,
   profBonus: 2,
   spellcastingAbility: STATS.WIS,
   levels: {

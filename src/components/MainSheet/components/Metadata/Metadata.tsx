@@ -5,7 +5,8 @@ import { CLASS_CONFIGS } from 'constants/classes';
 import { Tag } from 'common/components/Tag/Tag';
 import { RACE_CONFIGS } from 'constants/race';
 import { BACKGROUND_CONFIGS } from 'constants/backgrounds';
-import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
+import { BooleanButton } from 'common/components/ProficiencyButton/BooleanButton';
+import { AdvantageToggle } from '../AdvantageToggle/AdvantageToggle';
 
 export const Metadata = () => {
   const {
@@ -48,12 +49,13 @@ export const Metadata = () => {
       <Tag
         label={'Inspiration'}
         value={
-          <ProficiencyButton
-            config={{ proficient: inspiration }}
+          <BooleanButton
+            value={inspiration}
             onToggle={() => onToggleInspiration()}
           />
         }
       />
+      <AdvantageToggle />
     </div>
   );
 };

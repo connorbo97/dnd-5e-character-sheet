@@ -59,8 +59,9 @@ export const useChat = () => {
     async (
       roll: Rollable | string,
       chatConfig: ChatEntryInputs,
-      rollOptions = {},
+      options: { [s: string]: any } = {},
     ) => {
+      const { hasAdvantage, hasDisadvantage, ...rollOptions } = options;
       let res;
       try {
         const { isCrit } = chatConfig;
