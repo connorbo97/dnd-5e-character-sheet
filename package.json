@@ -1,6 +1,7 @@
 {
   "name": "dnd-5e-character-sheet",
   "version": "0.1.0",
+  "homepage": "https://connorbo97.github.io/dnd-5e-character-sheet",
   "private": true,
   "dependencies": {
     "@3d-dice/dice-box": "^1.0.8",
