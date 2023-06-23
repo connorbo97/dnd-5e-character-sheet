@@ -9,7 +9,7 @@ import { InventoryItem } from './inventory';
 import { MONEY } from './money';
 import { RACES } from './race';
 import { ROLLABLES } from './rollable';
-import { SKILLS } from './skills';
+import { SKILLS, SKILL_SORT } from './skills';
 import { STATS } from './stats';
 import { WHISPER_TOGGLE } from './whisperToggle';
 
@@ -28,6 +28,7 @@ export type CharacterSheet = {
   name: string;
   advantageToggle: ADVANTAGE_TOGGLE;
   whisperToggle: WHISPER_TOGGLE;
+  skillSort: SKILL_SORT;
   profBonus: number;
   levels: CharacterSheetLevels;
   spellcastingAbility: STATS | 'NONE';
@@ -110,6 +111,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
     CHA: 10,
   },
   skills: {},
+  skillSort: SKILL_SORT.ALPHABETICAL,
   savingThrows: {},
   customChecks: [
     {

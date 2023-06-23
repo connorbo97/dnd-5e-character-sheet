@@ -7,6 +7,11 @@
   grid-area: skills;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .skills {
   display: flex;
   flex-direction: column;

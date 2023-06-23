@@ -99,3 +99,14 @@ export const SKILL_CONFIGS: { [s in SKILLS]: SkillConfig } = {
     stat: STATS.WIS,
   },
 };
+
+export enum SKILL_SORT {
+  ALPHABETICAL = 'ALPHABETICAL',
+  ABILITY = 'ABILITY',
+  SCORE = 'SCORE',
+}
+export const SKILL_SORT_OPTIONS = [
+  { value: SKILL_SORT.ALPHABETICAL, label: 'Alphabetical' },
+  { value: SKILL_SORT.ABILITY, label: 'Ability' },
+  { value: SKILL_SORT.SCORE, label: 'Score' },
+];

@@ -9,7 +9,7 @@ import { RollableText } from 'common/components/RollableText/RollableText';
 import { SKILLS } from 'constants/skills';
 import { ChatType } from 'constants/chat';
 
-export const Skill = ({ type, config }) => {
+export const Skill = ({ type, config, addStatLabel }) => {
   const {
     skills,
     onToggleSkillProficiency,
@@ -28,27 +28,30 @@ export const Skill = ({ type, config }) => {
   const isStealthCheck = type === SKILLS.STEALTH;
 
   return (
-    <div key={type} className={styles['container']}>
-      <ProficiencyButton
-        config={skills[type]}
-        onToggle={() => onToggleSkillProficiency(type)}
-      />
-      <RollableText
-        className={styles['label']}
-        value={finalLabel + ':'}
-        roll={[D20_DICE, statModifier]}
-        chatConfig={{
-          type: ChatType.BASIC,
-          label: finalLabel,
-          labelSuffix: `(${labelStatModifier})`,
-          descriptionLevel: isStealthCheck ? 'bad' : undefined,
-          description: isStealthCheck ? disadvantageStealthSource : undefined,
-        }}
-        rollOptions={{
-          isDisadvantage: isStealthCheck && disadvantageStealthCheck,
-        }}
-      />
-      <span>{labelStatModifier}</span>
-    </div>
+    <>
+      {addStatLabel && <h5>{STATS_CONFIGS[stat].label}</h5>}
+      <div key={type} className={styles['container']}>
+        <ProficiencyButton
+          config={skills[type]}
+          onToggle={() => onToggleSkillProficiency(type)}
+        />
+        <RollableText
+          className={styles['label']}
+          value={finalLabel + ':'}
+          roll={[D20_DICE, statModifier]}
+          chatConfig={{
+            type: ChatType.BASIC,
+            label: finalLabel,
+            labelSuffix: `(${labelStatModifier})`,
+            descriptionLevel: isStealthCheck ? 'bad' : undefined,
+            description: isStealthCheck ? disadvantageStealthSource : undefined,
+          }}
+          rollOptions={{
+            isDisadvantage: isStealthCheck && disadvantageStealthCheck,
+          }}
+        />
+        <span>{labelStatModifier}</span>
+      </div>
+    </>
   );
 };
