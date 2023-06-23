@@ -1,10 +1,9 @@
 import { Tag } from 'common/components/Tag/Tag';
 import attackEntryStyles from './attackEntry.module.scss';
 import styles from './attackEntryDamage.module.scss';
-import { printRollable } from 'utils/rollableUtils';
+import { printNonParsedRollable } from 'utils/rollableUtils';
 import { useAttacks } from 'providers/CharacterSheetProvider/useAttacks';
 import { ProficiencyButton } from 'common/components/ProficiencyButton/ProficiencyButton';
-import { useRollableConfig } from 'providers/CharacterSheetProvider/useRollableConfig';
 import { DelayedInput } from 'common/components/DelayedInput/DelayedInput';
 import { useMemo } from 'react';
 
@@ -18,22 +17,21 @@ export const AttackEntryDamage = ({ attackIndex }) => {
     onChangeAttackDamageCritByIndex,
     onChangeAttackDamageLabelByIndex,
   } = useAttacks();
-  const { rollableConfig } = useRollableConfig();
   const damage = attacks[attackIndex].damage;
 
   const damageBases = useMemo(
     () =>
       [damage[0].base, damage[1].base].map((d) =>
-        printRollable(d, rollableConfig),
+        printNonParsedRollable(d || []),
       ),
-    [damage, rollableConfig],
+    [damage],
   );
   const critDamages = useMemo(
     () =>
       [damage[0].crit, damage[1].crit].map((c) =>
-        printRollable(c || [], rollableConfig),
+        printNonParsedRollable(c || []),
       ),
-    [damage, rollableConfig],
+    [damage],
   );
 
   return (
