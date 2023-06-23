@@ -14,6 +14,7 @@ export const Toggle = ({
       {options.map(({ value, label }) => {
         return (
           <div
+            key={value}
             className={classNameBuilder('btn', optionClassName, {
               selected: value === selected,
             })}
