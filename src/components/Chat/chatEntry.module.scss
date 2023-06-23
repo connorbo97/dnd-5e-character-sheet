@@ -61,4 +61,11 @@
 .description {
   color: $light-gray;
   font-size: 10px;
+
+  &.bad {
+    color: $red;
+  }
+  &.good {
+    color: $green;
+  }
 }

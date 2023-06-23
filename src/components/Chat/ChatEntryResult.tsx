@@ -32,14 +32,6 @@ export const ChatEntryResult = (props: Props) => {
     (ChatType.ATTACK || ChatType.BASIC) &&
     (isDisadvantage || isAdvantage) &&
     !(isAdvantage && isDisadvantage);
-  console.log({
-    secondRoll,
-    isAdvantage,
-    isDisadvantage,
-    type,
-    shouldRenderBothResults,
-    shouldHighlightSecondResult,
-  });
 
   const content = !shouldRenderBothResults ? (
     <span

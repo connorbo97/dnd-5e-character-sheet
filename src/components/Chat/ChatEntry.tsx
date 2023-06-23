@@ -16,6 +16,7 @@ export const ChatEntry = (props: Props) => {
     labelSuffix,
     playerName,
     description,
+    descriptionLevel,
     critRange,
     followUp,
     isFollowUp,
@@ -85,7 +86,9 @@ export const ChatEntry = (props: Props) => {
         />
 
         {description && (
-          <span className={styles['description']}>{description}</span>
+          <span className={classNameBuilder('description', descriptionLevel)}>
+            {description}
+          </span>
         )}
         {sanitizedLabel && (
           <span

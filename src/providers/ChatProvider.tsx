@@ -85,6 +85,12 @@ export const useChat = () => {
       let isAdvantage;
       let isDisadvantage;
 
+      console.log({
+        type,
+        optionsAdvantage,
+        advantageToggle,
+        optionsDisadvantage,
+      });
       // if the type is advantage/disadvantage compatible, calc advantage or disadvantage
       if (!type || type === ChatType.ATTACK || type === ChatType.BASIC) {
         isAdvantage =

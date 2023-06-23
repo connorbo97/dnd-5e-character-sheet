@@ -36,6 +36,7 @@ export type ChatEntryInputs = {
   isCrit?: boolean;
 
   description?: string;
+  descriptionLevel?: 'good' | 'bad';
   dc?: number;
 
   isFollowUp?: boolean;

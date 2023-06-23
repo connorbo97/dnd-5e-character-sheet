@@ -1,11 +1,20 @@
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { iSet, iUpdate } from 'utils/lodashUtils';
 import { generateRollableFromString } from 'utils/rollableUtils';
 
 export const useInventory = () => {
   const { sheet, setSheet } = useCharacterSheet();
   const { inventory } = sheet;
+
+  const { disadvantageStealthCheck, label: disadvantageStealthSource } =
+    useMemo(() => {
+      return (
+        inventory.find(
+          ({ disadvantageStealthCheck }) => disadvantageStealthCheck,
+        ) || { disadvantageStealthCheck: false, label: '' }
+      );
+    }, [inventory]);
 
   const onChangeInventoryPropertyByIndex = useCallback(
     (index, property, value) => {
@@ -58,6 +67,8 @@ export const useInventory = () => {
 
   return {
     inventory,
+    disadvantageStealthCheck,
+    disadvantageStealthSource,
 
     onToggleInventoryEquippedByIndex,
     onToggleInventoryUseAsResourceByIndex,

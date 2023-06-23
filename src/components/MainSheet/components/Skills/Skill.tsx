@@ -6,10 +6,18 @@ import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import { addNumberSign } from 'utils/stringUtils';
 import { getProficiencyBonus } from 'constants/proficiencyUtils';
 import { RollableText } from 'common/components/RollableText/RollableText';
+import { SKILLS } from 'constants/skills';
+import { ChatType } from 'constants/chat';
 
 export const Skill = ({ type, config }) => {
-  const { skills, onToggleSkillProficiency, getStatModifier, profBonus } =
-    useFullSheet();
+  const {
+    skills,
+    onToggleSkillProficiency,
+    getStatModifier,
+    profBonus,
+    disadvantageStealthCheck,
+    disadvantageStealthSource,
+  } = useFullSheet();
   const { stat, label } = config;
 
   const statModifier =
@@ -17,6 +25,7 @@ export const Skill = ({ type, config }) => {
   const labelStatModifier = addNumberSign(statModifier);
 
   const finalLabel = `${label}(${STATS_CONFIGS[stat].shortLabel})`;
+  const isStealthCheck = type === SKILLS.STEALTH;
 
   return (
     <div key={type} className={styles['container']}>
@@ -29,8 +38,14 @@ export const Skill = ({ type, config }) => {
         value={finalLabel + ':'}
         roll={[D20_DICE, statModifier]}
         chatConfig={{
+          type: ChatType.BASIC,
           label: finalLabel,
           labelSuffix: `(${labelStatModifier})`,
+          descriptionLevel: isStealthCheck ? 'bad' : undefined,
+          description: isStealthCheck ? disadvantageStealthSource : undefined,
+        }}
+        rollOptions={{
+          isDisadvantage: isStealthCheck && disadvantageStealthCheck,
         }}
       />
       <span>{labelStatModifier}</span>
