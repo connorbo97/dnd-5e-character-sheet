@@ -3,6 +3,7 @@ import styles from './armorClass.module.scss';
 import { useMemo } from 'react';
 import { STATS } from 'constants/stats';
 import { parseStaticRollable } from 'utils/rollableUtils';
+import { Tag } from 'common/components/Tag/Tag';
 
 export const ArmorClass = () => {
   const { inventory, getStatModifier, stats, profBonus } = useFullSheet();
@@ -40,7 +41,7 @@ export const ArmorClass = () => {
 
   return (
     <div className={styles['container']}>
-      <h5>AC: {max}</h5>
+      <Tag label="AC" value={max} />
     </div>
   );
 };

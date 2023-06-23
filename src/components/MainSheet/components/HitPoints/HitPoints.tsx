@@ -49,7 +49,6 @@ export const HitPoints = () => {
 
   return (
     <div className={styles['container']}>
-      <h5>Hit Points </h5>
       <Tag
         label="HP"
         value={
