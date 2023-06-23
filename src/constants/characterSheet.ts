@@ -11,6 +11,7 @@ import { RACES } from './race';
 import { ROLLABLES } from './rollable';
 import { SKILLS } from './skills';
 import { STATS } from './stats';
+import { WHISPER_TOGGLE } from './whisperToggle';
 
 export type CharacterSheetStats = {
   [s in STATS]: number;
@@ -26,6 +27,7 @@ export type CharacterSheetLevels = {
 export type CharacterSheet = {
   name: string;
   advantageToggle: ADVANTAGE_TOGGLE;
+  whisperToggle: WHISPER_TOGGLE;
   profBonus: number;
   levels: CharacterSheetLevels;
   spellcastingAbility: STATS | 'NONE';
@@ -79,6 +81,7 @@ export type CharacterSheet = {
 export const DEFAULT_SHEET: CharacterSheet = {
   name: 'Placeholder',
   advantageToggle: ADVANTAGE_TOGGLE.NORMAL,
+  whisperToggle: WHISPER_TOGGLE.NORMAL,
   profBonus: 2,
   spellcastingAbility: STATS.WIS,
   levels: {

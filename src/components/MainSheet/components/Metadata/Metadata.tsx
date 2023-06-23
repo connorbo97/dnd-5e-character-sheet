@@ -7,6 +7,7 @@ import { RACE_CONFIGS } from 'constants/race';
 import { BACKGROUND_CONFIGS } from 'constants/backgrounds';
 import { BooleanButton } from 'common/components/ProficiencyButton/BooleanButton';
 import { AdvantageToggle } from '../AdvantageToggle/AdvantageToggle';
+import { WhisperToggle } from '../WhisperToggle/WhisperToggle';
 
 export const Metadata = () => {
   const {
@@ -56,6 +57,7 @@ export const Metadata = () => {
         }
       />
       <AdvantageToggle />
+      <WhisperToggle />
     </div>
   );
 };

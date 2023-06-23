@@ -1,0 +1,30 @@
+@import 'src/styles/_colors';
+
+.toggle {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.btn {
+  flex: 1;
+  cursor: pointer;
+  border: 1px solid $white;
+  padding: 0.5rem;
+  background-color: $secondary;
+
+  &.selected {
+    background-color: $tertiary;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+  &:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+}

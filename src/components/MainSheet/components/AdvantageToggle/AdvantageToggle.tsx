@@ -1,7 +1,11 @@
 import { useAdvantageToggle } from 'providers/CharacterSheetProvider/useAdvantageToggle';
 import styles from './advantageToggle.module.scss';
 import classnames from 'classnames/bind';
-import { ADVANTAGE_TOGGLE } from 'constants/advantageToggle';
+import {
+  ADVANTAGE_TOGGLE,
+  ADVANTAGE_TOGGLE_OPTIONS,
+} from 'constants/advantageToggle';
+import { Toggle } from 'common/components/Toggle/Toggle';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -10,31 +14,11 @@ export const AdvantageToggle = () => {
   return (
     <div className={styles['container']}>
       <h5>Advantage Toggle</h5>
-      <div className={styles['toggle']}>
-        <div
-          className={classNameBuilder('btn', {
-            selected: advantageToggle === ADVANTAGE_TOGGLE.DISADVANTAGE,
-          })}
-          onClick={() =>
-            onChangeAdvantageToggle(ADVANTAGE_TOGGLE.DISADVANTAGE)
-          }>
-          Disadvantage
-        </div>
-        <div
-          className={classNameBuilder('btn', {
-            selected: advantageToggle === ADVANTAGE_TOGGLE.NORMAL,
-          })}
-          onClick={() => onChangeAdvantageToggle(ADVANTAGE_TOGGLE.NORMAL)}>
-          Normal
-        </div>
-        <div
-          className={classNameBuilder('btn', {
-            selected: advantageToggle === ADVANTAGE_TOGGLE.ADVANTAGE,
-          })}
-          onClick={() => onChangeAdvantageToggle(ADVANTAGE_TOGGLE.ADVANTAGE)}>
-          Advantage
-        </div>
-      </div>
+      <Toggle
+        options={ADVANTAGE_TOGGLE_OPTIONS}
+        onChange={(value) => onChangeAdvantageToggle(value)}
+        selected={advantageToggle}
+      />
     </div>
   );
 };

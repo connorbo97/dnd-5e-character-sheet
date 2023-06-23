@@ -15,6 +15,7 @@ import { useAttacks } from './useAttacks';
 import { useMoney } from './useMoney';
 import { useInventory } from './useInventory';
 import { useAdvantageToggle } from './useAdvantageToggle';
+import { useWhisperToggle } from './useWhisperToggle';
 
 export const useFullSheet = () => {
   const { sheet } = useCharacterSheet();
@@ -34,6 +35,7 @@ export const useFullSheet = () => {
   const moneyHook = useMoney();
   const inventoryHook = useInventory();
   const advantageToggle = useAdvantageToggle();
+  const whisperToggle = useWhisperToggle();
 
   return {
     ...sheet,
@@ -53,5 +55,6 @@ export const useFullSheet = () => {
     ...moneyHook,
     ...inventoryHook,
     ...advantageToggle,
+    ...whisperToggle,
   };
 };
