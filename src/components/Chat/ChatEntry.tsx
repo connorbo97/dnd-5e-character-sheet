@@ -1,27 +1,29 @@
 import { ChatEntry as ChatEntryType, ChatType } from 'constants/chat';
 import styles from './chatEntry.module.scss';
 import classnames from 'classnames/bind';
-import { noop } from 'lodash';
+import { noop, sum } from 'lodash';
 import { useChat } from 'providers/ChatProvider';
-import { Tooltip } from 'react-mint';
+import { ChatEntryResult } from './ChatEntryResult';
 
 const classNameBuilder = classnames.bind(styles);
 
 interface Props extends ChatEntryType {}
 
-export const ChatEntry = ({
-  result,
-  detailedResult,
-  type,
-  label,
-  labelSuffix,
-  playerName,
-  description,
-  critRange,
-  followUp,
-  isFollowUp,
-  resultArray,
-}: Props) => {
+export const ChatEntry = (props: Props) => {
+  const {
+    type,
+    label,
+    labelSuffix,
+    playerName,
+    description,
+    critRange,
+    followUp,
+    isFollowUp,
+    isAdvantage,
+    isDisadvantage,
+    resultArray,
+    secondRoll,
+  } = props;
   const { onRoll } = useChat();
   const finalPlayerName =
     type === ChatType.CHAT ? `${playerName} says:` : `${playerName}:`;
@@ -32,14 +34,34 @@ export const ChatEntry = ({
 
   let isCritSuccess = false;
   let isCritFailure = false;
+  let shouldHighlightSecondResult = false;
 
-  if ((type === ChatType.ATTACK || type === ChatType.BASIC) && resultArray) {
+  if (
+    (!type || type === ChatType.ATTACK || type === ChatType.BASIC) &&
+    resultArray
+  ) {
     const firstResult = resultArray[0];
     const d20Result = Array.isArray(firstResult) ? firstResult : [firstResult];
 
     // check if the d20 roll >= crit range
     isCritSuccess = d20Result.some((r) => r >= sanitizedCritRange);
     isCritFailure = d20Result.some((r) => r === 1);
+
+    if (secondRoll) {
+      const secondFirstResult = secondRoll.resultArray?.[0];
+      const secondD20Result = Array.isArray(secondFirstResult)
+        ? secondFirstResult
+        : [secondFirstResult];
+
+      if (
+        (isAdvantage && sum(secondD20Result) > sum(d20Result)) ||
+        (isDisadvantage && sum(secondD20Result) < sum(d20Result))
+      ) {
+        shouldHighlightSecondResult = true;
+        isCritSuccess = secondD20Result.some((r) => r >= sanitizedCritRange);
+        isCritFailure = secondD20Result.some((r) => r === 1);
+      }
+    }
   }
 
   let sanitizedLabel = label;
@@ -54,15 +76,14 @@ export const ChatEntry = ({
     <div className={styles['container']}>
       {!isFollowUp && <div className={styles['header']}>{finalPlayerName}</div>}
       <div className={styles['content']}>
-        <span
-          className={classNameBuilder('result', type, {
-            crit: isCritSuccess,
-            failure: isCritFailure,
-            'follow-up': isFollowUp,
-          })}>
-          {detailedResult && <Tooltip interactive>{detailedResult}</Tooltip>}
-          {result}
-        </span>
+        <ChatEntryResult
+          {...props}
+          isCritSuccess={isCritSuccess}
+          isCritFailure={isCritFailure}
+          shouldHighlightSecondResult={shouldHighlightSecondResult}
+          critRange={sanitizedCritRange}
+        />
+
         {description && (
           <span className={styles['description']}>{description}</span>
         )}

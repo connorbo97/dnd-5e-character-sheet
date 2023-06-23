@@ -27,25 +27,6 @@
   align-items: center;
 }
 
-.result {
-  min-height: 4rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  white-space: pre-line;
-
-  &.chat {
-    justify-content: flex-start;
-    width: 100%;
-  }
-
-  &.follow-up {
-    min-height: 3rem;
-  }
-}
-
 .label {
   text-transform: capitalize;
   font-weight: bold;
@@ -80,12 +61,4 @@
 .description {
   color: $light-gray;
   font-size: 10px;
-}
-
-.crit {
-  color: $green;
-}
-
-.failure {
-  color: $red;
 }

@@ -16,8 +16,16 @@ export type ChatEntryFollowUp = {
 
 export type ChatEntryInputs = {
   playerName?: string;
-  result?: string;
-  resultArray?: Array<number>;
+  result?: string | Array<string>;
+  resultArray?: number | Array<number>;
+  detailedResult?: string | Array<string>;
+  isDisadvantage?: boolean;
+  secondRoll?: {
+    result?: string | Array<string>;
+    resultArray?: number | Array<number>;
+    detailedResult?: string | Array<string>;
+  };
+  isAdvantage?: boolean;
   type?: ChatType;
   label?: string;
   labelSuffix?: string;
@@ -29,7 +37,6 @@ export type ChatEntryInputs = {
 
   description?: string;
   dc?: number;
-  detailedResult?: string;
 
   isFollowUp?: boolean;
   followUp?: Array<ChatEntryFollowUp>;
@@ -37,6 +44,6 @@ export type ChatEntryInputs = {
 
 export interface ChatEntry extends ChatEntryInputs {
   playerName: string;
-  result: string;
+  result: string | Array<string>;
   type: ChatType;
 }
