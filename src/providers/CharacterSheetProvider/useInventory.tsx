@@ -1,3 +1,4 @@
+import { sum } from 'lodash';
 import { useCharacterSheet } from 'providers/CharacterSheetProvider';
 import { useCallback, useMemo } from 'react';
 import { iSet, iUpdate } from 'utils/lodashUtils';
@@ -7,6 +8,9 @@ export const useInventory = () => {
   const { sheet, setSheet } = useCharacterSheet();
   const { inventory } = sheet;
 
+  const totalWeight = useMemo(() => {
+    return sum(inventory.map(({ total, weight }) => total * weight)).toFixed(2);
+  }, [inventory]);
   const { disadvantageStealthCheck, label: disadvantageStealthSource } =
     useMemo(() => {
       return (
@@ -69,6 +73,7 @@ export const useInventory = () => {
     inventory,
     disadvantageStealthCheck,
     disadvantageStealthSource,
+    totalWeight,
 
     onToggleInventoryEquippedByIndex,
     onToggleInventoryUseAsResourceByIndex,
