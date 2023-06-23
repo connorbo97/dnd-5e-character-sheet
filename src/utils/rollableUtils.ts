@@ -147,6 +147,35 @@ export const calculateRollable = (
   );
 };
 
+export const printNonParsedRollable = (rawInput: Array<RollableEntry>) => {
+  return rawInput
+    .map((val, i) => {
+      let stringVal = val + '';
+      let parsedVal;
+      let isNumberVal = false;
+
+      if (isDiceRoll(val)) {
+        parsedVal = (val as DiceRoll).join('');
+      } else if (isStringDiceRoll(stringVal)) {
+        parsedVal = val;
+      } else {
+        const numberVal = parseInt(stringVal);
+        isNumberVal = isNumber(parsedVal) && !isNaN(parsedVal) && parsedVal < 0;
+        parsedVal = isNumberVal ? numberVal : val;
+      }
+
+      if (i === 0) {
+        return parsedVal;
+      }
+
+      if (isNumberVal && parsedVal < 0) {
+        return `- ${Math.abs(parsedVal)}`;
+      }
+
+      return `+ ${parsedVal}`;
+    })
+    .join(' ');
+};
 export const printParsedRollable = (
   rawInput: Array<string | number | DiceRoll>,
 ) => {
