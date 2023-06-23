@@ -12,6 +12,7 @@ import { useStats } from './useStats';
 import { useRollableConfig } from './useRollableConfig';
 import { useLevels } from './useLevels';
 import { useAttacks } from './useAttacks';
+import { useMoney } from './useMoney';
 
 export const useFullSheet = () => {
   const { sheet } = useCharacterSheet();
@@ -28,6 +29,7 @@ export const useFullSheet = () => {
   const rollableConfigHook = useRollableConfig();
   const levelsHook = useLevels();
   const attacksHook = useAttacks();
+  const moneyHook = useMoney();
 
   return {
     ...sheet,
@@ -44,5 +46,6 @@ export const useFullSheet = () => {
     ...rollableConfigHook,
     ...levelsHook,
     ...attacksHook,
+    ...moneyHook,
   };
 };

@@ -1,3 +1,5 @@
+@import 'src/styles/_colors';
+
 .container {
   grid-area: money;
 }
@@ -10,4 +12,8 @@
 .money-container {
   display: flex;
   flex-direction: column;
+}
+
+.label {
+  background-color: $secondary;
 }

@@ -1,16 +1,18 @@
 import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './money.module.scss';
 import { MONEY_CONFIGS } from 'constants/money';
+import { useMoney } from 'providers/CharacterSheetProvider/useMoney';
 
 export const Money = () => {
-  const { money } = useFullSheet();
+  const { money, onChangeMoneyByType } = useMoney();
+
   return (
     <div className={styles['container']}>
       <h3>Money</h3>
       <div className={styles['content']}>
         {Object.entries(MONEY_CONFIGS).map(([moneyType, { shortLabel }]) => (
           <div key={moneyType} className={styles['money-container']}>
-            <u>{shortLabel}</u>
+            <span className={styles['label']}>{shortLabel}</span>
             <span>{money[moneyType] || 0}</span>
           </div>
         ))}
