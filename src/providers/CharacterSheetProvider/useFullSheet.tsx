@@ -16,6 +16,8 @@ import { useMoney } from './useMoney';
 import { useInventory } from './useInventory';
 import { useAdvantageToggle } from './useAdvantageToggle';
 import { useWhisperToggle } from './useWhisperToggle';
+import { useEffect } from 'react';
+import { CHARACTER_SHEET_KEY } from 'constants/localStorage';
 
 export const useFullSheet = () => {
   const { sheet } = useCharacterSheet();
@@ -36,6 +38,10 @@ export const useFullSheet = () => {
   const inventoryHook = useInventory();
   const advantageToggle = useAdvantageToggle();
   const whisperToggle = useWhisperToggle();
+
+  useEffect(() => {
+    localStorage.setItem(CHARACTER_SHEET_KEY, JSON.stringify(sheet));
+  }, [sheet]);
 
   return {
     ...sheet,

@@ -1,6 +1,7 @@
 import { DEFAULT_SHEET } from 'constants/characterSheet';
 import { createContext, useContext, useMemo, useState } from 'react';
 import { noop } from 'lodash';
+import { CHARACTER_SHEET_KEY } from 'constants/localStorage';
 
 const CharacterSheetContext = createContext({
   sheet: DEFAULT_SHEET,
@@ -8,7 +9,14 @@ const CharacterSheetContext = createContext({
 });
 
 export const CharacterSheetProvider = ({ ...rest }) => {
-  const [sheet, setSheet] = useState(DEFAULT_SHEET);
+  const initialData = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem(CHARACTER_SHEET_KEY) || '');
+    } catch (err) {
+      return DEFAULT_SHEET;
+    }
+  }, []);
+  const [sheet, setSheet] = useState(initialData);
 
   const value = useMemo(
     () => ({
