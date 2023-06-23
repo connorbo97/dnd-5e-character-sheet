@@ -33,10 +33,10 @@ export const useInventory = () => {
   const onChangeInventoryWeightByIndex = (index, value) =>
     onChangeInventoryPropertyByIndex(index, 'weight', value);
   const onChangeInventoryModByIndex = (index, mod, value) =>
-    onChangeInventoryPropertyByIndex(index, `mod.${mod}`, value);
+    onChangeInventoryPropertyByIndex(index, `mods.${mod}`, value);
   const onChangeInventoryACByIndex = (index, value) => {
     setSheet((prevSheet) =>
-      iUpdate(prevSheet, ['inventory', index, 'mod', 'ac'], (prev) => {
+      iUpdate(prevSheet, ['inventory', index, 'mods', 'ac'], (prev) => {
         try {
           const a = generateRollableFromString(value);
 
@@ -60,5 +60,6 @@ export const useInventory = () => {
     onChangeInventoryTotalByIndex,
     onChangeInventoryWeightByIndex,
     onChangeInventoryModByIndex,
+    onChangeInventoryACByIndex,
   };
 };
