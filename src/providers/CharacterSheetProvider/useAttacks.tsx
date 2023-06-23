@@ -86,7 +86,7 @@ export const useAttacks = () => {
         (prev) => {
           try {
             const a = generateRollableFromString(value);
-            console.log(a);
+
             return a;
           } catch (err) {
             return prev;
