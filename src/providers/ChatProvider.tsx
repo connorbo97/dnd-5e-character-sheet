@@ -12,6 +12,7 @@ import { Rollable } from 'constants/rollable';
 import { useFullSheet } from './CharacterSheetProvider/useFullSheet';
 import { useAdvantageToggle } from './CharacterSheetProvider/useAdvantageToggle';
 import { ADVANTAGE_TOGGLE } from 'constants/advantageToggle';
+import { useWhisperToggle } from './CharacterSheetProvider/useWhisperToggle';
 
 type ChatContextValue = {
   chats: Array<ChatEntry>;
@@ -49,6 +50,7 @@ export const useChat = () => {
   const { name, rollableConfig } = useFullSheet();
   const { chats, setChats } = useContext(ChatContext);
   const { advantageToggle } = useAdvantageToggle();
+  const { isWhispering } = useWhisperToggle();
 
   const appendChat = useCallback(
     (entry: ChatEntry) => {
@@ -85,12 +87,6 @@ export const useChat = () => {
       let isAdvantage;
       let isDisadvantage;
 
-      console.log({
-        type,
-        optionsAdvantage,
-        advantageToggle,
-        optionsDisadvantage,
-      });
       // if the type is advantage/disadvantage compatible, calc advantage or disadvantage
       if (!type || type === ChatType.ATTACK || type === ChatType.BASIC) {
         isAdvantage =
@@ -128,6 +124,7 @@ export const useChat = () => {
           secondRoll: mapDiceBoxResultToChatEntryResult(secondRoll),
           isAdvantage,
           isDisadvantage,
+          isWhisper: isWhispering,
           ...chatConfig,
         };
 
@@ -145,7 +142,7 @@ export const useChat = () => {
         return null;
       }
     },
-    [advantageToggle, appendChat, name, rollableConfig],
+    [advantageToggle, appendChat, isWhispering, name, rollableConfig],
   );
 
   return {

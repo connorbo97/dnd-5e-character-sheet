@@ -22,6 +22,7 @@ export const ChatEntry = (props: Props) => {
     isFollowUp,
     isAdvantage,
     isDisadvantage,
+    isWhisper,
     resultArray,
     secondRoll,
   } = props;
@@ -74,9 +75,9 @@ export const ChatEntry = (props: Props) => {
   }
 
   return (
-    <div className={styles['container']}>
+    <div className={classNameBuilder('container')}>
       {!isFollowUp && <div className={styles['header']}>{finalPlayerName}</div>}
-      <div className={styles['content']}>
+      <div className={classNameBuilder('content', { whisper: isWhisper })}>
         <ChatEntryResult
           {...props}
           isCritSuccess={isCritSuccess}

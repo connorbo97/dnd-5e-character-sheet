@@ -19,6 +19,7 @@ export type ChatEntryInputs = {
   result?: string | Array<string>;
   resultArray?: number | Array<number>;
   detailedResult?: string | Array<string>;
+  isWhisper?: boolean;
   isDisadvantage?: boolean;
   secondRoll?: {
     result?: string | Array<string>;
