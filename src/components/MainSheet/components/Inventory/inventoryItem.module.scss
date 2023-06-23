@@ -5,3 +5,18 @@
   border: 1px solid white;
   border-top: 0;
 }
+
+.header {
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
+}
+.label {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.label-input {
+  width: 90%;
+  padding: 0.5rem;
+}

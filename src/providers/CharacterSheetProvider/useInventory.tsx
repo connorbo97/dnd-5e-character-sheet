@@ -21,6 +21,14 @@ export const useInventory = () => {
     setSheet((prev) =>
       iUpdate(prev, `inventory.${index}.useAsResource`, (prevE) => !prevE),
     );
+  const onToggleInventoryDisadvantageStealthCheckByIndex = (index) =>
+    setSheet((prev) =>
+      iUpdate(
+        prev,
+        `inventory.${index}.disadvantageStealthCheck`,
+        (prevE) => !prevE,
+      ),
+    );
 
   const onChangeInventoryLabelByIndex = (index, value) =>
     onChangeInventoryPropertyByIndex(index, 'label', value);
@@ -53,6 +61,7 @@ export const useInventory = () => {
 
     onToggleInventoryEquippedByIndex,
     onToggleInventoryUseAsResourceByIndex,
+    onToggleInventoryDisadvantageStealthCheckByIndex,
 
     onChangeInventoryLabelByIndex,
     onChangeInventoryDescriptionByIndex,

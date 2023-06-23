@@ -11,6 +11,8 @@ export type InventoryItem = {
     ac?: StaticRollable;
   };
 
+  disadvantageStealthCheck?: boolean;
+
   useAsResource: boolean;
   max?: number;
   resetOnShortRest?: boolean;

@@ -6,6 +6,7 @@ import { BooleanButton } from 'common/components/ProficiencyButton/BooleanButton
 import { useMemo } from 'react';
 import { printNonParsedRollable } from 'utils/rollableUtils';
 import { DelayedInput } from 'common/components/DelayedInput/DelayedInput';
+import { Tooltip } from 'react-mint';
 
 export const InventoryItem = ({ index }) => {
   const {
@@ -13,6 +14,7 @@ export const InventoryItem = ({ index }) => {
 
     onToggleInventoryEquippedByIndex,
     onToggleInventoryUseAsResourceByIndex,
+    onToggleInventoryDisadvantageStealthCheckByIndex,
 
     onChangeInventoryLabelByIndex,
     onChangeInventoryDescriptionByIndex,
@@ -30,6 +32,7 @@ export const InventoryItem = ({ index }) => {
     source,
     total,
     useAsResource,
+    disadvantageStealthCheck,
     weight,
   } = inventory[index];
 
@@ -37,10 +40,26 @@ export const InventoryItem = ({ index }) => {
     () => printNonParsedRollable(mods?.ac || []),
     [mods?.ac],
   );
+  const totalWeight = (total * weight).toFixed(2);
 
   return (
     <div className={styles['container']}>
-      <CollapsibleCard header={label} contentClassName={styles['content']}>
+      <CollapsibleCard
+        header={
+          <div className={styles['header']}>
+            <Tooltip>
+              <span style={{ whiteSpace: 'pre-wrap' }}>
+                {`Total Count: ${total}\nWeight: ${weight}\nTotal weight: ${totalWeight}\n`}
+              </span>
+            </Tooltip>
+            <BooleanButton
+              value={equipped}
+              onToggle={() => onToggleInventoryEquippedByIndex(index)}
+            />
+            <span className={styles['label']}>{label}</span>
+          </div>
+        }
+        contentClassName={styles['content']}>
         <input
           className={styles['label-input']}
           value={label}
@@ -71,11 +90,13 @@ export const InventoryItem = ({ index }) => {
           }
         />
         <Tag
-          label="equipped"
+          label="Stealth Disadvantage"
           value={
             <BooleanButton
-              value={equipped}
-              onToggle={() => onToggleInventoryEquippedByIndex(index)}
+              value={disadvantageStealthCheck}
+              onToggle={() =>
+                onToggleInventoryDisadvantageStealthCheckByIndex(index)
+              }
             />
           }
         />
@@ -116,7 +137,7 @@ export const InventoryItem = ({ index }) => {
             />
           }
         />
-        <Tag label="total weight" value={(total * weight).toFixed(2)} />
+        <Tag label="total weight" value={totalWeight} />
         <Tag
           label="ac mod"
           value={
