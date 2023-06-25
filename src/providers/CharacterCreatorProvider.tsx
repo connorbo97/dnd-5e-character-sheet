@@ -56,7 +56,6 @@ export const CharacterCreatorProvider = ({ ...rest }) => {
       }),
     [dispatch, stateSelector],
   );
-  console.log(helpers);
 
   const value = useMemo(
     () => ({
