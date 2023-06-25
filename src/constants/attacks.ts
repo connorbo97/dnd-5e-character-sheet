@@ -1,4 +1,3 @@
-import { values } from 'lodash';
 import { ModBlock } from './general';
 import { ROLLABLES, Rollable } from './rollable';
 import { STATS, STATS_OPTIONS } from './stats';
