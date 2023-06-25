@@ -18,6 +18,7 @@ import { useAdvantageToggle } from './useAdvantageToggle';
 import { useWhisperToggle } from './useWhisperToggle';
 import { useEffect } from 'react';
 import { CHARACTER_SHEET_KEY } from 'constants/localStorage';
+import { useResources } from './useResources';
 
 export const useFullSheet = () => {
   const { sheet } = useCharacterSheet();
@@ -38,6 +39,7 @@ export const useFullSheet = () => {
   const inventoryHook = useInventory();
   const advantageToggle = useAdvantageToggle();
   const whisperToggle = useWhisperToggle();
+  const resourcesHook = useResources();
 
   useEffect(() => {
     localStorage.setItem(CHARACTER_SHEET_KEY, JSON.stringify(sheet));
@@ -62,5 +64,6 @@ export const useFullSheet = () => {
     ...inventoryHook,
     ...advantageToggle,
     ...whisperToggle,
+    ...resourcesHook,
   };
 };

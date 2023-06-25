@@ -8,6 +8,7 @@ import { ModBlock, ProficiencyConfig } from './general';
 import { InventoryItem } from './inventory';
 import { MONEY } from './money';
 import { RACES } from './race';
+import { ResourceConfig } from './resources';
 import { ROLLABLES } from './rollable';
 import { SKILLS, SKILL_SORT } from './skills';
 import { STATS } from './stats';
@@ -51,6 +52,7 @@ export type CharacterSheet = {
     [s in SKILLS]?: ProficiencyConfig;
   };
   customChecks: Array<ProficiencyConfig>;
+  resources: Array<ResourceConfig>;
   otherProficiencies: {
     [s: string]: ProficiencyConfig;
   };
@@ -120,6 +122,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       category: 'Armor',
     },
   ],
+  resources: [],
   otherProficiencies: {
     TEST: {
       label: 'Light Armor',
