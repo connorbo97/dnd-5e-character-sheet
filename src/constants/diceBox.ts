@@ -1,5 +1,6 @@
+const base = process.env.PUBLIC_URL;
 export const DEFAULT_DICE_OPTIONS = {
-  assetPath: `/assets/dice-box/`, // required,
+  assetPath: `${base}/assets/dice-box/`, // required,
   id: 'dice-canvas',
   theme: 'default',
   themeColor: '#FF0000',
@@ -16,10 +17,10 @@ export const DEFAULT_DICE_OPTIONS = {
 };
 
 export const ROLL_AUDIOS = [
-  new Audio('roll.mp3'),
-  new Audio('roll-2.mp3'),
-  new Audio('roll-3.mp3'),
-  new Audio('roll-4.mp3'),
+  new Audio(`${base}/roll.mp3`),
+  new Audio(`${base}/roll-2.mp3`),
+  new Audio(`${base}/roll-3.mp3`),
+  new Audio(`${base}/roll-4.mp3`),
 ];
 
 export type DiceBoxResult = {
