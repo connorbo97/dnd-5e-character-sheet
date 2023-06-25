@@ -29,7 +29,6 @@ export const Resources = () => {
       }))
       .filter((c) => c?.itemResourceIndex !== -1);
   }, [inventory]);
-  console.log(inventoryResources);
 
   return (
     <div className={styles['container']}>
