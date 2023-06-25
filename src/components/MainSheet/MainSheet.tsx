@@ -12,6 +12,7 @@ import { Inventory } from './components/Inventory/Inventory';
 import { CombatStats } from './components/CombatStats/CombatStats';
 import { Chat } from 'components/Chat/Chat';
 import { CustomChecks } from './components/CustomChecks/CustomChecks';
+import { Resources } from './components/Resources/Resources';
 
 export const MainSheet = () => {
   return (
@@ -22,13 +23,16 @@ export const MainSheet = () => {
         <CustomChecks />
         <OtherProficiencies />
         <Money />
-        <DeathSaves />
-        <HitDice />
+        <div className={styles['dshd']}>
+          <DeathSaves />
+          <HitDice />
+        </div>
         <Inventory />
         <Metadata />
         <Attacks />
         <CombatStats />
         <Chat />
+        <Resources />
       </div>
     </div>
   );

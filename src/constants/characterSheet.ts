@@ -100,6 +100,16 @@ export const DEFAULT_SHEET: CharacterSheet = {
     value: RACES.HUMAN,
     subRace: 'Standard',
   },
+  resources: [
+    {
+      label: 'Channel Divinity',
+      source: 'Cleric',
+      total: 1,
+      max: 1,
+      resetOnShortRest: true,
+      resetOnLongRest: true,
+    },
+  ],
   background: {
     value: BACKGROUNDS.ACOLYTE,
   },
@@ -122,7 +132,6 @@ export const DEFAULT_SHEET: CharacterSheet = {
       category: 'Armor',
     },
   ],
-  resources: [],
   otherProficiencies: {
     TEST: {
       label: 'Light Armor',

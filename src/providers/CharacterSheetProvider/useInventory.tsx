@@ -68,6 +68,12 @@ export const useInventory = () => {
       }),
     );
   };
+  const onChangeInventoryMaxByIndex = (index, value) => {
+    console.log(index, value, sheet);
+    setSheet((prevSheet) =>
+      iSet(prevSheet, ['inventory', index, 'max'], value),
+    );
+  };
 
   return {
     inventory,
@@ -86,5 +92,6 @@ export const useInventory = () => {
     onChangeInventoryWeightByIndex,
     onChangeInventoryModByIndex,
     onChangeInventoryACByIndex,
+    onChangeInventoryMaxByIndex,
   };
 };

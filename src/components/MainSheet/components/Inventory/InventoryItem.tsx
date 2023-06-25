@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { printNonParsedRollable } from 'utils/rollableUtils';
 import { DelayedInput } from 'common/components/DelayedInput/DelayedInput';
 import { Tooltip } from 'react-mint';
+import { isNil } from 'lodash';
 
 export const InventoryItem = ({ index }) => {
   const {
@@ -22,6 +23,7 @@ export const InventoryItem = ({ index }) => {
     onChangeInventoryTotalByIndex,
     onChangeInventoryWeightByIndex,
     onChangeInventoryACByIndex,
+    onChangeInventoryMaxByIndex,
   } = useInventory();
 
   const {
@@ -31,6 +33,7 @@ export const InventoryItem = ({ index }) => {
     mods,
     source,
     total,
+    max,
     useAsResource,
     disadvantageStealthCheck,
     weight,
@@ -57,6 +60,7 @@ export const InventoryItem = ({ index }) => {
               onToggle={() => onToggleInventoryEquippedByIndex(index)}
             />
             <span className={styles['label']}>{label}</span>
+            <span className={styles['total']}>{total}</span>
           </div>
         }
         contentClassName={styles['content']}>
@@ -109,6 +113,22 @@ export const InventoryItem = ({ index }) => {
             />
           }
         />
+        {useAsResource && (
+          <Tag
+            label="Max"
+            value={
+              <input
+                type="number"
+                min={0}
+                max={99999}
+                value={!isNil(max) ? max : total}
+                onChange={(e) =>
+                  onChangeInventoryMaxByIndex(index, e.target.value)
+                }
+              />
+            }
+          />
+        )}
         <Tag
           label="total"
           value={

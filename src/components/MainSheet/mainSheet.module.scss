@@ -8,13 +8,26 @@ $border-width: 5px;
   grid-auto-rows: min-content;
   grid-auto-flow: column;
   grid-template-areas:
-    'metadata combat-stats death-saves hit-dice chat'
+    'metadata combat-stats dshd money chat'
     'stats skills attacks attacks chat'
-    'inventory money other-prof custom-checks chat'
+    'inventory resources other-prof custom-checks chat'
     'dice - - - chat';
   > * {
     background-color: $primary;
     border: calc($border-width / 2) solid white;
   }
   border: calc($border-width / 2) solid $white;
+}
+
+.dshd {
+  grid-area: dshd;
+
+  > * {
+    border-bottom: 1px solid $white;
+    padding: 0.5rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
 }

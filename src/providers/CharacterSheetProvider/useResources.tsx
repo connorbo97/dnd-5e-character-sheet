@@ -15,8 +15,18 @@ export const useResources = () => {
     [setSheet],
   );
 
+  const onChangeResourceTotalByIndex = (index, value) => {
+    onChangeResourcePropertyByIndex(index, 'total', value);
+  };
+
+  const onChangeResourceMaxByIndex = (index, value) => {
+    onChangeResourcePropertyByIndex(index, 'max', value);
+  };
+
   return {
     resources,
     onChangeResourcePropertyByIndex,
+    onChangeResourceTotalByIndex,
+    onChangeResourceMaxByIndex,
   };
 };
