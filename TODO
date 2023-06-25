@@ -1,12 +1,4 @@
-ATTACKS
-
-- implement DC chat entry
-- make attacks editable, including the isEnabled flag
-- remove conditional on attack's damage array && add default objects instead
-- add new attacks
-
 BIG MISSING
-
 - Spells
 - Character Creator
 - Features List
