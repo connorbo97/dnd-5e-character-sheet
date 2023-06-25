@@ -1,13 +1,7 @@
 import { useAdvantageToggle } from 'providers/CharacterSheetProvider/useAdvantageToggle';
 import styles from './advantageToggle.module.scss';
-import classnames from 'classnames/bind';
-import {
-  ADVANTAGE_TOGGLE,
-  ADVANTAGE_TOGGLE_OPTIONS,
-} from 'constants/advantageToggle';
+import { ADVANTAGE_TOGGLE_OPTIONS } from 'constants/advantageToggle';
 import { Toggle } from 'common/components/Toggle/Toggle';
-
-const classNameBuilder = classnames.bind(styles);
 
 export const AdvantageToggle = () => {
   const { advantageToggle, onChangeAdvantageToggle } = useAdvantageToggle();
