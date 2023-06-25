@@ -44,7 +44,7 @@ export const RaceCreator = () => {
         {config.map((curConfig, index) => {
           const Component =
             curConfig.type === 'STATIC' ? StaticRaceSection : ChoiceRaceSection;
-          return <Component {...curConfig} index={index} />;
+          return <Component key={index} {...curConfig} index={index} />;
         })}
       </div>
     </div>
