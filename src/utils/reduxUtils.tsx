@@ -1,8 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { iSet, iUpdate } from './lodashUtils';
 import { createSelector } from '@reduxjs/toolkit';
-import { get, keyBy, mapValues } from 'lodash';
-import { useMemo } from 'react';
+import { get, keyBy, mapValues, noop } from 'lodash';
+import {
+  createContext,
+  useCallback,
+  useContext as useReactContext,
+  useMemo,
+} from 'react';
+import { useStore } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 //@ts-ignore
 export const createReduxSelector = (base, selector, ...args: any) =>
@@ -91,5 +99,82 @@ export const createReduxSliceHelpers = ({
     selectors: createSelectors(stateSelector, paths),
     setters: createSetters(dispatch, paths, actions),
     updaters: createUpdaters(dispatch, paths, actions),
+  };
+};
+
+type ReduxContextState = {
+  getState: Function;
+  stateSelector: Function;
+  createSelector: Function;
+  selectors: { [s: string]: (state: any) => any };
+  setters: { [s: string]: Function };
+  updaters: { [s: string]: Function };
+};
+export const createReduxStateContext = (reducerName, initialState, paths) => {
+  const slice = createReduxSlice(initialState, reducerName);
+
+  const { reducer, actions } = slice;
+  const initialContextState: ReduxContextState = {
+    getState: noop,
+    stateSelector: noop,
+    createSelector: noop,
+    selectors: {},
+    setters: {},
+    updaters: {},
+  };
+  const Context = createContext(initialContextState);
+
+  const Provider = ({ ...rest }) => {
+    const { getState } = useStore();
+    const dispatch = useDispatch();
+    const stateSelector = useMemoizedSelector(reducerName);
+    const createSelector = useCallback(
+      (selector, ...args) =>
+        createReduxSelector(stateSelector, selector, ...args),
+      [stateSelector],
+    );
+
+    const helpers = useMemo(
+      () =>
+        createReduxSliceHelpers({
+          stateSelector,
+          dispatch,
+          actions,
+          paths,
+        }),
+      [dispatch, stateSelector],
+    );
+
+    const value = useMemo(
+      () => ({
+        getState,
+        stateSelector,
+        createSelector,
+        ...helpers,
+      }),
+      [createSelector, getState, stateSelector, helpers],
+    );
+
+    return <Context.Provider value={value} {...rest} />;
+  };
+
+  const useContext = () => useReactContext(Context);
+  const useContextPath = (path) => {
+    const { selectors, setters, updaters } = useContext();
+    const value = useSelector(selectors[path]);
+    const set = setters[path];
+    const update = updaters[path];
+
+    return [value, set, update];
+  };
+
+  return {
+    reducer,
+    actions,
+    reducerName,
+    context: Context,
+    provider: Provider,
+    useContext,
+    useContextPath,
   };
 };
