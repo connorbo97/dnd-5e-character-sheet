@@ -19,6 +19,7 @@ import { useWhisperToggle } from './useWhisperToggle';
 import { useEffect } from 'react';
 import { CHARACTER_SHEET_KEY } from 'constants/localStorage';
 import { useResources } from './useResources';
+import { useFeatures } from './useFeatures';
 
 export const useFullSheet = () => {
   const { sheet } = useCharacterSheet();
@@ -40,6 +41,7 @@ export const useFullSheet = () => {
   const advantageToggle = useAdvantageToggle();
   const whisperToggle = useWhisperToggle();
   const resourcesHook = useResources();
+  const featuresHook = useFeatures();
 
   useEffect(() => {
     localStorage.setItem(CHARACTER_SHEET_KEY, JSON.stringify(sheet));
@@ -65,5 +67,6 @@ export const useFullSheet = () => {
     ...advantageToggle,
     ...whisperToggle,
     ...resourcesHook,
+    ...featuresHook,
   };
 };

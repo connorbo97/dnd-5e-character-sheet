@@ -1,0 +1,11 @@
+@import 'src/styles/_colors';
+
+.container {
+  color: $dark-gray;
+  padding-top: 2rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,23 @@
+@import 'src/styles/_colors';
+
+.header {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+
+  .label {
+    font-size: 2rem;
+  }
+
+  .sub-label {
+    color: $light-gray;
+    font-size: 1rem;
+  }
+}
+
+.content {
+  padding: 0.5rem;
+}
+.description {
+  white-space: pre-wrap;
+}

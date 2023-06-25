@@ -13,6 +13,7 @@ import { CombatStats } from './components/CombatStats/CombatStats';
 import { Chat } from 'components/Chat/Chat';
 import { CustomChecks } from './components/CustomChecks/CustomChecks';
 import { Resources } from './components/Resources/Resources';
+import { Features } from './components/Features/Features';
 
 export const MainSheet = () => {
   return (
@@ -20,9 +21,6 @@ export const MainSheet = () => {
       <div className={styles['grid']}>
         <Stats />
         <Skills />
-        <CustomChecks />
-        <OtherProficiencies />
-        <Money />
         <div className={styles['dshd']}>
           <DeathSaves />
           <HitDice />
@@ -31,9 +29,17 @@ export const MainSheet = () => {
         <Metadata />
         <Attacks />
         <CombatStats />
-        <Chat />
-        <Resources />
+        <div className={styles['ccop']}>
+          <CustomChecks />
+          <OtherProficiencies />
+        </div>
+        <div className={styles['rm']}>
+          <Resources />
+          <Money />
+        </div>
+        <Features />
       </div>
+      <Chat />
     </div>
   );
 };
