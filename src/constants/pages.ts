@@ -1,6 +1,6 @@
 export enum PAGES {
   HOME = 'HOME',
-  FOO = 'FOO',
+  CHARACTER_CREATOR = 'CHARACTER_CREATOR',
   BAR = 'BAR',
 }
 
@@ -14,9 +14,9 @@ export const PAGE_CONFIGS: { [p in PAGES]: PageConfig } = {
     label: 'Home',
     route: 'home',
   },
-  [PAGES.FOO]: {
-    label: 'Foo',
-    route: 'foo',
+  [PAGES.CHARACTER_CREATOR]: {
+    label: 'Character Creator',
+    route: 'character-creator',
   },
   [PAGES.BAR]: {
     label: 'Bar',

@@ -13,8 +13,10 @@ export const Header = () => {
       <div className={styles['main']}>
         <Routes>
           <Route
-            path={PAGE_CONFIGS[PAGES.FOO].route}
-            element={<div>this is the foo page</div>}
+            path={PAGE_CONFIGS[PAGES.CHARACTER_CREATOR].route}
+            element={
+              <div className={styles['char-creator']}>Character Creator</div>
+            }
           />
           <Route
             path="*"

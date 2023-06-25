@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { CharacterSheetProvider } from 'providers/CharacterSheetProvider';
 import { ChatProvider } from 'providers/ChatProvider';
 import { TooltipPortal } from 'react-mint';
+import { CharacterCreatorProvider } from 'providers/CharacterCreatorProvider';
+import { ReduxProvider } from 'providers/ReduxProvider';
 declare global {
   interface Window {
     diceBox: any;
@@ -26,12 +28,16 @@ root.render(
       },
     }}
     defaultTheme={'default'}>
-    <CharacterSheetProvider>
-      <ChatProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ChatProvider>
-    </CharacterSheetProvider>
+    <ReduxProvider>
+      <CharacterSheetProvider>
+        <CharacterCreatorProvider>
+          <ChatProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ChatProvider>
+        </CharacterCreatorProvider>
+      </CharacterSheetProvider>
+    </ReduxProvider>
   </TooltipPortal>,
 );

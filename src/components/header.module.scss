@@ -31,3 +31,13 @@ $header-height: 5rem;
   display: flex;
   row-gap: 0.5rem;
 }
+
+.char-creator {
+  display: flex;
+  align-items: center;
+  color: $white;
+  font-weight: bold;
+  padding: 1.5rem;
+  font-size: 2rem;
+  flex: 1;
+}
