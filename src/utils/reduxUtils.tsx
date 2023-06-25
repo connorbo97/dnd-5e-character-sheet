@@ -38,8 +38,8 @@ export const createReduxSlice = (initialState, name) =>
       },
       update: (state, action: any) => {
         state.value = iUpdate(
-          state,
-          `value.${action.payload.path}`,
+          state.value,
+          action.payload.path,
           action.payload.value,
         );
       },

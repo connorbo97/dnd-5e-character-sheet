@@ -140,7 +140,6 @@ export const DEFAULT_SHEET: CharacterSheet = {
     {
       label: "Smith's Tools",
       stat: STATS.STR,
-      category: 'Armor',
     },
   ],
   otherProficiencies: {

@@ -1,0 +1,17 @@
+@import 'src/styles/_colors';
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  padding: 0.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}

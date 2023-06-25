@@ -5,22 +5,37 @@ type OptionType = { value: any; label: any };
 type Props = {
   options: Array<string | number | OptionType>;
   value: null | string | number | OptionType;
-  onChange: Function;
+  onChange?: Function;
+  allowEmpty?: boolean;
+  placeholder?: string;
 };
-export const Dropdown = ({ options, value, onChange }: Props) => {
+export const Dropdown = ({
+  options,
+  value,
+  onChange = (e) => console.log(e.target.value),
+  allowEmpty,
+  placeholder = 'Select...',
+}: Props) => {
   const formattedOptions: Array<OptionType> = useMemo(() => {
+    let mappedOptions;
     if (!options?.length) {
-      return [];
+      mappedOptions = [];
+    } else {
+      mappedOptions = options.map((o) =>
+        isObject(o) ? o : { value: o, label: o },
+      );
     }
 
-    return options.map((o) => (isObject(o) ? o : { value: o, label: o }));
-  }, [options]);
+    return allowEmpty
+      ? [{ value: undefined, label: placeholder }, ...mappedOptions]
+      : mappedOptions;
+  }, [options, allowEmpty, placeholder]);
 
   const formattedValue = isObject(value) ? value.value : value;
   return (
     <select value={formattedValue} onChange={(e) => onChange(e)}>
       {formattedOptions.map((o) => (
-        <option key={o.value} value={o.value}>
+        <option key={o.value || 'EMPTY'} value={o.value}>
           {o.label}
         </option>
       ))}

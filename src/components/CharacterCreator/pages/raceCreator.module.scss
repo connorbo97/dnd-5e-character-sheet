@@ -1,0 +1,12 @@
+@import 'src/styles/_colors';
+
+.content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+
+  > * {
+    margin-top: 0.5rem;
+    border-top: 1px solid $tertiary;
+  }
+}
