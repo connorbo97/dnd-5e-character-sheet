@@ -23,6 +23,7 @@ export const FeatureEntry = ({ index, feature }: Props) => {
             </span>
           </div>
         }
+        transitionTime={100}
         contentClassName={styles['content']}>
         <div className={styles['description']}>{description}</div>
         <ScrollToTop targetRef={containerRef} />

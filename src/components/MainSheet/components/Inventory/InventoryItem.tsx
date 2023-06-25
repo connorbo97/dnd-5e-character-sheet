@@ -48,6 +48,7 @@ export const InventoryItem = ({ index }) => {
   return (
     <div className={styles['container']}>
       <CollapsibleCard
+        transitionTime={100}
         header={
           <div className={styles['header']}>
             <Tooltip>

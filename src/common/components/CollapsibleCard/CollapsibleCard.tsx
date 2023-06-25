@@ -14,7 +14,10 @@ type Props = {
   children: any;
   contentClassName?: string;
   headerClassName?: string;
+  transitionTime?: number;
 };
+
+const HIDE_CHILDREN_THRESHOLD = 50;
 
 export const CollapsibleCard = ({
   initialOpen = false,
@@ -24,9 +27,12 @@ export const CollapsibleCard = ({
   children,
   contentClassName = '',
   headerClassName = '',
+  transitionTime = 1,
 }: Props) => {
   const [open, setOpen] = useState(initialOpen);
-  const [closed, setClosed] = useState(!initialOpen);
+  const [closed, setClosed] = useState(
+    !initialOpen && transitionTime < HIDE_CHILDREN_THRESHOLD,
+  );
 
   const finalOpen = !isNil(propsOpen) ? propsOpen : open;
   const finalSetOpen = !isNil(propsSetOpen) ? propsSetOpen : setOpen;
@@ -35,21 +41,25 @@ export const CollapsibleCard = ({
     <Collapsible
       open={finalOpen}
       handleTriggerClick={() => {
-        if (finalOpen) {
-          finalSetOpen((prev) => !prev);
-
-          window.requestAnimationFrame(() => {
-            setClosed((prev) => !prev);
-          });
-        } else {
-          setClosed((prev) => !prev);
-
-          window.requestAnimationFrame(() => {
+        if (transitionTime < HIDE_CHILDREN_THRESHOLD) {
+          if (finalOpen) {
             finalSetOpen((prev) => !prev);
-          });
+
+            window.requestAnimationFrame(() => {
+              setClosed((prev) => !prev);
+            });
+          } else {
+            setClosed((prev) => !prev);
+
+            window.requestAnimationFrame(() => {
+              finalSetOpen((prev) => !prev);
+            });
+          }
+        } else {
+          finalSetOpen((prev) => !prev);
         }
       }}
-      transitionTime={1}
+      transitionTime={transitionTime}
       trigger={
         <div
           className={classNameBuilder('header', headerClassName, {

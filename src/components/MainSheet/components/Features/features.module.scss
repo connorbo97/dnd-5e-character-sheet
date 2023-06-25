@@ -1,5 +1,10 @@
+@import 'src/styles/_colors';
+
 .container {
   grid-area: features;
+}
+.header {
+  border-bottom: 1px solid $white;
 }
 
 .content {
