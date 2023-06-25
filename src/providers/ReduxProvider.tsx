@@ -5,7 +5,11 @@ import { reducers } from './ReduxProvider/reduxReducers';
 
 export const ReduxProvider = (props) => {
   const store = useMemo(() => {
-    return configureStore(reducers);
+    return configureStore({
+      ...reducers,
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({ serializableCheck: false }),
+    });
   }, []);
 
   return <Provider store={store} {...props} />;
