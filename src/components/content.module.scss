@@ -6,4 +6,7 @@
 
   background-color: $bg;
   flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: flex-start;
 }

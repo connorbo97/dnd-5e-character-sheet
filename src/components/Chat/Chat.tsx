@@ -43,32 +43,34 @@ export const Chat = () => {
 
   return (
     <div className={styles['container']}>
-      <h3>Chat</h3>
+      <h3 className={styles['header']}>Chat</h3>
       <div className={styles['chats']} ref={chatsRef}>
         {chats.map((entry, i) => (
           <ChatEntry key={i} {...entry} />
         ))}
       </div>
-      <textarea
-        className={styles['chat-input']}
-        value={userChat}
-        rows={5}
-        placeholder="Type here and hit enter to type in chat..."
-        onChange={(e) => {
-          setUserChat(e.target.value);
-        }}
-        onKeyUp={(e) => {
-          if (e.key === 'Enter' && !e.shiftKey && userChat) {
-            appendChat({
-              playerName: name,
-              type: ChatType.CHAT,
-              result: userChat,
-            });
+      <div className={styles['chat-input-container']}>
+        <textarea
+          className={styles['chat-input']}
+          value={userChat}
+          rows={5}
+          placeholder="Type here and hit enter to type in chat..."
+          onChange={(e) => {
+            setUserChat(e.target.value);
+          }}
+          onKeyUp={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey && userChat) {
+              appendChat({
+                playerName: name,
+                type: ChatType.CHAT,
+                result: userChat,
+              });
 
-            setUserChat('');
-          }
-        }}
-      />
+              setUserChat('');
+            }
+          }}
+        />
+      </div>
     </div>
   );
 };

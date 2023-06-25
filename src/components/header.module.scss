@@ -1,11 +1,16 @@
 @import 'src/styles/_colors.scss';
 
-$height: 5rem;
+$header-height: 5rem;
+
+:export {
+  height: $header-height;
+}
 
 .container {
   display: flex;
   border-bottom: 1px solid $white;
-  height: $height;
+  height: $header-height;
+  box-sizing: border-box;
 }
 
 .main {
