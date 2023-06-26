@@ -60,22 +60,28 @@ export enum RACE_CONFIG_FORMAT {
   FEATURE = 'FEATURE',
 }
 
+type RaceCreateConfigEntry = {
+  type: RACE_CONFIG_TYPE;
+  format: RACE_CONFIG_FORMAT;
+  path: string;
+  value?: any;
+  options?: Array<{ value: any; label: any }>;
+  config?: {
+    header?: string;
+    description?: string;
+    subHeader?: string;
+    renderValue?: Function;
+    getFinalValue?: Function;
+  };
+};
 type RaceConfigs = {
   [r in RACES]: {
     label: string;
     createConfig: {
-      base: Array<{
-        type: RACE_CONFIG_TYPE;
-        format: RACE_CONFIG_FORMAT;
-        [s: string]: any;
-      }>;
+      base: Array<RaceCreateConfigEntry>;
       subRaceOptions?: Array<{ value: any; label: string }>;
       subRace?: {
-        [s: string]: Array<{
-          type: RACE_CONFIG_TYPE;
-          format: RACE_CONFIG_FORMAT;
-          [s: string]: any;
-        }>;
+        [s: string]: Array<RaceCreateConfigEntry>;
       };
     };
   };
