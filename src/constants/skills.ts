@@ -1,3 +1,4 @@
+import { values } from 'lodash';
 import { STATS } from './stats';
 
 export enum SKILLS {
@@ -110,3 +111,9 @@ export const SKILL_SORT_OPTIONS = [
   { value: SKILL_SORT.ABILITY, label: 'Ability' },
   { value: SKILL_SORT.SCORE, label: 'Score' },
 ];
+
+export const SKILLS_LIST = values(SKILLS);
+export const SKILL_OPTIONS = SKILLS_LIST.map((s) => ({
+  value: s,
+  label: SKILL_CONFIGS[s].label,
+}));

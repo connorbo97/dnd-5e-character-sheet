@@ -35,6 +35,7 @@ export enum RACE_CONFIG_TYPE {
 }
 export enum RACE_CONFIG_FORMAT {
   BASIC = 'BASIC',
+  STATIC_CHOICE = 'STATIC_CHOICE',
   STATS = 'STATS',
   SPEED = 'SPEED',
   PROFICIENCY = 'PROFICIENCY',
@@ -42,6 +43,16 @@ export enum RACE_CONFIG_FORMAT {
   DROPDOWN = 'DROPDOWN',
   FEATURE = 'FEATURE',
 }
+export type RaceCreateConfigEntryConfig = {
+  header?: string;
+  description?: string;
+  subHeader?: string;
+  renderValue?: Function;
+  getLabelValue?: Function;
+  getFinalValue?: Function;
+  getPlaceholder?: Function;
+  isFullValue?: Function;
+};
 
 type RaceCreateConfigEntry = {
   type: RACE_CONFIG_TYPE;
@@ -49,13 +60,7 @@ type RaceCreateConfigEntry = {
   path: string;
   value?: any;
   options?: Array<{ value: any; label: any }>;
-  config?: {
-    header?: string;
-    description?: string;
-    subHeader?: string;
-    renderValue?: Function;
-    getFinalValue?: Function;
-  };
+  config?: RaceCreateConfigEntryConfig;
 };
 export type RaceConfigs = {
   [r in RACES]: {

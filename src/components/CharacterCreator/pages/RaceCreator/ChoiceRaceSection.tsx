@@ -5,11 +5,6 @@ import { iSet } from 'utils/lodashUtils';
 import { RACE_CONFIG_FORMAT } from 'constants/raceTypes';
 import { get } from 'lodash';
 import { addNumberSign } from 'utils/stringUtils';
-import {
-  convertCustomStatsToStatBlock,
-  getStatStringFromBlock,
-  mergeStatBlocks,
-} from 'utils/raceCreatorUtils';
 
 type Props = {
   value: any;
@@ -20,6 +15,8 @@ type Props = {
   config?: {
     header?: any;
     placeholder?: any;
+    getLabelValue?: Function;
+    getPlaceholder?: Function;
   };
 };
 
@@ -32,19 +29,20 @@ export const ChoiceRaceSection = ({
   updatePath,
 }: Props) => {
   const [, , updateRaceConfig] = useCharacterCreatorPath('race.config');
-  const { header, placeholder } = config;
-  const staticStats = get(value, 'staticStats', {});
-  const customStats = get(value, 'customStats');
-  const customStatsBlock = convertCustomStatsToStatBlock(customStats || []);
-  let finalHeader = header || 'HEADER';
+  const { header, placeholder, getLabelValue, getPlaceholder } = config;
+  const statics = get(value, 'statics', []);
+  const customValue = get(value, 'custom');
+  const finalHeader = header || 'HEADER';
 
-  const onChangeDropdown = (e) =>
+  const onChangeDropdown = (index, e) => {
     updateRaceConfig((prev) =>
       iSet(prev, `${updatePath}.value`, e.target.value),
     );
-  const onChangeStat = (index, value) =>
+  };
+
+  const onChangeCustom = (index, value) =>
     updateRaceConfig((prev) =>
-      iSet(prev, `${updatePath}.value.customStats.${index}.value`, value),
+      iSet(prev, `${updatePath}.value.custom.${index}.value`, value),
     );
 
   return (
@@ -54,24 +52,23 @@ export const ChoiceRaceSection = ({
         {format === RACE_CONFIG_FORMAT.DROPDOWN && options && (
           <Dropdown
             options={options}
-            onChange={onChangeDropdown}
+            onChange={(e) => onChangeDropdown(0, e.target.value)}
             value={value}
             allowEmpty
             placeholder={placeholder || 'Choose'}
           />
         )}
-        {format === RACE_CONFIG_FORMAT.STATS && customStats && (
+        {format === RACE_CONFIG_FORMAT.STATIC_CHOICE && customValue && (
           <div>
-            {getStatStringFromBlock(
-              mergeStatBlocks(staticStats, customStatsBlock),
-            )}
+            {getLabelValue && getLabelValue(customValue, statics)}
             <div className={styles['custom-stat-dropdowns']}>
-              {customStats.map(({ mod, options, value }, i) => (
+              {customValue.map((config, i) => (
                 <Dropdown
-                  value={value}
-                  options={options}
-                  placeholder={`Choose stat for ${addNumberSign(mod)}`}
-                  onChange={(e) => onChangeStat(i, e.target.value)}
+                  key={i}
+                  value={config.value}
+                  options={config.options}
+                  placeholder={getPlaceholder && getPlaceholder(config)}
+                  onChange={(e) => onChangeCustom(i, e.target.value)}
                 />
               ))}
             </div>

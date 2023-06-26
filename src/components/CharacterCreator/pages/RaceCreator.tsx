@@ -12,6 +12,8 @@ import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
 import { MULTI_PATH, RACES } from 'constants/raceTypes';
 import { mergeStatBlocks } from 'utils/raceCreatorUtils';
 
+const defaultCheckFullValue = (val) => !!val;
+
 export const RaceCreator = () => {
   const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);
   const [value] = useCharacterCreatorPath(
@@ -39,9 +41,9 @@ export const RaceCreator = () => {
 
     const handleConfig = (c) => {
       const { value, path, config = {} } = c;
-      const { getFinalValue } = config;
+      const { getFinalValue, isFullValue = defaultCheckFullValue } = config;
 
-      if (!value) {
+      if (!isFullValue(value)) {
         console.log('MISSING', value, c);
         return;
       }

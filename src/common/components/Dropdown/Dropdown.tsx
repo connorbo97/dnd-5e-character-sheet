@@ -27,16 +27,17 @@ export const Dropdown = ({
     }
 
     return allowEmpty || placeholder
-      ? [
-          { value: undefined, label: placeholder || 'Select...' },
-          ...mappedOptions,
-        ]
+      ? [{ value: '', label: placeholder || 'Select...' }, ...mappedOptions]
       : mappedOptions;
   }, [options, allowEmpty, placeholder]);
 
   const formattedValue = isObject(value) ? value.value : value;
   return (
-    <select value={formattedValue} onChange={(e) => onChange(e)}>
+    <select
+      value={formattedValue}
+      onChange={(e) => {
+        onChange(e);
+      }}>
       {formattedOptions.map((o) => (
         <option key={o.value || 'EMPTY'} value={o.value}>
           {o.label}

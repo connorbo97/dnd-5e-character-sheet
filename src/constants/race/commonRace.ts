@@ -3,8 +3,10 @@ import {
   CREATURE_TYPE,
   RACE_CONFIG_FORMAT,
   RACE_CONFIG_TYPE,
+  RaceCreateConfigEntryConfig,
   WALKING_TYPE,
 } from 'constants/raceTypes';
+import { fill } from 'lodash';
 
 export const getStatsFeature = (stats) => ({
   type: RACE_CONFIG_TYPE.STATIC,
@@ -12,16 +14,21 @@ export const getStatsFeature = (stats) => ({
   path: 'stats',
   value: stats,
 });
-export const getStatsWithChoicesFeatures = (customStats, staticStats = {}) => ({
+export const getStaticWithChoices = (
+  { path, custom, statics = [] as Array<any> },
+  config: RaceCreateConfigEntryConfig = {},
+) => ({
   type: RACE_CONFIG_TYPE.CHOICE,
-  format: RACE_CONFIG_FORMAT.STATS,
-  path: 'stats',
+  format: RACE_CONFIG_FORMAT.STATIC_CHOICE,
+  path,
   value: {
-    staticStats,
-    customStats,
+    custom,
+    statics,
   },
   config: {
-    header: 'Stats',
+    isFullValue: ({ custom }) =>
+      custom.length === custom.filter(({ value }) => value).length,
+    ...config,
   },
 });
 export const getWalkingFeature = (ms) => ({
@@ -84,6 +91,26 @@ export const getSkillProficiencies = (skills) => ({
     header: `Skill Proficiencies`,
   },
 });
+export const getChoiceSkillProficiencies = (
+  options,
+  totalChoices: number = 1,
+) =>
+  getStaticWithChoices(
+    {
+      custom: fill(Array(totalChoices), { options }),
+      path: 'skills',
+    },
+    {
+      header: 'Skill Proficiencies',
+      getPlaceholder: () => `Choose`,
+      getFinalValue: ({ custom }) =>
+        custom.reduce((acc, { value }) => {
+          acc[value] = { proficient: true };
+
+          return acc;
+        }, {}),
+    },
+  );
 
 export const getBasicFeature = (value) => ({
   type: RACE_CONFIG_TYPE.STATIC,
