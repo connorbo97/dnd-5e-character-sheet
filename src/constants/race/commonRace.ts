@@ -63,10 +63,44 @@ export const getProficiencies = (category, labels) => ({
     header: `${category} Proficiencies`,
   },
 });
+export const getSkillProficiencies = (skills) => ({
+  type: RACE_CONFIG_TYPE.STATIC,
+  format: RACE_CONFIG_FORMAT.SKILL_PROFICIENCY,
+  path: 'skills',
+  value: skills.reduce((acc, s) => ({ [s]: { proficient: true } }), {}),
+  config: {
+    header: `Skill Proficiencies`,
+  },
+});
 
 export const getBasicFeature = (value) => ({
   type: RACE_CONFIG_TYPE.STATIC,
   format: RACE_CONFIG_FORMAT.FEATURE,
   path: 'features',
   value,
+});
+
+export const getDarkvision = () =>
+  getBasicFeature({
+    label: 'Darkvision',
+    description:
+      'You have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray.',
+  });
+
+export const getBasicDropdownChoice = ({
+  options,
+  path,
+  getFinalValue,
+  header,
+  config = {},
+}) => ({
+  type: RACE_CONFIG_TYPE.CHOICE,
+  format: RACE_CONFIG_FORMAT.DROPDOWN,
+  options,
+  path,
+  config: {
+    header,
+    getFinalValue,
+    ...config,
+  },
 });

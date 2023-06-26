@@ -6,7 +6,7 @@ import { iSet } from 'utils/lodashUtils';
 type Props = {
   value: any;
   format: string;
-  index: number;
+  updatePath: string;
   options: Array<{ value: any; label: any }>;
   isSubRace?: boolean;
   config?: {
@@ -19,7 +19,7 @@ export const ChoiceRaceSection = ({
   options,
   config = {},
   isSubRace,
-  index,
+  updatePath,
 }: Props) => {
   const [, , updateRaceConfig] = useCharacterCreatorPath('race.config');
   const { header, placeholder } = config;
@@ -27,11 +27,7 @@ export const ChoiceRaceSection = ({
 
   const onChange = (e) =>
     updateRaceConfig((prev) =>
-      iSet(
-        prev,
-        `${isSubRace ? 'subRace' : 'base'}.${index}.value`,
-        e.target.value,
-      ),
+      iSet(prev, `${updatePath}.value`, e.target.value),
     );
 
   return (

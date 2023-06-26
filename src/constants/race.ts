@@ -14,7 +14,7 @@ export const RACE_CONFIGS: RaceConfigs = {
   },
   [RACES.ELF]: {
     label: 'Elf',
-    createConfig: { base: [] },
+    createConfig: ELF_CREATE_CONFIG,
   },
   [RACES.GNOME]: {
     label: 'Gnome',

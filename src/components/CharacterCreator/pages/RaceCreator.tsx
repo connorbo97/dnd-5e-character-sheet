@@ -62,6 +62,17 @@ export const RaceCreator = () => {
             ...features,
             ...(Array.isArray(v) ? v : [v]),
           ]);
+        } else if (p === 'skills') {
+          const curSkills = result[p] || {};
+          const newSkills = entries(v).reduce((acc, [stat, config]) => {
+            if (!isNil(acc[stat])) {
+              acc[stat] = { ...acc[stat], ...(config as Object) };
+            } else {
+              acc[stat] = config;
+            }
+            return acc;
+          }, curSkills);
+          set(result, p, newSkills);
         } else if (Array.isArray(get(result, p))) {
           update(result, p, (prev) => [...prev, ...v]);
         } else {
@@ -69,12 +80,14 @@ export const RaceCreator = () => {
         }
       };
 
+      const finalValue = getFinalValue ? getFinalValue(value) : value;
+
       if (path === MULTI_PATH) {
-        entries(getFinalValue(value)).forEach(([entryPath, entryValue]) =>
+        entries(finalValue).forEach(([entryPath, entryValue]) =>
           addToResult(entryPath, entryValue),
         );
       } else {
-        addToResult(path, value);
+        addToResult(path, finalValue);
       }
     };
     config?.base.forEach(handleConfig);
@@ -101,7 +114,13 @@ export const RaceCreator = () => {
         {config?.base.map((curConfig, index) => {
           const Component =
             curConfig.type === 'STATIC' ? StaticRaceSection : ChoiceRaceSection;
-          return <Component key={index} {...curConfig} index={index} />;
+          return (
+            <Component
+              key={index}
+              {...curConfig}
+              updatePath={`base.${index}`}
+            />
+          );
         })}
         {config?.subRaceOptions && (
           <div>
@@ -123,7 +142,12 @@ export const RaceCreator = () => {
                 ? StaticRaceSection
                 : ChoiceRaceSection;
             return (
-              <Component key={index} {...curConfig} index={index} isSubRace />
+              <Component
+                key={index}
+                {...curConfig}
+                updatePath={`subRace.${subRace}.${index}`}
+                isSubRace
+              />
             );
           })}
       </div>

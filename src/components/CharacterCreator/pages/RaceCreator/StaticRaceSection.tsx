@@ -2,7 +2,8 @@ import { entries, isObject } from 'lodash';
 import styles from './staticRaceSection.module.scss';
 import { STATS_CONFIGS } from 'constants/stats';
 import { addNumberSign } from 'utils/stringUtils';
-import { WALKING_TYPE } from 'constants/raceTypes';
+import { RACE_CONFIG_FORMAT, WALKING_TYPE } from 'constants/raceTypes';
+import { SKILL_CONFIGS } from 'constants/skills';
 
 type Props = {
   value: any;
@@ -40,9 +41,11 @@ export const StaticRaceSection = ({ format, value, config = {} }: Props) => {
     finalValue = value?.description;
   } else if (format === 'PROFICIENCY') {
     finalValue = value.map(({ label }) => label).join(', ');
+  } else if (format === RACE_CONFIG_FORMAT.SKILL_PROFICIENCY) {
+    finalValue = Object.keys(value)
+      .map((s) => SKILL_CONFIGS[s].label)
+      .join(', ');
   }
-
-  console.log(value, finalValue, format);
 
   if (renderValue) {
     finalValue = renderValue(value);
