@@ -14,7 +14,7 @@ export const Dropdown = ({
   value,
   onChange = (e) => console.log(e.target.value),
   allowEmpty,
-  placeholder = 'Select...',
+  placeholder,
 }: Props) => {
   const formattedOptions: Array<OptionType> = useMemo(() => {
     let mappedOptions;
@@ -26,8 +26,11 @@ export const Dropdown = ({
       );
     }
 
-    return allowEmpty
-      ? [{ value: undefined, label: placeholder }, ...mappedOptions]
+    return allowEmpty || placeholder
+      ? [
+          { value: undefined, label: placeholder || 'Select...' },
+          ...mappedOptions,
+        ]
       : mappedOptions;
   }, [options, allowEmpty, placeholder]);
 

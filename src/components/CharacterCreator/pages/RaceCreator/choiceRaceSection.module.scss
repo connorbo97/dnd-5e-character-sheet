@@ -16,3 +16,9 @@
   align-items: flex-start;
   padding: 1rem;
 }
+
+.custom-stat-dropdowns {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}

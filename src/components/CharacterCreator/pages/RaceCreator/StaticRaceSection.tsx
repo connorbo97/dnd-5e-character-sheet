@@ -4,6 +4,7 @@ import { STATS_CONFIGS } from 'constants/stats';
 import { addNumberSign } from 'utils/stringUtils';
 import { RACE_CONFIG_FORMAT, WALKING_TYPE } from 'constants/raceTypes';
 import { SKILL_CONFIGS } from 'constants/skills';
+import { getStatStringFromBlock } from 'utils/raceCreatorUtils';
 
 type Props = {
   value: any;
@@ -23,11 +24,7 @@ export const StaticRaceSection = ({ format, value, config = {} }: Props) => {
 
   if (format === 'STATS') {
     finalHeader = 'Stats';
-    finalValue = entries(value)
-      .map(
-        ([type, mod]) => `${STATS_CONFIGS[type].label} ${addNumberSign(mod)}`,
-      )
-      .join(', ');
+    finalValue = getStatStringFromBlock(value);
   } else if (format === 'SPEED') {
     finalHeader = 'Speed';
     finalValue = value

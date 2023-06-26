@@ -10,6 +10,7 @@ import { ChoiceRaceSection } from './RaceCreator/ChoiceRaceSection';
 import { entries, get, isNil, set, update } from 'lodash';
 import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
 import { MULTI_PATH, RACES } from 'constants/raceTypes';
+import { mergeStatBlocks } from 'utils/raceCreatorUtils';
 
 export const RaceCreator = () => {
   const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);
@@ -47,16 +48,8 @@ export const RaceCreator = () => {
 
       const addToResult = (p, v) => {
         if (p === 'stats') {
-          const curStats = result[p] || {};
-          const newStats = entries(v).reduce((acc, [stat, mod]) => {
-            if (!isNil(acc[stat])) {
-              acc[stat] += mod;
-            } else {
-              acc[stat] = mod;
-            }
-            return acc;
-          }, curStats);
-          set(result, p, newStats);
+          const mergedStatBlocks = mergeStatBlocks(result[p], v);
+          set(result, p, mergedStatBlocks);
         } else if (p === 'features') {
           update(result, p, (features = []) => [
             ...features,
@@ -103,13 +96,15 @@ export const RaceCreator = () => {
   return (
     <div className={styles['container']}>
       <h1>Race</h1>
-      <button onClick={() => calcFinalRace()}>CHECK</button>
-      <Dropdown
-        allowEmpty
-        options={RACE_OPTIONS}
-        value={value}
-        onChange={onSelectRace}
-      />
+      <div>
+        <button onClick={() => calcFinalRace()}>CHECK</button>
+        <Dropdown
+          allowEmpty
+          options={RACE_OPTIONS}
+          value={value}
+          onChange={onSelectRace}
+        />
+      </div>
       <div className={styles['content']}>
         {config?.base.map((curConfig, index) => {
           const Component =

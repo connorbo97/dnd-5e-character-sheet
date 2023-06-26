@@ -12,6 +12,18 @@ export const getStatsFeature = (stats) => ({
   path: 'stats',
   value: stats,
 });
+export const getStatsWithChoicesFeatures = (customStats, staticStats = {}) => ({
+  type: RACE_CONFIG_TYPE.CHOICE,
+  format: RACE_CONFIG_FORMAT.STATS,
+  path: 'stats',
+  value: {
+    staticStats,
+    customStats,
+  },
+  config: {
+    header: 'Stats',
+  },
+});
 export const getWalkingFeature = (ms) => ({
   type: RACE_CONFIG_TYPE.STATIC,
   format: RACE_CONFIG_FORMAT.SPEED,

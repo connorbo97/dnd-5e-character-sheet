@@ -1,5 +1,11 @@
 @import 'src/styles/_colors';
 
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 2rem;
+}
 .content {
   display: flex;
   flex-direction: column;
@@ -9,4 +15,5 @@
     margin-top: 0.5rem;
     border-top: 1px solid $tertiary;
   }
+  width: 100%;
 }

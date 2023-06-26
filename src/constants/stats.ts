@@ -46,3 +46,7 @@ export const STATS_OPTIONS = values(STATS).map((v) => ({
   value: v,
   label: v,
 }));
+export const STATS_OPTIONS_W_LABELS = values(STATS).map((v) => ({
+  value: v,
+  label: STATS_CONFIGS[v].label,
+}));
