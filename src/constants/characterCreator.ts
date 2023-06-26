@@ -14,6 +14,8 @@ export type CharacterRaceForm = {
   // stats: Array<RaceStatConfig | ChoiceConfig>;
   // customStats: Array<RaceStatConfig | ChoiceConfig>;
   config?: Array<any>;
+  subRace?: string;
+  subRaceConfig?: Array<any>;
 };
 
 export type CharacterCreatorForm = {
@@ -23,6 +25,7 @@ export type CharacterCreatorForm = {
 export const EMPTY_RACE_FORM: CharacterRaceForm = {
   value: undefined,
   config: undefined,
+  subRace: undefined,
   // size: undefined,
   // speed: undefined,
   // features: [],

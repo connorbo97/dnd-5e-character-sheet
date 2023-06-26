@@ -8,6 +8,7 @@ type Props = {
   format: string;
   index: number;
   options: Array<{ value: any; label: any }>;
+  isSubRace?: boolean;
   config?: {
     header?: any;
     placeholder?: any;
@@ -17,6 +18,7 @@ export const ChoiceRaceSection = ({
   value,
   options,
   config = {},
+  isSubRace,
   index,
 }: Props) => {
   const [, , updateRaceConfig] = useCharacterCreatorPath('race.config');
@@ -24,7 +26,13 @@ export const ChoiceRaceSection = ({
   let finalHeader = header || 'HEADER';
 
   const onChange = (e) =>
-    updateRaceConfig((prev) => iSet(prev, `${index}.value`, e.target.value));
+    updateRaceConfig((prev) =>
+      iSet(
+        prev,
+        `${isSubRace ? 'subRace' : 'base'}.${index}.value`,
+        e.target.value,
+      ),
+    );
 
   return (
     <div className={styles['container']}>

@@ -1,3 +1,4 @@
+import { ModBlock } from './general';
 import { STATS } from './stats';
 
 export enum RACES {
@@ -68,11 +69,19 @@ type RaceConfigs = {
         format: RACE_CONFIG_FORMAT;
         [s: string]: any;
       }>;
-      subClassOptions?: Array<{ value: any; label: string }>;
-      subClass?: Array<any>;
+      subRaceOptions?: Array<{ value: any; label: string }>;
+      subRace?: {
+        [s: string]: Array<{
+          type: RACE_CONFIG_TYPE;
+          format: RACE_CONFIG_FORMAT;
+          [s: string]: any;
+        }>;
+      };
     };
   };
 };
+
+export const MULTI_PATH = 'MULTI';
 
 export const RACE_CONFIGS: RaceConfigs = {
   [RACES.DRAGONBORN]: {
@@ -143,7 +152,7 @@ export const RACE_CONFIGS: RaceConfigs = {
         {
           type: RACE_CONFIG_TYPE.CHOICE,
           format: RACE_CONFIG_FORMAT.DROPDOWN,
-          path: 'MULTI',
+          path: MULTI_PATH,
           options: [
             { value: "Smith's Tools", label: "Smith's Tools" },
             { value: "Brewer's Tools", label: "Brewer's Tools" },
@@ -154,7 +163,7 @@ export const RACE_CONFIGS: RaceConfigs = {
             getFinalValue: (val) => {
               return {
                 otherProficiencies: [{ label: val, category: 'Tool' }],
-                customChecks: [{ label: val, stat: STATS.STR }],
+                customChecks: [{ label: val }],
               };
             },
           },
@@ -220,34 +229,79 @@ export const RACE_CONFIGS: RaceConfigs = {
           },
         },
       ],
-      subClassOptions: [
+      subRaceOptions: [
         {
           value: 'Hill Dwarf',
           label: 'Hill Dwarf',
         },
         {
           value: 'Mountain Dwarf',
-          label: 'Hill Dwarf',
-        },
-        {
-          value: 'Hill Dwarf',
-          label: 'Hill Dwarf',
+          label: 'Mountain Dwarf',
         },
       ],
-      subClass: [
-        {
-          type: RACE_CONFIG_TYPE.STATIC,
-          format: RACE_CONFIG_FORMAT.STATS,
-          path: 'stats',
-          value: {
-            [STATS.WIS]: 1,
+      subRace: {
+        'Hill Dwarf': [
+          {
+            type: RACE_CONFIG_TYPE.STATIC,
+            format: RACE_CONFIG_FORMAT.STATS,
+            path: 'stats',
+            value: {
+              [STATS.WIS]: 1,
+            },
           },
-        },
-        {
-          type: RACE_CONFIG_TYPE.STATIC,
-          format: RACE_CONFIG_FORMAT.FEATURE,
-        },
-      ],
+          {
+            type: RACE_CONFIG_TYPE.STATIC,
+            format: RACE_CONFIG_FORMAT.BASIC,
+            path: '',
+            value: [
+              {
+                value: 1,
+                source: 'Dwarven Toughness',
+                isStatic: false,
+              } as ModBlock,
+            ],
+            config: {
+              header: 'Feature: Dwarven Toughness',
+              getFinalValue: (value) => {
+                return {
+                  'customBonuses.hp': value,
+                  features: [
+                    {
+                      label: value[0].source,
+                      description:
+                        'Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.',
+                    },
+                  ],
+                };
+              },
+              renderValue: () =>
+                'Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.',
+            },
+          },
+        ],
+        'Mountain Dwarf': [
+          {
+            type: RACE_CONFIG_TYPE.STATIC,
+            format: RACE_CONFIG_FORMAT.STATS,
+            path: 'stats',
+            value: {
+              [STATS.STR]: 2,
+            },
+          },
+          {
+            type: RACE_CONFIG_TYPE.STATIC,
+            format: RACE_CONFIG_FORMAT.PROFICIENCY,
+            path: 'otherProficiencies',
+            value: [
+              { label: 'Light Armor', type: 'Armor' },
+              { label: 'Medium Armor', type: 'Armor' },
+            ],
+            config: {
+              header: 'Armor Proficiencies',
+            },
+          },
+        ],
+      },
     },
   },
   [RACES.GNOME]: {
