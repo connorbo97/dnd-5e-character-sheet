@@ -1,5 +1,6 @@
 import { DRAGON_BORN_CREATE_CONFIG } from './race/dragonborn';
 import { DWARF_CREATE_CONFIG } from './race/dwarf';
+import { ELF_CREATE_CONFIG } from './race/elf';
 import { RACES, RaceConfigs } from './raceTypes';
 
 export const RACE_CONFIGS: RaceConfigs = {
@@ -10,6 +11,10 @@ export const RACE_CONFIGS: RaceConfigs = {
   [RACES.DWARF]: {
     label: 'Dwarf',
     createConfig: DWARF_CREATE_CONFIG,
+  },
+  [RACES.ELF]: {
+    label: 'Elf',
+    createConfig: { base: [] },
   },
   [RACES.GNOME]: {
     label: 'Gnome',

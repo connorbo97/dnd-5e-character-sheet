@@ -3,6 +3,7 @@ import { STATS } from './stats';
 export enum RACES {
   DRAGONBORN = 'DRAGONBORN',
   DWARF = 'DWARF',
+  ELF = 'ELF',
   GNOME = 'GNOME',
   HALF_ELF = 'HALF_ELF',
   HALFLING = 'HALFLING',

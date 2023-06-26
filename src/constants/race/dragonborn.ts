@@ -1,27 +1,27 @@
 import { AttackEntry } from 'constants/attacks';
 import {
-  CREATURE_SIZE,
-  CREATURE_TYPE,
   MULTI_PATH,
   RACE_CONFIG_FORMAT,
   RACE_CONFIG_TYPE,
-  WALKING_TYPE,
 } from 'constants/raceTypes';
 import { STATS, STATS_CONFIGS } from 'constants/stats';
 import { ResourceConfig } from 'constants/resources';
 import { DICE } from 'constants/dice';
+import {
+  HUMANOID_TYPE_FEATURE,
+  MEDIUM_SIZE_FEATURE,
+  getBasicFeature,
+  getLanguageFeature,
+  getStatsFeature,
+  getWalkingFeature,
+} from './commonRace';
 
 const generateSubRaceConfig = (subRace, damageType, range, dcSave) => {
   return [
-    {
-      type: RACE_CONFIG_TYPE.STATIC,
-      format: RACE_CONFIG_FORMAT.FEATURE,
-      path: 'features',
-      value: {
-        label: 'Damage Resistance',
-        description: `You have resistance to ${damageType} damage.`,
-      },
-    },
+    getBasicFeature({
+      label: 'Damage Resistance',
+      description: `You have resistance to ${damageType} damage.`,
+    }),
     {
       type: RACE_CONFIG_TYPE.STATIC,
       format: RACE_CONFIG_FORMAT.FEATURE,
@@ -68,57 +68,17 @@ const generateSubRaceConfig = (subRace, damageType, range, dcSave) => {
 };
 export const DRAGON_BORN_CREATE_CONFIG = {
   base: [
-    {
-      type: RACE_CONFIG_TYPE.STATIC,
-      format: RACE_CONFIG_FORMAT.STATS,
-      path: 'stats',
-      value: {
-        [STATS.CHA]: 1,
-        [STATS.STR]: 2,
-      },
-    },
-    {
-      type: RACE_CONFIG_TYPE.STATIC,
-      format: RACE_CONFIG_FORMAT.BASIC,
-      path: 'creatureType',
-      value: CREATURE_TYPE.HUMANOID,
-      config: {
-        header: 'Creature Type',
-      },
-    },
-    {
-      type: RACE_CONFIG_TYPE.STATIC,
-      format: RACE_CONFIG_FORMAT.BASIC,
-      path: 'size',
-      value: CREATURE_SIZE.MEDIUM,
-      config: {
-        header: 'Size',
-      },
-    },
-    {
-      type: RACE_CONFIG_TYPE.STATIC,
-      format: RACE_CONFIG_FORMAT.SPEED,
-      path: 'speed',
-      value: [{ value: 30, type: WALKING_TYPE }],
-      config: {
-        header: 'Size',
-      },
-    },
-    {
-      type: RACE_CONFIG_TYPE.STATIC,
-      format: RACE_CONFIG_FORMAT.BASIC,
-      path: 'otherProficiencies',
-      value: [
-        { label: 'Common', category: 'Language' },
-        { label: 'Draconic', category: 'Language' },
-      ],
-      config: {
-        header: 'Languages',
-        subHeader: 'Language Proficiencies',
-        description:
-          'You can speak, read, and write Common and Draconic. Draconic is thought to be one of the oldest languages and is often used in the study of magic. The language sounds harsh to most other creatures and includes numerous hard consonants and sibilants.',
-      },
-    },
+    getStatsFeature({
+      [STATS.CHA]: 1,
+      [STATS.STR]: 2,
+    }),
+    HUMANOID_TYPE_FEATURE,
+    MEDIUM_SIZE_FEATURE,
+    getWalkingFeature(30),
+    getLanguageFeature(
+      ['Draconic'],
+      'You can speak, read, and write Common and Draconic. Draconic is thought to be one of the oldest languages and is often used in the study of magic. The language sounds harsh to most other creatures and includes numerous hard consonants and sibilants.',
+    ),
   ],
   subRaceOptions: [
     { value: 'Black', label: 'Black' },

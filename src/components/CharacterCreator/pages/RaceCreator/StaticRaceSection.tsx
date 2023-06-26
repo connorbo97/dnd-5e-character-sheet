@@ -42,6 +42,8 @@ export const StaticRaceSection = ({ format, value, config = {} }: Props) => {
     finalValue = value.map(({ label }) => label).join(', ');
   }
 
+  console.log(value, finalValue, format);
+
   if (renderValue) {
     finalValue = renderValue(value);
   } else if (isObject(finalValue)) {
