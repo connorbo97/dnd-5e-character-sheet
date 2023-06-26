@@ -8,7 +8,7 @@ import { FeatureConfig, FeatureSource } from './features';
 import { ModBlock, ProficiencyConfig } from './general';
 import { InventoryItem } from './inventory';
 import { MONEY } from './money';
-import { RACES } from './race';
+import { RACES } from './raceTypes';
 import { ResourceConfig } from './resources';
 import { ROLLABLES } from './rollable';
 import { SKILLS, SKILL_SORT } from './skills';

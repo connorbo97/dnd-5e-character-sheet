@@ -1,109 +1,21 @@
 import { ModBlock } from './general';
+import { DRAGON_BORN_CREATE_CONFIG } from './race/dragonborn';
+import {
+  CREATURE_SIZE,
+  CREATURE_TYPE,
+  MULTI_PATH,
+  RACES,
+  RACE_CONFIG_FORMAT,
+  RACE_CONFIG_TYPE,
+  RaceConfigs,
+  WALKING_TYPE,
+} from './raceTypes';
 import { STATS } from './stats';
-
-export enum RACES {
-  DRAGONBORN = 'DRAGONBORN',
-  DWARF = 'DWARF',
-  GNOME = 'GNOME',
-  HALF_ELF = 'HALF_ELF',
-  HALFLING = 'HALFLING',
-  HALF_ORC = 'HALF_ORC',
-  HUMAN = 'HUMAN',
-  TIEFLING = 'TIEFLING',
-  TASHA_CUSTOM = 'TASHA_CUSTOM',
-  CUSTOM = 'CUSTOM',
-}
-
-export enum CREATURE_TYPE {
-  HUMANOID = 'Humanoid',
-}
-
-export enum CREATURE_SIZE {
-  TINY = 'Tiny',
-  SMALL = 'Small',
-  MEDIUM = 'Medium',
-  LARGE = 'LARGE',
-}
-
-export type RaceStatConfig = {
-  stat: STATS;
-  value: number;
-};
-// type SubRaceConfig = {
-//   label: string;
-//   value: string;
-//   stats?: Array<RaceStatConfig>;
-//   customStats?: Array<RaceStatConfig | ChoiceConfig>;
-// };
-// type CreateConfig = {
-//   stats?: Array<RaceStatConfig>;
-//   customStats?: Array<ChoiceConfig>;
-//   speed?: Array<{ value: number; type: string }>;
-//   size?: CREATURE_SIZE;
-//   type?: CREATURE_TYPE;
-//   languages?: ChoiceConfig | Array<string | ChoiceConfig>;
-//   subraces?: {
-//     [s: string]: SubRaceConfig;
-//   };
-//   features: Array<{ label: string; description: string }>;
-// };
-export enum RACE_CONFIG_TYPE {
-  STATIC = 'STATIC',
-  CHOICE = 'CHOICE',
-}
-export enum RACE_CONFIG_FORMAT {
-  BASIC = 'BASIC',
-  STATS = 'STATS',
-  SPEED = 'SPEED',
-  PROFICIENCY = 'PROFICIENCY',
-  DROPDOWN = 'DROPDOWN',
-  FEATURE = 'FEATURE',
-}
-
-type RaceCreateConfigEntry = {
-  type: RACE_CONFIG_TYPE;
-  format: RACE_CONFIG_FORMAT;
-  path: string;
-  value?: any;
-  options?: Array<{ value: any; label: any }>;
-  config?: {
-    header?: string;
-    description?: string;
-    subHeader?: string;
-    renderValue?: Function;
-    getFinalValue?: Function;
-  };
-};
-type RaceConfigs = {
-  [r in RACES]: {
-    label: string;
-    createConfig: {
-      base: Array<RaceCreateConfigEntry>;
-      subRaceOptions?: Array<{ value: any; label: string }>;
-      subRace?: {
-        [s: string]: Array<RaceCreateConfigEntry>;
-      };
-    };
-  };
-};
-
-export const MULTI_PATH = 'MULTI';
 
 export const RACE_CONFIGS: RaceConfigs = {
   [RACES.DRAGONBORN]: {
     label: 'Dragonborn',
-    createConfig: { base: [] },
-    // createConfig: {
-    //   stats: [
-    //     { stat: STATS.CHA, value: 1 },
-    //     { stat: STATS.STR, value: 2 },
-    //   ],
-    //   customStats: [
-    //     { isChoice: true, options: STATS_OPTIONS, metadata: 1 },
-    //     { isChoice: true, options: STATS_OPTIONS, metadata: 1 },
-    //   ],
-    //   features: [{ label: 'DragonBreath', description: 'Breathe Fire' }],
-    // },
+    createConfig: DRAGON_BORN_CREATE_CONFIG,
   },
   [RACES.DWARF]: {
     label: 'Dwarf',
@@ -139,7 +51,7 @@ export const RACE_CONFIGS: RaceConfigs = {
           type: RACE_CONFIG_TYPE.STATIC,
           format: RACE_CONFIG_FORMAT.SPEED,
           path: 'speed',
-          value: [{ value: 25, type: 'Walking' }],
+          value: [{ value: 25, type: WALKING_TYPE }],
         },
         {
           type: RACE_CONFIG_TYPE.STATIC,

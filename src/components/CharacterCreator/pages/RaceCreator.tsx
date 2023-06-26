@@ -5,16 +5,14 @@ import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import styles from './raceCreator.module.scss';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
-import { MULTI_PATH, RACES, RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
 import { StaticRaceSection } from './RaceCreator/StaticRaceSection';
 import { ChoiceRaceSection } from './RaceCreator/ChoiceRaceSection';
 import { entries, get, isNil, set, update } from 'lodash';
+import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
+import { MULTI_PATH, RACES } from 'constants/raceTypes';
 
 export const RaceCreator = () => {
-  const [race, setRace] = useCharacterCreatorPath(
-    CHARACTER_CREATOR_PATHS['race'],
-  );
-  console.log(race);
+  const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);
   const [value] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS['race.value'],
   );
@@ -60,7 +58,10 @@ export const RaceCreator = () => {
           }, curStats);
           set(result, p, newStats);
         } else if (p === 'features') {
-          update(result, p, (features = []) => [...features, v]);
+          update(result, p, (features = []) => [
+            ...features,
+            ...(Array.isArray(v) ? v : [v]),
+          ]);
         } else if (Array.isArray(get(result, p))) {
           update(result, p, (prev) => [...prev, ...v]);
         } else {

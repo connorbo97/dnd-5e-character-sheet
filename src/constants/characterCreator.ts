@@ -1,6 +1,5 @@
 import { keyBy } from 'lodash';
-import { CREATURE_SIZE, CREATURE_TYPE, RACES, RaceStatConfig } from './race';
-import { ChoiceConfig } from './choiceConfig';
+import { RACES } from './raceTypes';
 
 export const CHARACTER_CREATOR_REDUCER_NAME = 'characterCreator';
 
