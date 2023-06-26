@@ -2,6 +2,7 @@ import { entries, isObject } from 'lodash';
 import styles from './staticRaceSection.module.scss';
 import { STATS_CONFIGS } from 'constants/stats';
 import { addNumberSign } from 'utils/stringUtils';
+import { WALKING_TYPE } from 'constants/raceTypes';
 
 type Props = {
   value: any;
@@ -30,7 +31,8 @@ export const StaticRaceSection = ({ format, value, config = {} }: Props) => {
     finalHeader = 'Speed';
     finalValue = value
       .map(
-        ({ value, type }) => `${value}${type !== 'Walking' ? ' ' + type : ''}`,
+        ({ value, type }) =>
+          `${value}${type !== WALKING_TYPE ? ' ' + type : ''}`,
       )
       .join(', ');
   } else if (format === 'FEATURE') {
