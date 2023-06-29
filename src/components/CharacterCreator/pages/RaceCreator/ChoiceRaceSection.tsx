@@ -1,4 +1,3 @@
-import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import styles from './choiceRaceSection.module.scss';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { iSet } from 'utils/lodashUtils';
@@ -9,23 +8,24 @@ import {
 import { get, noop } from 'lodash';
 
 type Props = {
-  value: any;
+  value?: any;
   format: string;
   updatePath: string;
-  options: Array<{ value: any; label: any }>;
+  options?: Array<{ value: any; label: any }>;
   isSubRace?: boolean;
   config?: RaceCreateConfigEntryConfig;
+  onUpdate: Function;
 };
 
 export const ChoiceRaceSection = ({
   value,
   format,
-  options,
+  options = [],
   config = {},
   isSubRace,
   updatePath,
+  onUpdate,
 }: Props) => {
-  const [, , updateRaceConfig] = useCharacterCreatorPath('race.config');
   const {
     header,
     subHeader,
@@ -38,11 +38,11 @@ export const ChoiceRaceSection = ({
   const finalHeader = header || 'HEADER';
 
   const onChangeDropdown = (newValue) => {
-    updateRaceConfig((prev) => iSet(prev, `${updatePath}.value`, newValue));
+    onUpdate((prev) => iSet(prev, `${updatePath}.value`, newValue));
   };
 
   const onChangeCustom = (index, value) =>
-    updateRaceConfig((prev) =>
+    onUpdate((prev) =>
       iSet(prev, `${updatePath}.value.custom.${index}.value`, value),
     );
 

@@ -56,7 +56,7 @@ export type RaceCreateConfigEntryConfig = {
   hideValue?: boolean;
 };
 
-type RaceCreateConfigEntry = {
+export type RaceCreateConfigEntry = {
   type: RACE_CONFIG_TYPE;
   format: RACE_CONFIG_FORMAT;
   path: string;

@@ -3,6 +3,7 @@ import {
   CREATURE_TYPE,
   RACE_CONFIG_FORMAT,
   RACE_CONFIG_TYPE,
+  RaceCreateConfigEntry,
   RaceCreateConfigEntryConfig,
   WALKING_TYPE,
 } from 'constants/raceTypes';
@@ -17,7 +18,7 @@ export const getStatsFeature = (stats) => ({
 export const getStaticWithChoices = (
   { path, custom, statics = [] as Array<any> },
   config: RaceCreateConfigEntryConfig = {},
-) => ({
+): RaceCreateConfigEntry => ({
   type: RACE_CONFIG_TYPE.CHOICE,
   format: RACE_CONFIG_FORMAT.STATIC_CHOICE,
   path,

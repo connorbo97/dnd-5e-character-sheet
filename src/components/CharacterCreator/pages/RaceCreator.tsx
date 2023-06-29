@@ -17,7 +17,7 @@ export const RaceCreator = () => {
   const [value] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS['race.value'],
   );
-  const [config = { base: [] }] = useCharacterCreatorPath(
+  const [config = { base: [] }, updateRaceConfig] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS['race.config'],
   );
   const [subRace, setSubRace] = useCharacterCreatorPath(
@@ -67,6 +67,7 @@ export const RaceCreator = () => {
               key={index}
               {...curConfig}
               updatePath={`base.${index}`}
+              onUpdate={updateRaceConfig}
             />
           );
         })}

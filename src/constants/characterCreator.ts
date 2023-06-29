@@ -30,17 +30,26 @@ export const EMPTY_STATS_FORM = {
   [STATS.CHA]: undefined,
 };
 
+export type CharacterBackgroundForm = {
+  skills?: Array<string>;
+  equipment?: Array<string>;
+};
+export const EMPTY_BACKGROUND_FORM = {
+  skills: undefined,
+  equipment: undefined,
+};
+
 export type CharacterCreatorForm = {
   race: CharacterRaceForm;
   stats: CharacterStatsForm;
+  background: CharacterBackgroundForm;
 };
 
 export const EMPTY_FORM: CharacterCreatorForm = {
   race: EMPTY_RACE_FORM,
   stats: EMPTY_STATS_FORM,
+  background: EMPTY_BACKGROUND_FORM,
 };
-
-console.log(getAllPaths(EMPTY_FORM));
 
 export const CHARACTER_CREATOR_PATHS_LIST = getAllPaths(EMPTY_FORM);
 export const CHARACTER_CREATOR_PATHS = keyBy(
