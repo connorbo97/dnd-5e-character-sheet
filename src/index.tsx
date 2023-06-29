@@ -8,11 +8,6 @@ import { TooltipPortal } from 'react-mint';
 import { CharacterCreatorProvider } from 'providers/CharacterCreatorProvider';
 import { ReduxProvider } from 'providers/ReduxProvider';
 
-// @ts-ignore
-if (module.hot) {
-  // @ts-ignore
-  module.hot.accept();
-}
 declare global {
   interface Window {
     diceBox: any;
