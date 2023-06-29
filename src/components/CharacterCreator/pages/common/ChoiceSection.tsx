@@ -1,11 +1,9 @@
-import styles from './choiceRaceSection.module.scss';
+import styles from './choiceSection.module.scss';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { iSet } from 'utils/lodashUtils';
-import {
-  RACE_CONFIG_FORMAT,
-  RaceCreateConfigEntryConfig,
-} from 'constants/raceTypes';
+import { RaceCreateConfigEntryConfig } from 'constants/raceTypes';
 import { get, noop } from 'lodash';
+import { SECTION_CONFIG_FORMAT } from 'constants/characterCreatorSections';
 
 type Props = {
   value?: any;
@@ -17,12 +15,11 @@ type Props = {
   onUpdate: Function;
 };
 
-export const ChoiceRaceSection = ({
+export const ChoiceSection = ({
   value,
   format,
   options = [],
   config = {},
-  isSubRace,
   updatePath,
   onUpdate,
 }: Props) => {
@@ -54,7 +51,7 @@ export const ChoiceRaceSection = ({
           <div className={styles['description']}>{description}</div>
         )}
         {subHeader && <h3>{subHeader}</h3>}
-        {format === RACE_CONFIG_FORMAT.DROPDOWN && options && (
+        {format === SECTION_CONFIG_FORMAT.DROPDOWN && options && (
           <Dropdown
             options={options}
             onChange={(e) => onChangeDropdown(e.target.value)}
@@ -64,7 +61,7 @@ export const ChoiceRaceSection = ({
           />
         )}
 
-        {format === RACE_CONFIG_FORMAT.STATIC_CHOICE && customValue && (
+        {format === SECTION_CONFIG_FORMAT.STATIC_CHOICE && customValue && (
           <div>
             {getLabelValue && getLabelValue(customValue, statics)}
             <div className={styles['custom-stat-dropdowns']}>

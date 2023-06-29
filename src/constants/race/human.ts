@@ -7,7 +7,7 @@ import {
   getMovementFeature,
   getStaticWithChoices,
   getStatsFeature,
-} from './commonRace';
+} from './commonCreatorConfigs';
 import { LANGUAGE_OPTIONS } from 'constants/languages';
 import { STATS, STATS_OPTIONS_W_LABELS } from 'constants/stats';
 import {

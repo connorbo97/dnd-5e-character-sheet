@@ -1,9 +1,5 @@
 import { AttackEntry } from 'constants/attacks';
-import {
-  MULTI_PATH,
-  RACE_CONFIG_FORMAT,
-  RACE_CONFIG_TYPE,
-} from 'constants/raceTypes';
+import { MULTI_PATH } from 'constants/raceTypes';
 import { STATS, STATS_CONFIGS } from 'constants/stats';
 import { ResourceConfig } from 'constants/resources';
 import { DICE } from 'constants/dice';
@@ -14,7 +10,11 @@ import {
   getLanguageFeature,
   getStatsFeature,
   getMovementFeature,
-} from './commonRace';
+} from './commonCreatorConfigs';
+import {
+  SECTION_CONFIG_FORMAT,
+  SECTION_CONFIG_TYPE,
+} from 'constants/characterCreatorSections';
 
 const generateSubRaceConfig = (subRace, damageType, range, dcSave) => {
   return [
@@ -23,8 +23,8 @@ const generateSubRaceConfig = (subRace, damageType, range, dcSave) => {
       description: `You have resistance to ${damageType} damage.`,
     }),
     {
-      type: RACE_CONFIG_TYPE.STATIC,
-      format: RACE_CONFIG_FORMAT.FEATURE,
+      type: SECTION_CONFIG_TYPE.STATIC,
+      format: SECTION_CONFIG_FORMAT.FEATURE,
       path: MULTI_PATH,
       value: {
         label: 'Breath Weapon',

@@ -1,19 +1,16 @@
 import { isObject } from 'lodash';
-import styles from './staticRaceSection.module.scss';
-import {
-  RACE_CONFIG_FORMAT,
-  RaceCreateConfigEntryConfig,
-  WALKING_TYPE,
-} from 'constants/raceTypes';
+import styles from './staticSection.module.scss';
+import { RaceCreateConfigEntryConfig, WALKING_TYPE } from 'constants/raceTypes';
 import { SKILL_CONFIGS } from 'constants/skills';
 import { getStatStringFromBlock } from 'utils/raceCreatorUtils';
+import { SECTION_CONFIG_FORMAT } from 'constants/characterCreatorSections';
 
 type Props = {
   value: any;
   format: string;
   config?: RaceCreateConfigEntryConfig;
 };
-export const StaticRaceSection = ({ format, value, config = {} }: Props) => {
+export const StaticSection = ({ format, value, config = {} }: Props) => {
   const { header, subHeader, description, renderValue, hideValue } = config;
 
   let finalHeader = header || 'HEADER';
@@ -35,7 +32,7 @@ export const StaticRaceSection = ({ format, value, config = {} }: Props) => {
     finalValue = value?.description;
   } else if (format === 'PROFICIENCY') {
     finalValue = value.map(({ label }) => label).join(', ');
-  } else if (format === RACE_CONFIG_FORMAT.SKILL_PROFICIENCY) {
+  } else if (format === SECTION_CONFIG_FORMAT.SKILL_PROFICIENCY) {
     finalValue = Object.keys(value)
       .map((s) => SKILL_CONFIGS[s].label)
       .join(', ');

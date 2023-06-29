@@ -8,7 +8,7 @@ import {
   getLanguageFeature,
   getStaticWithChoices,
   getMovementFeature,
-} from './commonRace';
+} from './commonCreatorConfigs';
 import { SKILL_OPTIONS } from 'constants/skills';
 import { addNumberSign } from 'utils/stringUtils';
 import {

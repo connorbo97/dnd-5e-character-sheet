@@ -8,7 +8,7 @@ import {
   getFeatChoicesFeature,
   getMovementFeature,
   getStaticWithChoices,
-} from './commonRace';
+} from './commonCreatorConfigs';
 import { STATS_OPTIONS_W_LABELS } from 'constants/stats';
 import {
   convertCustomStatsToStatBlock,

@@ -1,9 +1,9 @@
 import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
-import { ChoiceRaceSection } from '../RaceCreator/ChoiceRaceSection';
 import styles from './backgroundCreator.module.scss';
-import { getChoiceSkillProficiencies } from 'constants/race/commonRace';
+import { getChoiceSkillProficiencies } from 'constants/race/commonCreatorConfigs';
 import { SKILL_OPTIONS } from 'constants/skills';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
+import { ChoiceSection } from '../common/ChoiceSection';
 
 type Props = any;
 export const BackgroundCreator = (props: Props) => {
@@ -14,7 +14,7 @@ export const BackgroundCreator = (props: Props) => {
   return (
     <div className={styles['container']}>
       <h1>Background</h1>
-      <ChoiceRaceSection
+      <ChoiceSection
         onUpdate={updateBackground}
         {...getChoiceSkillProficiencies(SKILL_OPTIONS, 2)}
         updatePath={'skills'}

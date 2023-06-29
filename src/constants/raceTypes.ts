@@ -1,4 +1,7 @@
-import { STATS } from './stats';
+import {
+  SECTION_CONFIG_FORMAT,
+  SECTION_CONFIG_TYPE,
+} from './characterCreatorSections';
 
 export enum RACES {
   DRAGONBORN = 'DRAGONBORN',
@@ -25,24 +28,6 @@ export enum CREATURE_SIZE {
   LARGE = 'LARGE',
 }
 
-export type RaceStatConfig = {
-  stat: STATS;
-  value: number;
-};
-export enum RACE_CONFIG_TYPE {
-  STATIC = 'STATIC',
-  CHOICE = 'CHOICE',
-}
-export enum RACE_CONFIG_FORMAT {
-  BASIC = 'BASIC',
-  STATIC_CHOICE = 'STATIC_CHOICE',
-  STATS = 'STATS',
-  SPEED = 'SPEED',
-  PROFICIENCY = 'PROFICIENCY',
-  SKILL_PROFICIENCY = 'SKILL_PROFICIENCY',
-  DROPDOWN = 'DROPDOWN',
-  FEATURE = 'FEATURE',
-}
 export type RaceCreateConfigEntryConfig = {
   header?: string;
   reference?: string;
@@ -57,8 +42,8 @@ export type RaceCreateConfigEntryConfig = {
 };
 
 export type RaceCreateConfigEntry = {
-  type: RACE_CONFIG_TYPE;
-  format: RACE_CONFIG_FORMAT;
+  type: SECTION_CONFIG_TYPE;
+  format: SECTION_CONFIG_FORMAT;
   path: string;
   value?: any;
   optional?: boolean;

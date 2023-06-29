@@ -1,8 +1,10 @@
 import {
+  SECTION_CONFIG_FORMAT,
+  SECTION_CONFIG_TYPE,
+} from 'constants/characterCreatorSections';
+import {
   CREATURE_SIZE,
   CREATURE_TYPE,
-  RACE_CONFIG_FORMAT,
-  RACE_CONFIG_TYPE,
   RaceCreateConfigEntry,
   RaceCreateConfigEntryConfig,
   WALKING_TYPE,
@@ -10,8 +12,8 @@ import {
 import { fill, find, get } from 'lodash';
 
 export const getStatsFeature = (stats) => ({
-  type: RACE_CONFIG_TYPE.STATIC,
-  format: RACE_CONFIG_FORMAT.STATS,
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.STATS,
   path: 'stats',
   value: stats,
 });
@@ -19,8 +21,8 @@ export const getStaticWithChoices = (
   { path, custom, statics = [] as Array<any> },
   config: RaceCreateConfigEntryConfig = {},
 ): RaceCreateConfigEntry => ({
-  type: RACE_CONFIG_TYPE.CHOICE,
-  format: RACE_CONFIG_FORMAT.STATIC_CHOICE,
+  type: SECTION_CONFIG_TYPE.CHOICE,
+  format: SECTION_CONFIG_FORMAT.STATIC_CHOICE,
   path,
   value: {
     custom,
@@ -33,8 +35,8 @@ export const getStaticWithChoices = (
   },
 });
 export const getMovementFeature = (ms) => ({
-  type: RACE_CONFIG_TYPE.STATIC,
-  format: RACE_CONFIG_FORMAT.SPEED,
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.SPEED,
   path: 'speed',
   value: [{ value: ms, type: WALKING_TYPE }],
   config: {
@@ -46,8 +48,8 @@ export const getLanguageFeature = (
   description = '',
   subHeader = 'Language Proficiencies',
 ) => ({
-  type: RACE_CONFIG_TYPE.STATIC,
-  format: RACE_CONFIG_FORMAT.PROFICIENCY,
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.PROFICIENCY,
   path: 'otherProficiencies',
   value: [
     { label: 'Common', category: 'Language' },
@@ -60,8 +62,8 @@ export const getLanguageFeature = (
   },
 });
 export const getSizeFeature = (size) => ({
-  type: RACE_CONFIG_TYPE.STATIC,
-  format: RACE_CONFIG_FORMAT.BASIC,
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.BASIC,
   path: 'size',
   value: size,
   config: {
@@ -71,8 +73,8 @@ export const getSizeFeature = (size) => ({
 
 export const MEDIUM_SIZE_FEATURE = getSizeFeature(CREATURE_SIZE.MEDIUM);
 export const HUMANOID_TYPE_FEATURE = {
-  type: RACE_CONFIG_TYPE.STATIC,
-  format: RACE_CONFIG_FORMAT.BASIC,
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.BASIC,
   path: 'creatureType',
   value: CREATURE_TYPE.HUMANOID,
   config: {
@@ -81,8 +83,8 @@ export const HUMANOID_TYPE_FEATURE = {
 };
 
 export const getProficiencies = (category, labels) => ({
-  type: RACE_CONFIG_TYPE.STATIC,
-  format: RACE_CONFIG_FORMAT.PROFICIENCY,
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.PROFICIENCY,
   path: 'otherProficiencies',
   value: labels.map((l) => ({ label: l, category })),
   config: {
@@ -90,8 +92,8 @@ export const getProficiencies = (category, labels) => ({
   },
 });
 export const getSkillProficiencies = (skills) => ({
-  type: RACE_CONFIG_TYPE.STATIC,
-  format: RACE_CONFIG_FORMAT.SKILL_PROFICIENCY,
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.SKILL_PROFICIENCY,
   path: 'skills',
   value: skills.reduce((acc, s) => ({ [s]: { proficient: true } }), {}),
   config: {
@@ -120,8 +122,8 @@ export const getChoiceSkillProficiencies = (
   );
 
 export const getBasicFeature = (value) => ({
-  type: RACE_CONFIG_TYPE.STATIC,
-  format: RACE_CONFIG_FORMAT.FEATURE,
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.FEATURE,
   path: 'features',
   value,
 });
@@ -140,8 +142,8 @@ export const getBasicDropdownChoice = ({
   header,
   config = {},
 }) => ({
-  type: RACE_CONFIG_TYPE.CHOICE,
-  format: RACE_CONFIG_FORMAT.DROPDOWN,
+  type: SECTION_CONFIG_TYPE.CHOICE,
+  format: SECTION_CONFIG_FORMAT.DROPDOWN,
   options,
   path,
   config: {
@@ -155,8 +157,8 @@ export const getFeatChoicesFeature = (
   totalChoices,
   description = 'Feats are selected in the Feats section of the character creator',
 ) => ({
-  type: RACE_CONFIG_TYPE.STATIC,
-  format: RACE_CONFIG_FORMAT.BASIC,
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.BASIC,
   path: 'featChoices',
   value: totalChoices,
   config: {

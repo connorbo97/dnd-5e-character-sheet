@@ -5,11 +5,11 @@ import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import styles from './raceCreator.module.scss';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
-import { StaticRaceSection } from './RaceCreator/StaticRaceSection';
-import { ChoiceRaceSection } from './RaceCreator/ChoiceRaceSection';
 import { get, stubTrue } from 'lodash';
 import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
 import { RACES } from 'constants/raceTypes';
+import { StaticSection } from './common/StaticSection';
+import { ChoiceSection } from './common/ChoiceSection';
 
 export const RaceCreator = () => {
   const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);
@@ -57,7 +57,7 @@ export const RaceCreator = () => {
           }
 
           const Component =
-            curConfig.type === 'STATIC' ? StaticRaceSection : ChoiceRaceSection;
+            curConfig.type === 'STATIC' ? StaticSection : ChoiceSection;
           return (
             <Component
               key={index}
@@ -93,9 +93,7 @@ export const RaceCreator = () => {
             }
 
             const Component =
-              curConfig.type === 'STATIC'
-                ? StaticRaceSection
-                : ChoiceRaceSection;
+              curConfig.type === 'STATIC' ? StaticSection : ChoiceSection;
             return (
               <Component
                 key={index}

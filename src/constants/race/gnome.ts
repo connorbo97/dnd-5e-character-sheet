@@ -6,15 +6,15 @@ import {
   getLanguageFeature,
   getStatsFeature,
   getMovementFeature,
-} from './commonRace';
+} from './commonCreatorConfigs';
 import { LANGUAGES } from 'constants/languages';
-import {
-  MULTI_PATH,
-  RACE_CONFIG_FORMAT,
-  RACE_CONFIG_TYPE,
-} from 'constants/raceTypes';
+import { MULTI_PATH } from 'constants/raceTypes';
 import { ProficiencyConfig } from 'constants/general';
 import { ResourceConfig } from 'constants/resources';
+import {
+  SECTION_CONFIG_FORMAT,
+  SECTION_CONFIG_TYPE,
+} from 'constants/characterCreatorSections';
 
 export const GNOME_CREATE_CONFIG = {
   base: [
@@ -57,8 +57,8 @@ You know the minor illusion cantrip. Intelligence is your spellcasting ability f
           'Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply.',
       }),
       {
-        type: RACE_CONFIG_TYPE.STATIC,
-        format: RACE_CONFIG_FORMAT.FEATURE,
+        type: SECTION_CONFIG_TYPE.STATIC,
+        format: SECTION_CONFIG_FORMAT.FEATURE,
         path: MULTI_PATH,
         value: {
           label: 'Tinker',

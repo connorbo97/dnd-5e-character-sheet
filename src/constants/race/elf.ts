@@ -9,7 +9,7 @@ import {
   getSkillProficiencies,
   getStatsFeature,
   getMovementFeature,
-} from './commonRace';
+} from './commonCreatorConfigs';
 import { SKILLS } from 'constants/skills';
 import { LANGUAGE_OPTIONS } from 'constants/languages';
 

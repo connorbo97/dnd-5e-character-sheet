@@ -1,9 +1,9 @@
 import { ModBlock } from 'constants/general';
+import { MULTI_PATH } from 'constants/raceTypes';
 import {
-  MULTI_PATH,
-  RACE_CONFIG_FORMAT,
-  RACE_CONFIG_TYPE,
-} from 'constants/raceTypes';
+  SECTION_CONFIG_FORMAT,
+  SECTION_CONFIG_TYPE,
+} from 'constants/characterCreatorSections';
 import { STATS } from 'constants/stats';
 import {
   HUMANOID_TYPE_FEATURE,
@@ -14,7 +14,7 @@ import {
   getProficiencies,
   getStatsFeature,
   getMovementFeature,
-} from './commonRace';
+} from './commonCreatorConfigs';
 
 export const DWARF_CREATE_CONFIG = {
   base: [
@@ -31,8 +31,8 @@ export const DWARF_CREATE_CONFIG = {
       'Warhammer',
     ]),
     {
-      type: RACE_CONFIG_TYPE.CHOICE,
-      format: RACE_CONFIG_FORMAT.DROPDOWN,
+      type: SECTION_CONFIG_TYPE.CHOICE,
+      format: SECTION_CONFIG_FORMAT.DROPDOWN,
       path: MULTI_PATH,
       options: [
         { value: "Smith's Tools", label: "Smith's Tools" },
@@ -82,16 +82,16 @@ export const DWARF_CREATE_CONFIG = {
   subRace: {
     'Hill Dwarf': [
       {
-        type: RACE_CONFIG_TYPE.STATIC,
-        format: RACE_CONFIG_FORMAT.STATS,
+        type: SECTION_CONFIG_TYPE.STATIC,
+        format: SECTION_CONFIG_FORMAT.STATS,
         path: 'stats',
         value: {
           [STATS.WIS]: 1,
         },
       },
       {
-        type: RACE_CONFIG_TYPE.STATIC,
-        format: RACE_CONFIG_FORMAT.BASIC,
+        type: SECTION_CONFIG_TYPE.STATIC,
+        format: SECTION_CONFIG_FORMAT.BASIC,
         path: '',
         value: [
           {
@@ -121,16 +121,16 @@ export const DWARF_CREATE_CONFIG = {
     ],
     'Mountain Dwarf': [
       {
-        type: RACE_CONFIG_TYPE.STATIC,
-        format: RACE_CONFIG_FORMAT.STATS,
+        type: SECTION_CONFIG_TYPE.STATIC,
+        format: SECTION_CONFIG_FORMAT.STATS,
         path: 'stats',
         value: {
           [STATS.STR]: 2,
         },
       },
       {
-        type: RACE_CONFIG_TYPE.STATIC,
-        format: RACE_CONFIG_FORMAT.PROFICIENCY,
+        type: SECTION_CONFIG_TYPE.STATIC,
+        format: SECTION_CONFIG_FORMAT.PROFICIENCY,
         path: 'otherProficiencies',
         value: [
           { label: 'Light Armor', type: 'Armor' },

@@ -6,7 +6,7 @@ import {
   getLanguageFeature,
   getMovementFeature,
   getStatsFeature,
-} from './race/commonRace';
+} from './race/commonCreatorConfigs';
 import { RaceConfigsCreateConfig } from './raceTypes';
 import { STATS } from './stats';
 
