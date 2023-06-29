@@ -4,6 +4,11 @@ import { RaceCreator } from './pages/RaceCreator';
 import { Link, Route, Routes, useMatch, useNavigate } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import { StatsCreator } from './pages/StatsCreator/StatsCreator';
+import { useMemo } from 'react';
+import { calcCharacterSheet } from 'utils/characterCreatorUtils';
+import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
+import { STATE_SELECTOR_PATH } from 'utils/reduxUtils';
+import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -29,6 +34,10 @@ export const CharacterCreator = () => {
     (p) => p === curPage,
   );
 
+  const [form, ,] = useCharacterCreatorPath(STATE_SELECTOR_PATH);
+
+  const finalForm = useMemo(() => calcCharacterSheet(form), [form]);
+
   return (
     <div className={styles['container']}>
       <div className={styles['header']}>
@@ -39,6 +48,16 @@ export const CharacterCreator = () => {
               {p}
             </div>
           </Link>
+        ))}
+      </div>
+      <div className={styles['stat-display']}>
+        {STATS_LIST.map((stat) => (
+          <div key={stat} className={styles['stat']}>
+            <div className={styles['value']}>
+              {finalForm?.stats?.[stat] || '-'}{' '}
+            </div>
+            <div className={styles['label']}>{STATS_CONFIGS[stat].label}</div>
+          </div>
         ))}
       </div>
       <div className={styles['content']}>

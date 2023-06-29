@@ -7,41 +7,10 @@ import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { StaticRaceSection } from './RaceCreator/StaticRaceSection';
 import { ChoiceRaceSection } from './RaceCreator/ChoiceRaceSection';
-import { entries, get, isNil, noop, set, stubTrue, update } from 'lodash';
+import { get, stubTrue } from 'lodash';
 import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
-import { IGNORE_PATH, MULTI_PATH, RACES } from 'constants/raceTypes';
-import { mergeStatBlocks } from 'utils/raceCreatorUtils';
-
-const defaultCheckFullValue = (val) => !!val;
-
-const pathHandler = {
-  stats: (p, v, result) => {
-    const mergedStatBlocks = mergeStatBlocks(result[p], v);
-    set(result, p, mergedStatBlocks);
-  },
-  features: (p, v, result) => {
-    update(result, p, (features = []) => [
-      ...features,
-      ...(Array.isArray(v) ? v : [v]),
-    ]);
-  },
-  skills: (p, v, result) => {
-    const curSkills = result[p] || {};
-    const newSkills = entries(v).reduce((acc, [stat, config]) => {
-      if (!isNil(acc[stat])) {
-        acc[stat] = { ...acc[stat], ...(config as Object) };
-      } else {
-        acc[stat] = config;
-      }
-      return acc;
-    }, curSkills);
-    set(result, p, newSkills);
-  },
-  featChoices: (p, v, result) => {
-    update(result, p, (prevCount) => (prevCount || 0) + v);
-  },
-  [IGNORE_PATH]: noop,
-};
+import { RACES } from 'constants/raceTypes';
+import { calcFinalRace } from 'utils/raceCreatorUtils';
 
 export const RaceCreator = () => {
   const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);
@@ -65,55 +34,13 @@ export const RaceCreator = () => {
     });
   };
 
-  const calcFinalRace = () => {
-    let result = {};
-
-    const handleConfig = (c, allConfigs) => {
-      const { value, path, config = {}, choiceCondition = stubTrue } = c;
-      const { getFinalValue, isFullValue = defaultCheckFullValue } = config;
-
-      if (!isFullValue(value)) {
-        console.log('MISSING', value, c);
-        return;
-      }
-
-      const addToResult = (p, v) => {
-        if (pathHandler[p]) {
-          pathHandler[p](p, v, result);
-        } else if (Array.isArray(get(result, p))) {
-          update(result, p, (prev) => [...prev, ...v]);
-        } else {
-          set(result, p, v);
-        }
-      };
-
-      const finalValue = getFinalValue ? getFinalValue(value) : value;
-
-      if (!choiceCondition(allConfigs)) {
-        // skip this config if it does not meet its choice condition
-      } else if (path === MULTI_PATH) {
-        entries(finalValue).forEach(([entryPath, entryValue]) =>
-          addToResult(entryPath, entryValue),
-        );
-      } else {
-        addToResult(path, finalValue);
-      }
-    };
-    config?.base.forEach((c) => handleConfig(c, config?.base));
-
-    if (subRace) {
-      config?.subRace[subRace].forEach((c) => handleConfig(c, config?.base));
-    } else if (config?.subRaceOptions?.length) {
-      console.log('Missing subclass', config);
-    }
-    console.log(result);
-  };
-
   return (
     <div className={styles['container']}>
       <h1>Race</h1>
       <div>
-        <button onClick={() => calcFinalRace()}>CHECK</button>
+        <button onClick={() => calcFinalRace(config, value, subRace)}>
+          CHECK
+        </button>
         <Dropdown
           allowEmpty
           options={RACE_OPTIONS}

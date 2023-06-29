@@ -12,6 +12,7 @@ import { useStore } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
+export const STATE_SELECTOR_PATH = '__STATE_SELECTOR';
 //@ts-ignore
 export const createReduxSelector = (base, selector, ...args: any) =>
   createSelector(base, selector, ...args);
@@ -28,6 +29,9 @@ export const createReduxSlice = (initialState, name) =>
     reducers: {
       setState: (state, action) => {
         state.value = action.payload;
+      },
+      updateState: (state, action) => {
+        state.value = action.payload(state.value);
       },
       set: (state, action: any) => {
         state.value = iSet(
@@ -69,7 +73,7 @@ const createSelectors = (stateSelector, paths) => {
   return {
     ...result,
     name: createReduxSelector(stateSelector, (state) => state.name),
-    state: stateSelector,
+    [STATE_SELECTOR_PATH]: stateSelector,
   };
 };
 const createSetters = (dispatch, paths, { set, setState }) => {
@@ -80,14 +84,17 @@ const createSetters = (dispatch, paths, { set, setState }) => {
 
   return {
     ...result,
-    state: (val) => setState(val),
+    [STATE_SELECTOR_PATH]: (value) => dispatch(setState(value)),
   };
 };
-const createUpdaters = (dispatch, paths, { update }) => {
-  return mapValues(
-    createHelperObject(paths),
-    (p) => (value) => dispatch(update({ value, path: p })),
-  );
+const createUpdaters = (dispatch, paths, { update, updateState }) => {
+  return {
+    ...mapValues(
+      createHelperObject(paths),
+      (p) => (value) => dispatch(update({ value, path: p })),
+    ),
+    [STATE_SELECTOR_PATH]: (updater) => dispatch(updateState(updater)),
+  };
 };
 export const createReduxSliceHelpers = ({
   stateSelector,

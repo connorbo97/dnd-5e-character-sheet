@@ -1,5 +1,5 @@
 import { keyBy } from 'lodash';
-import { RACES } from './raceTypes';
+import { RACES, RaceConfigsCreateConfig } from './raceTypes';
 import { getAllPaths } from 'utils/objectUtils';
 import { STATS } from './stats';
 
@@ -7,13 +7,9 @@ export const CHARACTER_CREATOR_REDUCER_NAME = 'characterCreator';
 
 export type CharacterRaceForm = {
   value?: RACES;
-  config?: Array<any>;
+  config?: RaceConfigsCreateConfig;
   subRace?: string;
   subRaceConfig?: Array<any>;
-};
-
-export type CharacterCreatorForm = {
-  race: CharacterRaceForm;
 };
 
 export const EMPTY_RACE_FORM = {
@@ -22,6 +18,9 @@ export const EMPTY_RACE_FORM = {
   subRace: undefined,
 };
 
+export type CharacterStatsForm = {
+  [s in STATS]?: number;
+};
 export const EMPTY_STATS_FORM = {
   [STATS.STR]: undefined,
   [STATS.DEX]: undefined,
@@ -31,7 +30,12 @@ export const EMPTY_STATS_FORM = {
   [STATS.CHA]: undefined,
 };
 
-export const EMPTY_FORM = {
+export type CharacterCreatorForm = {
+  race: CharacterRaceForm;
+  stats: CharacterStatsForm;
+};
+
+export const EMPTY_FORM: CharacterCreatorForm = {
   race: EMPTY_RACE_FORM,
   stats: EMPTY_STATS_FORM,
 };

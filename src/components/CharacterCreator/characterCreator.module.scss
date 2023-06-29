@@ -3,13 +3,19 @@
 .container {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   width: 100%;
   overflow: auto;
+  row-gap: 1rem;
 }
 .header {
   padding: 0.5rem;
   display: flex;
-  column-gap: 0.5rem;
+  justify-content: center;
+  column-gap: 1.5rem;
+  row-gap: 0.5rem;
+  align-self: center;
+  flex-wrap: wrap;
 }
 .link {
   padding: 0.5rem;
@@ -38,4 +44,32 @@
   padding: 1rem;
 
   justify-content: space-between;
+}
+
+.stat-display {
+  display: flex;
+  column-gap: 5px;
+  align-items: flex-start;
+
+
+  .stat {
+    border: 1px solid $white;
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    .label {
+      text-align: center;
+    }
+
+    .value {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 3rem;
+      font-size: 2rem;
+      text-align: center;
+    }
+  }
 }
