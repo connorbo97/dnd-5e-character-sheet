@@ -3,6 +3,7 @@ import styles from './characterCreator.module.scss';
 import { RaceCreator } from './pages/RaceCreator';
 import { Link, Route, Routes, useMatch, useNavigate } from 'react-router-dom';
 import classnames from 'classnames/bind';
+import { StatsCreator } from './pages/StatsCreator/StatsCreator';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -27,13 +28,12 @@ export const CharacterCreator = () => {
     CHARACTER_CREATOR_PAGES_LIST,
     (p) => p === curPage,
   );
-  console.log(curPage, curPageIndex);
 
   return (
     <div className={styles['container']}>
       <div className={styles['header']}>
         {CHARACTER_CREATOR_PAGES_LIST.map((p) => (
-          <Link to={p}>
+          <Link to={p} key={p}>
             <div
               className={classNameBuilder('link', { selected: curPage === p })}>
               {p}
@@ -50,6 +50,27 @@ export const CharacterCreator = () => {
           <Route
             path={CHARACTER_CREATOR_PAGES.CLASS}
             element={<div>class</div>}
+          />
+          <Route
+            path={CHARACTER_CREATOR_PAGES.STATS}
+            element={<StatsCreator />}
+          />
+          <Route
+            path={CHARACTER_CREATOR_PAGES.BACKGROUND}
+            element={<div>bg</div>}
+          />
+          <Route
+            path={CHARACTER_CREATOR_PAGES.EQUIPMENT}
+            element={<div>eq</div>}
+          />
+          <Route
+            path={CHARACTER_CREATOR_PAGES.FEATS}
+            element={<div>FEATS</div>}
+          />
+          <Route path={CHARACTER_CREATOR_PAGES.BIO} element={<div>Bio</div>} />
+          <Route
+            path={CHARACTER_CREATOR_PAGES.REVIEW}
+            element={<div>Review</div>}
           />
           <Route
             path={'*'}
