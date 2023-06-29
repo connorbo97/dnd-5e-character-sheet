@@ -12,6 +12,7 @@ export const AdvantageToggle = () => {
         options={ADVANTAGE_TOGGLE_OPTIONS}
         onChange={(value) => onChangeAdvantageToggle(value)}
         selected={advantageToggle}
+        optionClassName={styles['option']}
       />
     </div>
   );

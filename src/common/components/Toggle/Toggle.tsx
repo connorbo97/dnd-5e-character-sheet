@@ -7,10 +7,11 @@ export const Toggle = ({
   options,
   onChange,
   selected,
+  className = '',
   optionClassName = '',
 }) => {
   return (
-    <div className={styles['toggle']}>
+    <div className={classNameBuilder('toggle', className)}>
       {options.map(({ value, label }) => {
         return (
           <div
