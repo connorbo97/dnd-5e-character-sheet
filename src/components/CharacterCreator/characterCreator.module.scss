@@ -8,6 +8,7 @@
   overflow: auto;
   row-gap: 1rem;
 }
+
 .header {
   padding: 0.5rem;
   display: flex;
@@ -15,9 +16,19 @@
   column-gap: 1.5rem;
   row-gap: 0.5rem;
   align-self: center;
-  flex-wrap: wrap;
   text-transform: capitalize;
+
+  @media screen and (max-width: 900px) {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  @media screen and (max-width: 600px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
+
 .link {
   padding: 0.5rem;
   border-radius: 5px;
@@ -52,6 +63,10 @@
   column-gap: 5px;
   align-items: flex-start;
 
+  @media screen and (max-width: 600px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
 
   .stat {
     border: 1px solid $white;

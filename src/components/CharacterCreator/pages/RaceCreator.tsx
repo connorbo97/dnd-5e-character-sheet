@@ -10,7 +10,6 @@ import { ChoiceRaceSection } from './RaceCreator/ChoiceRaceSection';
 import { get, stubTrue } from 'lodash';
 import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
 import { RACES } from 'constants/raceTypes';
-import { calcFinalRace } from 'utils/raceCreatorUtils';
 
 export const RaceCreator = () => {
   const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);
@@ -37,10 +36,7 @@ export const RaceCreator = () => {
   return (
     <div className={styles['container']}>
       <h1>Race</h1>
-      <div>
-        <button onClick={() => calcFinalRace(config, value, subRace)}>
-          CHECK
-        </button>
+      <div className={styles['race']}>
         <Dropdown
           allowEmpty
           options={RACE_OPTIONS}
