@@ -14,6 +14,34 @@ import { mergeStatBlocks } from 'utils/raceCreatorUtils';
 
 const defaultCheckFullValue = (val) => !!val;
 
+const pathHandler = {
+  stats: (p, v, result) => {
+    const mergedStatBlocks = mergeStatBlocks(result[p], v);
+    set(result, p, mergedStatBlocks);
+  },
+  features: (p, v, result) => {
+    update(result, p, (features = []) => [
+      ...features,
+      ...(Array.isArray(v) ? v : [v]),
+    ]);
+  },
+  skills: (p, v, result) => {
+    const curSkills = result[p] || {};
+    const newSkills = entries(v).reduce((acc, [stat, config]) => {
+      if (!isNil(acc[stat])) {
+        acc[stat] = { ...acc[stat], ...(config as Object) };
+      } else {
+        acc[stat] = config;
+      }
+      return acc;
+    }, curSkills);
+    set(result, p, newSkills);
+  },
+  featChoices: (p, v, result) => {
+    update(result, p, (prevCount) => (prevCount || 0) + v);
+  },
+};
+
 export const RaceCreator = () => {
   const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);
   const [value] = useCharacterCreatorPath(
@@ -49,25 +77,8 @@ export const RaceCreator = () => {
       }
 
       const addToResult = (p, v) => {
-        if (p === 'stats') {
-          const mergedStatBlocks = mergeStatBlocks(result[p], v);
-          set(result, p, mergedStatBlocks);
-        } else if (p === 'features') {
-          update(result, p, (features = []) => [
-            ...features,
-            ...(Array.isArray(v) ? v : [v]),
-          ]);
-        } else if (p === 'skills') {
-          const curSkills = result[p] || {};
-          const newSkills = entries(v).reduce((acc, [stat, config]) => {
-            if (!isNil(acc[stat])) {
-              acc[stat] = { ...acc[stat], ...(config as Object) };
-            } else {
-              acc[stat] = config;
-            }
-            return acc;
-          }, curSkills);
-          set(result, p, newSkills);
+        if (pathHandler[p]) {
+          pathHandler[p](p, v, result);
         } else if (Array.isArray(get(result, p))) {
           update(result, p, (prev) => [...prev, ...v]);
         } else {

@@ -18,7 +18,7 @@ import {
   getStatStringFromBlock,
 } from 'utils/raceCreatorUtils';
 import { addNumberSign } from 'utils/stringUtils';
-import { SKILLS_LIST } from 'constants/skills';
+import { SKILL_OPTIONS } from 'constants/skills';
 
 export const HUMAN_CREATE_CONFIG: RaceConfigsCreateConfig = {
   base: [
@@ -80,7 +80,7 @@ export const HUMAN_CREATE_CONFIG: RaceConfigsCreateConfig = {
           getPlaceholder: ({ mod }) => `Choose stat for ${addNumberSign(mod)}`,
         },
       ),
-      getChoiceSkillProficiencies(SKILLS_LIST, 1),
+      getChoiceSkillProficiencies(SKILL_OPTIONS, 1),
       {
         type: RACE_CONFIG_TYPE.STATIC,
         format: RACE_CONFIG_FORMAT.BASIC,
