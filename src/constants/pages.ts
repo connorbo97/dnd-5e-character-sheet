@@ -16,7 +16,7 @@ export const PAGE_CONFIGS: { [p in PAGES]: PageConfig } = {
   },
   [PAGES.CHARACTER_CREATOR]: {
     label: 'Character Creator',
-    route: 'character-creator',
+    route: 'character-creator/*',
   },
   [PAGES.BAR]: {
     label: 'Bar',

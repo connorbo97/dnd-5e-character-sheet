@@ -2,6 +2,40 @@
 
 .container {
   display: flex;
+  flex-direction: column;
   width: 100%;
   overflow: auto;
+}
+.header {
+  padding: 0.5rem;
+  display: flex;
+  column-gap: 0.5rem;
+}
+.link {
+  padding: 0.5rem;
+  border-radius: 5px;
+  color: $white;
+  border: 1px solid $tertiary;
+  min-width: 6rem;
+  text-align: center;
+
+  &.selected {
+    background-color: $tertiary;
+    color: $white;
+    text-decoration: underline;
+  }
+}
+
+.content {
+  flex: 1;
+  overflow: auto;
+  padding-bottom: 2rem;
+}
+
+.footer {
+  display: flex;
+  border-top: 1px solid $white;
+  padding: 1rem;
+
+  justify-content: space-between;
 }
