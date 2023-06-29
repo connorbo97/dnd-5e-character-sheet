@@ -8,7 +8,7 @@ import {
   getProficiencies,
   getSkillProficiencies,
   getStatsFeature,
-  getWalkingFeature,
+  getMovementFeature,
 } from './commonRace';
 import { SKILLS } from 'constants/skills';
 import { LANGUAGE_OPTIONS } from 'constants/languages';
@@ -19,7 +19,7 @@ export const ELF_CREATE_CONFIG = {
       [STATS.DEX]: 2,
     }),
     HUMANOID_TYPE_FEATURE,
-    getWalkingFeature(30),
+    getMovementFeature(30),
     getSkillProficiencies([SKILLS.PERCEPTION]),
     getLanguageFeature(
       ['Elvish'],
@@ -77,7 +77,7 @@ You know one cantrip of your choice from the Wizard spell list. Intelligence is 
     ],
     'Wood Elf': [
       getStatsFeature({ [STATS.WIS]: 1 }),
-      getWalkingFeature(35),
+      getMovementFeature(35),
       getProficiencies('Weapon', [
         'Longsword',
         'Shortsword',

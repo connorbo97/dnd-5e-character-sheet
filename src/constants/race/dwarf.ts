@@ -13,7 +13,7 @@ import {
   getLanguageFeature,
   getProficiencies,
   getStatsFeature,
-  getWalkingFeature,
+  getMovementFeature,
 } from './commonRace';
 
 export const DWARF_CREATE_CONFIG = {
@@ -23,7 +23,7 @@ export const DWARF_CREATE_CONFIG = {
     }),
     HUMANOID_TYPE_FEATURE,
     MEDIUM_SIZE_FEATURE,
-    getWalkingFeature(25),
+    getMovementFeature(25),
     getProficiencies('Weapon', [
       'Battleaxe',
       'Handaxe',

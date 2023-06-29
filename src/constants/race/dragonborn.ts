@@ -13,7 +13,7 @@ import {
   getBasicFeature,
   getLanguageFeature,
   getStatsFeature,
-  getWalkingFeature,
+  getMovementFeature,
 } from './commonRace';
 
 const generateSubRaceConfig = (subRace, damageType, range, dcSave) => {
@@ -74,7 +74,7 @@ export const DRAGON_BORN_CREATE_CONFIG = {
     }),
     HUMANOID_TYPE_FEATURE,
     MEDIUM_SIZE_FEATURE,
-    getWalkingFeature(30),
+    getMovementFeature(30),
     getLanguageFeature(
       ['Draconic'],
       'You can speak, read, and write Common and Draconic. Draconic is thought to be one of the oldest languages and is often used in the study of magic. The language sounds harsh to most other creatures and includes numerous hard consonants and sibilants.',

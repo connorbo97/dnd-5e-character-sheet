@@ -7,7 +7,7 @@ import {
   getDarkvision,
   getLanguageFeature,
   getStaticWithChoices,
-  getWalkingFeature,
+  getMovementFeature,
 } from './commonRace';
 import { SKILL_OPTIONS } from 'constants/skills';
 import { addNumberSign } from 'utils/stringUtils';
@@ -43,7 +43,7 @@ export const HALF_ELF_CREATE_CONFIG = {
     ),
     HUMANOID_TYPE_FEATURE,
     MEDIUM_SIZE_FEATURE,
-    getWalkingFeature(30),
+    getMovementFeature(30),
     getChoiceSkillProficiencies(SKILL_OPTIONS, 2),
     getLanguageFeature(['Elvish'], ''),
     getDarkvision(),

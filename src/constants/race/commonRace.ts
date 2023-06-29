@@ -31,7 +31,7 @@ export const getStaticWithChoices = (
     ...config,
   },
 });
-export const getWalkingFeature = (ms) => ({
+export const getMovementFeature = (ms) => ({
   type: RACE_CONFIG_TYPE.STATIC,
   format: RACE_CONFIG_FORMAT.SPEED,
   path: 'speed',
@@ -54,15 +54,17 @@ export const getLanguageFeature = (extraLanguages, description) => ({
     description,
   },
 });
-export const MEDIUM_SIZE_FEATURE = {
+export const getSizeFeature = (size) => ({
   type: RACE_CONFIG_TYPE.STATIC,
   format: RACE_CONFIG_FORMAT.BASIC,
   path: 'size',
-  value: CREATURE_SIZE.MEDIUM,
+  value: size,
   config: {
     header: 'Size',
   },
-};
+})
+
+export const MEDIUM_SIZE_FEATURE = getSizeFeature(CREATURE_SIZE.MEDIUM);
 export const HUMANOID_TYPE_FEATURE = {
   type: RACE_CONFIG_TYPE.STATIC,
   format: RACE_CONFIG_FORMAT.BASIC,

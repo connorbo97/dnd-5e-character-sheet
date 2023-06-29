@@ -6,8 +6,8 @@ export enum RACES {
   ELF = 'ELF',
   GNOME = 'GNOME',
   HALF_ELF = 'HALF_ELF',
-  HALFLING = 'HALFLING',
   HALF_ORC = 'HALF_ORC',
+  HALFLING = 'HALFLING',
   HUMAN = 'HUMAN',
   TIEFLING = 'TIEFLING',
   TASHA_CUSTOM = 'TASHA_CUSTOM',
@@ -52,6 +52,7 @@ export type RaceCreateConfigEntryConfig = {
   getFinalValue?: Function;
   getPlaceholder?: Function;
   isFullValue?: Function;
+  hideValue?: boolean;
 };
 
 type RaceCreateConfigEntry = {
@@ -62,16 +63,17 @@ type RaceCreateConfigEntry = {
   options?: Array<{ value: any; label: any }>;
   config?: RaceCreateConfigEntryConfig;
 };
+export type RaceConfigsCreateConfig = {
+  base: Array<RaceCreateConfigEntry>;
+  subRaceOptions?: Array<{ value: any; label: string }>;
+  subRace?: {
+    [s: string]: Array<RaceCreateConfigEntry>;
+  };
+};
 export type RaceConfigs = {
   [r in RACES]: {
     label: string;
-    createConfig: {
-      base: Array<RaceCreateConfigEntry>;
-      subRaceOptions?: Array<{ value: any; label: string }>;
-      subRace?: {
-        [s: string]: Array<RaceCreateConfigEntry>;
-      };
-    };
+    createConfig: RaceConfigsCreateConfig;
   };
 };
 

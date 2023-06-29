@@ -5,7 +5,7 @@ import {
   getDarkvision,
   getLanguageFeature,
   getStatsFeature,
-  getWalkingFeature,
+  getMovementFeature,
 } from './commonRace';
 import { LANGUAGES } from 'constants/languages';
 import {
@@ -20,7 +20,7 @@ export const GNOME_CREATE_CONFIG = {
   base: [
     getStatsFeature({ [STATS.INT]: 2 }),
     HUMANOID_TYPE_FEATURE,
-    getWalkingFeature(25),
+    getMovementFeature(25),
     getLanguageFeature(
       [LANGUAGES.GNOMISH],
       'You can speak, read, and write Common and Gnomish. The Gnomish language, which uses the Dwarvish script, is renowned for its technical treatises and its catalogs of knowledge about the natural world.',

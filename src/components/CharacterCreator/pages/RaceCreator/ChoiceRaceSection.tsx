@@ -2,9 +2,11 @@ import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import styles from './choiceRaceSection.module.scss';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { iSet } from 'utils/lodashUtils';
-import { RACE_CONFIG_FORMAT } from 'constants/raceTypes';
-import { get } from 'lodash';
-import { addNumberSign } from 'utils/stringUtils';
+import {
+  RACE_CONFIG_FORMAT,
+  RaceCreateConfigEntryConfig,
+} from 'constants/raceTypes';
+import { get, noop } from 'lodash';
 
 type Props = {
   value: any;
@@ -12,12 +14,7 @@ type Props = {
   updatePath: string;
   options: Array<{ value: any; label: any }>;
   isSubRace?: boolean;
-  config?: {
-    header?: any;
-    placeholder?: any;
-    getLabelValue?: Function;
-    getPlaceholder?: Function;
-  };
+  config?: RaceCreateConfigEntryConfig;
 };
 
 export const ChoiceRaceSection = ({
@@ -29,7 +26,13 @@ export const ChoiceRaceSection = ({
   updatePath,
 }: Props) => {
   const [, , updateRaceConfig] = useCharacterCreatorPath('race.config');
-  const { header, placeholder, getLabelValue, getPlaceholder } = config;
+  const {
+    header,
+    subHeader,
+    description,
+    getLabelValue,
+    getPlaceholder = noop,
+  } = config;
   const statics = get(value, 'statics', []);
   const customValue = get(value, 'custom');
   const finalHeader = header || 'HEADER';
@@ -49,15 +52,20 @@ export const ChoiceRaceSection = ({
     <div className={styles['container']}>
       <div className={styles['header']}>{finalHeader}</div>
       <div className={styles['content']}>
+        {description && (
+          <div className={styles['description']}>{description}</div>
+        )}
+        {subHeader && <h3>{subHeader}</h3>}
         {format === RACE_CONFIG_FORMAT.DROPDOWN && options && (
           <Dropdown
             options={options}
             onChange={(e) => onChangeDropdown(0, e.target.value)}
             value={value}
             allowEmpty
-            placeholder={placeholder || 'Choose'}
+            placeholder={getPlaceholder(config) || 'Choose'}
           />
         )}
+
         {format === RACE_CONFIG_FORMAT.STATIC_CHOICE && customValue && (
           <div>
             {getLabelValue && getLabelValue(customValue, statics)}

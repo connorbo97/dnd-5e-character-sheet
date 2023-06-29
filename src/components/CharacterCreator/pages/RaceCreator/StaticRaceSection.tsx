@@ -1,23 +1,20 @@
-import { entries, isObject } from 'lodash';
+import { isObject } from 'lodash';
 import styles from './staticRaceSection.module.scss';
-import { STATS_CONFIGS } from 'constants/stats';
-import { addNumberSign } from 'utils/stringUtils';
-import { RACE_CONFIG_FORMAT, WALKING_TYPE } from 'constants/raceTypes';
+import {
+  RACE_CONFIG_FORMAT,
+  RaceCreateConfigEntryConfig,
+  WALKING_TYPE,
+} from 'constants/raceTypes';
 import { SKILL_CONFIGS } from 'constants/skills';
 import { getStatStringFromBlock } from 'utils/raceCreatorUtils';
 
 type Props = {
   value: any;
   format: string;
-  config?: {
-    header?: any;
-    subHeader?: any;
-    description?: any;
-    renderValue?: Function;
-  };
+  config?: RaceCreateConfigEntryConfig;
 };
 export const StaticRaceSection = ({ format, value, config = {} }: Props) => {
-  const { header, subHeader, description, renderValue } = config;
+  const { header, subHeader, description, renderValue, hideValue } = config;
 
   let finalHeader = header || 'HEADER';
   let finalValue = value;
@@ -58,7 +55,7 @@ export const StaticRaceSection = ({ format, value, config = {} }: Props) => {
           <div className={styles['description']}>{description}</div>
         )}
         {subHeader && <h3>{subHeader}</h3>}
-        <div className={styles['value']}>{finalValue}</div>
+        {!hideValue && <div className={styles['value']}>{finalValue}</div>}
       </div>
     </div>
   );

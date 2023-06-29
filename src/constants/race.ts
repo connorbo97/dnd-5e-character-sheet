@@ -3,6 +3,9 @@ import { DWARF_CREATE_CONFIG } from './race/dwarf';
 import { ELF_CREATE_CONFIG } from './race/elf';
 import { GNOME_CREATE_CONFIG } from './race/gnome';
 import { HALF_ELF_CREATE_CONFIG } from './race/halfElf';
+import { HALF_ORC_CREATE_CONFIG } from './race/halfOrc';
+import { HALFLING_CREATE_CONFIG } from './race/halfling';
+import { HUMAN_CREATE_CONFIG } from './race/human';
 import { RACES, RaceConfigs } from './raceTypes';
 
 export const RACE_CONFIGS: RaceConfigs = {
@@ -26,17 +29,17 @@ export const RACE_CONFIGS: RaceConfigs = {
     label: 'Half Elf',
     createConfig: HALF_ELF_CREATE_CONFIG,
   },
-  [RACES.HALFLING]: {
-    label: 'Halfling',
-    createConfig: { base: [] },
-  },
   [RACES.HALF_ORC]: {
     label: 'Half Orc',
-    createConfig: { base: [] },
+    createConfig: HALF_ORC_CREATE_CONFIG,
+  },
+  [RACES.HALFLING]: {
+    label: 'Halfling',
+    createConfig: HALFLING_CREATE_CONFIG,
   },
   [RACES.HUMAN]: {
     label: 'Human',
-    createConfig: { base: [] },
+    createConfig: HUMAN_CREATE_CONFIG
   },
   [RACES.TIEFLING]: {
     label: 'Tiefling',
