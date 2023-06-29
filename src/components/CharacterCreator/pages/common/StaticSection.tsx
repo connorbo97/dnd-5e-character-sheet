@@ -1,14 +1,17 @@
 import { isObject } from 'lodash';
 import styles from './staticSection.module.scss';
-import { RaceCreateConfigEntryConfig, WALKING_TYPE } from 'constants/raceTypes';
+import { WALKING_TYPE } from 'constants/raceTypes';
 import { SKILL_CONFIGS } from 'constants/skills';
 import { getStatStringFromBlock } from 'utils/raceCreatorUtils';
-import { SECTION_CONFIG_FORMAT } from 'constants/characterCreatorSections';
+import {
+  CreateConfigEntryConfig,
+  SECTION_CONFIG_FORMAT,
+} from 'constants/characterCreatorSections';
 
 type Props = {
   value: any;
   format: string;
-  config?: RaceCreateConfigEntryConfig;
+  config?: CreateConfigEntryConfig;
 };
 export const StaticSection = ({ format, value, config = {} }: Props) => {
   const { header, subHeader, description, renderValue, hideValue } = config;

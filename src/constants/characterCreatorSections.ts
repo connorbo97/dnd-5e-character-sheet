@@ -18,3 +18,27 @@ export enum SECTION_CONFIG_FORMAT {
   DROPDOWN = 'DROPDOWN',
   FEATURE = 'FEATURE',
 }
+
+export type CreateConfigEntryConfig = {
+  header?: string;
+  reference?: string;
+  description?: string;
+  subHeader?: string;
+  renderValue?: Function;
+  getLabelValue?: Function;
+  getFinalValue?: Function;
+  getPlaceholder?: Function;
+  isFullValue?: Function;
+  hideValue?: boolean;
+};
+
+export type CreateConfigEntry = {
+  type: SECTION_CONFIG_TYPE;
+  format: SECTION_CONFIG_FORMAT;
+  path: string;
+  value?: any;
+  optional?: boolean;
+  choiceCondition?: Function;
+  options?: Array<{ value: any; label: any }>;
+  config?: CreateConfigEntryConfig;
+};

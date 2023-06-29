@@ -1,12 +1,12 @@
 import {
+  CreateConfigEntry,
+  CreateConfigEntryConfig,
   SECTION_CONFIG_FORMAT,
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
 import {
   CREATURE_SIZE,
   CREATURE_TYPE,
-  RaceCreateConfigEntry,
-  RaceCreateConfigEntryConfig,
   WALKING_TYPE,
 } from 'constants/raceTypes';
 import { fill, find, get } from 'lodash';
@@ -19,8 +19,8 @@ export const getStatsFeature = (stats) => ({
 });
 export const getStaticWithChoices = (
   { path, custom, statics = [] as Array<any> },
-  config: RaceCreateConfigEntryConfig = {},
-): RaceCreateConfigEntry => ({
+  config: CreateConfigEntryConfig = {},
+): CreateConfigEntry => ({
   type: SECTION_CONFIG_TYPE.CHOICE,
   format: SECTION_CONFIG_FORMAT.STATIC_CHOICE,
   path,

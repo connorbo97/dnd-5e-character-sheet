@@ -1,7 +1,4 @@
-import {
-  SECTION_CONFIG_FORMAT,
-  SECTION_CONFIG_TYPE,
-} from './characterCreatorSections';
+import { CreateConfigEntry } from './characterCreatorSections';
 
 export enum RACES {
   DRAGONBORN = 'DRAGONBORN',
@@ -28,34 +25,11 @@ export enum CREATURE_SIZE {
   LARGE = 'LARGE',
 }
 
-export type RaceCreateConfigEntryConfig = {
-  header?: string;
-  reference?: string;
-  description?: string;
-  subHeader?: string;
-  renderValue?: Function;
-  getLabelValue?: Function;
-  getFinalValue?: Function;
-  getPlaceholder?: Function;
-  isFullValue?: Function;
-  hideValue?: boolean;
-};
-
-export type RaceCreateConfigEntry = {
-  type: SECTION_CONFIG_TYPE;
-  format: SECTION_CONFIG_FORMAT;
-  path: string;
-  value?: any;
-  optional?: boolean;
-  choiceCondition?: Function;
-  options?: Array<{ value: any; label: any }>;
-  config?: RaceCreateConfigEntryConfig;
-};
 export type RaceConfigsCreateConfig = {
-  base: Array<RaceCreateConfigEntry>;
+  base: Array<CreateConfigEntry>;
   subRaceOptions?: Array<{ value: any; label: string }>;
   subRace?: {
-    [s: string]: Array<RaceCreateConfigEntry>;
+    [s: string]: Array<CreateConfigEntry>;
   };
 };
 export type RaceConfigs = {

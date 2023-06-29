@@ -31,12 +31,10 @@ export const EMPTY_STATS_FORM = {
 };
 
 export type CharacterBackgroundForm = {
-  skills?: Array<string>;
-  equipment?: Array<string>;
+  config?: Array<any>;
 };
 export const EMPTY_BACKGROUND_FORM = {
-  skills: undefined,
-  equipment: undefined,
+  config: undefined,
 };
 
 export type CharacterBioForm = {

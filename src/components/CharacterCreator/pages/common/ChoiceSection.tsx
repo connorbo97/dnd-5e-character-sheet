@@ -1,9 +1,11 @@
 import styles from './choiceSection.module.scss';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { iSet } from 'utils/lodashUtils';
-import { RaceCreateConfigEntryConfig } from 'constants/raceTypes';
 import { get, noop } from 'lodash';
-import { SECTION_CONFIG_FORMAT } from 'constants/characterCreatorSections';
+import {
+  CreateConfigEntryConfig,
+  SECTION_CONFIG_FORMAT,
+} from 'constants/characterCreatorSections';
 
 type Props = {
   value?: any;
@@ -11,7 +13,7 @@ type Props = {
   updatePath: string;
   options?: Array<{ value: any; label: any }>;
   isSubRace?: boolean;
-  config?: RaceCreateConfigEntryConfig;
+  config?: CreateConfigEntryConfig;
   onUpdate: Function;
 };
 
