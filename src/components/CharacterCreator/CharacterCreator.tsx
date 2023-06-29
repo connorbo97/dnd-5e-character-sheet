@@ -9,6 +9,7 @@ import { calcCharacterSheet } from 'utils/characterCreatorUtils';
 import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import { STATE_SELECTOR_PATH } from 'utils/reduxUtils';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
+import { BackgroundCreator } from './pages/BackgroundCreator/BackgroundCreator';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -76,7 +77,7 @@ export const CharacterCreator = () => {
           />
           <Route
             path={CHARACTER_CREATOR_PAGES.BACKGROUND}
-            element={<div>bg</div>}
+            element={<BackgroundCreator />}
           />
           <Route
             path={CHARACTER_CREATOR_PAGES.EQUIPMENT}

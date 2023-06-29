@@ -1,7 +1,7 @@
 import { ADVANTAGE_TOGGLE } from './advantageToggle';
 import { ALIGNMENTS } from './alignments';
 import { AttackEntry } from './attacks';
-import { BACKGROUNDS } from './backgrounds';
+import { BACKGROUNDS } from './backgroundTypes';
 import { CLASSES } from './classes';
 import { DICE } from './dice';
 import { FeatureConfig, FeatureSource } from './features';
