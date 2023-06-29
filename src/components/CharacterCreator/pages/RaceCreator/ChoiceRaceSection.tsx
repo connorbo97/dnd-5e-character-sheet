@@ -37,10 +37,8 @@ export const ChoiceRaceSection = ({
   const customValue = get(value, 'custom');
   const finalHeader = header || 'HEADER';
 
-  const onChangeDropdown = (index, e) => {
-    updateRaceConfig((prev) =>
-      iSet(prev, `${updatePath}.value`, e.target.value),
-    );
+  const onChangeDropdown = (newValue) => {
+    updateRaceConfig((prev) => iSet(prev, `${updatePath}.value`, newValue));
   };
 
   const onChangeCustom = (index, value) =>
@@ -59,7 +57,7 @@ export const ChoiceRaceSection = ({
         {format === RACE_CONFIG_FORMAT.DROPDOWN && options && (
           <Dropdown
             options={options}
-            onChange={(e) => onChangeDropdown(0, e.target.value)}
+            onChange={(e) => onChangeDropdown(e.target.value)}
             value={value}
             allowEmpty
             placeholder={getPlaceholder(config) || 'Choose'}

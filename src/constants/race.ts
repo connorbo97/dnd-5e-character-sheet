@@ -6,6 +6,7 @@ import { HALF_ELF_CREATE_CONFIG } from './race/halfElf';
 import { HALF_ORC_CREATE_CONFIG } from './race/halfOrc';
 import { HALFLING_CREATE_CONFIG } from './race/halfling';
 import { HUMAN_CREATE_CONFIG } from './race/human';
+import { TASHA_CUSTOM_LINEAGE_CREATE_CONFIG } from './race/tashaCustomLineage';
 import { RACES, RaceConfigs } from './raceTypes';
 
 export const RACE_CONFIGS: RaceConfigs = {
@@ -39,14 +40,14 @@ export const RACE_CONFIGS: RaceConfigs = {
   },
   [RACES.HUMAN]: {
     label: 'Human',
-    createConfig: HUMAN_CREATE_CONFIG
-  },
-  [RACES.TIEFLING]: {
-    label: 'Tiefling',
-    createConfig: { base: [] },
+    createConfig: HUMAN_CREATE_CONFIG,
   },
   [RACES.TASHA_CUSTOM]: {
     label: "Tasha's Custom Lineage",
+    createConfig: TASHA_CUSTOM_LINEAGE_CREATE_CONFIG,
+  },
+  [RACES.TIEFLING]: {
+    label: 'Tiefling',
     createConfig: { base: [] },
   },
   [RACES.CUSTOM]: {

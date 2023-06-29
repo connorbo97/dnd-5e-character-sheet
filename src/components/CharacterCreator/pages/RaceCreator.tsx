@@ -7,9 +7,9 @@ import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { StaticRaceSection } from './RaceCreator/StaticRaceSection';
 import { ChoiceRaceSection } from './RaceCreator/ChoiceRaceSection';
-import { entries, get, isNil, set, update } from 'lodash';
+import { entries, get, isNil, noop, set, stubTrue, update } from 'lodash';
 import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
-import { MULTI_PATH, RACES } from 'constants/raceTypes';
+import { IGNORE_PATH, MULTI_PATH, RACES } from 'constants/raceTypes';
 import { mergeStatBlocks } from 'utils/raceCreatorUtils';
 
 const defaultCheckFullValue = (val) => !!val;
@@ -40,6 +40,7 @@ const pathHandler = {
   featChoices: (p, v, result) => {
     update(result, p, (prevCount) => (prevCount || 0) + v);
   },
+  [IGNORE_PATH]: noop,
 };
 
 export const RaceCreator = () => {
@@ -67,8 +68,8 @@ export const RaceCreator = () => {
   const calcFinalRace = () => {
     let result = {};
 
-    const handleConfig = (c) => {
-      const { value, path, config = {} } = c;
+    const handleConfig = (c, allConfigs) => {
+      const { value, path, config = {}, choiceCondition = stubTrue } = c;
       const { getFinalValue, isFullValue = defaultCheckFullValue } = config;
 
       if (!isFullValue(value)) {
@@ -88,7 +89,9 @@ export const RaceCreator = () => {
 
       const finalValue = getFinalValue ? getFinalValue(value) : value;
 
-      if (path === MULTI_PATH) {
+      if (!choiceCondition(allConfigs)) {
+        // skip this config if it does not meet its choice condition
+      } else if (path === MULTI_PATH) {
         entries(finalValue).forEach(([entryPath, entryValue]) =>
           addToResult(entryPath, entryValue),
         );
@@ -96,10 +99,10 @@ export const RaceCreator = () => {
         addToResult(path, finalValue);
       }
     };
-    config?.base.forEach(handleConfig);
+    config?.base.forEach((c) => handleConfig(c, config?.base));
 
     if (subRace) {
-      config?.subRace[subRace].forEach(handleConfig);
+      config?.subRace[subRace].forEach((c) => handleConfig(c, config?.base));
     } else if (config?.subRaceOptions?.length) {
       console.log('Missing subclass', config);
     }
@@ -120,6 +123,16 @@ export const RaceCreator = () => {
       </div>
       <div className={styles['content']}>
         {config?.base.map((curConfig, index) => {
+          const shouldRender = get(
+            curConfig,
+            'choiceCondition',
+            stubTrue,
+          )(config?.base);
+
+          if (!shouldRender) {
+            return null;
+          }
+
           const Component =
             curConfig.type === 'STATIC' ? StaticRaceSection : ChoiceRaceSection;
           return (
@@ -145,6 +158,16 @@ export const RaceCreator = () => {
         {subRace &&
           config?.subRace[subRace] &&
           config?.subRace[subRace].map((curConfig, index) => {
+            const shouldRender = get(
+              curConfig,
+              'choiceCondition',
+              stubTrue,
+            )(config?.subRace);
+
+            if (!shouldRender) {
+              return null;
+            }
+
             const Component =
               curConfig.type === 'STATIC'
                 ? StaticRaceSection

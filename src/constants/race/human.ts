@@ -1,12 +1,9 @@
-import {
-  RACE_CONFIG_FORMAT,
-  RACE_CONFIG_TYPE,
-  RaceConfigsCreateConfig,
-} from 'constants/raceTypes';
+import { RaceConfigsCreateConfig } from 'constants/raceTypes';
 import {
   HUMANOID_TYPE_FEATURE,
   MEDIUM_SIZE_FEATURE,
   getChoiceSkillProficiencies,
+  getFeatChoicesFeature,
   getMovementFeature,
   getStaticWithChoices,
   getStatsFeature,
@@ -81,18 +78,10 @@ export const HUMAN_CREATE_CONFIG: RaceConfigsCreateConfig = {
         },
       ),
       getChoiceSkillProficiencies(SKILL_OPTIONS, 1),
-      {
-        type: RACE_CONFIG_TYPE.STATIC,
-        format: RACE_CONFIG_FORMAT.BASIC,
-        path: 'featChoices',
-        value: 1,
-        config: {
-          header: 'Feats',
-          description:
-            'Variant humans adapt to their environment. Select one feat in the Feats section of the character creator',
-          hideValue: true,
-        },
-      },
+      getFeatChoicesFeature(
+        1,
+        'Variant humans adapt to their environment. Select one feat in the Feats section of the character creator',
+      ),
     ],
   },
 };

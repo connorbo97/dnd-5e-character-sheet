@@ -9,8 +9,8 @@ export enum RACES {
   HALF_ORC = 'HALF_ORC',
   HALFLING = 'HALFLING',
   HUMAN = 'HUMAN',
-  TIEFLING = 'TIEFLING',
   TASHA_CUSTOM = 'TASHA_CUSTOM',
+  TIEFLING = 'TIEFLING',
   CUSTOM = 'CUSTOM',
 }
 
@@ -45,6 +45,7 @@ export enum RACE_CONFIG_FORMAT {
 }
 export type RaceCreateConfigEntryConfig = {
   header?: string;
+  reference?: string;
   description?: string;
   subHeader?: string;
   renderValue?: Function;
@@ -60,6 +61,8 @@ type RaceCreateConfigEntry = {
   format: RACE_CONFIG_FORMAT;
   path: string;
   value?: any;
+  optional?: boolean;
+  choiceCondition?: Function;
   options?: Array<{ value: any; label: any }>;
   config?: RaceCreateConfigEntryConfig;
 };
@@ -78,4 +81,5 @@ export type RaceConfigs = {
 };
 
 export const MULTI_PATH = 'MULTI';
+export const IGNORE_PATH = 'IGNORE';
 export const WALKING_TYPE = 'Walking';

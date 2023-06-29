@@ -6,7 +6,7 @@ import {
   RaceCreateConfigEntryConfig,
   WALKING_TYPE,
 } from 'constants/raceTypes';
-import { fill } from 'lodash';
+import { fill, find, get } from 'lodash';
 
 export const getStatsFeature = (stats) => ({
   type: RACE_CONFIG_TYPE.STATIC,
@@ -62,7 +62,7 @@ export const getSizeFeature = (size) => ({
   config: {
     header: 'Size',
   },
-})
+});
 
 export const MEDIUM_SIZE_FEATURE = getSizeFeature(CREATURE_SIZE.MEDIUM);
 export const HUMANOID_TYPE_FEATURE = {
@@ -144,4 +144,34 @@ export const getBasicDropdownChoice = ({
     getFinalValue,
     ...config,
   },
+});
+
+export const getFeatChoicesFeature = (
+  totalChoices,
+  description = 'Feats are selected in the Feats section of the character creator',
+) => ({
+  type: RACE_CONFIG_TYPE.STATIC,
+  format: RACE_CONFIG_FORMAT.BASIC,
+  path: 'featChoices',
+  value: totalChoices,
+  config: {
+    header: 'Feat' + (totalChoices > 1 ? 's' : ''),
+    description,
+    hideValue: true,
+  },
+});
+
+export const getConditionalFeatureByReference = (
+  reference,
+  shouldRender,
+  feature,
+) => ({
+  choiceCondition: (configs) => {
+    const targetConfig =
+      find(configs, (c) => get(c, 'config.reference') === reference) || {};
+    const value = get(targetConfig, 'value');
+
+    return shouldRender(value);
+  },
+  ...feature,
 });
