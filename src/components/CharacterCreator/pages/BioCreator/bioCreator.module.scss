@@ -1,0 +1,26 @@
+@import 'src/styles/_colors';
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 1rem;
+  grid-auto-flow: column;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  flex: 1;
+
+  padding: 2rem;
+}
+
+.input {
+  width: 100%;
+  display: block;
+
+  input, textarea {
+    width: 100%;
+  }
+}

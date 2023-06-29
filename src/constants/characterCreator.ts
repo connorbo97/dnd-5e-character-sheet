@@ -39,16 +39,45 @@ export const EMPTY_BACKGROUND_FORM = {
   equipment: undefined,
 };
 
+export type CharacterBioForm = {
+  name?: string;
+  age?: string;
+  height?: string;
+  weight?: string;
+  eyes?: string;
+  hair?: string;
+  skin?: string;
+  personality?: string;
+  ideals?: string;
+  bonds?: string;
+  flaws?: string;
+};
+export const EMPTY_BIO_FORM = {
+  name: undefined,
+  age: undefined,
+  height: undefined,
+  weight: undefined,
+  eyes: undefined,
+  hair: undefined,
+  skin: undefined,
+  personality: undefined,
+  ideals: undefined,
+  bonds: undefined,
+  flaws: undefined,
+};
+
 export type CharacterCreatorForm = {
   race: CharacterRaceForm;
   stats: CharacterStatsForm;
   background: CharacterBackgroundForm;
+  bio: CharacterBioForm;
 };
 
 export const EMPTY_FORM: CharacterCreatorForm = {
   race: EMPTY_RACE_FORM,
   stats: EMPTY_STATS_FORM,
   background: EMPTY_BACKGROUND_FORM,
+  bio: EMPTY_BIO_FORM,
 };
 
 export const CHARACTER_CREATOR_PATHS_LIST = getAllPaths(EMPTY_FORM);

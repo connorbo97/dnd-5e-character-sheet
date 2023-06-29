@@ -3,7 +3,7 @@ import { calcFinalRace, mergeStatBlocks } from './raceCreatorUtils';
 import { get } from 'lodash';
 
 export const calcCharacterSheet = (form: CharacterCreatorForm) => {
-  const { race, stats } = form;
+  const { race, stats, bio } = form;
   const finalRace = calcFinalRace(
     get(race, 'config', { base: [] }),
     race.value,
@@ -16,6 +16,7 @@ export const calcCharacterSheet = (form: CharacterCreatorForm) => {
       value: race.value,
       subRace: race.subRace,
     },
+    bio,
   };
   console.log(result);
 

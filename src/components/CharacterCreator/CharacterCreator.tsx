@@ -10,6 +10,7 @@ import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import { STATE_SELECTOR_PATH } from 'utils/reduxUtils';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { BackgroundCreator } from './pages/BackgroundCreator/BackgroundCreator';
+import { BioCreator } from './pages/BioCreator/BioCreator';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -87,7 +88,7 @@ export const CharacterCreator = () => {
             path={CHARACTER_CREATOR_PAGES.FEATS}
             element={<div>FEATS</div>}
           />
-          <Route path={CHARACTER_CREATOR_PAGES.BIO} element={<div>Bio</div>} />
+          <Route path={CHARACTER_CREATOR_PAGES.BIO} element={<BioCreator />} />
           <Route
             path={CHARACTER_CREATOR_PAGES.REVIEW}
             element={<div>Review</div>}

@@ -8,19 +8,24 @@ type Props = {
   value?: any;
   className?: string;
   labelClassName?: string;
+  valueClassName?: string;
 };
 export const Tag = ({
   label,
   value,
   className = '',
   labelClassName = '',
+  valueClassName = '',
 }: Props) => {
   return (
     <div className={classNameBuilder('container', className)}>
       <span className={classNameBuilder('label', labelClassName)}>
         {label}:
       </span>
-      <span> {value}</span>
+      <span className={classNameBuilder('value', valueClassName)}>
+        {' '}
+        {value}
+      </span>
     </div>
   );
 };
