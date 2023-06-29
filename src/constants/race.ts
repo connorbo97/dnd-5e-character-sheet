@@ -8,6 +8,7 @@ import { HALFLING_CREATE_CONFIG } from './race/halfling';
 import { HUMAN_CREATE_CONFIG } from './race/human';
 import { TASHA_CUSTOM_LINEAGE_CREATE_CONFIG } from './race/tashaCustomLineage';
 import { RACES, RaceConfigs } from './raceTypes';
+import { TIEFLING_CREATE_CONFIG } from './tiefling';
 
 export const RACE_CONFIGS: RaceConfigs = {
   [RACES.DRAGONBORN]: {
@@ -48,7 +49,7 @@ export const RACE_CONFIGS: RaceConfigs = {
   },
   [RACES.TIEFLING]: {
     label: 'Tiefling',
-    createConfig: { base: [] },
+    createConfig: TIEFLING_CREATE_CONFIG,
   },
   [RACES.CUSTOM]: {
     label: 'Custom',

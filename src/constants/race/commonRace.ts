@@ -40,7 +40,11 @@ export const getMovementFeature = (ms) => ({
     header: 'Speed',
   },
 });
-export const getLanguageFeature = (extraLanguages, description) => ({
+export const getLanguageFeature = (
+  extraLanguages,
+  description = '',
+  subHeader = 'Language Proficiencies',
+) => ({
   type: RACE_CONFIG_TYPE.STATIC,
   format: RACE_CONFIG_FORMAT.PROFICIENCY,
   path: 'otherProficiencies',
@@ -50,7 +54,7 @@ export const getLanguageFeature = (extraLanguages, description) => ({
   ],
   config: {
     header: 'Languages',
-    subHeader: 'Language Proficiencies',
+    subHeader,
     description,
   },
 });
