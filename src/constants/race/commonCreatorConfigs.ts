@@ -112,7 +112,7 @@ export const getChoiceSkillProficiencies = (
     {
       header: 'Skill Proficiencies',
       getPlaceholder: () => `Choose`,
-      getFinalValue: ({ custom }) =>
+      getFinalValue: ({ custom = [] }: any = {}) =>
         custom.reduce((acc, { value }) => {
           acc[value] = { proficient: true };
 

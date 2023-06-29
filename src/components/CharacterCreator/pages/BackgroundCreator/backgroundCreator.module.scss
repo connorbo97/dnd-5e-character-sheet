@@ -1,1 +1,21 @@
 @import "src/styles/_colors";
+
+.container {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.textarea {
+  padding: 0.5rem;
+  
+}
+.gold {
+  align-self: flex-start;
+}
+.summary {
+  white-space: pre-wrap
+}
+.label {
+  align-self: flex-start;
+}
