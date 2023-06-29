@@ -3,6 +3,7 @@ import styles from './header.module.scss';
 import { PAGES, PAGE_CONFIGS, PAGE_CONFIGS_ENTRIES } from '../constants/pages';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
+import { getPathFromConfig } from 'utils/pagesUtils';
 
 export const Header = () => {
   const { name, onChangeName } = useFullSheet();
@@ -13,7 +14,7 @@ export const Header = () => {
       <div className={styles['main']}>
         <Routes>
           <Route
-            path={PAGE_CONFIGS[PAGES.CHARACTER_CREATOR].route}
+            path={getPathFromConfig(PAGE_CONFIGS[PAGES.CHARACTER_CREATOR])}
             element={
               <div className={styles['char-creator']}>Character Creator</div>
             }

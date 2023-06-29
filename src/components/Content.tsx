@@ -1,11 +1,10 @@
-import { PAGES, PAGE_CONFIGS, PageConfig } from 'constants/pages';
+import { PAGES, PAGE_CONFIGS } from 'constants/pages';
 import { Route, Routes } from 'react-router-dom';
 import styles from './content.module.scss';
 import { MainSheet } from './MainSheet/MainSheet';
 import { CharacterCreator } from './CharacterCreator/CharacterCreator';
+import { getPathFromConfig } from 'utils/pagesUtils';
 
-const getPathFromConfig = (config: PageConfig) =>
-  `${config.route}${config.hasSubRoutes ? '/*' : ''}`;
 export const Content = () => {
   return (
     <div className={styles['container']}>
