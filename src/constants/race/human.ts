@@ -6,7 +6,6 @@ import {
 import {
   HUMANOID_TYPE_FEATURE,
   MEDIUM_SIZE_FEATURE,
-  getBasicDropdownChoice,
   getChoiceSkillProficiencies,
   getMovementFeature,
   getStaticWithChoices,
