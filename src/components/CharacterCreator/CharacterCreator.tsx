@@ -30,11 +30,15 @@ const CHARACTER_CREATOR_PAGES_LIST = values(CHARACTER_CREATOR_PAGES);
 export const CharacterCreator = () => {
   const match = useMatch('/character-creator/:page');
   const navigate = useNavigate();
-  const curPage = get(match, 'params.page', CHARACTER_CREATOR_PAGES.START);
+  const rawPage = get(match, 'params.page', CHARACTER_CREATOR_PAGES.START);
+  const curPage = CHARACTER_CREATOR_PAGES_LIST.includes(rawPage)
+    ? rawPage
+    : CHARACTER_CREATOR_PAGES.START;
   const curPageIndex = findIndex(
     CHARACTER_CREATOR_PAGES_LIST,
     (p) => p === curPage,
   );
+  console.log(curPage, curPageIndex);
 
   const [form, ,] = useCharacterCreatorPath(STATE_SELECTOR_PATH);
 

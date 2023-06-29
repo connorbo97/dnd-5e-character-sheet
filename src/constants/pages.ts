@@ -4,9 +4,10 @@ export enum PAGES {
   BAR = 'BAR',
 }
 
-type PageConfig = {
+export type PageConfig = {
   label: string;
   route: string;
+  hasSubRoutes?: boolean;
 };
 
 export const PAGE_CONFIGS: { [p in PAGES]: PageConfig } = {
@@ -16,7 +17,8 @@ export const PAGE_CONFIGS: { [p in PAGES]: PageConfig } = {
   },
   [PAGES.CHARACTER_CREATOR]: {
     label: 'Character Creator',
-    route: 'character-creator/*',
+    route: 'character-creator',
+    hasSubRoutes: true,
   },
   [PAGES.BAR]: {
     label: 'Bar',
