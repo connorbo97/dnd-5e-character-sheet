@@ -1,11 +1,27 @@
-Features
- - editing
+General Features
+
+- editing
+
+Character Creator
+
+- Background
+  - add presets
+  - implement Tasha's Rules
+  - implement Equipment buying
+  - implement default "Lucky" feature where you get to add a 1d6 to a failed roll once per day. If the d6 would cause you to succeed. You succeed with a minor setback. If you fail, you fail with a minor benefit.
+- Feats
+  - implement parser
+- Bio
+  - add alignment
+- Classes
+  - manual data entry i think :(
 
 BIG MISSING
+
 - Spells
-- Character Creator
 - Features List
 - Modals
 - Compendium of stuff to be able to add
+  - Equipment
 - Dice Pool (where you can roll any D20);
 - adding customs and deleting
