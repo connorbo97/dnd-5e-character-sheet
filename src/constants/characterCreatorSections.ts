@@ -14,6 +14,7 @@ export enum SECTION_CONFIG_FORMAT {
   STATS = 'STATS',
   SPEED = 'SPEED',
   PROFICIENCY = 'PROFICIENCY',
+  PROFICIENCY_CLASS = 'PROFICIENCY_CLASS',
   SKILL_PROFICIENCY = 'SKILL_PROFICIENCY',
   DROPDOWN = 'DROPDOWN',
   FEATURE = 'FEATURE',
@@ -30,6 +31,7 @@ export type CreateConfigEntryConfig = {
   getPlaceholder?: Function;
   isFullValue?: Function;
   hideValue?: boolean;
+  hideContent?: boolean;
 };
 
 export type CreateConfigEntry = {

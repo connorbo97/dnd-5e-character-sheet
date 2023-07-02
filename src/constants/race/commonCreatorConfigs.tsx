@@ -8,6 +8,7 @@ import { MONEY_CONFIGS } from 'constants/money';
 import {
   CREATURE_SIZE,
   CREATURE_TYPE,
+  IGNORE_PATH,
   MULTI_PATH,
   WALKING_TYPE,
 } from 'constants/raceTypes';
@@ -20,6 +21,15 @@ export const getStatsFeature = (stats) => ({
   format: SECTION_CONFIG_FORMAT.STATS,
   path: 'stats',
   value: stats,
+});
+export const getPresentationConfig = (header) => ({
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.BASIC,
+  path: IGNORE_PATH,
+  config: {
+    header,
+    hideContent: true,
+  },
 });
 export const getStaticWithChoices = (
   { path, custom, statics = [] as Array<any> },
@@ -136,6 +146,19 @@ export const getChoiceLanguageProficiencies = (
         custom.map(({ value }) => ({ category: 'Language', label: value })),
     },
   );
+
+export const getOtherProficiencyForClass = (
+  header,
+  proficiencies,
+): CreateConfigEntry => ({
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.PROFICIENCY_CLASS,
+  config: {
+    header,
+  },
+  path: 'otherProficiencies',
+  value: proficiencies,
+});
 export const getChoiceSkillProficiencies = (
   options,
   totalChoices: number = 1,
