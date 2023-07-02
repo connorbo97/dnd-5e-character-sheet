@@ -7,6 +7,13 @@ export enum AttackTypes {
   SPELL = 'SPELL',
 }
 
+export type AttackEntrySavingThrow = {
+  isEnabled: boolean;
+  dc: ROLLABLES.SPELL | STATS | 'FLAT';
+  flatDC: number;
+  dcSave: STATS;
+  effect: string;
+};
 export type AttackEntry = {
   label: string;
   source: string;
@@ -39,15 +46,18 @@ export type AttackEntry = {
       crit?: Rollable;
     },
   ];
-  savingThrow: {
-    isEnabled: boolean;
-    dc: ROLLABLES.SPELL | STATS | 'FLAT';
-    flatDC: number;
-    dcSave: STATS;
-    effect: string;
-  };
+  savingThrow: AttackEntrySavingThrow;
 };
 
+export const UNUSED_ATTACK = { stat: null, critRange: 20, isEnabled: false };
+export const UNUSED_DAMAGE = { base: [], isEnabled: false, stat: null };
+export const UNUSED_SAVING_THROW: AttackEntrySavingThrow = {
+  isEnabled: false,
+  dc: ROLLABLES.SPELL,
+  dcSave: STATS.STR,
+  effect: '',
+  flatDC: 10,
+};
 export const ATTACK_STAT_DROPDOWN_OPTIONS = [
   { value: null, label: '-' },
   ...STATS_OPTIONS,
