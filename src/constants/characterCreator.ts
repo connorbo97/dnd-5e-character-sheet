@@ -2,6 +2,8 @@ import { keyBy } from 'lodash';
 import { RACES, RaceConfigsCreateConfig } from './raceTypes';
 import { getAllPaths } from 'utils/objectUtils';
 import { STATS } from './stats';
+import { BACKGROUND_CREATE_CONFIG } from './backgrounds';
+import { CreateConfigEntry } from './characterCreatorSections';
 
 export const CHARACTER_CREATOR_REDUCER_NAME = 'characterCreator';
 
@@ -33,10 +35,7 @@ export const EMPTY_STATS_FORM = {
 export type CharacterBackgroundForm = {
   name?: string;
   summary?: string;
-  skills?: any;
-  // equipment?: any;
-  clothes?: any;
-  gold?: any;
+  config: Array<CreateConfigEntry>;
   specialFeature?: {
     label?: string;
     description?: string;
@@ -45,10 +44,7 @@ export type CharacterBackgroundForm = {
 export const EMPTY_BACKGROUND_FORM = {
   name: '',
   summary: '',
-  skills: undefined,
-  // equipment: undefined,
-  clothes: undefined,
-  gold: 10,
+  config: BACKGROUND_CREATE_CONFIG,
   specialFeature: {
     label: '',
     description: '',

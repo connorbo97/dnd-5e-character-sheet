@@ -1,27 +1,18 @@
 import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import styles from './backgroundCreator.module.scss';
-import {} from 'constants/race/commonCreatorConfigs';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
-import { ChoiceSection } from '../common/ChoiceSection';
-import {
-  BACKGROUND_CLOTHES_CONFIG,
-  BACKGROUND_SKILL_CONFIG,
-  BACKGROUND_TOOL_PROFICIENCY_CONFIG,
-} from 'constants/backgrounds';
+import { CreateSection } from '../common/CreateSection';
 
 type Props = any;
 export const BackgroundCreator = (props: Props) => {
-  const [background, , updateBackground] = useCharacterCreatorPath(
-    CHARACTER_CREATOR_PATHS['background'],
-  );
   const [name, setName] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS['background.name'],
   );
+  const [config, , updateConfig] = useCharacterCreatorPath(
+    CHARACTER_CREATOR_PATHS['background.config'],
+  );
   const [summary, setSummary] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS['background.summary'],
-  );
-  const [gold, setGold] = useCharacterCreatorPath(
-    CHARACTER_CREATOR_PATHS['background.gold'],
   );
   const [specialFeatureLabel, setSpecialFeatureLabel] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS['background.specialFeature.label'],
@@ -30,10 +21,6 @@ export const BackgroundCreator = (props: Props) => {
     useCharacterCreatorPath(
       CHARACTER_CREATOR_PATHS['background.specialFeature.description'],
     );
-  // const [skills, , updateSkills] = useCharacterCreatorPath(
-  //   CHARACTER_CREATOR_PATHS['background.config'],
-  // );
-  console.log(background);
 
   return (
     <div className={styles['container']}>
@@ -59,44 +46,7 @@ export const BackgroundCreator = (props: Props) => {
           'Background Description\ne.g, I grew up poor and decided to see what the rest of the world had to offer me.\n\nI grabbed my cloak and my savings and hit the road. I did odd jobs for small villages and lived off the land.'
         }
       />
-      <h3>Starting Gold</h3>
-      <i>Recommended: 5 - 25. 10 is average (1 GP ~ $20)</i>
-      <input
-        className={styles['gold']}
-        value={gold}
-        onChange={(e) => {
-          const raw = e.target.value;
-          const val = parseInt(raw);
-          if (!raw) {
-            setGold(0);
-          } else if (val && isNaN(val)) {
-            e.target.value = gold;
-          } else if (val <= 100 && val >= 0) {
-            setGold(val);
-            e.target.value = val.toString();
-          } else {
-            e.target.value = gold;
-          }
-        }}
-        type="number"
-        min={0}
-        max={100}
-      />
-      <ChoiceSection
-        onUpdate={updateBackground}
-        {...BACKGROUND_SKILL_CONFIG}
-        updatePath={'skills'}
-      />
-      <ChoiceSection
-        onUpdate={updateBackground}
-        {...BACKGROUND_CLOTHES_CONFIG}
-        updatePath={'clothes'}
-      />
-      <ChoiceSection
-        onUpdate={updateBackground}
-        {...BACKGROUND_TOOL_PROFICIENCY_CONFIG}
-        updatePath={'tool'}
-      />
+      <CreateSection config={config} onUpdate={updateConfig} />
       <h3>Equipment</h3>
       <div>
         Add any relevant equipment for your background after character creation.

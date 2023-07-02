@@ -4,11 +4,14 @@ import {
   SECTION_CONFIG_FORMAT,
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
+import { MONEY_CONFIGS } from 'constants/money';
 import {
   CREATURE_SIZE,
   CREATURE_TYPE,
+  MULTI_PATH,
   WALKING_TYPE,
 } from 'constants/raceTypes';
+import { TOOLS_CONFIG } from 'constants/tools';
 import { fill, find, get } from 'lodash';
 
 export const getStatsFeature = (stats) => ({
@@ -41,6 +44,22 @@ export const getMovementFeature = (ms) => ({
   value: [{ value: ms, type: WALKING_TYPE }],
   config: {
     header: 'Speed',
+  },
+});
+export const getMoneyFeature = (money): CreateConfigEntry => ({
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.BASIC,
+  path: 'money',
+  value: money,
+  config: {
+    header: 'Money',
+    renderValue: (v) =>
+      Object.entries(v)
+        .map(
+          ([type, value]) =>
+            `${value}${MONEY_CONFIGS[type].shortLabel.toLowerCase()}`,
+        )
+        .join(', '),
   },
 });
 export const getLanguageFeature = (
@@ -100,6 +119,22 @@ export const getSkillProficiencies = (skills) => ({
     header: `Skill Proficiencies`,
   },
 });
+export const getChoiceLanguageProficiencies = (
+  options,
+  totalChoices: number = 1,
+) =>
+  getStaticWithChoices(
+    {
+      custom: fill(Array(totalChoices), { options }),
+      path: 'otherProficiencies',
+    },
+    {
+      header: 'Languages',
+      getPlaceholder: () => `Choose`,
+      getFinalValue: ({ custom = [] }: any = {}) =>
+        custom.map(({ value }) => ({ category: 'Language', label: value })),
+    },
+  );
 export const getChoiceSkillProficiencies = (
   options,
   totalChoices: number = 1,
@@ -118,6 +153,26 @@ export const getChoiceSkillProficiencies = (
 
           return acc;
         }, {}),
+    },
+  );
+export const getChoiceToolProficiencies = (options, totalChoices: number = 1) =>
+  getStaticWithChoices(
+    {
+      custom: fill(Array(totalChoices), { options }),
+      path: MULTI_PATH,
+    },
+    {
+      header: 'Tool proficiencies',
+      getPlaceholder: () => `Choose`,
+      getFinalValue: ({ custom = [] }: any = {}) => ({
+        otherProficiencies: custom.map(({ value }) => ({
+          category: 'Tool',
+          label: value,
+        })),
+        customChecks: custom.map(({ value }) => ({
+          label: TOOLS_CONFIG[value].label,
+        })),
+      }),
     },
   );
 

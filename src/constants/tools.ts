@@ -1,3 +1,5 @@
+import { values } from 'lodash';
+
 export enum ARTISAN_TOOLS {
   ALCHEMY = 'ALCHEMY',
   BREWER = 'BREWER',
@@ -273,3 +275,29 @@ export const TOOLS_CONFIG: {
     weight: 1,
   },
 };
+
+export const TOOLS_LIST = values(TOOLS_DICTIONARY);
+const generateToolOption = (t) => ({
+  value: t,
+  label: TOOLS_CONFIG[t].label,
+});
+export const TOOL_OPTIONS = TOOLS_LIST.map(generateToolOption);
+
+export const ARTISAN_TOOLS_LIST = values(ARTISAN_TOOLS);
+export const ARTISAN_TOOL_OPTIONS = ARTISAN_TOOLS_LIST.map(generateToolOption);
+
+export const SKILL_TOOLS_LIST = values(SKILL_TOOLS);
+export const SKILL_TOOL_OPTIONS = SKILL_TOOLS_LIST.map(generateToolOption);
+
+export const KITS_LIST = values(KITS);
+export const KIT_OPTIONS = KITS_LIST.map(generateToolOption);
+
+export const VEHICLES_LIST = values(VEHICLES);
+export const VEHICLE_OPTIONS = VEHICLES_LIST.map(generateToolOption);
+
+export const GAMING_SETS_LIST = values(GAMING_SETS);
+export const GAMING_SET_OPTIONS = GAMING_SETS_LIST.map(generateToolOption);
+
+export const MUSICAL_INSTRUMENTS_LIST = values(MUSICAL_INSTRUMENTS);
+export const MUSICAL_INSTRUMENT_OPTIONS =
+  MUSICAL_INSTRUMENTS_LIST.map(generateToolOption);
