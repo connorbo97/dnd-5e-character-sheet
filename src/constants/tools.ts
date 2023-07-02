@@ -75,27 +75,27 @@ export const TOOLS_CONFIG: {
   [ARTISAN_TOOLS.ALCHEMY]: {
     label: "Alchemist's supplies",
     weight: 8,
-    cost: 500,
+    cost: 50,
   },
   [ARTISAN_TOOLS.BREWER]: {
     label: "Brewer's supplies",
     weight: 9,
-    cost: 200,
+    cost: 20,
   },
   [ARTISAN_TOOLS.CALLIGRAPHY]: {
     label: "Calligrapher's supplies",
     weight: 5,
-    cost: 100,
+    cost: 10,
   },
   [ARTISAN_TOOLS.CARPENTER]: {
     label: "Carpenter's tools",
     weight: 6,
-    cost: 80,
+    cost: 8,
   },
   [ARTISAN_TOOLS.CARTOGRAPHER]: {
     label: "Cartographer's tools",
     weight: 6,
-    cost: 150,
+    cost: 15,
   },
   [ARTISAN_TOOLS.COBBLER]: {
     label: "Cobbler's tools",
@@ -109,37 +109,37 @@ export const TOOLS_CONFIG: {
   },
   [ARTISAN_TOOLS.GLASSBLOWER]: {
     label: "Glassblower's tools",
-    cost: 300,
+    cost: 30,
     weight: 5,
   },
   [ARTISAN_TOOLS.JEWELER]: {
     label: "Jeweler's Tools",
-    cost: 250,
+    cost: 25,
     weight: 2,
   },
   [ARTISAN_TOOLS.LEATHERWORKER]: {
     label: "Leatherworker's tools",
-    cost: 50,
+    cost: 5,
     weight: 5,
   },
   [ARTISAN_TOOLS.MASON]: {
     label: "Mason's tools",
-    cost: 100,
+    cost: 10,
     weight: 8,
   },
   [SKILL_TOOLS.NAVIGATOR]: {
     label: "Navigator's tools",
-    cost: 250,
+    cost: 25,
     weight: 2,
   },
   [ARTISAN_TOOLS.PAINTER]: {
     label: "Painter's supplies",
-    cost: 100,
+    cost: 10,
     weight: 5,
   },
   [ARTISAN_TOOLS.POTTER]: {
     label: "Potter's tools",
-    cost: 100,
+    cost: 10,
     weight: 3,
   },
   [ARTISAN_TOOLS.SMITH]: {
@@ -154,37 +154,37 @@ export const TOOLS_CONFIG: {
   },
   [ARTISAN_TOOLS.TINKER]: {
     label: "Tinker's tools",
-    cost: 500,
+    cost: 50,
     weight: 10,
   },
   [ARTISAN_TOOLS.WEAVER]: {
     label: "Weaver's tools",
-    cost: 10,
+    cost: 1,
     weight: 5,
   },
   [ARTISAN_TOOLS.WOODCARVER]: {
     label: "Woodcarver's tools",
-    cost: 10,
+    cost: 1,
     weight: 5,
   },
   [KITS.DISGUISE]: {
     label: 'Disguise kit',
-    cost: 250,
+    cost: 25,
     weight: 3,
   },
   [KITS.FORGERY]: {
     label: 'Forgery kit',
-    cost: 150,
+    cost: 15,
     weight: 5,
   },
   [KITS.HERBALISM]: {
     label: 'Herbalism kit',
-    cost: 50,
+    cost: 5,
     weight: 3,
   },
   [KITS.POISONER]: {
     label: "Poisoner's kit",
-    cost: 500,
+    cost: 50,
     weight: 2,
   },
   [VEHICLES.LAND]: {
@@ -201,67 +201,67 @@ export const TOOLS_CONFIG: {
   },
   [GAMING_SETS.DICE]: {
     label: 'Dice set',
-    cost: 1,
+    cost: 0.1,
     weight: 0,
   },
   [GAMING_SETS.CHESS]: {
     label: 'Chess set',
-    cost: 10,
+    cost: 1,
     weight: 0.5,
   },
   [GAMING_SETS.PLAYING_CARDS]: {
     label: 'Playing card set',
-    cost: 5,
+    cost: 0.5,
     weight: 0,
   },
   [MUSICAL_INSTRUMENTS.BAGPIPES]: {
     label: 'Bagpipes',
-    cost: 300,
+    cost: 30,
     weight: 6,
   },
   [MUSICAL_INSTRUMENTS.DRUM]: {
     label: 'Drum',
-    cost: 60,
+    cost: 6,
     weight: 3,
   },
   [MUSICAL_INSTRUMENTS.DULCIMER]: {
     label: 'Dulcimer',
-    cost: 250,
+    cost: 25,
     weight: 10,
   },
   [MUSICAL_INSTRUMENTS.FLUTE]: {
     label: 'Flute',
-    cost: 20,
+    cost: 2,
     weight: 1,
   },
   [MUSICAL_INSTRUMENTS.LUTE]: {
     label: 'Lute',
-    cost: 350,
+    cost: 35,
     weight: 2,
   },
   [MUSICAL_INSTRUMENTS.LYRE]: {
     label: 'Lyre',
-    cost: 300,
+    cost: 30,
     weight: 2,
   },
   [MUSICAL_INSTRUMENTS.HORN]: {
     label: 'Horn',
-    cost: 30,
+    cost: 3,
     weight: 2,
   },
   [MUSICAL_INSTRUMENTS.PAN_FLUTE]: {
     label: 'Pan flute',
-    cost: 120,
+    cost: 12,
     weight: 2,
   },
   [MUSICAL_INSTRUMENTS.SHAWM]: {
     label: 'Shawm',
-    cost: 20,
+    cost: 2,
     weight: 1,
   },
   [MUSICAL_INSTRUMENTS.VIOL]: {
     label: 'Viol',
-    cost: 300,
+    cost: 30,
     weight: 1,
   },
 };
