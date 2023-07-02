@@ -1,4 +1,6 @@
+import { entries } from 'lodash';
 import { DICE } from './dice';
+import { BARBARIAN_LEVEL_ONE_CONFIG } from './class/barbarian';
 
 export enum CLASSES {
   ARTIFICER = 'ARTIFICER',
@@ -16,10 +18,18 @@ export enum CLASSES {
   WIZARD = 'WIZARD',
 }
 
-export type ClassConfig = { hitDice: DICE; label: string };
+export type ClassConfig = {
+  hitDice: DICE;
+  label: string;
+  levelOneConfig?: any;
+};
 export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
   [CLASSES.ARTIFICER]: { hitDice: DICE.d8, label: 'Artificer' },
-  [CLASSES.BARBARIAN]: { hitDice: DICE.d12, label: 'Barbarian' },
+  [CLASSES.BARBARIAN]: {
+    hitDice: DICE.d12,
+    label: 'Barbarian',
+    levelOneConfig: BARBARIAN_LEVEL_ONE_CONFIG,
+  },
   [CLASSES.BARD]: { hitDice: DICE.d8, label: 'Bard' },
   [CLASSES.CLERIC]: { hitDice: DICE.d8, label: 'Cleric' },
   [CLASSES.DRUID]: { hitDice: DICE.d8, label: 'Druid' },
@@ -32,3 +42,7 @@ export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
   [CLASSES.WARLOCK]: { hitDice: DICE.d8, label: 'Warlock' },
   [CLASSES.WIZARD]: { hitDice: DICE.d6, label: 'Wizard' },
 };
+export const CLASS_OPTIONS = entries(CLASS_CONFIGS).map(([type, entry]) => ({
+  value: type,
+  label: entry.label,
+}));

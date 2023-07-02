@@ -1,0 +1,11 @@
+@import "src/styles/_colors";
+
+.class-header{
+  text-decoration: underline;
+}
+
+.static {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}

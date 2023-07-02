@@ -8,8 +8,8 @@ import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { get, stubTrue } from 'lodash';
 import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
 import { RACES } from 'constants/raceTypes';
-import { StaticSection } from './common/StaticSection';
-import { ChoiceSection } from './common/ChoiceSection';
+import { StaticSection } from '../common/StaticSection';
+import { ChoiceSection } from '../common/ChoiceSection';
 
 export const RaceCreator = () => {
   const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);

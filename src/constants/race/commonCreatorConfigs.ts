@@ -11,6 +11,7 @@ import {
   MULTI_PATH,
   WALKING_TYPE,
 } from 'constants/raceTypes';
+import { ResourceConfig } from 'constants/resources';
 import { TOOLS_CONFIG } from 'constants/tools';
 import { fill, find, get } from 'lodash';
 
@@ -181,6 +182,25 @@ export const getBasicFeature = (value) => ({
   format: SECTION_CONFIG_FORMAT.FEATURE,
   path: 'features',
   value,
+});
+export const getBasicFeatureByLD = (label, description) =>
+  getBasicFeature({ label, description });
+
+export const getFeatureWithResource = (
+  label,
+  description,
+  resourceConfig: ResourceConfig,
+): CreateConfigEntry => ({
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.FEATURE,
+  path: MULTI_PATH,
+  value: { description, label },
+  config: {
+    getFinalValue: (value) => ({
+      features: [value],
+      resources: [resourceConfig],
+    }),
+  },
 });
 
 export const getDarkvision = () =>

@@ -78,9 +78,21 @@ export const EMPTY_BIO_FORM = {
   flaws: undefined,
 };
 
+export type CharacterClassForm = {
+  value?: string;
+  static?: any;
+  config?: Array<CreateConfigEntry>;
+};
+export const EMPTY_CLASS_FORM = {
+  value: undefined,
+  static: undefined,
+  config: undefined,
+};
+
 export type CharacterCreatorForm = {
   race: CharacterRaceForm;
   stats: CharacterStatsForm;
+  class: CharacterClassForm;
   background: CharacterBackgroundForm;
   bio: CharacterBioForm;
 };
@@ -90,6 +102,7 @@ export const EMPTY_FORM: CharacterCreatorForm = {
   stats: EMPTY_STATS_FORM,
   background: EMPTY_BACKGROUND_FORM,
   bio: EMPTY_BIO_FORM,
+  class: EMPTY_CLASS_FORM,
 };
 
 export const CHARACTER_CREATOR_PATHS_LIST = getAllPaths(EMPTY_FORM);
