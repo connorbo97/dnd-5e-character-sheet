@@ -1,4 +1,8 @@
-import { CREATURE_SIZE, RaceConfigsCreateConfig } from 'constants/raceTypes';
+import {
+  CREATURE_SIZE,
+  IGNORE_PATH,
+  RaceConfigsCreateConfig,
+} from 'constants/raceTypes';
 import {
   HUMANOID_TYPE_FEATURE,
   getBasicDropdownChoice,
@@ -50,7 +54,7 @@ export const TASHA_CUSTOM_LINEAGE_CREATE_CONFIG: RaceConfigsCreateConfig = {
         { value: 'SKILL_CHOICE', label: 'Skill Proficiency' },
       ],
       getFinalValue: (v) => v,
-      path: 'IGNORE',
+      path: IGNORE_PATH,
       header: 'Variable Trait',
       config: {
         reference: 'VARIABLE_TRAIT',

@@ -17,10 +17,11 @@ import {
   KIT_OPTIONS,
   MUSICAL_INSTRUMENT_OPTIONS,
   SKILL_TOOL_OPTIONS,
+  TOOLS_CONFIG,
   VEHICLE_OPTIONS,
 } from './tools';
 import { MONEY } from './money';
-import { MULTI_PATH } from './raceTypes';
+import { IGNORE_PATH, MULTI_PATH } from './raceTypes';
 
 export const BACKGROUND_CONFIGS: { [c in BACKGROUNDS]: BackgroundConfig } = {
   [BACKGROUNDS.ACOLYTE]: { label: 'Acolyte', createConfig: [] },
@@ -53,8 +54,10 @@ const generateConditionalTraits = (index) => [
       path: MULTI_PATH,
       header: 'Artisan Tool',
       getFinalValue: (v) => ({
-        otherProficiencies: [{ category: 'Tool', label: v }],
-        customChecks: [{ label: v }],
+        otherProficiencies: [
+          { category: 'Tool', label: TOOLS_CONFIG[v].label },
+        ],
+        customChecks: [{ label: TOOLS_CONFIG[v].label, proficient: true }],
       }),
     }),
   ),
@@ -66,8 +69,10 @@ const generateConditionalTraits = (index) => [
       path: MULTI_PATH,
       header: 'Skill Tool',
       getFinalValue: (v) => ({
-        otherProficiencies: [{ category: 'Tool', label: v }],
-        customChecks: [{ label: v }],
+        otherProficiencies: [
+          { category: 'Tool', label: TOOLS_CONFIG[v].label },
+        ],
+        customChecks: [{ label: TOOLS_CONFIG[v].label, proficient: true }],
       }),
     }),
   ),
@@ -79,7 +84,9 @@ const generateConditionalTraits = (index) => [
       path: MULTI_PATH,
       header: 'Musical Instrument',
       getFinalValue: (v) => ({
-        otherProficiencies: [{ category: 'Tool', label: v }],
+        otherProficiencies: [
+          { category: 'Tool', label: TOOLS_CONFIG[v].label },
+        ],
       }),
     }),
   ),
@@ -91,8 +98,10 @@ const generateConditionalTraits = (index) => [
       path: MULTI_PATH,
       header: 'Gaming Set',
       getFinalValue: (v) => ({
-        otherProficiencies: [{ category: 'Tool', label: v }],
-        customChecks: [{ label: v }],
+        otherProficiencies: [
+          { category: 'Tool', label: TOOLS_CONFIG[v].label },
+        ],
+        customChecks: [{ label: TOOLS_CONFIG[v].label, proficient: true }],
       }),
     }),
   ),
@@ -105,7 +114,7 @@ const generateConditionalTraits = (index) => [
       header: 'Vehicle Proficiency',
       getFinalValue: (v) => ({
         otherProficiencies: [{ category: 'Tool', label: v }],
-        customChecks: [{ label: v }],
+        customChecks: [{ label: TOOLS_CONFIG[v].label, proficient: true }],
       }),
     }),
   ),
@@ -148,7 +157,7 @@ export const BACKGROUND_CREATE_CONFIG: Array<CreateConfigEntry> = [
   getChoiceSkillProficiencies(SKILL_OPTIONS, 2),
   getStaticWithChoices(
     {
-      path: 'IGNORE',
+      path: IGNORE_PATH,
       custom: [
         {
           options: [

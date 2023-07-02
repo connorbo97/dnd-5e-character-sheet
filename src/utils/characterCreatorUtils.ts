@@ -3,9 +3,10 @@ import { calcFinalRace, mergeStatBlocks } from './raceCreatorUtils';
 import { get, identity, stubTrue } from 'lodash';
 import { BACKGROUND_SKILL_CONFIG } from 'constants/backgrounds';
 import { InventoryItem } from 'constants/inventory';
+import { parseCreateConfigs } from './commonCharacterCreatorUtils';
 
 const calcFinalBackground = (background) => {
-  const { skills, summary, equipment } = background;
+  const { skills, summary, equipment, config } = background;
   const equipmentVal = get(equipment, 'value');
   const skillsVal = get(skills, 'value', {});
   const skillsConfig = BACKGROUND_SKILL_CONFIG.config || {};
@@ -18,6 +19,8 @@ const calcFinalBackground = (background) => {
     console.log('missing background', equipmentVal, skillsVal);
   }
 
+  const result = parseCreateConfigs(config);
+
   return {
     equipment: [
       {
@@ -29,6 +32,7 @@ const calcFinalBackground = (background) => {
     ],
     skills: (skillsConfig?.getFinalValue || identity)(skillsVal),
     summary,
+    test: result,
   };
 };
 

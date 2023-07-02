@@ -1,11 +1,8 @@
 import { STATS_CONFIGS } from 'constants/stats';
 import { addNumberSign } from './stringUtils';
-import { entries, get, isNil, noop, set, stubTrue, update } from 'lodash';
-import {
-  IGNORE_PATH,
-  MULTI_PATH,
-  RaceConfigsCreateConfig,
-} from 'constants/raceTypes';
+import { entries, isNil, noop, set, update } from 'lodash';
+import { IGNORE_PATH, RaceConfigsCreateConfig } from 'constants/raceTypes';
+import { parseCreateConfig } from './commonCharacterCreatorUtils';
 
 export const getStatStringFromEntry = ([type, mod]) =>
   `${STATS_CONFIGS[type].label} ${addNumberSign(mod)}`;
@@ -66,39 +63,6 @@ export const RACE_PATH_HANDLER = {
   featChoices: (p, v, result) => {
     update(result, p, (prevCount) => (prevCount || 0) + v);
   },
-  [IGNORE_PATH]: noop,
-};
-
-const handleConfig = (c, allConfigs, result) => {
-  const { value, path, config = {}, choiceCondition = stubTrue } = c;
-  const { getFinalValue, isFullValue = (val) => !!val } = config;
-
-  if (!isFullValue(value)) {
-    console.log('MISSING', get(config, 'header'), value, c);
-    return;
-  }
-
-  const addToResult = (p, v) => {
-    if (RACE_PATH_HANDLER[p]) {
-      RACE_PATH_HANDLER[p](p, v, result);
-    } else if (Array.isArray(get(result, p))) {
-      update(result, p, (prev) => [...prev, ...v]);
-    } else {
-      set(result, p, v);
-    }
-  };
-
-  const finalValue = getFinalValue ? getFinalValue(value) : value;
-
-  if (!choiceCondition(allConfigs)) {
-    // skip this config if it does not meet its choice condition
-  } else if (path === MULTI_PATH) {
-    entries(finalValue).forEach(([entryPath, entryValue]) =>
-      addToResult(entryPath, entryValue),
-    );
-  } else {
-    addToResult(path, finalValue);
-  }
 };
 
 export const calcFinalRace = (
@@ -113,11 +77,11 @@ export const calcFinalRace = (
   const { base, subRace, subRaceOptions } = createConfig;
   let result: any = {};
 
-  base.forEach((c) => handleConfig(c, base, result));
+  base.forEach((c) => parseCreateConfig(c, base, result, RACE_PATH_HANDLER));
 
   if (selectedSubRace && subRace?.[selectedSubRace]) {
     subRace[selectedSubRace].forEach((c) =>
-      handleConfig(c, subRace[selectedSubRace], result),
+      parseCreateConfig(c, subRace[selectedSubRace], result, RACE_PATH_HANDLER),
     );
   } else if (subRaceOptions?.length) {
     console.log('Missing subclass', createConfig);
