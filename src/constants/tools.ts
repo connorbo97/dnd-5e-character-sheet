@@ -70,6 +70,7 @@ export const TOOLS_CONFIG: {
     weight: number;
     cost: number;
     isNotInventory?: boolean;
+    description?: string;
   };
 } = {
   [ARTISAN_TOOLS.ALCHEMY]: {
@@ -131,6 +132,8 @@ export const TOOLS_CONFIG: {
     label: "Navigator's tools",
     cost: 25,
     weight: 2,
+    description:
+      " This set of instruments is used for navigation at sea. Proficiency with navigator's tools lets you chart a ship's course and follow navigation charts. In addition, these tools allow you to add your proficiency bonus to any ability check you make to avoid getting lost at sea.",
   },
   [ARTISAN_TOOLS.PAINTER]: {
     label: "Painter's supplies",
@@ -151,6 +154,8 @@ export const TOOLS_CONFIG: {
     label: "Thieves' tools",
     cost: 250,
     weight: 1,
+    description:
+      'This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks.',
   },
   [ARTISAN_TOOLS.TINKER]: {
     label: "Tinker's tools",
@@ -171,21 +176,29 @@ export const TOOLS_CONFIG: {
     label: 'Disguise kit',
     cost: 25,
     weight: 3,
+    description:
+      'This pouch of cosmetics, hair dye, and small props lets you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.',
   },
   [KITS.FORGERY]: {
     label: 'Forgery kit',
     cost: 15,
     weight: 5,
+    description:
+      'This small box contains a variety of papers and parchments, pens and inks, seals and sealing wax, gold and silver leaf, and other supplies necessary to create convincing forgeries of physical documents. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a physical forgery of a document.',
   },
   [KITS.HERBALISM]: {
     label: 'Herbalism kit',
     cost: 5,
     weight: 3,
+    description:
+      'This kit contains a variety of instruments such as clippers, mortar and pestle, and pouches and vials used by herbalists to create remedies and potions. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to ide⁠ntify or apply herbs. Also, proficiency with this kit is required to create antitoxin and potions of healing.',
   },
   [KITS.POISONER]: {
     label: "Poisoner's kit",
     cost: 50,
     weight: 2,
+    description:
+      'A poisoner’s kit includes the vials, chemicals, and other equipment necessary for the creat⁠ion of poisons. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to craft or use poisons.',
   },
   [VEHICLES.LAND]: {
     label: 'Land vehicle',
