@@ -1,6 +1,6 @@
 import { findIndex, get, values } from 'lodash';
 import styles from './characterCreator.module.scss';
-import { RaceCreator } from './pages/RaceCreator';
+import { RaceCreator } from './pages/RaceCreator/RaceCreator';
 import { Link, Route, Routes, useMatch, useNavigate } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import { StatsCreator } from './pages/StatsCreator/StatsCreator';
@@ -11,6 +11,7 @@ import { STATE_SELECTOR_PATH } from 'utils/reduxUtils';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { BackgroundCreator } from './pages/BackgroundCreator/BackgroundCreator';
 import { BioCreator } from './pages/BioCreator/BioCreator';
+import { ClassCreator } from './pages/ClassCreator/ClassCreator';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -38,7 +39,6 @@ export const CharacterCreator = () => {
     CHARACTER_CREATOR_PAGES_LIST,
     (p) => p === curPage,
   );
-  console.log(curPage, curPageIndex);
 
   const [form, ,] = useCharacterCreatorPath(STATE_SELECTOR_PATH);
 
@@ -74,7 +74,7 @@ export const CharacterCreator = () => {
           />
           <Route
             path={CHARACTER_CREATOR_PAGES.CLASS}
-            element={<div>class</div>}
+            element={<ClassCreator />}
           />
           <Route
             path={CHARACTER_CREATOR_PAGES.STATS}
