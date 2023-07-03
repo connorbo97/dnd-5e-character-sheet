@@ -17,9 +17,18 @@ import { MULTI_PATH } from 'constants/raceTypes';
 import { SKILLS, SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
 import { getSavingThrowClassProficiency } from './commonClassConfigs';
-import { filter } from 'lodash';
+import { entries, filter, values } from 'lodash';
 import { WEAPONS } from 'constants/weapons';
 import { CharacterSheetPath } from 'constants/characterSheetPaths';
+import {
+  convertEquipmentConfigEntryToOption,
+  convertEquipmentTypeToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentType,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import { ADVENTURING_GEAR, ARCANE_FOCUS_GEAR } from 'constants/adventuringGear';
+import { pickEquipmentConfigsByList } from 'constants/equipment';
 
 const WIZARD_SKILLS = new Set([
   SKILLS.ARCANA,
@@ -109,3 +118,30 @@ export const WIZARD_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     },
   },
 ];
+
+export const WIZARD_EQUIPMENT = [
+  getStaticEquipment([
+    getInventoryItemFromEquipmentType(ADVENTURING_GEAR.SPELLBOOK),
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Any Arcane Focus',
+      options: entries(
+        pickEquipmentConfigsByList(values(ARCANE_FOCUS_GEAR)),
+      ).map((entry) => convertEquipmentConfigEntryToOption(entry)),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      options: [
+        convertEquipmentTypeToOption(WEAPONS.QUARTERSTAFF),
+        convertEquipmentTypeToOption(WEAPONS.DAGGER),
+      ],
+    },
+  ]),
+];
+
+export const WIZARD_CONFIG = {
+  levelOneConfig: WIZARD_LEVEL_ONE_CONFIG,
+  equipment: WIZARD_EQUIPMENT,
+};
