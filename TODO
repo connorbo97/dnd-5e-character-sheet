@@ -12,9 +12,11 @@ Character Creator
 - Feats
   - implement parser
 - Classes
-  - manual data entry i think :(
+  - manual data entry i think for level ups :(
 - AC
-  - handle globalACModifier
+  - handle globalACModifier and inventory AC vs AC Mods
+- Attacks
+  - handle global attack and damage modifier
 
 BIG MISSING
 
