@@ -11,6 +11,7 @@ import { PALADIN_LEVEL_ONE_CONFIG } from './class/paladin';
 import { RANGER_LEVEL_ONE_CONFIG } from './class/ranger';
 import { ROGUE_LEVEL_ONE_CONFIG } from './class/rogue';
 import { SORCERER_LEVEL_ONE_CONFIG } from './class/sorcerer';
+import { WARLOCK_LEVEL_ONE_CONFIG } from './class/warlock';
 
 export enum CLASSES {
   ARTIFICER = 'ARTIFICER',
@@ -89,7 +90,11 @@ export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
     label: 'Sorcerer',
     levelOneConfig: SORCERER_LEVEL_ONE_CONFIG,
   },
-  [CLASSES.WARLOCK]: { hitDice: DICE.d8, label: 'Warlock' },
+  [CLASSES.WARLOCK]: {
+    hitDice: DICE.d8,
+    label: 'Warlock',
+    levelOneConfig: WARLOCK_LEVEL_ONE_CONFIG,
+  },
   [CLASSES.WIZARD]: { hitDice: DICE.d6, label: 'Wizard' },
 };
 export const CLASS_OPTIONS = entries(CLASS_CONFIGS).map(([type, entry]) => ({

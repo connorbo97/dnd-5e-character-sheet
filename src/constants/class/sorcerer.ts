@@ -21,7 +21,7 @@ import { getSavingThrowClassProficiency } from './commonClassConfigs';
 import { entries, filter } from 'lodash';
 import { WEAPONS } from 'constants/weapons';
 
-const CLERIC_SKILLS = new Set([
+const SORCERER_SKILLS = new Set([
   SKILLS.ARCANA,
   SKILLS.DECEPTION,
   SKILLS.INSIGHT,
@@ -48,9 +48,9 @@ export const SORCERER_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     ...WEAPON_PROFICIENCIES[WEAPONS.QUARTERSTAFF],
     ...WEAPON_PROFICIENCIES[WEAPONS.CROSSBOW_LIGHT],
   }),
-  getSavingThrowClassProficiency([STATS.CON, STATS.CHA]),
+  getSavingThrowClassProficiency([STATS.WIS, STATS.CHA]),
   getChoiceSkillProficiencies(
-    filter(SKILL_OPTIONS, (s) => CLERIC_SKILLS.has(s.value)),
+    filter(SKILL_OPTIONS, (s) => SORCERER_SKILLS.has(s.value)),
     2,
   ),
   {
