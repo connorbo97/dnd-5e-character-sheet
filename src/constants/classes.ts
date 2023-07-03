@@ -8,7 +8,7 @@ import { DRUID_CONFIG } from './class/druid';
 import { FIGHTER_CONFIG } from './class/fighter';
 import { MONK_CONFIG } from './class/monk';
 import { PALADIN_CONFIG } from './class/paladin';
-import { RANGER_LEVEL_ONE_CONFIG } from './class/ranger';
+import { RANGER_CONFIG } from './class/ranger';
 import { ROGUE_LEVEL_ONE_CONFIG } from './class/rogue';
 import { SORCERER_LEVEL_ONE_CONFIG } from './class/sorcerer';
 import { WARLOCK_LEVEL_ONE_CONFIG } from './class/warlock';
@@ -80,7 +80,7 @@ export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
   [CLASSES.RANGER]: {
     hitDice: DICE.d10,
     label: 'Ranger',
-    levelOneConfig: RANGER_LEVEL_ONE_CONFIG,
+    ...RANGER_CONFIG,
   },
   [CLASSES.ROGUE]: {
     hitDice: DICE.d8,

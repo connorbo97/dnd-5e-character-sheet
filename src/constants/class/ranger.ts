@@ -20,6 +20,17 @@ import { pickOptionsBySet } from 'utils/optionUtils';
 import { ResourceConfig } from 'constants/resources';
 import { DICE } from 'constants/dice';
 import { ROLLABLES } from 'constants/rollable';
+import {
+  convertEquipmentConfigEntryToOption,
+  convertEquipmentTypeToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentType,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import { SIMPLE_WEAPON_EQUIPMENT_CONFIGS, WEAPONS } from 'constants/weapons';
+import { ADVENTURING_GEAR } from 'constants/adventuringGear';
+import { ARMORS } from 'constants/armor';
+import { entries } from 'lodash';
 
 const RANGER_SKILLS = new Set([
   SKILLS.ANIMAL_HANDLING,
@@ -85,3 +96,44 @@ export const RANGER_LEVEL_ONE_CONFIG = [
     'Choose one of your skill proficiencies. Your proficiency bonus is doubled for any ability check you make using the chosen skill.\n\nYou can also speak, read, and write 2 additional languages of your choice.',
   ),
 ];
+
+export const RANGER_EQUIPMENT = [
+  getStaticEquipment([
+    getInventoryItemFromEquipmentType(WEAPONS.LONGBOW),
+    getInventoryItemFromEquipmentType(ADVENTURING_GEAR.QUIVER),
+    getInventoryItemFromEquipmentType(ADVENTURING_GEAR.ARROW, 20),
+  ]),
+  getEquipmentChoice([
+    {
+      options: [
+        convertEquipmentTypeToOption(ARMORS.SCALE_MAIL),
+        convertEquipmentTypeToOption(ARMORS.LEATHER),
+      ],
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Shortsword or Any Simple Weapon',
+      options: [
+        convertEquipmentTypeToOption(WEAPONS.SHORTSWORD),
+        ...entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+          convertEquipmentConfigEntryToOption(entry),
+        ),
+      ],
+    },
+    {
+      label: 'Shortsword or Any Simple Weapon',
+      options: [
+        convertEquipmentTypeToOption(WEAPONS.SHORTSWORD),
+        ...entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+          convertEquipmentConfigEntryToOption(entry),
+        ),
+      ],
+    },
+  ]),
+];
+
+export const RANGER_CONFIG = {
+  levelOneConfig: RANGER_LEVEL_ONE_CONFIG,
+  equipment: RANGER_EQUIPMENT,
+};

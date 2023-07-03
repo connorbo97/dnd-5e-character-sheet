@@ -38,6 +38,16 @@ export const getInventoryItemFromEquipmentConfig = (
     equipped: true,
   };
 };
+export const getInventoryItemFromEquipmentType = (
+  type,
+  total = 1,
+  customLabel = '',
+) =>
+  getInventoryItemFromEquipmentConfig(
+    EQUIPMENT_CONFIGS[type],
+    total,
+    customLabel,
+  );
 
 const getInventoryItemEquipmentLabel = (
   input: InventoryItem | Array<InventoryItem> | undefined,
