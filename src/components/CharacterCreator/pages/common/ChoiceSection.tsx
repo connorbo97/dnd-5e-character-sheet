@@ -41,13 +41,6 @@ export const ChoiceSection = ({
   if (getDescription) {
     finalDescription = getDescription(value);
   }
-  console.log(
-    description,
-    getDescription,
-    finalDescription,
-    value,
-    getDescription?.(value),
-  );
 
   const onChangeDropdown = (newValue) => {
     onUpdate((prev) => iSet(prev, `${updatePath}.value`, newValue));

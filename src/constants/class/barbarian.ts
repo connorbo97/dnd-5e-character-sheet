@@ -1,4 +1,5 @@
 import {
+  CreateConfigEntry,
   SECTION_CONFIG_FORMAT,
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
@@ -28,7 +29,7 @@ const BARBARIAN_SKILLS = new Set([
   SKILLS.PERCEPTION,
   SKILLS.SURVIVAL,
 ]);
-export const BARBARIAN_LEVEL_ONE_CONFIG = [
+export const BARBARIAN_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
   getPresentationConfig('Proficiencies'),
   getOtherProficiencyForClass('Armor', {
     ...LIGHT_ARMOR_PROFICIENCY,
@@ -77,6 +78,7 @@ export const BARBARIAN_LEVEL_ONE_CONFIG = [
         'While you are not wearing any armor, your armor class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.',
       // TODO: FIGURE OUT HOW I WANT TO HANDLE UNARMORED DEFENSE
     },
+    path: 'features',
   },
 ];
 export const LEVEL_UP_CONFIG = {

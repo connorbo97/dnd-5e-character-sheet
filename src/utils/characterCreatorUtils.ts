@@ -1,9 +1,14 @@
-import { CharacterCreatorForm } from 'constants/characterCreator';
-import { calcFinalRace, mergeStatBlocks } from './raceCreatorUtils';
+import {
+  CharacterClassForm,
+  CharacterCreatorForm,
+} from 'constants/characterCreator';
+import { calcFinalRace } from './raceCreatorUtils';
 import { get, identity, stubTrue } from 'lodash';
 import { BACKGROUND_SKILL_CONFIG } from 'constants/backgrounds';
-import { InventoryItem } from 'constants/inventory';
-import { parseCreateConfigs } from './commonCharacterCreatorUtils';
+import {
+  mergeStatBlocks,
+  parseCreateConfigs,
+} from './commonCharacterCreatorUtils';
 
 const calcFinalBackground = (background) => {
   const { skills, summary, equipment, config } = background;
@@ -22,28 +27,35 @@ const calcFinalBackground = (background) => {
   const result = parseCreateConfigs(config);
 
   return {
-    equipment: [
-      {
-        label: equipmentVal,
-        source: 'Background',
-        total: 1,
-        weight: 1,
-      } as InventoryItem,
-    ],
     skills: (skillsConfig?.getFinalValue || identity)(skillsVal),
     summary,
-    test: result,
+    ...result,
+  };
+};
+
+const calcFinalClass = (rawClass: CharacterClassForm) => {
+  const { value, static: staticConfigs = [], config = [] } = rawClass;
+
+  if (!value) {
+    console.log('missing class', value, rawClass);
+  }
+  const result = parseCreateConfigs([...staticConfigs, ...config]);
+
+  return {
+    class: value,
+    ...result,
   };
 };
 
 export const calcCharacterSheet = (form: CharacterCreatorForm) => {
-  const { race, stats, bio, background } = form;
+  const { race, stats, bio, background, class: rawClass } = form;
   const finalRace = calcFinalRace(
     get(race, 'config', { base: [] }),
     race.value,
     race.subRace,
   );
   const finalBackground = calcFinalBackground(background);
+  const finalClass = calcFinalClass(rawClass);
 
   const result = {
     stats: mergeStatBlocks(stats, finalRace?.stats || {}),
@@ -53,6 +65,7 @@ export const calcCharacterSheet = (form: CharacterCreatorForm) => {
     },
     bio,
     background: finalBackground,
+    class: finalClass,
   };
   console.log(result);
 
