@@ -7,6 +7,23 @@ export enum AttackTypes {
   SPELL = 'SPELL',
 }
 
+export type AttackEntryAttack = {
+  isEnabled;
+  stat: STATS | ROLLABLES.SPELL | null;
+  mod?: ModBlock;
+  proficient?: boolean;
+  range?: string;
+  critRange: number;
+};
+export type AttackEntryDamage = {
+  isEnabled: boolean;
+  label?: string;
+  base: Rollable;
+  stat: STATS | ROLLABLES.SPELL | null;
+  mod?: ModBlock;
+  type?: string;
+  crit?: Rollable;
+};
 export type AttackEntrySavingThrow = {
   isEnabled: boolean;
   dc: ROLLABLES.SPELL | STATS | 'FLAT';
@@ -14,38 +31,13 @@ export type AttackEntrySavingThrow = {
   dcSave: STATS;
   effect: string;
 };
+
 export type AttackEntry = {
   label: string;
   source: string;
   description?: string;
-  attack: {
-    isEnabled;
-    stat: STATS | ROLLABLES.SPELL | null;
-    mod?: ModBlock;
-    proficient?: boolean;
-    range?: string;
-    critRange: number;
-  };
-  damage: [
-    {
-      isEnabled: boolean;
-      label?: string;
-      base: Rollable;
-      stat: STATS | ROLLABLES.SPELL | null;
-      mod?: ModBlock;
-      type?: string;
-      crit?: Rollable;
-    },
-    {
-      isEnabled: boolean;
-      label?: string;
-      base: Rollable;
-      stat: STATS | ROLLABLES.SPELL | null;
-      mod?: ModBlock;
-      type?: string;
-      crit?: Rollable;
-    },
-  ];
+  attack: AttackEntryAttack;
+  damage: [AttackEntryDamage, AttackEntryDamage];
   savingThrow: AttackEntrySavingThrow;
 };
 
@@ -58,6 +50,19 @@ export const UNUSED_SAVING_THROW: AttackEntrySavingThrow = {
   effect: '',
   flatDC: 10,
 };
+export const generateDamageOnlyAttack = (
+  label,
+  source,
+  damageConfigA: AttackEntryDamage,
+  damageConfigB: AttackEntryDamage = UNUSED_DAMAGE,
+): AttackEntry => ({
+  label,
+  source,
+  attack: UNUSED_ATTACK,
+  damage: [damageConfigA, damageConfigB],
+  savingThrow: UNUSED_SAVING_THROW,
+});
+
 export const ATTACK_STAT_DROPDOWN_OPTIONS = [
   { value: null, label: '-' },
   ...STATS_OPTIONS,

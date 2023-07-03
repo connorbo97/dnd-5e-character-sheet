@@ -4,6 +4,7 @@ import {
   SECTION_CONFIG_FORMAT,
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
+import { FIGHTING_STYLE_CONFIGS } from 'constants/fightingStyles';
 import { MONEY_CONFIGS } from 'constants/money';
 import { OTHER_PROFICIENCY_CATEGORY } from 'constants/otherProficiencies';
 import {
@@ -121,7 +122,25 @@ export const HUMANOID_TYPE_FEATURE = {
     header: 'Creature Type',
   },
 };
-
+export const getFightingStyleChoice = (options, config = {}) =>
+  getBasicDropdownChoice({
+    options,
+    path: MULTI_PATH,
+    getFinalValue: (value) => ({
+      features: [
+        {
+          label: `Fighting Style: ${FIGHTING_STYLE_CONFIGS[value].label}`,
+          description: FIGHTING_STYLE_CONFIGS[value].description,
+        },
+      ],
+      ...FIGHTING_STYLE_CONFIGS[value]?.config,
+    }),
+    header: 'Fighting Style',
+    config: {
+      getDescription: (value) => FIGHTING_STYLE_CONFIGS[value]?.description,
+      ...config,
+    },
+  });
 export const getProficiencies = (category, labels) => ({
   type: SECTION_CONFIG_TYPE.STATIC,
   format: SECTION_CONFIG_FORMAT.PROFICIENCY,

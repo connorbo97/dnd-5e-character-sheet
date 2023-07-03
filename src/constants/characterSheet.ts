@@ -2,6 +2,7 @@ import { ADVANTAGE_TOGGLE } from './advantageToggle';
 import { ALIGNMENTS } from './alignments';
 import { AttackEntry } from './attacks';
 import { BACKGROUNDS } from './backgroundTypes';
+import { CharacterSheetPath } from './characterSheetPaths';
 import { CLASSES } from './classes';
 import { DICE } from './dice';
 import { FeatureConfig, FeatureSource } from './features';
@@ -53,8 +54,8 @@ export type CharacterSheet = {
     [s in SKILLS]?: ProficiencyConfig;
   };
   customChecks: Array<ProficiencyConfig>;
-  resources: Array<ResourceConfig>;
-  features: Array<FeatureConfig>;
+  [CharacterSheetPath.resources]: Array<ResourceConfig>;
+  [CharacterSheetPath.features]: Array<FeatureConfig>;
   otherProficiencies: {
     [s: string]: ProficiencyConfig;
   };
@@ -80,9 +81,21 @@ export type CharacterSheet = {
     initiative?: Array<ModBlock>;
     hp?: Array<ModBlock>;
   };
-  attacks: Array<AttackEntry>;
-  globalAttackModifiers: Array<{
+  [CharacterSheetPath.attacks]: Array<AttackEntry>;
+  [CharacterSheetPath.globalAttackModifier]: Array<{
     base: ROLLABLES;
+    label: string;
+    source?: string;
+  }>;
+  [CharacterSheetPath.globalDamageModifier]: Array<{
+    base: ROLLABLES;
+    label: string;
+    source?: string;
+  }>;
+  [CharacterSheetPath.globalACModifier]: Array<{
+    base: ROLLABLES;
+    isNotCompatibleWithArmor?: boolean;
+    newACFormula?: boolean;
     label: string;
     source?: string;
   }>;
@@ -107,7 +120,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
     value: RACES.HUMAN,
     subRace: 'Standard',
   },
-  resources: [
+  [CharacterSheetPath.resources]: [
     {
       label: 'Channel Divinity',
       source: 'Cleric',
@@ -117,7 +130,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       resetOnLongRest: true,
     },
   ],
-  features: [
+  [CharacterSheetPath.features]: [
     {
       label: 'Rage',
       source: FeatureSource.CLASS,
@@ -197,8 +210,10 @@ export const DEFAULT_SHEET: CharacterSheet = {
       },
     ],
   },
-  globalAttackModifiers: [],
-  attacks: [
+  [CharacterSheetPath.globalAttackModifier]: [],
+  [CharacterSheetPath.globalDamageModifier]: [],
+  [CharacterSheetPath.globalACModifier]: [],
+  [CharacterSheetPath.attacks]: [
     {
       label: 'Test Label',
       source: 'test source',

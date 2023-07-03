@@ -29,12 +29,25 @@ export const ChoiceSection = ({
     header,
     subHeader,
     description,
+    getDescription,
     getLabelValue,
     getPlaceholder = noop,
   } = config;
   const statics = get(value, 'statics', []);
   const customValue = get(value, 'custom');
   const finalHeader = header || 'HEADER';
+  let finalDescription = description;
+
+  if (getDescription) {
+    finalDescription = getDescription(value);
+  }
+  console.log(
+    description,
+    getDescription,
+    finalDescription,
+    value,
+    getDescription?.(value),
+  );
 
   const onChangeDropdown = (newValue) => {
     onUpdate((prev) => iSet(prev, `${updatePath}.value`, newValue));
@@ -49,8 +62,8 @@ export const ChoiceSection = ({
     <div className={styles['container']}>
       <div className={styles['header']}>{finalHeader}</div>
       <div className={styles['content']}>
-        {description && (
-          <div className={styles['description']}>{description}</div>
+        {finalDescription && (
+          <div className={styles['description']}>{finalDescription}</div>
         )}
         {subHeader && <h3>{subHeader}</h3>}
         {format === SECTION_CONFIG_FORMAT.DROPDOWN && options && (

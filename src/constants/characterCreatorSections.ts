@@ -30,6 +30,7 @@ export type CreateConfigEntryConfig = {
   getLabelValue?: Function;
   getFinalValue?: Function;
   getPlaceholder?: Function;
+  getDescription?: Function;
   isFullValue?: Function;
   hideValue?: boolean;
   hideContent?: boolean;
