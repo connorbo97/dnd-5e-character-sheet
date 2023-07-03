@@ -6,6 +6,7 @@ import { STATS } from './stats';
 export enum ROLLABLES {
   PB = 'PB',
   SPELL = 'SPELL',
+  // TODO: Add Level into calculation. make sure it supports a specific class type
 }
 export const ROLLABLES_SET = new Set(values(ROLLABLES));
 

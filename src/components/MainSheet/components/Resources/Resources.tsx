@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { ResourceConfig } from 'constants/resources';
 import { isNil } from 'lodash';
 import { ResourceEntry } from './ResourceEntry';
-
+// TODO: IMPLEMENT PB AND STATS AS MAX VALUE
 export const Resources = () => {
   const {
     inventory,

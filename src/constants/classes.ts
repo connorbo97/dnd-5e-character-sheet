@@ -1,6 +1,7 @@
 import { entries } from 'lodash';
 import { DICE } from './dice';
 import { BARBARIAN_LEVEL_ONE_CONFIG } from './class/barbarian';
+import { ARTIFICER_LEVEL_ONE_CONFIG } from './class/artificer';
 
 export enum CLASSES {
   ARTIFICER = 'ARTIFICER',
@@ -24,7 +25,11 @@ export type ClassConfig = {
   levelOneConfig?: any;
 };
 export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
-  [CLASSES.ARTIFICER]: { hitDice: DICE.d8, label: 'Artificer' },
+  [CLASSES.ARTIFICER]: {
+    hitDice: DICE.d8,
+    label: 'Artificer',
+    levelOneConfig: ARTIFICER_LEVEL_ONE_CONFIG,
+  },
   [CLASSES.BARBARIAN]: {
     hitDice: DICE.d12,
     label: 'Barbarian',
