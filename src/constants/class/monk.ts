@@ -12,7 +12,7 @@ import {
 } from 'constants/race/commonCreatorConfigs';
 import { SKILLS, SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
-import { filter } from 'lodash';
+import { entries, filter } from 'lodash';
 import { getSavingThrowClassProficiency } from './commonClassConfigs';
 import { MULTI_PATH } from 'constants/raceTypes';
 import {
@@ -22,7 +22,7 @@ import {
 } from 'constants/attacks';
 import { DICE } from 'constants/dice';
 import { CharacterSheetPath } from 'constants/characterSheetPaths';
-import { WEAPONS } from 'constants/weapons';
+import { SIMPLE_WEAPON_EQUIPMENT_CONFIGS, WEAPONS } from 'constants/weapons';
 import {
   ARTISAN_TOOL_OPTIONS,
   MUSICAL_INSTRUMENT_OPTIONS,
@@ -32,6 +32,14 @@ import {
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
 import { GlobalACModifierType } from 'constants/characterSheet';
+import {
+  convertEquipmentConfigEntryToOption,
+  convertEquipmentTypeToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentConfig,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import { EQUIPMENT_CONFIGS } from 'constants/equipment';
 
 const MONK_SKILLS = new Set([
   SKILLS.ACROBATICS,
@@ -115,4 +123,26 @@ export const MONK_LEVEL_ONE_CONFIG = [
 ];
 export const LEVEL_UP_CONFIG = {
   2: (a) => a,
+};
+
+export const MONK_EQUIPMENT = [
+  getStaticEquipment([
+    getInventoryItemFromEquipmentConfig(EQUIPMENT_CONFIGS[WEAPONS.DART], 10),
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Shortsword or Any Simple Weapon',
+      options: [
+        convertEquipmentTypeToOption(WEAPONS.SHORTSWORD),
+        ...entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+          convertEquipmentConfigEntryToOption(entry),
+        ),
+      ],
+    },
+  ]),
+];
+
+export const MONK_CONFIG = {
+  equipment: MONK_EQUIPMENT,
+  levelOneConfig: MONK_LEVEL_ONE_CONFIG,
 };

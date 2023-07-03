@@ -5,6 +5,7 @@ import {
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
 import { CharacterSheetPath } from 'constants/characterSheetPaths';
+import { EQUIPMENT_CONFIGS } from 'constants/equipment';
 import { EquipmentConfig } from 'constants/equipmentTypes';
 import { InventoryItem } from 'constants/inventory';
 import { getStaticWithChoices } from 'constants/race/commonCreatorConfigs';
@@ -75,6 +76,16 @@ export const convertEquipmentConfigEntryToOption = (
   item: getInventoryItemFromEquipmentConfig(c, total),
   attack: c?.attack,
 });
+export const convertEquipmentTypeToOption = (
+  type,
+  total = undefined,
+  customLabel = undefined,
+) =>
+  convertEquipmentConfigEntryToOption(
+    [type, EQUIPMENT_CONFIGS[type]],
+    total,
+    customLabel,
+  );
 
 const getEquipmentChoiceLabel = (c) =>
   c.label ||
