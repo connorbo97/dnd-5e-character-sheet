@@ -7,6 +7,7 @@ import { CLERIC_LEVEL_ONE_CONFIG } from './class/cleric';
 import { DRUID_LEVEL_ONE_CONFIG } from './class/druid';
 import { FIGHTER_LEVEL_ONE_CONFIG } from './class/fighter';
 import { MONK_LEVEL_ONE_CONFIG } from './class/monk';
+import { PALADIN_LEVEL_ONE_CONFIG } from './class/paladin';
 
 export enum CLASSES {
   ARTIFICER = 'ARTIFICER',
@@ -65,7 +66,11 @@ export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
     label: 'Monk',
     levelOneConfig: MONK_LEVEL_ONE_CONFIG,
   },
-  [CLASSES.PALADIN]: { hitDice: DICE.d10, label: 'Paladin' },
+  [CLASSES.PALADIN]: {
+    hitDice: DICE.d10,
+    label: 'Paladin',
+    levelOneConfig: PALADIN_LEVEL_ONE_CONFIG,
+  },
   [CLASSES.RANGER]: { hitDice: DICE.d10, label: 'Ranger' },
   [CLASSES.ROGUE]: { hitDice: DICE.d8, label: 'Rogue' },
   [CLASSES.SORCERER]: { hitDice: DICE.d6, label: 'Sorcerer' },

@@ -35,13 +35,11 @@ import { GlobalACModifierType } from 'constants/characterSheet';
 
 const MONK_SKILLS = new Set([
   SKILLS.ACROBATICS,
-  SKILLS.ANIMAL_HANDLING,
   SKILLS.ATHLETICS,
   SKILLS.HISTORY,
   SKILLS.INSIGHT,
-  SKILLS.INTIMIDATION,
-  SKILLS.PERCEPTION,
-  SKILLS.SURVIVAL,
+  SKILLS.RELIGION,
+  SKILLS.STEALTH,
 ]);
 export const MONK_LEVEL_ONE_CONFIG = [
   getPresentationConfig('Proficiencies'),

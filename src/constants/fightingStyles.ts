@@ -14,6 +14,7 @@ import { CharacterSheetPath } from './characterSheetPaths';
 
 export enum FIGHTING_STYLES {
   ARCHERY = 'ARCHERY',
+  BLESSED_WARRIOR = 'BLESSED_WARRIOR',
   BLIND_FIGHTING = 'BLIND_FIGHTING',
   DEFENSE = 'DEFENSE',
   DUELING = 'DUELING',
@@ -37,6 +38,16 @@ export const FIGHTING_STYLE_CONFIGS: {
       [CharacterSheetPath.globalAttackModifier]: [
         { base: [2], label: 'Archery (Ranged Only)' },
       ],
+    },
+  },
+  [FIGHTING_STYLES.BLESSED_WARRIOR]: {
+    label: 'Blessed Warrior',
+    description:
+      'You learn two cantrips of your choice from the cleric spell list. They count as paladin spells for you, and Charisma is your spellcasting ability for them. Whenever you gain a level in this class, you can replace one of these cantrips with another cantrip from the cleric spell list.',
+    config: {
+      spellSlots: {
+        0: 2,
+      },
     },
   },
   [FIGHTING_STYLES.BLIND_FIGHTING]: {

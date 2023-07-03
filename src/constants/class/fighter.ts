@@ -17,11 +17,15 @@ import { SKILLS, SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
 import { filter } from 'lodash';
 import { getSavingThrowClassProficiency } from './commonClassConfigs';
-import { FIGHTING_STYLE_OPTIONS } from 'constants/fightingStyles';
+import {
+  FIGHTING_STYLES,
+  FIGHTING_STYLE_OPTIONS,
+} from 'constants/fightingStyles';
 import { MULTI_PATH } from 'constants/raceTypes';
 import { generateDamageOnlyAttack } from 'constants/attacks';
 import { DICE } from 'constants/dice';
 import { CharacterSheetPath } from 'constants/characterSheetPaths';
+import { pickOptionsBySet } from 'utils/optionUtils';
 
 const FIGHTER_SKILLS = new Set([
   SKILLS.ACROBATICS,
@@ -33,6 +37,20 @@ const FIGHTER_SKILLS = new Set([
   SKILLS.PERCEPTION,
   SKILLS.SURVIVAL,
 ]);
+const FIGHTER_FIGHTING_STYLES = new Set([
+  FIGHTING_STYLES.ARCHERY,
+  FIGHTING_STYLES.BLIND_FIGHTING,
+  FIGHTING_STYLES.DEFENSE,
+  FIGHTING_STYLES.DUELING,
+  FIGHTING_STYLES.GREAT_WEAPON_FIGHTING,
+  FIGHTING_STYLES.INTERCEPTION,
+  FIGHTING_STYLES.PROTECTION,
+  FIGHTING_STYLES.SUPERIOR_TECHNIQUE,
+  FIGHTING_STYLES.THROWN_WEAPON_FIGHTING,
+  FIGHTING_STYLES.TWO_WEAPON_FIGHTING,
+  FIGHTING_STYLES.UNARMED_FIGHTING,
+]);
+
 export const FIGHTER_LEVEL_ONE_CONFIG = [
   getPresentationConfig('Proficiencies'),
   getOtherProficiencyForClass('Armor', {
@@ -50,7 +68,9 @@ export const FIGHTER_LEVEL_ONE_CONFIG = [
     filter(SKILL_OPTIONS, (s) => FIGHTER_SKILLS.has(s.value)),
     2,
   ),
-  getFightingStyleChoice(FIGHTING_STYLE_OPTIONS),
+  getFightingStyleChoice(
+    pickOptionsBySet(FIGHTING_STYLE_OPTIONS, FIGHTER_FIGHTING_STYLES),
+  ),
   {
     ...getBasicFeatureByLD(
       'Second Wind',
