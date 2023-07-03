@@ -20,6 +20,14 @@ import { pickOptionsBySet } from 'utils/optionUtils';
 import { DICE } from 'constants/dice';
 import { WEAPONS } from 'constants/weapons';
 import { SKILL_TOOLS } from 'constants/tools';
+import {
+  convertEquipmentTypeToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentType,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import { ARMORS } from 'constants/armor';
+import { ADVENTURING_GEAR } from 'constants/adventuringGear';
 
 const ROGUE_SKILLS = new Set([
   SKILLS.ACROBATICS,
@@ -81,3 +89,43 @@ export const ROGUE_LEVEL_ONE_CONFIG = [
     "During your rogue training you learned thieves' cant, a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves' cant understands such messages. It takes four times longer to convey such a message than it does to speak the same idea plainly.\n\nIn addition, you understand a set of secret signs and symbols used to convey short, simple messages, such as whether an area is dangerous or the territory of a thieves' guild, whether loot is nearby, or whether the people in an area are easy marks or will provide a safe house for thieves on the run.",
   ),
 ];
+
+export const ROGUE_EQUIPMENT = [
+  getStaticEquipment([
+    getInventoryItemFromEquipmentType(ARMORS.LEATHER),
+    getInventoryItemFromEquipmentType(WEAPONS.DAGGER, 2),
+    getInventoryItemFromEquipmentType(SKILL_TOOLS.THIEVES),
+  ]),
+  getEquipmentChoice([
+    {
+      options: [
+        convertEquipmentTypeToOption(WEAPONS.RAPIER),
+        convertEquipmentTypeToOption(WEAPONS.SHORTSWORD),
+      ],
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      options: [
+        {
+          ...convertEquipmentTypeToOption(
+            WEAPONS.SHORTBOW,
+            1,
+            'Shortbow, Quiver, Arrows (20)',
+          ),
+          item: [
+            getInventoryItemFromEquipmentType(WEAPONS.SHORTBOW),
+            getInventoryItemFromEquipmentType(ADVENTURING_GEAR.QUIVER),
+            getInventoryItemFromEquipmentType(ADVENTURING_GEAR.ARROW, 20),
+          ],
+        },
+        convertEquipmentTypeToOption(WEAPONS.SHORTSWORD),
+      ],
+    },
+  ]),
+];
+
+export const ROGUE_CONFIG = {
+  levelOneConfig: ROGUE_LEVEL_ONE_CONFIG,
+  equipment: ROGUE_EQUIPMENT,
+};

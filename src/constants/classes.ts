@@ -9,7 +9,7 @@ import { FIGHTER_CONFIG } from './class/fighter';
 import { MONK_CONFIG } from './class/monk';
 import { PALADIN_CONFIG } from './class/paladin';
 import { RANGER_CONFIG } from './class/ranger';
-import { ROGUE_LEVEL_ONE_CONFIG } from './class/rogue';
+import { ROGUE_CONFIG } from './class/rogue';
 import { SORCERER_LEVEL_ONE_CONFIG } from './class/sorcerer';
 import { WARLOCK_LEVEL_ONE_CONFIG } from './class/warlock';
 import { WIZARD_LEVEL_ONE_CONFIG } from './class/wizard';
@@ -85,7 +85,7 @@ export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
   [CLASSES.ROGUE]: {
     hitDice: DICE.d8,
     label: 'Rogue',
-    levelOneConfig: ROGUE_LEVEL_ONE_CONFIG,
+    ...ROGUE_CONFIG,
   },
   [CLASSES.SORCERER]: {
     hitDice: DICE.d6,
