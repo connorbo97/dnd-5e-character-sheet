@@ -20,3 +20,17 @@ export const conditionalJoinStrings = (strings, joiner = ' ') =>
 export const getNumMatches = (target, regex) => {
   return [...target.matchAll(regex)].length;
 };
+
+export const joinStringsWithSuffix = (strings, suffix) =>
+  strings.length <= 1
+    ? strings.join('')
+    : [strings.slice(0, -1).join(', '), strings[strings.length - 1]].join(
+        suffix,
+      );
+export const joinAndStrings = (strings) =>
+  joinStringsWithSuffix(strings, ' and ');
+export const joinOrStrings = (strings) =>
+  joinStringsWithSuffix(strings, ' or ');
+
+export const capitalizeFirstLetter = (string: string): string =>
+  string?.length > 0 ? string.charAt(0).toUpperCase() + string.slice(1) : '';

@@ -23,7 +23,7 @@ export const StaticSection = ({ format, value, config = {} }: Props) => {
     hideContent,
   } = config;
 
-  let finalHeader = header || 'HEADER';
+  let finalHeader = header;
   let finalValue = value;
 
   if (format === 'STATS') {
@@ -73,7 +73,7 @@ export const StaticSection = ({ format, value, config = {} }: Props) => {
 
   return (
     <div className={styles['container']}>
-      <div className={styles['header']}>{finalHeader}</div>
+      {finalHeader && <div className={styles['header']}>{finalHeader}</div>}
       {!hideContent && (
         <div className={styles['content']}>
           {description && (

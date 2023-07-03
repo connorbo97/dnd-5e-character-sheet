@@ -19,7 +19,17 @@ import {
 import { MULTI_PATH } from 'constants/raceTypes';
 import { SKILLS, SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
-import { filter } from 'lodash';
+import { entries, filter } from 'lodash';
+import {
+  convertEquipmentConfigEntryToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentConfig,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import { ADVENTURING_GEAR } from 'constants/adventuringGear';
+import { EQUIPMENT_CONFIGS } from 'constants/equipment';
+import { SIMPLE_WEAPON_EQUIPMENT_CONFIGS, WEAPONS } from 'constants/weapons';
+import { SKILL_TOOLS } from 'constants/tools';
 
 const ARTIFICER_SKILLS = new Set([
   SKILLS.ARCANA,
@@ -102,6 +112,50 @@ export const ARTIFICER_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     'You can cast an artificer spell as a ritual if that spell has the ritual tag and you have the spell prepared.',
   ),
 ];
+
+export const ARTIFICER_EQUIPMENT = [
+  getStaticEquipment(
+    [
+      getInventoryItemFromEquipmentConfig(
+        EQUIPMENT_CONFIGS[WEAPONS.CROSSBOW_LIGHT],
+        1,
+      ),
+      getInventoryItemFromEquipmentConfig(
+        EQUIPMENT_CONFIGS[ADVENTURING_GEAR.CROSSBOW_BOLTS],
+        1,
+      ),
+      getInventoryItemFromEquipmentConfig(
+        EQUIPMENT_CONFIGS[SKILL_TOOLS.THIEVES],
+        1,
+      ),
+    ],
+    {
+      attacks: [
+        EQUIPMENT_CONFIGS[WEAPONS.CROSSBOW_LIGHT].attack,
+        EQUIPMENT_CONFIGS[WEAPONS.CROSSBOW_LIGHT].attack,
+      ],
+    },
+  ),
+  getEquipmentChoice([
+    {
+      label: 'Any Simple Weapon',
+      options: entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map(
+        convertEquipmentConfigEntryToOption,
+      ),
+    },
+    {
+      label: 'Any Simple Weapon',
+      options: entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map(
+        convertEquipmentConfigEntryToOption,
+      ),
+    },
+  ]),
+];
+
+export const ARTIFICER_CONFIG = {
+  equipment: ARTIFICER_EQUIPMENT,
+  levelOneConfig: ARTIFICER_LEVEL_ONE_CONFIG,
+};
 
 // const INFUSE_ITEM_FEATURE = getFeatureWithResource(
 //   'Infuse Item',

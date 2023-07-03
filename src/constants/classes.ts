@@ -1,7 +1,11 @@
 import { entries } from 'lodash';
 import { DICE } from './dice';
 import { BARBARIAN_LEVEL_ONE_CONFIG } from './class/barbarian';
-import { ARTIFICER_LEVEL_ONE_CONFIG } from './class/artificer';
+import {
+  ARTIFICER_CONFIG,
+  ARTIFICER_EQUIPMENT,
+  ARTIFICER_LEVEL_ONE_CONFIG,
+} from './class/artificer';
 import { BARD_LEVEL_ONE_CONFIG } from './class/bard';
 import { CLERIC_LEVEL_ONE_CONFIG } from './class/cleric';
 import { DRUID_LEVEL_ONE_CONFIG } from './class/druid';
@@ -34,12 +38,13 @@ export type ClassConfig = {
   hitDice: DICE;
   label: string;
   levelOneConfig?: any;
+  equipment?: any;
 };
 export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
   [CLASSES.ARTIFICER]: {
     hitDice: DICE.d8,
     label: 'Artificer',
-    levelOneConfig: ARTIFICER_LEVEL_ONE_CONFIG,
+    ...ARTIFICER_CONFIG,
   },
   [CLASSES.BARBARIAN]: {
     hitDice: DICE.d12,

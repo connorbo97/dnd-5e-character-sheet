@@ -88,12 +88,19 @@ export const EMPTY_CLASS_FORM = {
   static: undefined,
   config: undefined,
 };
+export type CharacterEquipmentForm = {
+  config?: Array<CreateConfigEntry>;
+};
+export const EMPTY_EQUIPMENT_FORM = {
+  config: undefined,
+};
 
 export type CharacterCreatorForm = {
   race: CharacterRaceForm;
   stats: CharacterStatsForm;
   class: CharacterClassForm;
   background: CharacterBackgroundForm;
+  equipment: CharacterEquipmentForm;
   bio: CharacterBioForm;
 };
 
@@ -101,6 +108,7 @@ export const EMPTY_FORM: CharacterCreatorForm = {
   race: EMPTY_RACE_FORM,
   stats: EMPTY_STATS_FORM,
   background: EMPTY_BACKGROUND_FORM,
+  equipment: EMPTY_EQUIPMENT_FORM,
   bio: EMPTY_BIO_FORM,
   class: EMPTY_CLASS_FORM,
 };

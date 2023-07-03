@@ -74,7 +74,7 @@ export type CharacterSheet = {
   money: {
     [s in MONEY]?: number;
   };
-  inventory: Array<InventoryItem>;
+  [CharacterSheetPath.inventory]: Array<InventoryItem>;
   deathSaves: {
     successes: [boolean?, boolean?, boolean?];
     failures: [boolean?, boolean?, boolean?];
@@ -303,7 +303,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       },
     },
   ],
-  inventory: [
+  [CharacterSheetPath.inventory]: [
     {
       label: 'Leather Armor',
       description: 'some description',

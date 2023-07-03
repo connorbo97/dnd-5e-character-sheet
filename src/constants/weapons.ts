@@ -1,5 +1,10 @@
+import { entries, mapValues, pickBy } from 'lodash';
+import { AttackEntry, UNUSED_DAMAGE, UNUSED_SAVING_THROW } from './attacks';
 import { DICE } from './dice';
+import { EquipmentConfig } from './equipmentTypes';
+import { InventoryItemMods } from './inventory';
 import { Rollable } from './rollable';
+import { STATS } from './stats';
 
 export enum WEAPON_PROPERTIES {
   AMMUNITION = 'AMMUNITION',
@@ -122,19 +127,65 @@ export enum WEAPONS {
   NET = 'NET',
 }
 
-export const WEAPON_CONFIGS: {
-  [s in WEAPONS]: {
-    label: string;
-    damage: Rollable;
-    versatileDamage?: Rollable;
-    special?: string;
-    damageType: string;
-    weight: number;
-    cost: number;
-    range?: string;
-    properties: Array<WEAPON_PROPERTIES>;
-    isMartial?: boolean;
+export const getWeaponAttackFromConfig = (
+  config: WeaponConfig,
+  source = '',
+): AttackEntry => {
+  const { label, properties, damage } = config;
+  const attackStat = properties.includes(WEAPON_PROPERTIES.FINESSE)
+    ? STATS.DEX
+    : STATS.STR;
+
+  return {
+    label,
+    source,
+    attack: {
+      stat: attackStat,
+      critRange: 20,
+      isEnabled: true,
+    },
+    damage: [
+      {
+        base: damage,
+        isEnabled: true,
+        stat: attackStat,
+      },
+      UNUSED_DAMAGE,
+    ],
+    savingThrow: UNUSED_SAVING_THROW,
   };
+};
+export const getEquipmentConfigFromWeaponConfig = (
+  weaponConfig: WeaponConfig,
+): EquipmentConfig => ({
+  label: weaponConfig.label,
+  cost: weaponConfig.cost,
+  weight: weaponConfig.weight,
+  description: weaponConfig.properties?.length
+    ? `Weapon Properties: ${weaponConfig.properties
+        .map((p) => WEAPON_PROPERTY_CONFIG[p].label)
+        .join(', ')}`
+    : '',
+  attack: getWeaponAttackFromConfig(weaponConfig),
+  mods: weaponConfig.mods,
+  isMartial: weaponConfig.isMartial,
+});
+
+export type WeaponConfig = {
+  label: string;
+  damage: Rollable;
+  versatileDamage?: Rollable;
+  special?: string;
+  damageType: string;
+  weight: number;
+  cost: number;
+  range?: string;
+  properties: Array<WEAPON_PROPERTIES>;
+  isMartial?: boolean;
+  mods?: InventoryItemMods;
+};
+export const WEAPON_CONFIGS: {
+  [s in WEAPONS]: WeaponConfig;
 } = {
   [WEAPONS.CLUB]: {
     label: 'Club',
@@ -514,3 +565,16 @@ export const WEAPON_CONFIGS: {
     isMartial: true,
   },
 };
+
+export const WEAPON_EQUIPMENT_CONFIGS = mapValues(
+  WEAPON_CONFIGS,
+  getEquipmentConfigFromWeaponConfig,
+);
+export const SIMPLE_WEAPON_EQUIPMENT_CONFIGS = pickBy(
+  WEAPON_EQUIPMENT_CONFIGS,
+  (value, key) => !WEAPON_CONFIGS[key]?.isMartial,
+);
+export const MARTIAL_WEAPON_EQUIPMENT_CONFIGS = pickBy(
+  WEAPON_EQUIPMENT_CONFIGS,
+  (value, key) => WEAPON_CONFIGS[key]?.isMartial,
+);

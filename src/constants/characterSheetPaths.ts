@@ -4,5 +4,6 @@ export enum CharacterSheetPath {
   globalDamageModifier = 'globalDamageModifier',
   features = 'features',
   attacks = 'attacks',
+  inventory = 'inventory',
   resources = 'resources',
 }

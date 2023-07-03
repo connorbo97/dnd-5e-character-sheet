@@ -172,7 +172,7 @@ export const createReduxStateContext = (reducerName, initialState, paths) => {
     const set = setters[path];
     const update = updaters[path];
 
-    return [value, set, update];
+    return useMemo(() => [value, set, update], [set, update, value]);
   };
 
   return {

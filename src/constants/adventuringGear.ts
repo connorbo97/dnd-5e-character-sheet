@@ -1,4 +1,4 @@
-import { mapKeys } from 'lodash';
+import { mapValues } from 'lodash';
 import { AttackEntry, UNUSED_DAMAGE, UNUSED_SAVING_THROW } from './attacks';
 import { DICE } from './dice';
 import { STATS } from './stats';
@@ -123,7 +123,7 @@ export const ADVENTURING_GEAR_CONFIG: {
     cost: 25,
     weight: 1,
   },
-  CROSSBOW_BOLTS_: {
+  CROSSBOW_BOLTS: {
     label: 'Crossbow bolts (20)',
     cost: 1,
     weight: 1,
@@ -719,7 +719,7 @@ export const ADVENTURING_GEAR_CONFIG: {
     weight: 1,
   },
 };
-export const ADVENTURING_GEAR = mapKeys((v, k) => k);
+export const ADVENTURING_GEAR = mapValues(ADVENTURING_GEAR_CONFIG, (v, k) => k);
 
 export enum EQUIPMENT_PACKS {
   BURGLAR = 'BURGLAR',

@@ -12,6 +12,7 @@ import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { BackgroundCreator } from './pages/BackgroundCreator/BackgroundCreator';
 import { BioCreator } from './pages/BioCreator/BioCreator';
 import { ClassCreator } from './pages/ClassCreator/ClassCreator';
+import { EquipmentCreator } from './pages/EquipmentCreator/EquipmentCreator';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -86,7 +87,7 @@ export const CharacterCreator = () => {
           />
           <Route
             path={CHARACTER_CREATOR_PAGES.EQUIPMENT}
-            element={<div>eq</div>}
+            element={<EquipmentCreator />}
           />
           <Route
             path={CHARACTER_CREATOR_PAGES.FEATS}

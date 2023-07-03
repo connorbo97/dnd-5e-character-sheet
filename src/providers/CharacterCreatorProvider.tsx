@@ -1,11 +1,9 @@
 import { createReduxStateContext } from 'utils/reduxUtils';
 import {
-  CHARACTER_CREATOR_PATHS,
   CHARACTER_CREATOR_PATHS_LIST,
   CHARACTER_CREATOR_REDUCER_NAME,
   EMPTY_FORM,
 } from 'constants/characterCreator';
-import { mapValues } from 'lodash';
 
 const { reducer, actions, provider, useContext, useContextPath } =
   createReduxStateContext(
