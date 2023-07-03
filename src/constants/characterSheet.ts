@@ -26,6 +26,11 @@ export type CharacterSheetLevels = {
     isMain?: boolean;
   };
 };
+export type GlobalAttackModifierEntry = {
+  base: ROLLABLES;
+  label: string;
+  source?: string;
+};
 
 export type GlobalACModifierType = {
   base: Rollable;
@@ -89,11 +94,7 @@ export type CharacterSheet = {
     hp?: Array<ModBlock>;
   };
   [CharacterSheetPath.attacks]: Array<AttackEntry>;
-  [CharacterSheetPath.globalAttackModifier]: Array<{
-    base: ROLLABLES;
-    label: string;
-    source?: string;
-  }>;
+  [CharacterSheetPath.globalAttackModifier]: Array<GlobalAttackModifierEntry>;
   [CharacterSheetPath.globalDamageModifier]: Array<{
     base: ROLLABLES;
     label: string;
