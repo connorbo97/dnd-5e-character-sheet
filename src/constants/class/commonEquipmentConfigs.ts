@@ -37,8 +37,16 @@ export const getInventoryItemFromEquipmentConfig = (
   };
 };
 
-const getInventoryItemEquipmentLabel = (i: InventoryItem | undefined) =>
-  `${i?.label}${(i?.total || 0) > 1 ? ` (${i?.total})` : ''}`;
+const getInventoryItemEquipmentLabel = (
+  input: InventoryItem | Array<InventoryItem> | undefined,
+) => {
+  const isArray = Array.isArray(input);
+  const getLabel = (i) =>
+    `${i?.label}${(i?.total || 0) > 1 ? ` (${i?.total})` : ''}`;
+  return isArray
+    ? joinAndStrings(input.map((i) => getLabel(i)))
+    : getLabel(input);
+};
 export const getStaticEquipment = (
   inventory: Array<InventoryItem | undefined>,
   { attacks = [] as Array<AttackEntry | undefined> } = {},
@@ -56,9 +64,13 @@ export const getStaticEquipment = (
     }),
   },
 });
-export const convertEquipmentConfigEntryToOption = ([k, c], total = 1) => ({
+export const convertEquipmentConfigEntryToOption = (
+  [k, c],
+  total = 1,
+  customLabel = '',
+) => ({
   value: k,
-  label: c.label + (total > 1 ? ` (${total})` : ''),
+  label: customLabel || `${c.label}${total > 1 ? ` (${total})` : ''}`,
   item: getInventoryItemFromEquipmentConfig(c, total),
 });
 
@@ -73,7 +85,7 @@ export const getEquipmentChoice = (
     options: Array<{
       value: any;
       label: any;
-      item: InventoryItem;
+      item: InventoryItem | Array<InventoryItem>;
       attack?: AttackEntry;
     }>;
   }>,
@@ -106,7 +118,7 @@ export const getEquipmentChoice = (
           .filter(identity);
 
         return {
-          [CharacterSheetPath.inventory]: inventory.map((i) => i.item),
+          [CharacterSheetPath.inventory]: inventory.map((i) => i.item).flat(),
           [CharacterSheetPath.attacks]: inventory
             .map((i) => i.attack)
             .filter(identity),

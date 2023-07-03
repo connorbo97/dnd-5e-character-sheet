@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash';
+import { mapValues, pickBy } from 'lodash';
 import { AttackEntry, UNUSED_DAMAGE, UNUSED_SAVING_THROW } from './attacks';
 import { DICE } from './dice';
 import { STATS } from './stats';
@@ -720,6 +720,10 @@ export const ADVENTURING_GEAR_CONFIG: {
   },
 };
 export const ADVENTURING_GEAR = mapValues(ADVENTURING_GEAR_CONFIG, (v, k) => k);
+export const HOLY_SYMBOL_GEAR = pickBy(
+  ADVENTURING_GEAR,
+  (v) => ADVENTURING_GEAR_CONFIG[v].type === ADVENTURING_GEAR_TYPE.HOLY_SYMBOL,
+);
 
 export enum EQUIPMENT_PACKS {
   BURGLAR = 'BURGLAR',

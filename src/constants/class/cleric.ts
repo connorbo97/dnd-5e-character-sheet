@@ -21,7 +21,20 @@ import { MULTI_PATH } from 'constants/raceTypes';
 import { SKILLS, SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
 import { getSavingThrowClassProficiency } from './commonClassConfigs';
-import { entries, filter } from 'lodash';
+import { entries, filter, values } from 'lodash';
+import {
+  convertEquipmentConfigEntryToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentConfig,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import {
+  EQUIPMENT_CONFIGS,
+  pickEquipmentConfigsByList,
+} from 'constants/equipment';
+import { ARMORS } from 'constants/armor';
+import { ADVENTURING_GEAR, HOLY_SYMBOL_GEAR } from 'constants/adventuringGear';
+import { SIMPLE_WEAPON_EQUIPMENT_CONFIGS, WEAPONS } from 'constants/weapons';
 
 const CLERIC_SKILLS = new Set([
   SKILLS.HISTORY,
@@ -111,3 +124,74 @@ export const CLERIC_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     },
   }),
 ];
+
+export const CLERIC_EQUIPMENT = [
+  getStaticEquipment([
+    getInventoryItemFromEquipmentConfig(EQUIPMENT_CONFIGS[ARMORS.SHIELD]),
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Any Holy Symbol',
+      options: entries(
+        pickEquipmentConfigsByList(values(HOLY_SYMBOL_GEAR)),
+      ).map((entry) => convertEquipmentConfigEntryToOption(entry)),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      options: entries(
+        pickEquipmentConfigsByList([WEAPONS.MACE, WEAPONS.WARHAMMER]),
+      ).map((entry) =>
+        convertEquipmentConfigEntryToOption(
+          entry,
+          1,
+          entry[0] === WEAPONS.WARHAMMER ? 'Warhammer (if proficient)' : '',
+        ),
+      ),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      options: entries(
+        pickEquipmentConfigsByList([
+          ARMORS.SCALE_MAIL,
+          ARMORS.LEATHER,
+          ARMORS.CHAIN_MAIL,
+        ]),
+      ).map((entry) =>
+        convertEquipmentConfigEntryToOption(
+          entry,
+          1,
+          entry[0] === ARMORS.CHAIN_MAIL ? 'Chain Mail (if proficient)' : '',
+        ),
+      ),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Light Crossbow and Crossbow Bolts (20) or Any Simple Weapon',
+      options: entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map((entry) => {
+        const option = convertEquipmentConfigEntryToOption(entry);
+        if (entry[0] === WEAPONS.CROSSBOW_LIGHT) {
+          return {
+            ...option,
+            label: 'Light Crossbow and Crossbow Bolts (20)',
+            item: [
+              option.item,
+              getInventoryItemFromEquipmentConfig(
+                EQUIPMENT_CONFIGS[ADVENTURING_GEAR.CROSSBOW_BOLT],
+                20,
+              ),
+            ],
+          };
+        }
+        return option;
+      }),
+    },
+  ]),
+];
+
+export const CLERIC_CONFIG = {
+  equipment: CLERIC_EQUIPMENT,
+  levelOneConfig: CLERIC_LEVEL_ONE_CONFIG,
+};

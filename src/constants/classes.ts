@@ -3,7 +3,7 @@ import { DICE } from './dice';
 import { BARBARIAN_CONFIG } from './class/barbarian';
 import { ARTIFICER_CONFIG } from './class/artificer';
 import { BARD_CONFIG } from './class/bard';
-import { CLERIC_LEVEL_ONE_CONFIG } from './class/cleric';
+import { CLERIC_CONFIG } from './class/cleric';
 import { DRUID_LEVEL_ONE_CONFIG } from './class/druid';
 import { FIGHTER_LEVEL_ONE_CONFIG } from './class/fighter';
 import { MONK_LEVEL_ONE_CONFIG } from './class/monk';
@@ -55,7 +55,7 @@ export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
   [CLASSES.CLERIC]: {
     hitDice: DICE.d8,
     label: 'Cleric',
-    levelOneConfig: CLERIC_LEVEL_ONE_CONFIG,
+    ...CLERIC_CONFIG,
   },
   [CLASSES.DRUID]: {
     hitDice: DICE.d8,
