@@ -11,8 +11,6 @@ Character Creator
   - implement default "Lucky" feature where you get to add a 1d6 to a failed roll once per day. If the d6 would cause you to succeed. You succeed with a minor setback. If you fail, you fail with a minor benefit.
 - Feats
   - implement parser
-- Bio
-  - add alignment
 - Classes
   - manual data entry i think :(
 - AC

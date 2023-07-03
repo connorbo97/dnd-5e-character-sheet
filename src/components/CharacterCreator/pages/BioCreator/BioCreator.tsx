@@ -3,6 +3,8 @@ import styles from './bioCreator.module.scss';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { Tag } from 'common/components/Tag/Tag';
 import { useMemo } from 'react';
+import { Dropdown } from 'common/components/Dropdown/Dropdown';
+import { ALIGNMENT_OPTIONS } from 'constants/alignments';
 
 type Props = any;
 
@@ -36,6 +38,10 @@ const BioFieldInput = ({ path, label, isTextarea = false, ...rest }) => {
   );
 };
 export const BioCreator = (props: Props) => {
+  const [alignment, setAlignment] = useCharacterCreatorPath(
+    CHARACTER_CREATOR_PATHS['bio.alignment'],
+  );
+
   return (
     <div className={styles['container']}>
       <h1>Bio</h1>
@@ -45,6 +51,21 @@ export const BioCreator = (props: Props) => {
             label="Name"
             path={'bio.name'}
             placeholder="Your Name"
+          />
+          <Tag
+            label={'Alignment'}
+            valueClassName={styles['input']}
+            value={
+              <>
+                <br />
+                <Dropdown
+                  value={alignment}
+                  options={ALIGNMENT_OPTIONS}
+                  onChange={(e) => setAlignment(e.target.value)}
+                  placeholder={'Choose'}
+                />
+              </>
+            }
           />
           <BioFieldInput label="Age" path={'bio.age'} placeholder="20" />
           <BioFieldInput

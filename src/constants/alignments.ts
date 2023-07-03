@@ -1,3 +1,5 @@
+import { values } from 'lodash';
+
 export enum ALIGNMENTS {
   LG = 'Lawful Good',
   LN = 'Lawful Neutral',
@@ -9,3 +11,8 @@ export enum ALIGNMENTS {
   CN = 'Chaotic Neutral',
   CE = 'Chaotic Evil',
 }
+
+export const ALIGNMENT_OPTIONS = values(ALIGNMENTS).map((v) => ({
+  value: v,
+  label: v,
+}));

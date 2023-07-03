@@ -4,6 +4,7 @@ import { getAllPaths } from 'utils/objectUtils';
 import { STATS } from './stats';
 import { BACKGROUND_CREATE_CONFIG } from './backgrounds';
 import { CreateConfigEntry } from './characterCreatorSections';
+import { ALIGNMENTS } from './alignments';
 
 export const CHARACTER_CREATOR_REDUCER_NAME = 'characterCreator';
 
@@ -53,6 +54,7 @@ export const EMPTY_BACKGROUND_FORM = {
 
 export type CharacterBioForm = {
   name?: string;
+  alignment?: ALIGNMENTS;
   age?: string;
   height?: string;
   weight?: string;
@@ -66,6 +68,7 @@ export type CharacterBioForm = {
 };
 export const EMPTY_BIO_FORM = {
   name: undefined,
+  alignment: undefined,
   age: undefined,
   height: undefined,
   weight: undefined,
