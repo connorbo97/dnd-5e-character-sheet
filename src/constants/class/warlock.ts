@@ -49,7 +49,7 @@ export const WARLOCK_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
   getOtherProficiencyForClass(OTHER_PROFICIENCY_CATEGORY.WEAPON, {
     ...SIMPLE_WEAPON_PROFICIENCY,
   }),
-  getSavingThrowClassProficiency([STATS.CON, STATS.CHA]),
+  getSavingThrowClassProficiency([STATS.WIS, STATS.CHA]),
   getChoiceSkillProficiencies(
     filter(SKILL_OPTIONS, (s) => WARLOCK_SKILLS.has(s.value)),
     2,

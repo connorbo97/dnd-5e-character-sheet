@@ -48,7 +48,7 @@ export const SORCERER_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     ...WEAPON_PROFICIENCIES[WEAPONS.QUARTERSTAFF],
     ...WEAPON_PROFICIENCIES[WEAPONS.CROSSBOW_LIGHT],
   }),
-  getSavingThrowClassProficiency([STATS.WIS, STATS.CHA]),
+  getSavingThrowClassProficiency([STATS.CON, STATS.CHA]),
   getChoiceSkillProficiencies(
     filter(SKILL_OPTIONS, (s) => SORCERER_SKILLS.has(s.value)),
     2,

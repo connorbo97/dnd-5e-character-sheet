@@ -82,12 +82,12 @@ export const CLERIC_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     },
   },
   getBasicFeatureByLD(
-    'Spells Known',
-    "As a cleric, you know a number of cleric spells equal to the following formula:\n\n\tSpells Known = your Wisdom modifier + half your cleric level rounded down (minimum of one spell).\n\nThe spells must be of a level for which you have spell slots.\n\nFor example, if you are a 3rd-level cleric, you have four 1st-level and two 2nd-level spell slots. With a Wisdom of 16, your list of prepared spells can include six spells of 1st or 2nd level, in any combination. If you prepare the 1st-level spell Cure Wounds, you can cast it using a 1st-level or 2nd-level slot. Casting the spell doesn't remove it from your list of prepared spells.",
-  ),
-  getBasicFeatureByLD(
     'Prepared Caster',
     'You prepare the list of cleric spells that are available for you to cast, choosing from the cleric spell list. You can change your list of prepared spells when you finish a long rest. Preparing a new list of cleric spells requires time spent in prayer and meditation: at least 1 minute per spell level for each spell on your list.',
+  ),
+  getBasicFeatureByLD(
+    'Spells Prepared',
+    "As a cleric, you may prepare a number of cleric spells equal to the following formula:\n\n\tSpells Prepared = your Wisdom modifier + half your cleric level rounded down (minimum of one spell).\n\nThe spells must be of a level for which you have spell slots.\n\nFor example, if you are a 3rd-level cleric, you have four 1st-level and two 2nd-level spell slots. With a Wisdom of 16, your list of prepared spells can include six spells of 1st or 2nd level, in any combination. If you prepare the 1st-level spell Cure Wounds, you can cast it using a 1st-level or 2nd-level slot. Casting the spell doesn't remove it from your list of prepared spells.",
   ),
   getBasicFeatureByLD(
     'Spellcasting Ability: Wisdom',
