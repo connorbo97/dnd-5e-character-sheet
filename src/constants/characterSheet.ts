@@ -11,7 +11,7 @@ import { InventoryItem } from './inventory';
 import { MONEY } from './money';
 import { RACES } from './raceTypes';
 import { ResourceConfig } from './resources';
-import { ROLLABLES } from './rollable';
+import { ROLLABLES, Rollable } from './rollable';
 import { SKILLS, SKILL_SORT } from './skills';
 import { STATS } from './stats';
 import { WHISPER_TOGGLE } from './whisperToggle';
@@ -27,6 +27,13 @@ export type CharacterSheetLevels = {
   };
 };
 
+export type GlobalACModifierType = {
+  base: Rollable;
+  isNotCompatibleWithArmor?: boolean;
+  newACFormula?: boolean;
+  label: string;
+  source?: string;
+};
 export type CharacterSheet = {
   name: string;
   advantageToggle: ADVANTAGE_TOGGLE;
@@ -92,13 +99,7 @@ export type CharacterSheet = {
     label: string;
     source?: string;
   }>;
-  [CharacterSheetPath.globalACModifier]: Array<{
-    base: ROLLABLES;
-    isNotCompatibleWithArmor?: boolean;
-    newACFormula?: boolean;
-    label: string;
-    source?: string;
-  }>;
+  [CharacterSheetPath.globalACModifier]: Array<GlobalACModifierType>;
 };
 
 export const DEFAULT_SHEET: CharacterSheet = {

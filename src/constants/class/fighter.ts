@@ -23,7 +23,7 @@ import { generateDamageOnlyAttack } from 'constants/attacks';
 import { DICE } from 'constants/dice';
 import { CharacterSheetPath } from 'constants/characterSheetPaths';
 
-const BARBARIAN_SKILLS = new Set([
+const FIGHTER_SKILLS = new Set([
   SKILLS.ACROBATICS,
   SKILLS.ANIMAL_HANDLING,
   SKILLS.ATHLETICS,
@@ -47,7 +47,7 @@ export const FIGHTER_LEVEL_ONE_CONFIG = [
   }),
   getSavingThrowClassProficiency([STATS.STR, STATS.CON]),
   getChoiceSkillProficiencies(
-    filter(SKILL_OPTIONS, (s) => BARBARIAN_SKILLS.has(s.value)),
+    filter(SKILL_OPTIONS, (s) => FIGHTER_SKILLS.has(s.value)),
     2,
   ),
   getFightingStyleChoice(FIGHTING_STYLE_OPTIONS),

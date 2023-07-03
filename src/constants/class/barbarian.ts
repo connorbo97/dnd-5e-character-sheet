@@ -3,6 +3,8 @@ import {
   SECTION_CONFIG_FORMAT,
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
+import { GlobalACModifierType } from 'constants/characterSheet';
+import { CharacterSheetPath } from 'constants/characterSheetPaths';
 import {
   HEAVY_ARMOR_PROFICIENCY,
   LIGHT_ARMOR_PROFICIENCY,
@@ -17,6 +19,7 @@ import {
   getOtherProficiencyForClass,
   getPresentationConfig,
 } from 'constants/race/commonCreatorConfigs';
+import { MULTI_PATH } from 'constants/raceTypes';
 import { SKILLS, SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
 import { filter } from 'lodash';
@@ -76,9 +79,20 @@ export const BARBARIAN_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
       label: 'Unarmored Defense',
       description:
         'While you are not wearing any armor, your armor class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.',
-      // TODO: FIGURE OUT HOW I WANT TO HANDLE UNARMORED DEFENSE
     },
-    path: 'features',
+    path: MULTI_PATH,
+    config: {
+      getFinalValue: (value) => ({
+        [CharacterSheetPath.features]: [value],
+        [CharacterSheetPath.globalACModifier]: {
+          base: [10, STATS.DEX, STATS.CON],
+          isNotCompatibleWithArmor: true,
+          label: 'Unarmored Defense',
+          source: 'Barbarian',
+          newACFormula: true,
+        } as GlobalACModifierType,
+      }),
+    },
   },
 ];
 export const LEVEL_UP_CONFIG = {
