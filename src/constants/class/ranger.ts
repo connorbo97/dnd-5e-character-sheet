@@ -32,7 +32,7 @@ const RANGER_SKILLS = new Set([
   SKILLS.SURVIVAL,
 ]);
 
-export const PALADIN_LEVEL_ONE_CONFIG = [
+export const RANGER_LEVEL_ONE_CONFIG = [
   getPresentationConfig('Proficiencies'),
   getOtherProficiencyForClass('Armor', {
     ...LIGHT_ARMOR_PROFICIENCY,
