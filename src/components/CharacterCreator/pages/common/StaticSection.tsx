@@ -38,7 +38,7 @@ export const StaticSection = ({ format, value, config = {} }: Props) => {
       )
       .join(', ');
   } else if (format === 'FEATURE') {
-    finalHeader = `Feature: ${value?.label}`;
+    finalHeader = value?.label;
     finalValue = value?.description;
   } else if (format === 'PROFICIENCY') {
     finalValue = value.map(({ label }) => label).join(', ');

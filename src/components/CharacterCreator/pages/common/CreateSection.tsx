@@ -2,6 +2,10 @@ import { get, stubTrue } from 'lodash';
 import { StaticSection } from './StaticSection';
 import { ChoiceSection } from './ChoiceSection';
 import { SECTION_CONFIG_TYPE } from 'constants/characterCreatorSections';
+import styles from './createSection.module.scss';
+import classnames from 'classnames/bind';
+
+const classNameBuilder = classnames.bind(styles);
 
 type Props = any;
 export const CreateSection = ({
@@ -24,13 +28,16 @@ export const CreateSection = ({
       curConfig.type === SECTION_CONFIG_TYPE.STATIC
         ? StaticSection
         : ChoiceSection;
+
     return (
-      <Component
-        key={index}
-        {...curConfig}
-        updatePath={getUpdatePath(index)}
-        onUpdate={onUpdate}
-      />
+      <div className={classNameBuilder('container', curConfig?.format)}>
+        <Component
+          key={index}
+          {...curConfig}
+          updatePath={getUpdatePath(index)}
+          onUpdate={onUpdate}
+        />
+      </div>
     );
   });
 };

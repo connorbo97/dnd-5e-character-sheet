@@ -6,21 +6,18 @@
   width: 100%;
   padding-bottom: 2rem;
 }
+
 .content {
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
-
-  > * {
-    margin-top: 0.5rem;
-    border-top: 1px solid $tertiary;
-  }
   width: 100%;
 }
 
 .race {
   padding: 0.5rem;
+
   h5 {
     padding: 0
-  } 
+  }
 }

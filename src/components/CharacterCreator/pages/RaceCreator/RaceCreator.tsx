@@ -5,11 +5,9 @@ import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import styles from './raceCreator.module.scss';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
-import { get, stubTrue } from 'lodash';
 import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
 import { RACES } from 'constants/raceTypes';
-import { StaticSection } from '../common/StaticSection';
-import { ChoiceSection } from '../common/ChoiceSection';
+import { CreateSection } from '../common/CreateSection';
 
 export const RaceCreator = () => {
   const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);
@@ -45,28 +43,13 @@ export const RaceCreator = () => {
         />
       </div>
       <div className={styles['content']}>
-        {config?.base.map((curConfig, index) => {
-          const shouldRender = get(
-            curConfig,
-            'choiceCondition',
-            stubTrue,
-          )(config?.base);
-
-          if (!shouldRender) {
-            return null;
-          }
-
-          const Component =
-            curConfig.type === 'STATIC' ? StaticSection : ChoiceSection;
-          return (
-            <Component
-              key={index}
-              {...curConfig}
-              updatePath={`base.${index}`}
-              onUpdate={updateRaceConfig}
-            />
-          );
-        })}
+        {config?.base && (
+          <CreateSection
+            config={config?.base}
+            getUpdatePath={(i) => `base.${i}`}
+            onUpdate={updateRaceConfig}
+          />
+        )}
         {config?.subRaceOptions && (
           <div>
             <h2>Subrace</h2>
@@ -79,30 +62,13 @@ export const RaceCreator = () => {
             />
           </div>
         )}
-        {subRace &&
-          config?.subRace[subRace] &&
-          config?.subRace[subRace].map((curConfig, index) => {
-            const shouldRender = get(
-              curConfig,
-              'choiceCondition',
-              stubTrue,
-            )(config?.subRace);
-
-            if (!shouldRender) {
-              return null;
-            }
-
-            const Component =
-              curConfig.type === 'STATIC' ? StaticSection : ChoiceSection;
-            return (
-              <Component
-                key={index}
-                {...curConfig}
-                updatePath={`subRace.${subRace}.${index}`}
-                isSubRace
-              />
-            );
-          })}
+        {subRace && config?.subRace[subRace] && (
+          <CreateSection
+            config={config?.subRace[subRace]}
+            getUpdatePath={(i) => `subRace.${subRace}.${i}`}
+            onUpdate={updateRaceConfig}
+          />
+        )}
       </div>
     </div>
   );

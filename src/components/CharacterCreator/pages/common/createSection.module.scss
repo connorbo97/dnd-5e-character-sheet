@@ -1,0 +1,11 @@
+@import "src/styles/_colors";
+
+.container {
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid $tertiary;
+
+  &.PROFICIENCY_CLASS {
+    border-top: 0;
+  }
+}
