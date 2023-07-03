@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/dnd-5e-character-sheet/static/css/main.736f5232.css",
-    "main.js": "/dnd-5e-character-sheet/static/js/main.8d0cd5f9.js",
+    "main.js": "/dnd-5e-character-sheet/static/js/main.27772cc2.js",
     "static/js/252.d038af93.chunk.js": "/dnd-5e-character-sheet/static/js/252.d038af93.chunk.js",
     "static/js/854.51a4b28f.chunk.js": "/dnd-5e-character-sheet/static/js/854.51a4b28f.chunk.js",
     "static/js/125.4d36beb3.chunk.js": "/dnd-5e-character-sheet/static/js/125.4d36beb3.chunk.js",
     "index.html": "/dnd-5e-character-sheet/index.html",
     "main.736f5232.css.map": "/dnd-5e-character-sheet/static/css/main.736f5232.css.map",
-    "main.8d0cd5f9.js.map": "/dnd-5e-character-sheet/static/js/main.8d0cd5f9.js.map",
+    "main.27772cc2.js.map": "/dnd-5e-character-sheet/static/js/main.27772cc2.js.map",
     "252.d038af93.chunk.js.map": "/dnd-5e-character-sheet/static/js/252.d038af93.chunk.js.map",
     "854.51a4b28f.chunk.js.map": "/dnd-5e-character-sheet/static/js/854.51a4b28f.chunk.js.map",
     "125.4d36beb3.chunk.js.map": "/dnd-5e-character-sheet/static/js/125.4d36beb3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.736f5232.css",
-    "static/js/main.8d0cd5f9.js"
+    "static/js/main.27772cc2.js"
   ]
 }
