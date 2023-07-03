@@ -5,6 +5,7 @@ import {
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
 import { MONEY_CONFIGS } from 'constants/money';
+import { OTHER_PROFICIENCY_CATEGORY } from 'constants/otherProficiencies';
 import {
   CREATURE_SIZE,
   CREATURE_TYPE,
@@ -179,18 +180,22 @@ export const getChoiceSkillProficiencies = (
         }, {}),
     },
   );
-export const getChoiceToolProficiencies = (options, totalChoices: number = 1) =>
+export const getChoiceToolProficiencies = (
+  options,
+  totalChoices: number = 1,
+  { header = 'Tool proficiencies' } = {},
+) =>
   getStaticWithChoices(
     {
       custom: fill(Array(totalChoices), { options }),
       path: MULTI_PATH,
     },
     {
-      header: 'Tool proficiencies',
+      header,
       getPlaceholder: () => `Choose`,
       getFinalValue: ({ custom = [] }: any = {}) => ({
         otherProficiencies: custom.map(({ value }) => ({
-          category: 'Tool',
+          category: OTHER_PROFICIENCY_CATEGORY.TOOL,
           label: value,
         })),
         customChecks: custom.map(({ value }) => ({

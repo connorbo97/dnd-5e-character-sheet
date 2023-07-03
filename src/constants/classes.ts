@@ -2,6 +2,7 @@ import { entries } from 'lodash';
 import { DICE } from './dice';
 import { BARBARIAN_LEVEL_ONE_CONFIG } from './class/barbarian';
 import { ARTIFICER_LEVEL_ONE_CONFIG } from './class/artificer';
+import { BARD_LEVEL_ONE_CONFIG } from './class/bard';
 
 export enum CLASSES {
   ARTIFICER = 'ARTIFICER',
@@ -35,7 +36,11 @@ export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
     label: 'Barbarian',
     levelOneConfig: BARBARIAN_LEVEL_ONE_CONFIG,
   },
-  [CLASSES.BARD]: { hitDice: DICE.d8, label: 'Bard' },
+  [CLASSES.BARD]: {
+    hitDice: DICE.d8,
+    label: 'Bard',
+    levelOneConfig: BARD_LEVEL_ONE_CONFIG,
+  },
   [CLASSES.CLERIC]: { hitDice: DICE.d8, label: 'Cleric' },
   [CLASSES.DRUID]: { hitDice: DICE.d8, label: 'Druid' },
   [CLASSES.FIGHTER]: { hitDice: DICE.d10, label: 'Fighter' },

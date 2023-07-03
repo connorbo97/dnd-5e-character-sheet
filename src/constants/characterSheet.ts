@@ -81,6 +81,11 @@ export type CharacterSheet = {
     hp?: Array<ModBlock>;
   };
   attacks: Array<AttackEntry>;
+  globalAttackModifiers: Array<{
+    base: ROLLABLES;
+    label: string;
+    source?: string;
+  }>;
 };
 
 export const DEFAULT_SHEET: CharacterSheet = {
@@ -192,6 +197,7 @@ export const DEFAULT_SHEET: CharacterSheet = {
       },
     ],
   },
+  globalAttackModifiers: [],
   attacks: [
     {
       label: 'Test Label',

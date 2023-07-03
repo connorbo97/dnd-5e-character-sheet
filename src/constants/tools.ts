@@ -1,4 +1,4 @@
-import { keyBy, keys, values } from 'lodash';
+import { keyBy, keys, mapValues, values } from 'lodash';
 
 export enum ARTISAN_TOOLS {
   ALCHEMY = 'ALCHEMY_TOOLS',
@@ -286,6 +286,7 @@ const generateToolOption = (t) => ({
   label: TOOLS_CONFIG[t].label,
 });
 export const TOOL_OPTIONS = TOOLS_LIST.map(generateToolOption);
+export const TOOL_PROFICIENCIES = mapValues(TOOLS_CONFIG);
 
 export const ARTISAN_TOOLS_LIST = values(ARTISAN_TOOLS);
 export const ARTISAN_TOOL_OPTIONS = ARTISAN_TOOLS_LIST.map(generateToolOption);

@@ -63,8 +63,6 @@ export const ARTIFICER_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
       label: 'Magical Tinkering',
       max: STATS.INT,
       source: 'Artificer',
-      resetOnLongRest: true,
-      resetOnShortRest: true,
     },
   ),
   {
