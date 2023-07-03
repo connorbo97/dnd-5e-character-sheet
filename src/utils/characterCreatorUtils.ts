@@ -1,6 +1,7 @@
 import {
   CharacterClassForm,
   CharacterCreatorForm,
+  CharacterEquipmentForm,
 } from 'constants/characterCreator';
 import { calcFinalRace } from './raceCreatorUtils';
 import { get, identity, stubTrue } from 'lodash';
@@ -46,9 +47,20 @@ const calcFinalClass = (rawClass: CharacterClassForm) => {
     ...result,
   };
 };
+const calcFinalEquipment = (equipment: CharacterEquipmentForm) => {
+  const { config = [] } = equipment;
+
+  if (!config) {
+    console.log('missing equipment', config);
+  }
+
+  const result = parseCreateConfigs(config);
+
+  return result;
+};
 
 export const calcCharacterSheet = (form: CharacterCreatorForm) => {
-  const { race, stats, bio, background, class: rawClass } = form;
+  const { race, stats, bio, background, class: rawClass, equipment } = form;
   const finalRace = calcFinalRace(
     get(race, 'config', { base: [] }),
     race.value,
@@ -56,6 +68,7 @@ export const calcCharacterSheet = (form: CharacterCreatorForm) => {
   );
   const finalBackground = calcFinalBackground(background);
   const finalClass = calcFinalClass(rawClass);
+  const finalEquipment = calcFinalEquipment(equipment);
 
   const result = {
     stats: mergeStatBlocks(stats, finalRace?.stats || {}),
@@ -66,6 +79,7 @@ export const calcCharacterSheet = (form: CharacterCreatorForm) => {
     bio,
     background: finalBackground,
     class: finalClass,
+    equipment: finalEquipment,
   };
   console.log(result);
 

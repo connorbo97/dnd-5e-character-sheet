@@ -46,7 +46,7 @@ export const WEAPON_PROPERTY_CONFIG: {
       'Creatures that are Small or Tiny have disadvantage on attack rolls with heavy weapons. A heavy weapon’s size and bulk make it too large for a Small or Tiny creature to use effectively.',
   },
   [WEAPON_PROPERTIES.LIGHT]: {
-    label: 'Heavy',
+    label: 'Light',
     description:
       'A lig⁠ht weapon is small and easy to handle, making it ideal for use when fighting with two weapons. See the rules for two-weapon fighting in " Making an Attack " section.',
   },

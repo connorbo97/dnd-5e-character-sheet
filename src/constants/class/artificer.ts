@@ -125,8 +125,8 @@ export const ARTIFICER_EQUIPMENT = [
         1,
       ),
       getInventoryItemFromEquipmentConfig(
-        EQUIPMENT_CONFIGS[ADVENTURING_GEAR.CROSSBOW_BOLTS],
-        1,
+        EQUIPMENT_CONFIGS[ADVENTURING_GEAR.CROSSBOW_BOLT],
+        20,
       ),
       getInventoryItemFromEquipmentConfig(
         EQUIPMENT_CONFIGS[SKILL_TOOLS.THIEVES],
@@ -143,14 +143,14 @@ export const ARTIFICER_EQUIPMENT = [
   getEquipmentChoice([
     {
       label: 'Any Simple Weapon',
-      options: entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map(
-        convertEquipmentConfigEntryToOption,
+      options: entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+        convertEquipmentConfigEntryToOption(entry),
       ),
     },
     {
       label: 'Any Simple Weapon',
-      options: entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map(
-        convertEquipmentConfigEntryToOption,
+      options: entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+        convertEquipmentConfigEntryToOption(entry),
       ),
     },
   ]),
@@ -158,7 +158,7 @@ export const ARTIFICER_EQUIPMENT = [
     {
       options: entries(
         pickEquipmentConfigsByList([ARMORS.STUDDED_LEATHER, ARMORS.SCALE_MAIL]),
-      ).map(convertEquipmentConfigEntryToOption),
+      ).map((entry) => convertEquipmentConfigEntryToOption(entry)),
     },
   ]),
 ];

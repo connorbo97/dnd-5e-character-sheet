@@ -9,7 +9,7 @@ import { EquipmentConfig } from 'constants/equipmentTypes';
 import { InventoryItem } from 'constants/inventory';
 import { getStaticWithChoices } from 'constants/race/commonCreatorConfigs';
 import { MULTI_PATH } from 'constants/raceTypes';
-import { find, get, identity } from 'lodash';
+import { find, identity } from 'lodash';
 import converter from 'number-to-words';
 import {
   capitalizeFirstLetter,
@@ -36,6 +36,9 @@ export const getInventoryItemFromEquipmentConfig = (
     equipped: true,
   };
 };
+
+const getInventoryItemEquipmentLabel = (i: InventoryItem | undefined) =>
+  `${i?.label}${(i?.total || 0) > 1 ? ` (${i?.total})` : ''}`;
 export const getStaticEquipment = (
   inventory: Array<InventoryItem | undefined>,
   { attacks = [] as Array<AttackEntry | undefined> } = {},
@@ -43,7 +46,9 @@ export const getStaticEquipment = (
   type: SECTION_CONFIG_TYPE.STATIC,
   format: SECTION_CONFIG_FORMAT.BASIC,
   path: MULTI_PATH,
-  value: joinAndStrings(inventory.filter(identity).map((i) => i?.label)),
+  value: joinAndStrings(
+    inventory.filter(identity).map(getInventoryItemEquipmentLabel),
+  ),
   config: {
     getFinalValue: () => ({
       [CharacterSheetPath.inventory]: inventory.filter(identity),
@@ -51,13 +56,17 @@ export const getStaticEquipment = (
     }),
   },
 });
-export const convertEquipmentConfigEntryToOption = ([k, c]) => ({
+export const convertEquipmentConfigEntryToOption = ([k, c], total = 1) => ({
   value: k,
-  label: c.label,
-  item: getInventoryItemFromEquipmentConfig(c, 1),
-  attack: c?.attack,
+  label: c.label + (total > 1 ? ` (${total})` : ''),
+  item: getInventoryItemFromEquipmentConfig(c, total),
 });
 
+const getEquipmentChoiceLabel = (c) =>
+  c.label ||
+  joinOrStrings(
+    c.options.map(({ item }) => getInventoryItemEquipmentLabel(item)),
+  );
 export const getEquipmentChoice = (
   custom: Array<{
     label?: string;
@@ -69,11 +78,7 @@ export const getEquipmentChoice = (
     }>;
   }>,
 ) => {
-  const baseHeader = joinOrStrings(
-    custom.map(
-      (c) => c.label || joinOrStrings(c.options.map(({ label }) => label)),
-    ),
-  );
+  const baseHeader = joinOrStrings(custom.map(getEquipmentChoiceLabel));
   return getStaticWithChoices(
     { path: MULTI_PATH, custom },
     {
@@ -93,13 +98,10 @@ export const getEquipmentChoice = (
                   .filter(identity),
               )
           : undefined,
-      getFinalValue: ({ custom }, i) => {
+      getFinalValue: ({ custom }) => {
         const inventory = custom
-          .map(({ value: selectedValue }) =>
-            find(
-              get(custom, [i, 'options']),
-              ({ value }) => value === selectedValue,
-            ),
+          .map(({ value: selectedValue, options }) =>
+            find(options, ({ value }) => value === selectedValue),
           )
           .filter(identity);
 

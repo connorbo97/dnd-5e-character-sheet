@@ -123,10 +123,10 @@ export const ADVENTURING_GEAR_CONFIG: {
     cost: 25,
     weight: 1,
   },
-  CROSSBOW_BOLTS: {
-    label: 'Crossbow bolts (20)',
-    cost: 1,
-    weight: 1,
+  CROSSBOW_BOLT: {
+    label: 'Crossbow bolt',
+    cost: 0.05,
+    weight: 0.05,
   },
   HUNTING_TRAP: {
     label: 'Hunting trap',

@@ -1,11 +1,7 @@
 import { entries } from 'lodash';
 import { DICE } from './dice';
-import { BARBARIAN_LEVEL_ONE_CONFIG } from './class/barbarian';
-import {
-  ARTIFICER_CONFIG,
-  ARTIFICER_EQUIPMENT,
-  ARTIFICER_LEVEL_ONE_CONFIG,
-} from './class/artificer';
+import { BARBARIAN_CONFIG } from './class/barbarian';
+import { ARTIFICER_CONFIG } from './class/artificer';
 import { BARD_LEVEL_ONE_CONFIG } from './class/bard';
 import { CLERIC_LEVEL_ONE_CONFIG } from './class/cleric';
 import { DRUID_LEVEL_ONE_CONFIG } from './class/druid';
@@ -49,7 +45,7 @@ export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
   [CLASSES.BARBARIAN]: {
     hitDice: DICE.d12,
     label: 'Barbarian',
-    levelOneConfig: BARBARIAN_LEVEL_ONE_CONFIG,
+    ...BARBARIAN_CONFIG,
   },
   [CLASSES.BARD]: {
     hitDice: DICE.d8,
