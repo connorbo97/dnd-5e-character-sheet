@@ -30,6 +30,7 @@ export const ChoiceSection = ({
     subHeader,
     description,
     getDescription,
+    getPostDescription,
     getLabelValue,
     getPlaceholder = noop,
   } = config;
@@ -83,6 +84,11 @@ export const ChoiceSection = ({
                 />
               ))}
             </div>
+          </div>
+        )}
+        {getPostDescription && (
+          <div className={styles['description']}>
+            {getPostDescription(value)}
           </div>
         )}
       </div>

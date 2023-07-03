@@ -49,7 +49,7 @@ export const getInventoryItemFromEquipmentType = (
     customLabel,
   );
 
-const getInventoryItemEquipmentLabel = (
+export const getInventoryItemEquipmentLabel = (
   input: InventoryItem | Array<InventoryItem> | undefined,
 ) => {
   const isArray = Array.isArray(input);

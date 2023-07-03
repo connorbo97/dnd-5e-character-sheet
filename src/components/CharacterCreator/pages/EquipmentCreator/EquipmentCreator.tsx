@@ -4,6 +4,8 @@ import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { CLASS_CONFIGS } from 'constants/classes';
 import { useLayoutEffect } from 'react';
 import { CreateSection } from '../common/CreateSection';
+import { CHARACTER_CREATOR_PAGES } from 'components/CharacterCreator/CharacterCreator';
+import { TextLink } from 'common/components/TextLink/TextLink';
 
 type Props = any;
 export const EquipmentCreator = (props: Props) => {
@@ -27,7 +29,12 @@ export const EquipmentCreator = (props: Props) => {
       <h1>Equipment</h1>
       <div className={styles['content']}>
         {!classConfig && (
-          <div>Please select a class to determine your starting equipment</div>
+          <div>
+            <p>Please select a class to determine your starting equipment</p>
+            <TextLink to={`../${CHARACTER_CREATOR_PAGES.CLASS}`}>
+              Go to class page
+            </TextLink>
+          </div>
         )}
         {classConfig && (
           <>

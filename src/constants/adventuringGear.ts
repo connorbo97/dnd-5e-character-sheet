@@ -1,4 +1,4 @@
-import { mapValues, pickBy } from 'lodash';
+import { entries, mapValues, pickBy } from 'lodash';
 import { AttackEntry, UNUSED_DAMAGE, UNUSED_SAVING_THROW } from './attacks';
 import { DICE } from './dice';
 import { STATS } from './stats';
@@ -113,10 +113,10 @@ export const ADVENTURING_GEAR_CONFIG: {
       savingThrow: UNUSED_SAVING_THROW,
     },
   },
-  BLOWGUN_NEEDLES_: {
-    label: 'Blowgun needles (50)',
-    cost: 1,
-    weight: 1,
+  BLOWGUN_NEEDLE: {
+    label: 'Blowgun needle',
+    cost: 0.02,
+    weight: 0.02,
   },
   HOURGLASS: {
     label: 'Hourglass',
@@ -808,7 +808,7 @@ export const EQUIPMENT_PACK_CONFIGS: {
     equipment: [
       { type: ADVENTURING_GEAR.BACKPACK, count: 1 },
       { type: ADVENTURING_GEAR.BEDROLL, count: 1 },
-      { type: ADVENTURING_GEAR.COSTUME, count: 2 },
+      { type: ADVENTURING_GEAR.CLOTHES_COSTUME, count: 2 },
       { type: ADVENTURING_GEAR.TORCH, count: 10 },
       { type: ADVENTURING_GEAR.WATERSKIN, count: 1 },
       { type: KITS.DISGUISE, count: 1 },
@@ -834,7 +834,7 @@ export const EQUIPMENT_PACK_CONFIGS: {
     equipment: [
       { type: ADVENTURING_GEAR.BACKPACK, count: 1 },
       { type: ADVENTURING_GEAR.BLANKET, count: 1 },
-      { type: ADVENTURING_GEAR.CANDLES, count: 10 },
+      { type: ADVENTURING_GEAR.CANDLE, count: 10 },
       { type: ADVENTURING_GEAR.TINDERBOX, count: 1 },
       { type: ADVENTURING_GEAR.ALMS_BOX, count: 1 },
       { type: ADVENTURING_GEAR.INCENSE_BLOCK, count: 2 },
@@ -860,3 +860,6 @@ export const EQUIPMENT_PACK_CONFIGS: {
     cost: 16,
   },
 };
+export const EQUIPMENT_PACK_OPTIONS = entries(EQUIPMENT_PACK_CONFIGS).map(
+  ([type, config]) => ({ value: type, label: config?.label }),
+);

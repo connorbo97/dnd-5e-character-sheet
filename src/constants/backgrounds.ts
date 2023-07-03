@@ -22,6 +22,15 @@ import {
 } from './tools';
 import { MONEY } from './money';
 import { IGNORE_PATH, MULTI_PATH } from './raceTypes';
+import {
+  EQUIPMENT_PACK_CONFIGS,
+  EQUIPMENT_PACK_OPTIONS,
+} from './adventuringGear';
+import {
+  getInventoryItemEquipmentLabel,
+  getInventoryItemFromEquipmentType,
+} from './class/commonEquipmentConfigs';
+import { CharacterSheetPath } from './characterSheetPaths';
 
 export const BACKGROUND_CONFIGS: { [c in BACKGROUNDS]: BackgroundConfig } = {
   [BACKGROUNDS.ACOLYTE]: { label: 'Acolyte', createConfig: [] },
@@ -193,4 +202,30 @@ export const BACKGROUND_CREATE_CONFIG: Array<CreateConfigEntry> = [
   ),
   ...generateConditionalTraits(0),
   ...generateConditionalTraits(1),
+  getBasicDropdownChoice({
+    options: EQUIPMENT_PACK_OPTIONS,
+    header: 'Equipment',
+    getFinalValue: (value) =>
+      EQUIPMENT_PACK_CONFIGS[value]?.equipment?.map(({ type, count }) =>
+        getInventoryItemFromEquipmentType(type, count),
+      ),
+    path: CharacterSheetPath.inventory,
+    config: {
+      description:
+        'You have collected or obtained gear in your past that you have taken with you on your travels. Please select an equipment pack below that closest resembles what your character would have. Feel free to make substitutions/changes after character creation.',
+      getPostDescription: (value) => {
+        const inventoryList = EQUIPMENT_PACK_CONFIGS[value]?.equipment?.map(
+          ({ type, count }) => getInventoryItemFromEquipmentType(type, count),
+        );
+
+        if (!inventoryList) {
+          return null;
+        }
+
+        return `Contains:\n${inventoryList
+          .map((i) => '- ' + getInventoryItemEquipmentLabel(i))
+          .join('\n')}`;
+      },
+    },
+  }),
 ];

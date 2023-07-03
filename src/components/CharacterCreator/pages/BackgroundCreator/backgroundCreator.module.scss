@@ -6,16 +6,27 @@
   flex-direction: column;
   row-gap: 0.5rem;
 }
+
 .textarea {
   padding: 0.5rem;
-  
+
 }
+
 .gold {
   align-self: flex-start;
 }
+
 .summary {
   white-space: pre-wrap
 }
+
 .label {
   align-self: flex-start;
+}
+
+.special-feature {
+  border-top: 1px solid $tertiary;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
 }
