@@ -80,4 +80,8 @@ export const RANGER_LEVEL_ONE_CONFIG = [
     'You are an unsurpassed explorer and survivor, both in the wilderness and in dealing with others on your travels. You gain the Canny benefit below, and you gain an additional benefit when you reach 6th level and 10th level in this class.',
   ),
   // TODO: Canny, implement Expertise after parsing what skills you have
+  getBasicFeatureByLD(
+    'Canny',
+    'Choose one of your skill proficiencies. Your proficiency bonus is doubled for any ability check you make using the chosen skill.\n\nYou can also speak, read, and write 2 additional languages of your choice.',
+  ),
 ];
