@@ -31,7 +31,7 @@ export const EquipmentCreator = (props: Props) => {
         )}
         {classConfig && (
           <>
-            <h3>Equipment from {classConfig.label}</h3>
+            <h3>Equipment from Class ({classConfig.label})</h3>
             {config && (
               <CreateSection
                 config={config}

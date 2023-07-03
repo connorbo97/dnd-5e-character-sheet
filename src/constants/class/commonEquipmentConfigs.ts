@@ -73,6 +73,7 @@ export const convertEquipmentConfigEntryToOption = (
   value: k,
   label: customLabel || `${c.label}${total > 1 ? ` (${total})` : ''}`,
   item: getInventoryItemFromEquipmentConfig(c, total),
+  attack: c?.attack,
 });
 
 const getEquipmentChoiceLabel = (c) =>
@@ -91,7 +92,7 @@ export const getEquipmentChoice = (
     }>;
   }>,
 ) => {
-  const baseHeader = joinOrStrings(custom.map(getEquipmentChoiceLabel));
+  const baseHeader = getEquipmentChoiceLabel(custom[0]);
   return getStaticWithChoices(
     { path: MULTI_PATH, custom },
     {

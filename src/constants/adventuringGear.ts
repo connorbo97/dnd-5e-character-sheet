@@ -90,10 +90,10 @@ export const ADVENTURING_GEAR_CONFIG: {
     weight: 2,
     type: ADVENTURING_GEAR_TYPE.HOLY_SYMBOL,
   },
-  ARROWS_: {
-    label: 'Arrows (20)',
-    cost: 1,
-    weight: 1,
+  ARROW: {
+    label: 'Arrow',
+    cost: 0.05,
+    weight: 0.05,
   },
   HOLY_WATER_FLASK: {
     label: 'Holy water (flask)',
