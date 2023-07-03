@@ -72,7 +72,7 @@ export const CLERIC_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     },
     config: {
       getFinalValue: (value) => ({
-        spellcastingAbility: STATS.CHA,
+        spellcastingAbility: STATS.WIS,
         knownSpells: {
           0: 2,
           1: 2,

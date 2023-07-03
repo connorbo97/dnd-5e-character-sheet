@@ -63,6 +63,12 @@ export const StaticSection = ({ format, value, config = {} }: Props) => {
           .join(', ')}
       </div>
     );
+  } else if (format === SECTION_CONFIG_FORMAT.NOTE) {
+    return (
+      <div className={styles['proficiency-class']}>
+        <i>{header}</i>
+      </div>
+    );
   }
 
   return (

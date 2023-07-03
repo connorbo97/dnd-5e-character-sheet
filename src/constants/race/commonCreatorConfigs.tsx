@@ -32,6 +32,15 @@ export const getPresentationConfig = (header) => ({
     hideContent: true,
   },
 });
+export const getNoteConfig = (header) => ({
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.NOTE,
+  path: IGNORE_PATH,
+  config: {
+    header,
+    hideContent: true,
+  },
+});
 export const getStaticWithChoices = (
   { path, custom, statics = [] as Array<any> },
   config: CreateConfigEntryConfig = {},

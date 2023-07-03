@@ -18,6 +18,7 @@ export enum SECTION_CONFIG_FORMAT {
   SKILL_PROFICIENCY = 'SKILL_PROFICIENCY',
   DROPDOWN = 'DROPDOWN',
   FEATURE = 'FEATURE',
+  NOTE = 'NOTE',
 }
 
 export type CreateConfigEntryConfig = {
