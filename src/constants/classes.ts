@@ -11,7 +11,7 @@ import { PALADIN_CONFIG } from './class/paladin';
 import { RANGER_CONFIG } from './class/ranger';
 import { ROGUE_CONFIG } from './class/rogue';
 import { SORCERER_CONFIG } from './class/sorcerer';
-import { WARLOCK_LEVEL_ONE_CONFIG } from './class/warlock';
+import { WARLOCK_CONFIG } from './class/warlock';
 import { WIZARD_LEVEL_ONE_CONFIG } from './class/wizard';
 
 export enum CLASSES {
@@ -95,7 +95,7 @@ export const CLASS_CONFIGS: { [c in CLASSES]: ClassConfig } = {
   [CLASSES.WARLOCK]: {
     hitDice: DICE.d8,
     label: 'Warlock',
-    levelOneConfig: WARLOCK_LEVEL_ONE_CONFIG,
+    ...WARLOCK_CONFIG,
   },
   [CLASSES.WIZARD]: {
     hitDice: DICE.d6,

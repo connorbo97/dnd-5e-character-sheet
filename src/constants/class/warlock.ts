@@ -19,7 +19,18 @@ import { MULTI_PATH } from 'constants/raceTypes';
 import { SKILLS, SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
 import { getSavingThrowClassProficiency } from './commonClassConfigs';
-import { entries, filter } from 'lodash';
+import { entries, filter, values } from 'lodash';
+import {
+  convertEquipmentConfigEntryToOption,
+  convertEquipmentTypeToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentType,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import { SIMPLE_WEAPON_EQUIPMENT_CONFIGS, WEAPONS } from 'constants/weapons';
+import { ARMORS } from 'constants/armor';
+import { ADVENTURING_GEAR, ARCANE_FOCUS_GEAR } from 'constants/adventuringGear';
+import { pickEquipmentConfigsByList } from 'constants/equipment';
 
 const WARLOCK_SKILLS = new Set([
   SKILLS.ARCANA,
@@ -108,3 +119,55 @@ export const WARLOCK_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     },
   }),
 ];
+
+export const WARLOCK_EQUIPMENT = [
+  getStaticEquipment([
+    getInventoryItemFromEquipmentType(ARMORS.LEATHER),
+    getInventoryItemFromEquipmentType(WEAPONS.DAGGER, 2),
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Any Arcane Focus',
+      options: entries(
+        pickEquipmentConfigsByList(values(ARCANE_FOCUS_GEAR)),
+      ).map((entry) => convertEquipmentConfigEntryToOption(entry)),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Any Simple Weapon',
+      options: entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+        convertEquipmentConfigEntryToOption(entry),
+      ),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Light Crossbow, Crossbow Bolts (20) or Any Simple Weapon',
+      options: [
+        {
+          ...convertEquipmentTypeToOption(
+            WEAPONS.CROSSBOW_LIGHT,
+            1,
+            'Light Crossbow, Crossbow Bolts (20)',
+          ),
+          item: [
+            getInventoryItemFromEquipmentType(WEAPONS.CROSSBOW_LIGHT),
+            getInventoryItemFromEquipmentType(
+              ADVENTURING_GEAR.CROSSBOW_BOLT,
+              20,
+            ),
+          ],
+        },
+        ...entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS)
+          .filter(([t]) => t !== WEAPONS.CROSSBOW_LIGHT)
+          .map((entry) => convertEquipmentConfigEntryToOption(entry)),
+      ],
+    },
+  ]),
+];
+
+export const WARLOCK_CONFIG = {
+  levelOneConfig: WARLOCK_LEVEL_ONE_CONFIG,
+  equipment: WARLOCK_EQUIPMENT,
+};
