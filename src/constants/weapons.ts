@@ -1,4 +1,4 @@
-import { entries, mapValues, pickBy } from 'lodash';
+import { mapValues, pickBy } from 'lodash';
 import { AttackEntry, UNUSED_DAMAGE, UNUSED_SAVING_THROW } from './attacks';
 import { DICE } from './dice';
 import { EquipmentConfig } from './equipmentTypes';
@@ -235,7 +235,7 @@ export const WEAPON_CONFIGS: {
     properties: [WEAPON_PROPERTIES.THROWN],
   },
   [WEAPONS.LIGHT_HAMMER]: {
-    label: 'Light hammer',
+    label: 'Light Hammer',
     cost: 2,
     damage: [[1, DICE.d4]],
     damageType: BLUDGEONING,

@@ -2,6 +2,7 @@ import { StaticRollable } from './rollable';
 
 export type InventoryItemMods = {
   ac?: StaticRollable;
+  acMod?: StaticRollable;
 };
 export type InventoryItem = {
   label: string;

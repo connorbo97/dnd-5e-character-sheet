@@ -27,9 +27,13 @@ import {
   getStaticEquipment,
 } from './commonEquipmentConfigs';
 import { ADVENTURING_GEAR } from 'constants/adventuringGear';
-import { EQUIPMENT_CONFIGS } from 'constants/equipment';
+import {
+  EQUIPMENT_CONFIGS,
+  pickEquipmentConfigsByList,
+} from 'constants/equipment';
 import { SIMPLE_WEAPON_EQUIPMENT_CONFIGS, WEAPONS } from 'constants/weapons';
 import { SKILL_TOOLS } from 'constants/tools';
+import { ARMORS } from 'constants/armor';
 
 const ARTIFICER_SKILLS = new Set([
   SKILLS.ARCANA,
@@ -148,6 +152,13 @@ export const ARTIFICER_EQUIPMENT = [
       options: entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map(
         convertEquipmentConfigEntryToOption,
       ),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      options: entries(
+        pickEquipmentConfigsByList([ARMORS.STUDDED_LEATHER, ARMORS.SCALE_MAIL]),
+      ).map(convertEquipmentConfigEntryToOption),
     },
   ]),
 ];

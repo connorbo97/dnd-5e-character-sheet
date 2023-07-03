@@ -60,7 +60,7 @@ export const convertEquipmentConfigEntryToOption = ([k, c]) => ({
 
 export const getEquipmentChoice = (
   custom: Array<{
-    label: string;
+    label?: string;
     options: Array<{
       value: any;
       label: any;
@@ -69,23 +69,30 @@ export const getEquipmentChoice = (
     }>;
   }>,
 ) => {
-  const baseHeader = joinOrStrings(custom.map((c) => c.label));
+  const baseHeader = joinOrStrings(
+    custom.map(
+      (c) => c.label || joinOrStrings(c.options.map(({ label }) => label)),
+    ),
+  );
   return getStaticWithChoices(
     { path: MULTI_PATH, custom },
     {
-      getDescription: ({ custom }) =>
-        joinAndStrings(
-          custom
-            .map(({ value: selectedValue, options }) => {
-              const selectedLabel = find(
-                options,
-                ({ value }) => value === selectedValue,
-              )?.label;
+      getDescription:
+        custom.length > 1
+          ? ({ custom }) =>
+              joinAndStrings(
+                custom
+                  .map(({ value: selectedValue, options }) => {
+                    const selectedLabel = find(
+                      options,
+                      ({ value }) => value === selectedValue,
+                    )?.label;
 
-              return selectedLabel;
-            })
-            .filter(identity),
-        ),
+                    return selectedLabel;
+                  })
+                  .filter(identity),
+              )
+          : undefined,
       getFinalValue: ({ custom }, i) => {
         const inventory = custom
           .map(({ value: selectedValue }) =>
