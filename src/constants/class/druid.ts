@@ -21,8 +21,20 @@ import { MULTI_PATH } from 'constants/raceTypes';
 import { SKILLS, SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
 import { getSavingThrowClassProficiency } from './commonClassConfigs';
-import { filter } from 'lodash';
-import { WEAPONS } from 'constants/weapons';
+import { entries, filter, values } from 'lodash';
+import { SIMPLE_WEAPON_EQUIPMENT_CONFIGS, WEAPONS } from 'constants/weapons';
+import {
+  convertEquipmentConfigEntryToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentConfig,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import {
+  EQUIPMENT_CONFIGS,
+  pickEquipmentConfigsByList,
+} from 'constants/equipment';
+import { ARMORS } from 'constants/armor';
+import { DRUIDIC_FOCUS_GEAR } from 'constants/adventuringGear';
 
 const DRUID_SKILLS = new Set([
   SKILLS.ARCANA,
@@ -103,3 +115,51 @@ export const DRUID_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     'You can cast a druid spell as a ritual if that spell has the ritual tag and you have the spell prepared.',
   ),
 ];
+
+export const DRUID_EQUIPMENT = [
+  getStaticEquipment([
+    getInventoryItemFromEquipmentConfig(EQUIPMENT_CONFIGS[ARMORS.LEATHER]),
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Any Druidic Focus',
+      options: entries(
+        pickEquipmentConfigsByList(values(DRUIDIC_FOCUS_GEAR)),
+      ).map((entry) => convertEquipmentConfigEntryToOption(entry)),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Wooden Shield or Any Simple Weapon',
+      options: [
+        convertEquipmentConfigEntryToOption(
+          [ARMORS.SHIELD, EQUIPMENT_CONFIGS[ARMORS.SHIELD]],
+          1,
+          'Wooden Shield',
+        ),
+        ...entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+          convertEquipmentConfigEntryToOption(entry),
+        ),
+      ],
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Scimitar or Any Simple Weapon',
+      options: [
+        convertEquipmentConfigEntryToOption([
+          WEAPONS.SCIMITAR,
+          EQUIPMENT_CONFIGS[WEAPONS.SCIMITAR],
+        ]),
+        ...entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+          convertEquipmentConfigEntryToOption(entry),
+        ),
+      ],
+    },
+  ]),
+];
+
+export const DRUID_CONFIG = {
+  equipment: DRUID_EQUIPMENT,
+  levelOneConfig: DRUID_LEVEL_ONE_CONFIG,
+};

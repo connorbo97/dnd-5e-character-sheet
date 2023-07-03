@@ -20,6 +20,7 @@ import {
 export const getInventoryItemFromEquipmentConfig = (
   config: EquipmentConfig,
   total = 1,
+  customLabel = '',
 ): InventoryItem => {
   // if (!config) {
   //   console.trace(config);
@@ -29,7 +30,7 @@ export const getInventoryItemFromEquipmentConfig = (
   const { label, weight, cost, ...rest } = config;
   return {
     ...rest,
-    label,
+    label: customLabel || label,
     source: '',
     total,
     weight,

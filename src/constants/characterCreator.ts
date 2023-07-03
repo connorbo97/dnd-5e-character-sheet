@@ -84,7 +84,7 @@ export type CharacterClassForm = {
   config?: Array<CreateConfigEntry>;
 };
 export const EMPTY_CLASS_FORM = {
-  value: 'CLERIC',
+  value: undefined,
   static: undefined,
   config: undefined,
 };
