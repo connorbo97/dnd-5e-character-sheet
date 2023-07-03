@@ -78,8 +78,8 @@ export const convertEquipmentConfigEntryToOption = (
 });
 export const convertEquipmentTypeToOption = (
   type,
-  total = undefined,
-  customLabel = undefined,
+  total = 1,
+  customLabel = '',
 ) =>
   convertEquipmentConfigEntryToOption(
     [type, EQUIPMENT_CONFIGS[type]],

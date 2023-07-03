@@ -19,6 +19,25 @@ import { CharacterSheetPath } from 'constants/characterSheetPaths';
 import { getSavingThrowClassProficiency } from './commonClassConfigs';
 import { pickOptionsBySet } from 'utils/optionUtils';
 import { ResourceConfig } from 'constants/resources';
+import {
+  convertEquipmentConfigEntryToOption,
+  convertEquipmentTypeToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentConfig,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import {
+  EQUIPMENT_CONFIGS,
+  pickEquipmentConfigsByList,
+} from 'constants/equipment';
+import { ARMORS } from 'constants/armor';
+import { entries, values } from 'lodash';
+import { HOLY_SYMBOL_GEAR } from 'constants/adventuringGear';
+import {
+  MARTIAL_WEAPON_EQUIPMENT_CONFIGS,
+  SIMPLE_WEAPON_EQUIPMENT_CONFIGS,
+  WEAPONS,
+} from 'constants/weapons';
 
 const PALADIN_SKILLS = new Set([
   SKILLS.ATHLETICS,
@@ -100,3 +119,59 @@ export const PALADIN_LEVEL_ONE_CONFIG = [
     },
   },
 ];
+
+export const PALADIN_EQUIPMENT = [
+  getStaticEquipment([
+    getInventoryItemFromEquipmentConfig(EQUIPMENT_CONFIGS[ARMORS.CHAIN_MAIL]),
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Any Holy Symbol',
+      options: entries(
+        pickEquipmentConfigsByList(values(HOLY_SYMBOL_GEAR)),
+      ).map((entry) => convertEquipmentConfigEntryToOption(entry)),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Shield or Any Martial Weapon',
+      options: [
+        convertEquipmentConfigEntryToOption([
+          ARMORS.SHIELD,
+          EQUIPMENT_CONFIGS[ARMORS.SHIELD],
+        ]),
+        ...entries(MARTIAL_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+          convertEquipmentConfigEntryToOption(entry),
+        ),
+      ],
+    },
+    {
+      label: 'Shield or Any Martial Weapon',
+      options: [
+        convertEquipmentConfigEntryToOption([
+          ARMORS.SHIELD,
+          EQUIPMENT_CONFIGS[ARMORS.SHIELD],
+        ]),
+        ...entries(MARTIAL_WEAPON_EQUIPMENT_CONFIGS).map((entry) =>
+          convertEquipmentConfigEntryToOption(entry),
+        ),
+      ],
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Javelin (5) or Any Simple Weapon',
+      options: [
+        convertEquipmentTypeToOption(WEAPONS.JAVELIN, 5),
+        ...entries(SIMPLE_WEAPON_EQUIPMENT_CONFIGS)
+          .filter(([t]) => t !== WEAPONS.JAVELIN)
+          .map((entry) => convertEquipmentConfigEntryToOption(entry)),
+      ],
+    },
+  ]),
+];
+
+export const PALADIN_CONFIG = {
+  equipment: PALADIN_EQUIPMENT,
+  levelOneConfig: PALADIN_LEVEL_ONE_CONFIG,
+};
