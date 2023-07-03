@@ -22,9 +22,24 @@ import { MULTI_PATH } from 'constants/raceTypes';
 import { SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
 import { getSavingThrowClassProficiency } from './commonClassConfigs';
-import { WEAPONS } from 'constants/weapons';
-import { MUSICAL_INSTRUMENT_OPTIONS } from 'constants/tools';
+import { SIMPLE_WEAPON_EQUIPMENT_CONFIGS, WEAPONS } from 'constants/weapons';
+import {
+  MUSICAL_INSTRUMENTS_LIST,
+  MUSICAL_INSTRUMENT_OPTIONS,
+} from 'constants/tools';
 import { DICE } from 'constants/dice';
+import {
+  convertEquipmentConfigEntryToOption,
+  getEquipmentChoice,
+  getInventoryItemFromEquipmentConfig,
+  getStaticEquipment,
+} from './commonEquipmentConfigs';
+import {
+  EQUIPMENT_CONFIGS,
+  pickEquipmentConfigsByList,
+} from 'constants/equipment';
+import { entries } from 'lodash';
+import { ARMORS } from 'constants/armor';
 
 export const BARD_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
   getPresentationConfig('Proficiencies'),
@@ -105,8 +120,41 @@ export const BARD_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
   ),
 ];
 
-// const INFUSE_ITEM_FEATURE = getFeatureWithResource(
-//   'Infuse Item',
-//   "At 2nd level, you've gained the ability to imbue mundane items with certain magical infusions, turning those objects into magic items.\n\n~~~Infusions Known~~~\nWhen you gain this feature, pick four artificer infusions to learn. You learn additional infusions of your choice when you reach certain levels in this class, as shown in the Infusions Known column of the Artificer table.\n\nWhenever you gain a level in this class, you can replace one of the artificer infusions you learned with a new one.\n\n~~~Infusing an Item~~~\nWhenever you finish a long rest, you can touch a nonmagical object and imbue it with one of your artificer infusions, turning it into a magic item. An infusion works on only certain kinds of objects, as specified in the infusion's description. If the item requires attunement, you can attune yourself to it the instant you infuse the item. If you decide to attune to the item later, you must do so using the normal process for attunement (see the attunement rules in the Dungeon Master's Guide).\n\nYour infusion remains in an item indefinitely, but when you die, the infusion vanishes after a number of days equal to your Intelligence modifier (minimum of 1 day). The infusion also vanishes if you replace your knowledge of the infusion.\n\nYou can infuse more than one nonmagical object at the end of a long rest; the maximum number of objects appears in the Infused Items column of the Artificer table. You must touch each of the objects, and each of your infusions can be in only one object at a time. Moreover, no object can bear more than one of your infusions at a time. If you try to exceed your maximum number of infusions, the oldest infusion ends, and then the new infusion applies.\n\nIf an infusion ends on an item that contains other things, like a bag of holding, its contents harmlessly appear in and around its space.",
-//   { label: 'Item Infusions', max: 2, source: 'Artificer' },
-// );
+export const BARD_EQUIPMENT = [
+  getStaticEquipment(
+    [
+      getInventoryItemFromEquipmentConfig(EQUIPMENT_CONFIGS[ARMORS.LEATHER]),
+      getInventoryItemFromEquipmentConfig(EQUIPMENT_CONFIGS[WEAPONS.DAGGER]),
+    ],
+    {
+      attacks: [EQUIPMENT_CONFIGS[WEAPONS.DAGGER].attack],
+    },
+  ),
+  getEquipmentChoice([
+    {
+      label: 'Rapier or Longsword or Any Simple Weapon',
+      options: entries({
+        ...pickEquipmentConfigsByList([WEAPONS.RAPIER, WEAPONS.LONGSWORD]),
+        ...SIMPLE_WEAPON_EQUIPMENT_CONFIGS,
+      }).map((entry) => convertEquipmentConfigEntryToOption(entry)),
+    },
+  ]),
+  getEquipmentChoice([
+    {
+      label: 'Musical Instrument',
+      options: entries(
+        pickEquipmentConfigsByList(MUSICAL_INSTRUMENTS_LIST),
+      ).map((entry) =>
+        convertEquipmentConfigEntryToOption(
+          entry,
+          entry[0] === WEAPONS.HANDAXE ? 2 : 1,
+        ),
+      ),
+    },
+  ]),
+];
+
+export const BARD_CONFIG = {
+  levelOneConfig: BARD_LEVEL_ONE_CONFIG,
+  equipment: BARD_EQUIPMENT,
+};

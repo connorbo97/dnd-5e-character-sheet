@@ -19,7 +19,7 @@ import {
 
 export const getInventoryItemFromEquipmentConfig = (
   config: EquipmentConfig,
-  total,
+  total = 1,
 ): InventoryItem => {
   // if (!config) {
   //   console.trace(config);
