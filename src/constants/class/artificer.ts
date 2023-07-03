@@ -87,7 +87,7 @@ export const ARTIFICER_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
   },
   getBasicFeatureByLD(
     'Spells Known',
-    "As an artificer, you know a number of artificer spells equal to the following formula:\n\n\tSpells Known = INT + half your artificer level rounded down (minimum of one spell).\n\nThe spells must be of a level for which you have spell slots.\n\nFor example, if you are a 5th-level artificer, you have four 1st-level and two 2nd-level spell slots. With an Intelligence of 14, your list of prepared spells can include four spells of 1st or 2nd level, in any combination. If you prepare the 1st-level spell Cure Wounds, you can cast it using a 1st-level or a 2nd-level slot. Casting the spell doesn't remove it from your list of prepared spells.",
+    "As an artificer, you know a number of artificer spells equal to the following formula:\n\n\tSpells Known = your Intelligence modifier + half your artificer level rounded down (minimum of one spell).\n\nThe spells must be of a level for which you have spell slots.\n\nFor example, if you are a 5th-level artificer, you have four 1st-level and two 2nd-level spell slots. With an Intelligence of 14, your list of prepared spells can include four spells of 1st or 2nd level, in any combination. If you prepare the 1st-level spell Cure Wounds, you can cast it using a 1st-level or a 2nd-level slot. Casting the spell doesn't remove it from your list of prepared spells.",
   ),
   getBasicFeatureByLD(
     'Prepared Caster',
