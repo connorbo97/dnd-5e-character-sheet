@@ -22,6 +22,7 @@ export const mergeStatBlocks = (blockA, blockB) => {
     { ...blockA },
   );
 };
+
 export const mergeProficiencies = (
   profA: ProficiencyConfig,
   profB: ProficiencyConfig,
@@ -90,15 +91,16 @@ const DEFAULT_CREATE_CONFIG_HANDLERS = {
   },
 };
 export const parseCreateConfig = (c, allConfigs, result, pathHandlers = {}) => {
-  const { value, path, config = {}, choiceCondition = stubTrue } = c;
+  const { value, path, config = {}, choiceCondition = stubTrue, optional } = c;
   const { getFinalValue, isFullValue = (val) => !!val } = config;
 
   if (!choiceCondition(allConfigs)) {
     return;
-  } else if (!isFullValue(value)) {
+  } else if (!optional && !isFullValue(value)) {
     console.log('MISSING', get(config, 'header'), value, c);
     return;
   }
+
   const finalPathHandlers = {
     ...DEFAULT_CREATE_CONFIG_HANDLERS,
     ...pathHandlers,
