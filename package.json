@@ -85,7 +85,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "deploy": "npx gh-pages -d build -t true",
-    "release": "node scripts/build.js && npx gh-pages -d build -t true"
+    "release": "node scripts/build.js && npx gh-pages -d build -t true",
+    "check-circular": "madge --no-spinner --no-color --circular --extensions ts src"
   },
   "browserslist": {
     "production": [
