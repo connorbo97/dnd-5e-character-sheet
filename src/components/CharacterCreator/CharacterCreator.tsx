@@ -6,20 +6,25 @@ import { useCharacterCreatorSheet } from 'providers/CharacterCreatorProvider';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 import { CharacterCreatorPages } from './CharacterCreatorPages';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Tooltip } from 'react-mint';
 import { CharacterCreatorValidationType } from 'utils/characterCreator/ccParserUtils';
 import { CHARACTER_CREATOR_PAGES } from 'constants/characterCreator';
+import { useCharacterSheet } from 'providers/CharacterSheetProvider';
+import { PAGES, PAGE_CONFIGS } from 'constants/pages';
 
 const classNameBuilder = classnames.bind(styles);
 
 const CHARACTER_CREATOR_PAGES_LIST = values(CHARACTER_CREATOR_PAGES);
-
+const NON_PROGRESS_PAGES = new Set([
+  CHARACTER_CREATOR_PAGES.START,
+  CHARACTER_CREATOR_PAGES.REVIEW,
+]);
 export const CharacterCreator = () => {
   const match = useMatch('/character-creator/:page');
   const navigate = useNavigate();
   const rawPage = get(match, 'params.page', CHARACTER_CREATOR_PAGES.START);
-  const curPage = CHARACTER_CREATOR_PAGES_LIST.includes(rawPage)
+  const curPage: string = CHARACTER_CREATOR_PAGES_LIST.includes(rawPage)
     ? rawPage
     : CHARACTER_CREATOR_PAGES.START;
   const curPageIndex = findIndex(
@@ -49,12 +54,27 @@ export const CharacterCreator = () => {
   }, [curPage]);
 
   const { sheet, validationsBySection } = useCharacterCreatorSheet();
-  const errorValidationsBySection = mapValues(validationsBySection, (v) =>
-    v.filter((v) => v.type === CharacterCreatorValidationType.REQUIRED),
-  );
-  const warningValidationsBySection = mapValues(validationsBySection, (v) =>
-    v.filter((v) => v.type === CharacterCreatorValidationType.WARNING),
-  );
+  const { setSheet } = useCharacterSheet();
+  const {
+    errorValidationsBySection,
+    warningValidationsBySection,
+    hasErrorValidations,
+  } = useMemo(() => {
+    const errorValidationsBySection = mapValues(validationsBySection, (v) =>
+      v.filter((v) => v.type === CharacterCreatorValidationType.REQUIRED),
+    );
+    const warningValidationsBySection = mapValues(validationsBySection, (v) =>
+      v.filter((v) => v.type === CharacterCreatorValidationType.WARNING),
+    );
+    const hasErrorValidations =
+      values(errorValidationsBySection).flat().length > 0;
+
+    return {
+      errorValidationsBySection,
+      warningValidationsBySection,
+      hasErrorValidations,
+    };
+  }, [validationsBySection]);
 
   return (
     <div className={styles['container']}>
@@ -67,7 +87,7 @@ export const CharacterCreator = () => {
               selected: curPage === p,
             })}>
             {p}
-            {visitedPagesSet.has(p) && p !== CHARACTER_CREATOR_PAGES.START && (
+            {visitedPagesSet.has(p) && !NON_PROGRESS_PAGES.has(p) && (
               <div
                 className={classNameBuilder('validation', {
                   good: (validationsBySection[p]?.length || 0) === 0,
@@ -79,7 +99,7 @@ export const CharacterCreator = () => {
             )}
             {visitedPagesSet.has(p) && validationsBySection[p]?.length > 0 && (
               <Tooltip position={'bottom'}>
-                <span>Required</span>
+                {errorValidationsBySection[p]?.length > 0 && 'Required'}
                 {errorValidationsBySection[p].map(({ text }, i) => (
                   <div key={i}>- {text}</div>
                 ))}
@@ -120,13 +140,24 @@ export const CharacterCreator = () => {
           }}>
           Back
         </button>
-        <button
-          disabled={curPageIndex >= CHARACTER_CREATOR_PAGES_LIST.length - 1}
-          onClick={() => {
-            navigate(CHARACTER_CREATOR_PAGES_LIST[curPageIndex + 1]);
-          }}>
-          Next
-        </button>
+        {curPage === CHARACTER_CREATOR_PAGES.REVIEW ? (
+          <button
+            disabled={hasErrorValidations}
+            onClick={() => {
+              setSheet(sheet);
+              navigate(`/${PAGE_CONFIGS[PAGES.HOME].route}`);
+            }}>
+            Create Character
+          </button>
+        ) : (
+          <button
+            disabled={curPageIndex >= CHARACTER_CREATOR_PAGES_LIST.length - 1}
+            onClick={() => {
+              navigate(CHARACTER_CREATOR_PAGES_LIST[curPageIndex + 1]);
+            }}>
+            Next
+          </button>
+        )}
       </div>
     </div>
   );

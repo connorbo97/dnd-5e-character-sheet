@@ -4,7 +4,6 @@ import { entries, identity } from 'lodash';
 import { CLASS_CONFIGS } from 'constants/classConfigs';
 import { Tag } from 'common/components/Tag/Tag';
 import { RACE_CONFIGS } from 'constants/race';
-import { BACKGROUND_CONFIGS } from 'constants/backgrounds';
 import { BooleanButton } from 'common/components/ProficiencyButton/BooleanButton';
 import { AdvantageToggle } from '../AdvantageToggle/AdvantageToggle';
 import { WhisperToggle } from '../WhisperToggle/WhisperToggle';
@@ -19,7 +18,7 @@ export const Metadata = () => {
     onToggleInspiration,
     background,
   } = useFullSheet();
-  const raceLabel = RACE_CONFIGS[race.value].label;
+  const raceLabel = RACE_CONFIGS[race.value]?.label;
 
   const fullRaceLabel = [race.subRace, raceLabel].filter(identity).join(' ');
 
@@ -45,7 +44,7 @@ export const Metadata = () => {
       <Tag label={'Alignment'} value={alignment} />
       <Tag
         label={'Background'}
-        value={BACKGROUND_CONFIGS[background.value].label}
+        value={background?.label || background?.value || 'None'}
       />
       <Tag
         label={'Inspiration'}

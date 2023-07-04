@@ -96,13 +96,15 @@ export const BARBARIAN_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
     config: {
       getFinalValue: (value) => ({
         [CharacterSheetPath.features]: [value],
-        [CharacterSheetPath.globalACModifier]: {
-          base: [10, STATS.DEX, STATS.CON],
-          isNotCompatibleWithArmor: true,
-          label: 'Unarmored Defense',
-          source: 'Barbarian',
-          newACFormula: true,
-        } as GlobalACModifierType,
+        [CharacterSheetPath.globalACModifier]: [
+          {
+            base: [10, STATS.DEX, STATS.CON],
+            isNotCompatibleWithArmor: true,
+            label: 'Unarmored Defense',
+            source: 'Barbarian',
+            newACFormula: true,
+          } as GlobalACModifierType,
+        ],
       }),
     },
   },

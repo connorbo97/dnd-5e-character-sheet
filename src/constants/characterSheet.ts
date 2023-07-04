@@ -1,7 +1,6 @@
 import { ADVANTAGE_TOGGLE } from './advantageToggle';
 import { ALIGNMENTS } from './alignments';
 import { AttackEntry } from './attacks';
-import { BACKGROUNDS } from './backgroundTypes';
 import { CharacterSheetPath } from './characterSheetPaths';
 import { CLASSES } from './classes';
 import { DICE } from './dice';
@@ -140,7 +139,9 @@ export const DEFAULT_SHEET: CharacterSheet = {
     },
   ],
   background: {
-    value: BACKGROUNDS.ACOLYTE,
+    value: 'Sailor',
+    label: 'Sailor',
+    description: 'I am a sailor',
   },
   alignment: ALIGNMENTS.N,
   stats: {

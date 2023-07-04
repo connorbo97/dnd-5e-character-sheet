@@ -77,13 +77,15 @@ export const MONK_LEVEL_ONE_CONFIG = [
     config: {
       getFinalValue: (value) => ({
         [CharacterSheetPath.features]: [value],
-        [CharacterSheetPath.globalACModifier]: {
-          base: [10, STATS.DEX, STATS.WIS],
-          isNotCompatibleWithArmor: true,
-          label: 'Unarmored Defense',
-          source: 'Barbarian',
-          newACFormula: true,
-        } as GlobalACModifierType,
+        [CharacterSheetPath.globalACModifier]: [
+          {
+            base: [10, STATS.DEX, STATS.WIS],
+            isNotCompatibleWithArmor: true,
+            label: 'Unarmored Defense',
+            source: 'Barbarian',
+            newACFormula: true,
+          } as GlobalACModifierType,
+        ],
       }),
     },
   },

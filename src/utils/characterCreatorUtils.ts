@@ -228,9 +228,10 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
   const [finalBackground, backgroundValidations] =
     calcFinalBackground(background);
   const [finalClass, classValidations] = calcFinalClass(rawClass);
+  const selectedClass = finalClass.class;
   const [finalEquipment, equipmentValidations] = calcFinalEquipment(
     equipment,
-    get(finalClass, 'class', ''),
+    selectedClass,
   );
   const statEntries = entries(stats);
   const statsValidation =
@@ -254,16 +255,16 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       text: 'Missing name',
     });
   }
-  const selectedClass = finalClass.class;
   const selectedClassConfig: ClassConfig = CLASS_CONFIGS[selectedClass];
 
   const finalStats = mergeAllStatBlocks([finalRace?.stats, stats]);
 
-  const result = {
+  const result: { [s in CharacterSheetPath]: any } = {
     [CharacterSheetPath.name]: bio.name || 'New Character',
     [CharacterSheetPath.advantageToggle]: ADVANTAGE_TOGGLE.NORMAL,
     [CharacterSheetPath.whisperToggle]: WHISPER_TOGGLE.NORMAL,
     [CharacterSheetPath.skillSort]: SKILL_SORT.ALPHABETICAL,
+    [CharacterSheetPath.profBonus]: 2,
     [CharacterSheetPath.levels]: selectedClass
       ? {
           [selectedClass]: {
@@ -284,8 +285,8 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       description: finalBackground?.summary,
     },
     [CharacterSheetPath.alignment]: bio.alignment || ALIGNMENTS.N,
-    [CharacterSheetPath.stats]: finalStats,
-    [CharacterSheetPath.savingThrows]: finalClass?.savingThrows,
+    [CharacterSheetPath.stats]: finalStats || {},
+    [CharacterSheetPath.savingThrows]: finalClass?.savingThrows || {},
     [CharacterSheetPath.skills]: mergeAllProficiencies([
       finalRace?.skills,
       finalClass?.skills,
@@ -304,6 +305,18 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
         return acc;
       }, {}),
     ),
+    [CharacterSheetPath.resources]: [
+      ...(finalRace.resources || []),
+      ...(finalClass.resources || []),
+      ...(finalBackground.resources || []),
+      ...(finalEquipment.resources || []),
+    ],
+    [CharacterSheetPath.features]: [
+      ...(finalRace.features || []),
+      ...(finalClass.features || []),
+      ...(finalBackground.features || []),
+      ...(finalEquipment.features || []),
+    ],
     [CharacterSheetPath.otherProficiencies]: mergeAllProficiencies([
       finalRace?.otherProficiencies,
       finalClass?.otherProficiencies,
