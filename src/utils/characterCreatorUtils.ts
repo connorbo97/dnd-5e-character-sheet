@@ -9,6 +9,7 @@ import memoizeOne from 'memoize-one';
 import {
   CharacterCreatorValidation,
   CharacterCreatorValidationType,
+  appendSourceToMap,
   mergeAllSkillProficiencies,
   mergeAllStatBlocks,
   parseCreateConfig,
@@ -20,6 +21,7 @@ import { RACE_CONFIGS } from 'constants/race';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { joinAndStrings } from './stringUtils';
 import { CharacterSheetPath } from 'constants/characterSheetPaths';
+import { CLASS_CONFIGS } from 'constants/classes';
 
 const calcFinalBackground = (
   background: CharacterBackgroundForm,
@@ -60,6 +62,8 @@ const calcFinalBackground = (
 
   const [result, validations] = parseCreateConfigs(config);
 
+  result.skills = appendSourceToMap(result.skills, 'Background');
+
   return [
     {
       summary,
@@ -89,6 +93,11 @@ const calcFinalClass = (
     ...staticConfigs,
     ...config,
   ]);
+
+  result.skills = appendSourceToMap(
+    result.skills,
+    CLASS_CONFIGS[value]?.label || 'Class',
+  );
 
   return [
     {
@@ -186,6 +195,11 @@ const calcFinalRace = (
       text: 'Missing subrace selection',
     });
   }
+
+  result.skills = appendSourceToMap(
+    result.skills,
+    RACE_CONFIGS[selectedRace]?.label || 'Race',
+  );
 
   return [result, validations];
 };

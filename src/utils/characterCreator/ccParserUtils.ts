@@ -1,7 +1,16 @@
 import { CreateConfigEntry } from 'constants/characterCreatorSections';
 import { ProficiencyConfig } from 'constants/general';
 import { IGNORE_PATH, MULTI_PATH } from 'constants/raceTypes';
-import { entries, get, identity, isNil, set, stubTrue, update } from 'lodash';
+import {
+  entries,
+  get,
+  identity,
+  isNil,
+  mapValues,
+  set,
+  stubTrue,
+  update,
+} from 'lodash';
 
 export enum CharacterCreatorValidationType {
   REQUIRED = 'REQUIRED',
@@ -58,13 +67,28 @@ export const mergeProficiencies = (
   }
 
   if (profA.source || profB.source) {
+    console.log(
+      'has source',
+      [profA.source, profB.source].filter(identity).join('|'),
+    );
     result.source = [profA.source, profB.source].filter(identity).join('|');
   }
+  console.log(profA, profB, result);
 
   return result;
 };
 export const mergeAllSkillProficiencies = (skills) =>
-  skills.filter(identity).reduce((acc, s) => mergeProficiencies(acc, s), {});
+  skills.filter(identity).reduce((acc, s) => {
+    return entries(s).reduce((acc, [key, val]) => {
+      if (!acc[key]) {
+        acc[key] = val;
+      } else {
+        acc[key] = mergeProficiencies(acc[key], val as ProficiencyConfig);
+      }
+
+      return acc;
+    }, acc);
+  }, {});
 
 export const mergeOtherProficiencies = (
   otherA: { [s: string]: ProficiencyConfig },
@@ -102,7 +126,6 @@ const DEFAULT_CREATE_CONFIG_HANDLERS = {
       }
       return acc;
     }, curSkills);
-    console.log(p, v, result, curSkills, newSkills);
 
     set(result, p, newSkills);
   },
@@ -189,3 +212,6 @@ export const parseCreateConfigs = (
 
   return [result, validations];
 };
+
+export const appendSourceToMap = (map, source) =>
+  mapValues(map, (v) => ({ ...v, source }));
