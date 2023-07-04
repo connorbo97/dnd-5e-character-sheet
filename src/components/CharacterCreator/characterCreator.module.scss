@@ -36,11 +36,31 @@
   border: 1px solid $tertiary;
   min-width: 6rem;
   text-align: center;
+  position: relative;
 
   &.selected {
     background-color: $tertiary;
     color: $white;
     text-decoration: underline;
+  }
+
+  &.warning {
+    background-color: $orange;
+  }
+}
+
+.validation {
+  position: absolute;
+  border-radius: 100%;
+  width: 15px;
+  height: 15px;
+  right: -5px;
+  top: -5px;
+  background-color: $orange;
+  color: $white;
+
+  &.good {
+    background-color: $green;
   }
 }
 

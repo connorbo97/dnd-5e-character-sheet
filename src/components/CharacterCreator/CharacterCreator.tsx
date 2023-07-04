@@ -6,6 +6,8 @@ import { useCharacterCreatorSheet } from 'providers/CharacterCreatorProvider';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 import { CharacterCreatorPages } from './CharacterCreatorPages';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { Tooltip } from 'react-mint';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -34,17 +36,59 @@ export const CharacterCreator = () => {
     (p) => p === curPage,
   );
 
-  const { sheet } = useCharacterCreatorSheet();
+  const prevPage = useRef(curPage);
+
+  const [visitedPagesSet, setVisitedPagesSet] = useState(new Set());
+
+  useLayoutEffect(() => {
+    const oldPage = prevPage.current;
+
+    if (oldPage !== curPage) {
+      setVisitedPagesSet((prev) => {
+        if (prev.has(oldPage)) {
+          return prev;
+        }
+
+        const newSet = new Set(prev);
+
+        return newSet.add(oldPage);
+      });
+    }
+    prevPage.current = curPage;
+  }, [curPage]);
+
+  const { sheet, validationsBySection } = useCharacterCreatorSheet();
+  console.log({
+    sheet,
+    validationsBySection,
+    visitedPagesSet,
+  });
 
   return (
     <div className={styles['container']}>
       <div className={styles['header']}>
         {CHARACTER_CREATOR_PAGES_LIST.map((p) => (
-          <Link to={p} key={p}>
-            <div
-              className={classNameBuilder('link', { selected: curPage === p })}>
-              {p}
-            </div>
+          <Link
+            to={p}
+            key={p}
+            className={classNameBuilder('link', {
+              selected: curPage === p,
+            })}>
+            {p}
+            {visitedPagesSet.has(p) && validationsBySection[p]?.length > 0 && (
+              <div className={styles['validation']}></div>
+            )}
+            {visitedPagesSet.has(p) && validationsBySection[p]?.length > 0 && (
+              <Tooltip position={'bottom'}>
+                {validationsBySection[p].map(({ text }) => (
+                  <div>- {text}</div>
+                ))}
+              </Tooltip>
+            )}
+            {visitedPagesSet.has(p) &&
+              validationsBySection[p]?.length === 0 && (
+                <div className={classNameBuilder('validation', 'good')}></div>
+              )}
           </Link>
         ))}
       </div>

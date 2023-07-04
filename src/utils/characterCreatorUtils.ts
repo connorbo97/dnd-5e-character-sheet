@@ -3,15 +3,19 @@ import {
   CharacterCreatorForm,
   CharacterEquipmentForm,
 } from 'constants/characterCreator';
-import { calcFinalRace } from './characterCreator/ccRaceUtils';
-import { get, identity, stubTrue } from 'lodash';
+import { concat, get, identity, stubTrue } from 'lodash';
 import memoizeOne from 'memoize-one';
 import { BACKGROUND_SKILL_CONFIG } from 'constants/backgrounds';
 import {
+  CharacterCreatorValidation,
+  CharacterCreatorValidationType,
   mergeStatBlocks,
+  parseCreateConfig,
   parseCreateConfigs,
 } from './characterCreator/ccParserUtils';
 import { CHARACTER_CREATOR_PAGES } from 'components/CharacterCreator/CharacterCreator';
+import { RaceConfigsCreateConfig } from 'constants/raceTypes';
+import { RACE_CONFIGS } from 'constants/race';
 
 const calcFinalBackground = (background) => {
   const { skills, summary, equipment, config } = background;
@@ -61,6 +65,66 @@ const calcFinalEquipment = (equipment: CharacterEquipmentForm) => {
   return result;
 };
 
+export const calcFinalRace = (
+  createConfig: RaceConfigsCreateConfig,
+  selectedRace: string = '',
+  selectedSubRace: string = '',
+) => {
+  let result: any = {};
+
+  if (!selectedRace || !RACE_CONFIGS[selectedRace]) {
+    return [
+      result,
+      [
+        {
+          type: CharacterCreatorValidationType.REQUIRED,
+          text: 'Missing race selection',
+        },
+      ],
+    ];
+  }
+
+  const { base, subRace, subRaceOptions } = createConfig;
+
+  let validations: Array<CharacterCreatorValidation> = [];
+  base.forEach((c) => parseCreateConfig(c, base, result, validations));
+  validations.map(({ type, text, index }) => ({
+    type,
+    text: `Missing ${text} for ${RACE_CONFIGS[selectedRace].label}`,
+  }));
+
+  // if theres a subrace and it has a config, start parsing it
+  if (selectedSubRace && subRace?.[selectedSubRace]) {
+    const subraceValidations = [];
+    subRace[selectedSubRace].forEach((c, i) =>
+      parseCreateConfig(
+        c,
+        subRace[selectedSubRace],
+        result,
+        subraceValidations,
+        {
+          index: i,
+        },
+      ),
+    );
+
+    subraceValidations.map(({ index, text, type }) => ({
+      type,
+      text: `Missing ${text} in ${subRace}`,
+    }));
+
+    validations = concat(validations, subraceValidations);
+    // else if there's no valid subrace and config but it has options, mark it as required
+  } else if (subRaceOptions?.length) {
+    validations.push({
+      type: CharacterCreatorValidationType.REQUIRED,
+      text: 'Missing subrace selection',
+    });
+  }
+
+  return [result, validations];
+};
+
 export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
   const { race, stats, bio, background, class: rawClass, equipment } = form;
   const [finalRace, raceValidations] = calcFinalRace(
@@ -83,7 +147,6 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     class: finalClass,
     equipment: finalEquipment,
   };
-  console.log(result);
 
   return {
     sheet: result,
