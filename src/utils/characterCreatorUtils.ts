@@ -87,10 +87,14 @@ export const calcFinalRace = (
   const { base, subRace, subRaceOptions } = createConfig;
 
   let validations: Array<CharacterCreatorValidation> = [];
-  base.forEach((c) => parseCreateConfig(c, base, result, validations));
-  validations.map(({ type, text, index }) => ({
+  base.forEach((c, i) =>
+    parseCreateConfig(c, base, result, validations, { index: i }),
+  );
+  validations = validations.map(({ type, index }) => ({
     type,
-    text: `Missing ${text} for ${RACE_CONFIGS[selectedRace].label}`,
+    text: `Missing ${get(base, `${index}.config.header`, 'selection')} for ${
+      RACE_CONFIGS[selectedRace].label
+    }`,
   }));
 
   // if theres a subrace and it has a config, start parsing it
@@ -108,12 +112,17 @@ export const calcFinalRace = (
       ),
     );
 
-    subraceValidations.map(({ index, text, type }) => ({
-      type,
-      text: `Missing ${text} in ${subRace}`,
-    }));
-
-    validations = concat(validations, subraceValidations);
+    validations = concat(
+      validations,
+      subraceValidations.map(({ index, type }) => ({
+        type,
+        text: `Missing ${get(
+          subRace[selectedSubRace],
+          `${index}.config.header`,
+          'selection',
+        )} for ${RACE_CONFIGS[selectedRace].label}`,
+      })),
+    );
     // else if there's no valid subrace and config but it has options, mark it as required
   } else if (subRaceOptions?.length) {
     validations.push({
