@@ -12,6 +12,8 @@ export enum CharacterSheetPath {
   stats = 'stats',
   savingThrows = 'savingThrows',
   customChecks = 'customChecks',
+  otherProficiencies = 'otherProficiencies',
+  money = 'money',
 
   globalAttackModifier = 'globalAttackModifier',
   globalACModifier = 'globalACModifier',

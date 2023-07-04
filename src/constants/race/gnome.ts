@@ -15,6 +15,7 @@ import {
   SECTION_CONFIG_FORMAT,
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
+import { ARTISAN_TOOLS, TOOL_PROFICIENCIES } from 'constants/tools';
 
 export const GNOME_CREATE_CONFIG = {
   base: [
@@ -67,9 +68,10 @@ You know the minor illusion cantrip. Intelligence is your spellcasting ability f
         },
         config: {
           getFinalValue: (v) => ({
-            otherProficiencies: [
-              { label: "Tinker's Tools", category: 'Tools' },
-            ],
+            features: [v],
+            otherProficiencies: {
+              ...TOOL_PROFICIENCIES[ARTISAN_TOOLS.TINKER],
+            },
             customChecks: [{ label: "Tinker's Tools" } as ProficiencyConfig],
             resources: [
               {

@@ -68,10 +68,10 @@ export type CharacterSheet = {
   [CharacterSheetPath.customChecks]: Array<ProficiencyConfig>;
   [CharacterSheetPath.resources]: Array<ResourceConfig>;
   [CharacterSheetPath.features]: Array<FeatureConfig>;
-  otherProficiencies: {
+  [CharacterSheetPath.otherProficiencies]: {
     [s: string]: ProficiencyConfig;
   };
-  money: {
+  [CharacterSheetPath.money]: {
     [s in MONEY]?: number;
   };
   [CharacterSheetPath.inventory]: Array<InventoryItem>;

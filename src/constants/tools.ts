@@ -1,4 +1,5 @@
-import { keyBy, keys, values } from 'lodash';
+import { keyBy, keys, mapValues, values } from 'lodash';
+import { OTHER_PROFICIENCY_CATEGORY } from './otherProficiencies';
 
 export enum ARTISAN_TOOLS {
   ALCHEMY = 'ALCHEMY_TOOLS',
@@ -285,6 +286,10 @@ const generateToolOption = (t) => ({
   value: t,
   label: TOOLS_CONFIG[t].label,
 });
+export const TOOL_PROFICIENCIES = mapValues(TOOLS_DICTIONARY, (v) => ({
+  category: OTHER_PROFICIENCY_CATEGORY.TOOL,
+  label: TOOLS_CONFIG[v].label,
+}));
 export const TOOL_OPTIONS = TOOLS_LIST.map(generateToolOption);
 
 export const ARTISAN_TOOLS_LIST = values(ARTISAN_TOOLS);

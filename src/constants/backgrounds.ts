@@ -31,6 +31,7 @@ import {
   getInventoryItemFromEquipmentType,
 } from './class/commonEquipmentConfigs';
 import { CharacterSheetPath } from './characterSheetPaths';
+import { OTHER_PROFICIENCY_CATEGORY } from './otherProficiencies';
 
 export const BACKGROUND_CONFIGS: { [c in BACKGROUNDS]: BackgroundConfig } = {
   [BACKGROUNDS.ACOLYTE]: { label: 'Acolyte', createConfig: [] },
@@ -63,9 +64,14 @@ const generateConditionalTraits = (index) => [
       path: MULTI_PATH,
       header: 'Artisan Tool',
       getFinalValue: (v) => ({
-        otherProficiencies: [
-          { category: 'Tool', label: TOOLS_CONFIG[v].label },
-        ],
+        otherProficiencies: v
+          ? {
+              v: {
+                category: OTHER_PROFICIENCY_CATEGORY.TOOL,
+                label: TOOLS_CONFIG[v].label,
+              },
+            }
+          : {},
         customChecks: [{ label: TOOLS_CONFIG[v].label, proficient: true }],
       }),
     }),
@@ -78,9 +84,14 @@ const generateConditionalTraits = (index) => [
       path: MULTI_PATH,
       header: 'Skill Tool',
       getFinalValue: (v) => ({
-        otherProficiencies: [
-          { category: 'Tool', label: TOOLS_CONFIG[v].label },
-        ],
+        otherProficiencies: v
+          ? {
+              v: {
+                category: OTHER_PROFICIENCY_CATEGORY.TOOL,
+                label: TOOLS_CONFIG[v].label,
+              },
+            }
+          : {},
         customChecks: [{ label: TOOLS_CONFIG[v].label, proficient: true }],
       }),
     }),
@@ -93,9 +104,14 @@ const generateConditionalTraits = (index) => [
       path: MULTI_PATH,
       header: 'Musical Instrument',
       getFinalValue: (v) => ({
-        otherProficiencies: [
-          { category: 'Tool', label: TOOLS_CONFIG[v].label },
-        ],
+        otherProficiencies: v
+          ? {
+              v: {
+                category: OTHER_PROFICIENCY_CATEGORY.TOOL,
+                label: TOOLS_CONFIG[v].label,
+              },
+            }
+          : {},
       }),
     }),
   ),
@@ -107,9 +123,14 @@ const generateConditionalTraits = (index) => [
       path: MULTI_PATH,
       header: 'Gaming Set',
       getFinalValue: (v) => ({
-        otherProficiencies: [
-          { category: 'Tool', label: TOOLS_CONFIG[v].label },
-        ],
+        otherProficiencies: v
+          ? {
+              v: {
+                category: OTHER_PROFICIENCY_CATEGORY.TOOL,
+                label: TOOLS_CONFIG[v].label,
+              },
+            }
+          : {},
         customChecks: [{ label: TOOLS_CONFIG[v].label, proficient: true }],
       }),
     }),
@@ -122,7 +143,14 @@ const generateConditionalTraits = (index) => [
       path: MULTI_PATH,
       header: 'Vehicle Proficiency',
       getFinalValue: (v) => ({
-        otherProficiencies: [{ category: 'Tool', label: v }],
+        otherProficiencies: v
+          ? {
+              v: {
+                category: OTHER_PROFICIENCY_CATEGORY.TOOL,
+                label: TOOLS_CONFIG[v].label,
+              },
+            }
+          : {},
         customChecks: [{ label: TOOLS_CONFIG[v].label, proficient: true }],
       }),
     }),

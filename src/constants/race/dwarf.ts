@@ -11,13 +11,17 @@ import {
   getBasicFeature,
   getDarkvision,
   getLanguageFeature,
-  getProficiencies,
   getStatsFeature,
   getMovementFeature,
   getChoiceToolProficiencies,
+  getWeaponProficienciesFeature,
 } from './commonCreatorConfigs';
 import { ARTISAN_TOOLS, TOOL_OPTIONS } from 'constants/tools';
-import { WEAPONS, WEAPON_CONFIGS } from 'constants/weapons';
+import { WEAPONS } from 'constants/weapons';
+import {
+  LIGHT_ARMOR_PROFICIENCY,
+  MEDIUM_ARMOR_PROFICIENCY,
+} from 'constants/otherProficiencies';
 
 export const DWARF_CREATE_CONFIG = {
   base: [
@@ -27,15 +31,12 @@ export const DWARF_CREATE_CONFIG = {
     HUMANOID_TYPE_FEATURE,
     MEDIUM_SIZE_FEATURE,
     getMovementFeature(25),
-    getProficiencies(
-      'Weapon',
-      [
-        WEAPONS.BATTLEAXE,
-        WEAPONS.HANDAXE,
-        WEAPONS.LIGHT_HAMMER,
-        WEAPONS.WARHAMMER,
-      ].map((k) => WEAPON_CONFIGS[k].label),
-    ),
+    getWeaponProficienciesFeature([
+      WEAPONS.BATTLEAXE,
+      WEAPONS.HANDAXE,
+      WEAPONS.LIGHT_HAMMER,
+      WEAPONS.WARHAMMER,
+    ]),
     getChoiceToolProficiencies(
       TOOL_OPTIONS.filter(({ value }) =>
         [
@@ -129,10 +130,10 @@ export const DWARF_CREATE_CONFIG = {
         type: SECTION_CONFIG_TYPE.STATIC,
         format: SECTION_CONFIG_FORMAT.PROFICIENCY,
         path: 'otherProficiencies',
-        value: [
-          { label: 'Light Armor', type: 'Armor' },
-          { label: 'Medium Armor', type: 'Armor' },
-        ],
+        value: {
+          ...LIGHT_ARMOR_PROFICIENCY,
+          ...MEDIUM_ARMOR_PROFICIENCY,
+        },
         config: {
           header: 'Armor Proficiencies',
         },

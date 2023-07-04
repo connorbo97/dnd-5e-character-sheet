@@ -1,5 +1,6 @@
 import { CreateConfigEntry } from 'constants/characterCreatorSections';
 import { ProficiencyConfig } from 'constants/general';
+import { InventoryItem } from 'constants/inventory';
 import { IGNORE_PATH, MULTI_PATH } from 'constants/raceTypes';
 import {
   entries,
@@ -21,6 +22,8 @@ export type CharacterCreatorValidation = {
   text: string;
   index?: number;
 };
+export const getMergedSources = (sourceA, sourceB) =>
+  [sourceA, sourceB].filter(identity).join('|');
 export const mergeStatBlocks = (blockA, blockB) => {
   if (!blockA) {
     return { ...(blockB || {}) };
@@ -46,11 +49,49 @@ export const mergeAllStatBlocks = (blocks) =>
     return mergeStatBlocks(acc, b);
   }, {});
 
+export const mergeInventoryItems = (
+  itemA: InventoryItem,
+  itemB: InventoryItem,
+) => {
+  if (!itemA) {
+    return itemB || null;
+  }
+  if (!itemB) {
+    return itemA || null;
+  }
+
+  const result = { ...itemA, ...itemB };
+
+  if (itemA.disadvantageStealthCheck || itemB.disadvantageStealthCheck) {
+    result.disadvantageStealthCheck = true;
+  }
+
+  if (itemA.equipped || itemB.equipped) {
+    result.equipped = true;
+  }
+
+  if (itemA.source || itemB.source) {
+    result.source = getMergedSources(itemA.source, itemB.source);
+  }
+
+  if (itemA.total || itemB.total) {
+    result.total = (itemA.total || 0) + (itemB.total || 0);
+  }
+
+  if (itemA.useAsResource || itemB.useAsResource) {
+    result.useAsResource = true;
+  }
+
+  return result;
+};
+
 export const mergeProficiencies = (
   profA: ProficiencyConfig,
   profB: ProficiencyConfig,
 ) => {
-  let result = { ...profA, ...profB };
+  console.log(profA, profB);
+  let result = { ...(profA || {}), ...(profB || {}) };
+  console.log(result);
 
   if (profA?.proficient || profB.proficient) {
     result.proficient = true;
@@ -67,18 +108,13 @@ export const mergeProficiencies = (
   }
 
   if (profA.source || profB.source) {
-    console.log(
-      'has source',
-      [profA.source, profB.source].filter(identity).join('|'),
-    );
-    result.source = [profA.source, profB.source].filter(identity).join('|');
+    result.source = getMergedSources(profA.source, profB.source);
   }
-  console.log(profA, profB, result);
 
   return result;
 };
-export const mergeAllSkillProficiencies = (skills) =>
-  skills.filter(identity).reduce((acc, s) => {
+export const mergeAllProficiencies = (prof) =>
+  prof.filter(identity).reduce((acc, s) => {
     return entries(s).reduce((acc, [key, val]) => {
       if (!acc[key]) {
         acc[key] = val;
@@ -89,21 +125,6 @@ export const mergeAllSkillProficiencies = (skills) =>
       return acc;
     }, acc);
   }, {});
-
-export const mergeOtherProficiencies = (
-  otherA: { [s: string]: ProficiencyConfig },
-  otherB: { [s: string]: ProficiencyConfig },
-) => {
-  return entries(otherB).reduce((acc, [key, val]) => {
-    if (!acc[key]) {
-      acc[key] = val;
-    } else {
-      acc[key] = mergeProficiencies(acc[key], val);
-    }
-
-    return acc;
-  }, otherA || {});
-};
 
 const DEFAULT_CREATE_CONFIG_HANDLERS = {
   stats: (p, v, result) => {
@@ -133,7 +154,7 @@ const DEFAULT_CREATE_CONFIG_HANDLERS = {
     update(result, p, (prevCount) => (prevCount || 0) + v);
   },
   otherProficiencies: (p, v, result) => {
-    update(result, p, (prev) => mergeOtherProficiencies(prev, v));
+    update(result, p, (prev) => mergeAllProficiencies([prev, v]));
   },
 };
 export const parseCreateConfig = (

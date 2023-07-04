@@ -4,14 +4,15 @@ import {
   CharacterCreatorForm,
   CharacterEquipmentForm,
 } from 'constants/characterCreator';
-import { concat, entries, get, size, values } from 'lodash';
+import { concat, entries, get, identity, size, values } from 'lodash';
 import memoizeOne from 'memoize-one';
 import {
   CharacterCreatorValidation,
   CharacterCreatorValidationType,
   appendSourceToMap,
-  mergeAllSkillProficiencies,
+  mergeAllProficiencies,
   mergeAllStatBlocks,
+  mergeInventoryItems,
   mergeProficiencies,
   parseCreateConfig,
   parseCreateConfigs,
@@ -27,6 +28,8 @@ import { ALIGNMENTS } from 'constants/alignments';
 import { ADVANTAGE_TOGGLE } from 'constants/advantageToggle';
 import { WHISPER_TOGGLE } from 'constants/whisperToggle';
 import { SKILL_SORT } from 'constants/skills';
+import { MONEY } from 'constants/money';
+import { InventoryItem } from 'constants/inventory';
 
 const calcFinalBackground = (
   background: CharacterBackgroundForm,
@@ -247,6 +250,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     });
   }
 
+  console.log(finalRace, finalClass, finalBackground);
   const result = {
     [CharacterSheetPath.name]: bio.name || 'New Character',
     [CharacterSheetPath.advantageToggle]: ADVANTAGE_TOGGLE.NORMAL,
@@ -272,7 +276,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     [CharacterSheetPath.alignment]: bio.alignment || ALIGNMENTS.N,
     [CharacterSheetPath.stats]: mergeAllStatBlocks([finalRace?.stats, stats]),
     [CharacterSheetPath.savingThrows]: finalClass?.savingThrows,
-    [CharacterSheetPath.skills]: mergeAllSkillProficiencies([
+    [CharacterSheetPath.skills]: mergeAllProficiencies([
       finalRace?.skills,
       finalClass?.skills,
       finalBackground?.skills,
@@ -290,6 +294,27 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
         return acc;
       }, {}),
     ),
+    [CharacterSheetPath.otherProficiencies]: mergeAllProficiencies([
+      finalRace?.otherProficiencies,
+      finalClass?.otherProficiencies,
+      finalBackground?.otherProficiencies,
+    ]),
+    [CharacterSheetPath.money]: {
+      [MONEY.GOLD]: 25,
+    },
+    [CharacterSheetPath.inventory]: values(
+      [
+        ...(finalRace?.inventory || []),
+        ...(finalClass?.inventory || []),
+        ...(finalEquipment?.inventory || []),
+      ].reduce((acc, cur: InventoryItem) => {
+        const label = cur.label;
+
+        acc[label] = mergeInventoryItems(acc[label] || null, cur);
+
+        return acc;
+      }, {}),
+    ).filter(identity),
     bio,
     class: finalClass,
     equipment: finalEquipment,

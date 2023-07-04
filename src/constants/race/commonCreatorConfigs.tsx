@@ -5,6 +5,7 @@ import {
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
 import { FIGHTING_STYLE_CONFIGS } from 'constants/fightingStyles';
+import { LANGUAGES, getLanguageProficiencies } from 'constants/languages';
 import { MONEY_CONFIGS } from 'constants/money';
 import { OTHER_PROFICIENCY_CATEGORY } from 'constants/otherProficiencies';
 import {
@@ -16,6 +17,7 @@ import {
 } from 'constants/raceTypes';
 import { ResourceConfig } from 'constants/resources';
 import { TOOLS_CONFIG } from 'constants/tools';
+import { WEAPON_CONFIGS } from 'constants/weapons';
 import { fill, find, get } from 'lodash';
 
 export const getStatsFeature = (stats) => ({
@@ -94,10 +96,7 @@ export const getLanguageFeature = (
   type: SECTION_CONFIG_TYPE.STATIC,
   format: SECTION_CONFIG_FORMAT.PROFICIENCY,
   path: 'otherProficiencies',
-  value: [
-    { label: 'Common', category: 'Language' },
-    ...extraLanguages.map((l) => ({ label: l, category: 'Language' })),
-  ],
+  value: getLanguageProficiencies([LANGUAGES.COMMON, ...extraLanguages]),
   config: {
     header: 'Languages',
     subHeader,
@@ -144,13 +143,20 @@ export const getFightingStyleChoice = (options, config = {}) =>
       ...config,
     },
   });
-export const getProficiencies = (category, labels) => ({
+export const getWeaponProficienciesFeature = (weapons) => ({
   type: SECTION_CONFIG_TYPE.STATIC,
   format: SECTION_CONFIG_FORMAT.PROFICIENCY,
   path: 'otherProficiencies',
-  value: labels.map((l) => ({ label: l, category })),
+  value: weapons.reduce((acc, cur) => {
+    acc[cur] = {
+      category: OTHER_PROFICIENCY_CATEGORY.WEAPON,
+      label: WEAPON_CONFIGS[cur].label,
+    };
+
+    return acc;
+  }),
   config: {
-    header: `${category} Proficiencies`,
+    header: `Weapon Proficiencies`,
   },
 });
 export const getSkillProficiencies = (skills) => ({
@@ -177,7 +183,13 @@ export const getChoiceLanguageProficiencies = (
       getFinalValue: ({ custom = [] }: any = {}) =>
         custom
           .filter(({ value }) => value)
-          .map(({ value }) => ({ category: 'Language', label: value })),
+          .reduce((acc, { value }) => {
+            acc[value] = {
+              category: OTHER_PROFICIENCY_CATEGORY.LANGUAGE,
+              label: value,
+            };
+            return acc;
+          }, {}),
     },
   );
 
@@ -231,10 +243,14 @@ export const getChoiceToolProficiencies = (
       getFinalValue: ({ custom = [] }: any = {}) => ({
         otherProficiencies: custom
           .filter(({ value }) => value)
-          .map(({ value }) => ({
-            category: OTHER_PROFICIENCY_CATEGORY.TOOL,
-            label: value,
-          })),
+          .reduce((acc, { value }) => {
+            acc[value] = {
+              category: OTHER_PROFICIENCY_CATEGORY.TOOL,
+              label: value,
+            };
+
+            return acc;
+          }, {}),
         customChecks: custom.map(({ value }) => ({
           label: TOOLS_CONFIG[value].label,
           proficient: true,
