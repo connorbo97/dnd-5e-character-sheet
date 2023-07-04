@@ -31,7 +31,9 @@ export const TASHA_CUSTOM_LINEAGE_CREATE_CONFIG: RaceConfigsCreateConfig = {
         getLabelValue: (custom) =>
           getStatStringFromBlock(convertCustomStatsToStatBlock(custom)),
         getFinalValue: ({ custom }) =>
-          convertCustomStatsToStatBlock([...custom]),
+          convertCustomStatsToStatBlock([
+            ...custom.filter(({ value }) => value),
+          ]),
         getPlaceholder: ({ mod }) => `Choose stat for ${addNumberSign(mod)}`,
       },
     ),

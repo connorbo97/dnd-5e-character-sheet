@@ -92,7 +92,7 @@ export const DWARF_CREATE_CONFIG = {
       {
         type: SECTION_CONFIG_TYPE.STATIC,
         format: SECTION_CONFIG_FORMAT.BASIC,
-        path: '',
+        path: MULTI_PATH,
         value: [
           {
             value: 1,

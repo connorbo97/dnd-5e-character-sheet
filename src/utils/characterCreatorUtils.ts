@@ -9,6 +9,7 @@ import memoizeOne from 'memoize-one';
 import {
   CharacterCreatorValidation,
   CharacterCreatorValidationType,
+  mergeAllSkillProficiencies,
   mergeAllStatBlocks,
   parseCreateConfig,
   parseCreateConfigs,
@@ -18,6 +19,7 @@ import { RaceConfigsCreateConfig } from 'constants/raceTypes';
 import { RACE_CONFIGS } from 'constants/race';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { joinAndStrings } from './stringUtils';
+import { CharacterSheetPath } from 'constants/characterSheetPaths';
 
 const calcFinalBackground = (
   background: CharacterBackgroundForm,
@@ -69,11 +71,10 @@ const calcFinalBackground = (
 
 const calcFinalClass = (
   rawClass: CharacterClassForm,
-): [object, Array<CharacterCreatorValidation>] => {
+): [any, Array<CharacterCreatorValidation>] => {
   const { value, static: staticConfigs = [], config = [] } = rawClass;
 
   if (!value) {
-    console.log('missing class', value, rawClass);
     return [
       {},
       [
@@ -228,16 +229,27 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
 
   const result = {
     stats: mergeAllStatBlocks([finalRace?.stats, stats]),
-    race: {
+    [CharacterSheetPath.race]: {
       value: race.value,
       subRace: race.subRace,
     },
+    [CharacterSheetPath.skills]: mergeAllSkillProficiencies([
+      finalRace?.skills,
+      finalClass?.skills,
+      finalBackground?.skills,
+    ]),
     bio,
     background: finalBackground,
     class: finalClass,
     equipment: finalEquipment,
   };
-  console.log(form, result);
+
+  console.log(
+    result,
+    finalRace?.skills,
+    finalClass?.skills,
+    finalBackground?.skills,
+  );
 
   return {
     sheet: result,

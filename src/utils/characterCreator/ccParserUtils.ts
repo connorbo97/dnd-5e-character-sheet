@@ -1,7 +1,7 @@
 import { CreateConfigEntry } from 'constants/characterCreatorSections';
 import { ProficiencyConfig } from 'constants/general';
 import { IGNORE_PATH, MULTI_PATH } from 'constants/raceTypes';
-import { entries, get, isNil, set, stubTrue, update } from 'lodash';
+import { entries, get, identity, isNil, set, stubTrue, update } from 'lodash';
 
 export enum CharacterCreatorValidationType {
   REQUIRED = 'REQUIRED',
@@ -34,7 +34,6 @@ export const mergeStatBlocks = (blockA, blockB) => {
 };
 export const mergeAllStatBlocks = (blocks) =>
   blocks.reduce((acc, b) => {
-    console.log(b, acc);
     return mergeStatBlocks(acc, b);
   }, {});
 
@@ -58,8 +57,15 @@ export const mergeProficiencies = (
     result.category = [profA.category, profB.category].join('/');
   }
 
+  if (profA.source || profB.source) {
+    result.source = [profA.source, profB.source].filter(identity).join('|');
+  }
+
   return result;
 };
+export const mergeAllSkillProficiencies = (skills) =>
+  skills.filter(identity).reduce((acc, s) => mergeProficiencies(acc, s), {});
+
 export const mergeOtherProficiencies = (
   otherA: { [s: string]: ProficiencyConfig },
   otherB: { [s: string]: ProficiencyConfig },
@@ -96,6 +102,8 @@ const DEFAULT_CREATE_CONFIG_HANDLERS = {
       }
       return acc;
     }, curSkills);
+    console.log(p, v, result, curSkills, newSkills);
+
     set(result, p, newSkills);
   },
   featChoices: (p, v, result) => {

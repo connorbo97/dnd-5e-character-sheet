@@ -57,6 +57,7 @@ export const getStaticWithChoices = (
   config: {
     isFullValue: ({ custom }) =>
       custom.length === custom.filter(({ value }) => value).length,
+    allowPartial: custom.length > 1,
     ...config,
   },
 });
@@ -174,7 +175,9 @@ export const getChoiceLanguageProficiencies = (
       header: 'Languages',
       getPlaceholder: () => `Choose`,
       getFinalValue: ({ custom = [] }: any = {}) =>
-        custom.map(({ value }) => ({ category: 'Language', label: value })),
+        custom
+          .filter(({ value }) => value)
+          .map(({ value }) => ({ category: 'Language', label: value })),
     },
   );
 
@@ -204,7 +207,9 @@ export const getChoiceSkillProficiencies = (
       getPlaceholder: () => `Choose`,
       getFinalValue: ({ custom = [] }: any = {}) =>
         custom.reduce((acc, { value }) => {
-          acc[value] = { proficient: true };
+          if (value) {
+            acc[value] = { proficient: true };
+          }
 
           return acc;
         }, {}),
@@ -224,10 +229,12 @@ export const getChoiceToolProficiencies = (
       header,
       getPlaceholder: () => `Choose`,
       getFinalValue: ({ custom = [] }: any = {}) => ({
-        otherProficiencies: custom.map(({ value }) => ({
-          category: OTHER_PROFICIENCY_CATEGORY.TOOL,
-          label: value,
-        })),
+        otherProficiencies: custom
+          .filter(({ value }) => value)
+          .map(({ value }) => ({
+            category: OTHER_PROFICIENCY_CATEGORY.TOOL,
+            label: value,
+          })),
         customChecks: custom.map(({ value }) => ({
           label: TOOLS_CONFIG[value].label,
         })),

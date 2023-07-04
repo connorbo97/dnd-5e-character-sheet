@@ -9,6 +9,8 @@ export type ProficiencyConfig = {
   category?: string;
   stat?: STATS;
   label?: string;
+
+  source?: string;
 };
 
 export type ModBlock = {

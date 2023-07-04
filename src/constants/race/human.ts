@@ -14,6 +14,7 @@ import { getStatStringFromBlock } from 'utils/statUtils';
 import { convertCustomStatsToStatBlock } from 'utils/characterCreator/ccUtils';
 import { addNumberSign } from 'utils/stringUtils';
 import { SKILL_OPTIONS } from 'constants/skills';
+import { identity } from 'lodash';
 
 export const HUMAN_CREATE_CONFIG: RaceConfigsCreateConfig = {
   base: [
@@ -33,7 +34,10 @@ export const HUMAN_CREATE_CONFIG: RaceConfigsCreateConfig = {
           'You can speak, read, and write Common and one extra language of your choice. Humans typically learn the languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their speech⁠ with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish military phrases, and so on.',
         getPlaceholder: () => `Choose`,
         getFinalValue: ({ custom, statics }) =>
-          [...statics, ...custom.map(({ value }) => value)].map((label) => ({
+          [
+            ...statics,
+            ...custom.map(({ value }) => value).filter(identity),
+          ].map((label) => ({
             label,
             type: 'Language',
           })),
@@ -71,7 +75,9 @@ export const HUMAN_CREATE_CONFIG: RaceConfigsCreateConfig = {
           getLabelValue: (custom) =>
             getStatStringFromBlock(convertCustomStatsToStatBlock(custom)),
           getFinalValue: ({ custom }) =>
-            convertCustomStatsToStatBlock([...custom]),
+            convertCustomStatsToStatBlock([
+              ...custom.filter(({ value }) => value),
+            ]),
           getPlaceholder: ({ mod }) => `Choose stat for ${addNumberSign(mod)}`,
         },
       ),

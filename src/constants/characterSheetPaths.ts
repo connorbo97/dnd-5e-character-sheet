@@ -6,4 +6,6 @@ export enum CharacterSheetPath {
   attacks = 'attacks',
   inventory = 'inventory',
   resources = 'resources',
+  race = 'race',
+  skills = 'skills',
 }

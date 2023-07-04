@@ -47,7 +47,7 @@ export type CharacterSheet = {
   profBonus: number;
   levels: CharacterSheetLevels;
   spellcastingAbility: STATS | 'NONE';
-  race: {
+  [CharacterSheetPath.race]: {
     value: RACES;
     subRace: string;
     custom?: object;
@@ -62,7 +62,7 @@ export type CharacterSheet = {
   savingThrows: {
     [s in STATS]?: ProficiencyConfig;
   };
-  skills: {
+  [CharacterSheetPath.skills]: {
     [s in SKILLS]?: ProficiencyConfig;
   };
   customChecks: Array<ProficiencyConfig>;

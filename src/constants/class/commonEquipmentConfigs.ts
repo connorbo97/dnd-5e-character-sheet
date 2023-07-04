@@ -135,6 +135,7 @@ export const getEquipmentChoice = (
           : undefined,
       getFinalValue: ({ custom }) => {
         const inventory = custom
+          .filter(({ value }) => value)
           .map(({ value: selectedValue, options }) =>
             find(options, ({ value }) => value === selectedValue),
           )
