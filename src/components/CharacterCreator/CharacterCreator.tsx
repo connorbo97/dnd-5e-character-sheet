@@ -90,12 +90,12 @@ export const CharacterCreator = () => {
             {visitedPagesSet.has(p) && validationsBySection[p]?.length > 0 && (
               <Tooltip position={'bottom'}>
                 <span>Required</span>
-                {errorValidationsBySection[p].map(({ text }) => (
-                  <div>- {text}</div>
+                {errorValidationsBySection[p].map(({ text }, i) => (
+                  <div key={i}>- {text}</div>
                 ))}
                 {warningValidationsBySection[p]?.length > 0 && 'Optional'}
-                {warningValidationsBySection[p].map(({ text }) => (
-                  <div>- {text}</div>
+                {warningValidationsBySection[p].map(({ text }, i) => (
+                  <div key={i}>- {text}</div>
                 ))}
               </Tooltip>
             )}
