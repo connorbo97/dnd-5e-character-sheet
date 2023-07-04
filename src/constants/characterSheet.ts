@@ -35,6 +35,11 @@ export type GlobalACModifierType = {
   label: string;
   source?: string;
 };
+
+export type CharacterSheetCustomBonuses = {
+  initiative?: Array<ModBlock>;
+  hp?: Array<ModBlock>;
+};
 export type CharacterSheet = {
   [CharacterSheetPath.name]: string;
   [CharacterSheetPath.advantageToggle]: ADVANTAGE_TOGGLE;
@@ -71,24 +76,21 @@ export type CharacterSheet = {
     [s in MONEY]?: number;
   };
   [CharacterSheetPath.inventory]: Array<InventoryItem>;
-  deathSaves: {
+  [CharacterSheetPath.deathSaves]: {
     successes: [boolean?, boolean?, boolean?];
     failures: [boolean?, boolean?, boolean?];
   };
-  inspiration: boolean;
-  curHp: number;
-  tempHp: number;
-  tempMaxHp: number;
-  hitDice: {
+  [CharacterSheetPath.inspiration]: boolean;
+  [CharacterSheetPath.curHp]: number;
+  [CharacterSheetPath.tempHp]: number;
+  [CharacterSheetPath.tempMaxHp]: number;
+  [CharacterSheetPath.hitDice]: {
     [d in DICE]?: {
       total: number;
       max: number;
     };
   };
-  customBonuses: {
-    initiative?: Array<ModBlock>;
-    hp?: Array<ModBlock>;
-  };
+  [CharacterSheetPath.customBonuses]: CharacterSheetCustomBonuses;
   [CharacterSheetPath.attacks]: Array<AttackEntry>;
   [CharacterSheetPath.globalAttackModifier]: Array<GlobalAttackModifierEntry>;
   [CharacterSheetPath.globalDamageModifier]: Array<{

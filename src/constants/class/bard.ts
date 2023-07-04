@@ -80,7 +80,7 @@ export const BARD_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
             resetOnLongRest: true,
           },
         ],
-        globalAttackModifiers: [
+        globalAttackModifier: [
           { label: 'Bardic Inspiration', base: [[1, DICE.d8]], source: 'Bard' },
         ],
       }),

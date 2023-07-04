@@ -1,4 +1,5 @@
 import { CreateConfigEntry } from 'constants/characterCreatorSections';
+import { CharacterSheetCustomBonuses } from 'constants/characterSheet';
 import { ProficiencyConfig } from 'constants/general';
 import { InventoryItem } from 'constants/inventory';
 import { IGNORE_PATH, MULTI_PATH } from 'constants/raceTypes';
@@ -24,6 +25,19 @@ export type CharacterCreatorValidation = {
 };
 export const getMergedSources = (sourceA, sourceB) =>
   [sourceA, sourceB].filter(identity).join('|');
+
+export const getMergedCustomBonuses = (
+  bonuses: Array<CharacterSheetCustomBonuses>,
+) => {
+  return bonuses.filter(identity).reduce(
+    (acc, b) => ({
+      initiative: [...(acc.initiative || []), ...(b.initiative || [])],
+      hp: [...(acc.hp || []), ...(b.hp || [])],
+    }),
+    {},
+  );
+};
+
 export const mergeStatBlocks = (blockA, blockB) => {
   if (!blockA) {
     return { ...(blockB || {}) };

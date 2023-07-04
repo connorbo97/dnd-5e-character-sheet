@@ -74,7 +74,7 @@ export const ROGUE_LEVEL_ONE_CONFIG = [
     config: {
       getFinalValue: (value) => ({
         [CharacterSheetPath.features]: [value],
-        [CharacterSheetPath.globalAttackModifier]: [
+        [CharacterSheetPath.globalDamageModifier]: [
           {
             label: 'Sneak Attack',
             base: [[1, DICE.d6]],

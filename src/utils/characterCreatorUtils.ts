@@ -5,12 +5,13 @@ import {
   CharacterCreatorForm,
   CharacterEquipmentForm,
 } from 'constants/characterCreator';
-import { concat, entries, get, identity, size, values } from 'lodash';
+import { concat, entries, get, identity, size, uniqBy, values } from 'lodash';
 import memoizeOne from 'memoize-one';
 import {
   CharacterCreatorValidation,
   CharacterCreatorValidationType,
   appendSourceToMap,
+  getMergedCustomBonuses,
   mergeAllMoney,
   mergeAllProficiencies,
   mergeAllStatBlocks,
@@ -31,6 +32,7 @@ import { WHISPER_TOGGLE } from 'constants/whisperToggle';
 import { SKILL_SORT } from 'constants/skills';
 import { MONEY } from 'constants/money';
 import { InventoryItem } from 'constants/inventory';
+import { DICE } from 'constants/dice';
 
 const calcFinalBackground = (
   background: CharacterBackgroundForm,
@@ -319,9 +321,47 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
         return acc;
       }, {}),
     ).filter(identity),
-    bio,
-    class: finalClass,
-    equipment: finalEquipment,
+    [CharacterSheetPath.deathSaves]: {
+      successes: [false, false, false],
+      failures: [false, false, false],
+    },
+    [CharacterSheetPath.inspiration]: false,
+    // TODO: implement
+    [CharacterSheetPath.curHp]: 0,
+    [CharacterSheetPath.tempHp]: 0,
+    [CharacterSheetPath.tempMaxHp]: 0,
+    // TODO: implement
+    [CharacterSheetPath.hitDice]: {
+      [DICE.d10]: {
+        total: 1,
+        max: 1,
+      },
+    },
+    [CharacterSheetPath.customBonuses]: getMergedCustomBonuses([
+      finalRace.customBonuses,
+      finalClass.customBonuses,
+    ]),
+    [CharacterSheetPath.attacks]: uniqBy(
+      [
+        ...(finalRace?.attacks || []),
+        ...(finalClass?.attacks || []),
+        ...(finalBackground?.attacks || []),
+        ...(finalEquipment?.attacks || []),
+      ],
+      ({ label }) => label,
+    ),
+    [CharacterSheetPath.globalAttackModifier]: [
+      ...(finalRace?.globalAttackModifier || []),
+      ...(finalClass?.globalAttackModifier || []),
+    ],
+    [CharacterSheetPath.globalACModifier]: [
+      ...(finalRace?.globalACModifier || []),
+      ...(finalClass?.globalACModifier || []),
+    ],
+    [CharacterSheetPath.globalDamageModifier]: [
+      ...(finalRace?.globalDamageModifier || []),
+      ...(finalClass?.globalDamageModifier || []),
+    ],
   };
 
   console.log(result);

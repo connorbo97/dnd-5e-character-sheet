@@ -76,7 +76,7 @@ export const RANGER_LEVEL_ONE_CONFIG = [
             resetOnLongRest: true,
           } as ResourceConfig,
         ],
-        [CharacterSheetPath.globalAttackModifier]: [
+        [CharacterSheetPath.globalDamageModifier]: [
           {
             label: 'Favored Foe',
             base: [[1, DICE.d4]],
