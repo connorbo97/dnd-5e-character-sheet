@@ -97,16 +97,27 @@ const calcFinalClass = (
     validations,
   ];
 };
-const calcFinalEquipment = (equipment: CharacterEquipmentForm) => {
+const calcFinalEquipment = (
+  equipment: CharacterEquipmentForm,
+  curClass: string,
+): [any, Array<CharacterCreatorValidation>] => {
   const { config = [] } = equipment;
 
-  if (!config) {
-    console.log('missing equipment', config);
+  if (!curClass) {
+    return [
+      {},
+      [
+        {
+          type: CharacterCreatorValidationType.REQUIRED,
+          text: 'Must choose a class before selecting equipment',
+        },
+      ],
+    ];
   }
 
-  const result = parseCreateConfigs(config);
+  const [result, validations] = parseCreateConfigs(config);
 
-  return result;
+  return [result, validations];
 };
 
 const calcFinalRace = (
@@ -188,7 +199,10 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
   const [finalBackground, backgroundValidations] =
     calcFinalBackground(background);
   const [finalClass, classValidations] = calcFinalClass(rawClass);
-  const finalEquipment = calcFinalEquipment(equipment);
+  const [finalEquipment, equipmentValidations] = calcFinalEquipment(
+    equipment,
+    get(finalClass, 'class', ''),
+  );
   const statEntries = entries(stats);
   const statsValidation =
     size(stats) === 6 && statEntries.every(([stat, v]) => v > 0)
@@ -223,6 +237,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       [CHARACTER_CREATOR_PAGES.CLASS]: classValidations,
       [CHARACTER_CREATOR_PAGES.STATS]: statsValidation,
       [CHARACTER_CREATOR_PAGES.BACKGROUND]: backgroundValidations,
+      [CHARACTER_CREATOR_PAGES.EQUIPMENT]: equipmentValidations,
     },
   };
 });
