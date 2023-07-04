@@ -10,10 +10,8 @@ import {
 } from './commonCreatorConfigs';
 import { LANGUAGE_OPTIONS } from 'constants/languages';
 import { STATS, STATS_OPTIONS_W_LABELS } from 'constants/stats';
-import {
-  convertCustomStatsToStatBlock,
-  getStatStringFromBlock,
-} from 'utils/raceCreatorUtils';
+import { getStatStringFromBlock } from 'utils/statUtils';
+import { convertCustomStatsToStatBlock } from 'utils/characterCreator/ccUtils';
 import { addNumberSign } from 'utils/stringUtils';
 import { SKILL_OPTIONS } from 'constants/skills';
 

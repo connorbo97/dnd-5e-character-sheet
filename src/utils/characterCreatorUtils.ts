@@ -3,14 +3,15 @@ import {
   CharacterCreatorForm,
   CharacterEquipmentForm,
 } from 'constants/characterCreator';
-import { calcFinalRace } from './raceCreatorUtils';
+import { calcFinalRace } from './characterCreator/ccRaceUtils';
 import { get, identity, stubTrue } from 'lodash';
 import memoizeOne from 'memoize-one';
 import { BACKGROUND_SKILL_CONFIG } from 'constants/backgrounds';
 import {
   mergeStatBlocks,
   parseCreateConfigs,
-} from './commonCharacterCreatorUtils';
+} from './characterCreator/ccParserUtils';
+import { CHARACTER_CREATOR_PAGES } from 'components/CharacterCreator/CharacterCreator';
 
 const calcFinalBackground = (background) => {
   const { skills, summary, equipment, config } = background;
@@ -62,7 +63,7 @@ const calcFinalEquipment = (equipment: CharacterEquipmentForm) => {
 
 export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
   const { race, stats, bio, background, class: rawClass, equipment } = form;
-  const finalRace = calcFinalRace(
+  const [finalRace, raceValidations] = calcFinalRace(
     get(race, 'config', { base: [] }),
     race.value,
     race.subRace,
@@ -84,5 +85,10 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
   };
   console.log(result);
 
-  return result;
+  return {
+    sheet: result,
+    validationsBySection: {
+      [CHARACTER_CREATOR_PAGES.RACE]: raceValidations,
+    },
+  };
 });

@@ -11,10 +11,8 @@ import {
 } from './commonCreatorConfigs';
 import { SKILL_OPTIONS } from 'constants/skills';
 import { addNumberSign } from 'utils/stringUtils';
-import {
-  convertCustomStatsToStatBlock,
-  getStatStringFromBlock,
-} from 'utils/raceCreatorUtils';
+import { getStatStringFromBlock } from 'utils/statUtils';
+import { convertCustomStatsToStatBlock } from 'utils/characterCreator/ccUtils';
 
 export const HALF_ELF_CREATE_CONFIG = {
   base: [

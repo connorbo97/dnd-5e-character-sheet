@@ -3,6 +3,15 @@ import { ProficiencyConfig } from 'constants/general';
 import { IGNORE_PATH, MULTI_PATH } from 'constants/raceTypes';
 import { entries, get, isNil, set, stubTrue, update } from 'lodash';
 
+export enum CharacterCreatorValidationType {
+  REQUIRED = 'REQUIRED',
+  WARNING = 'WARNING',
+}
+export type CharacterCreatorValidation = {
+  type: CharacterCreatorValidationType;
+  text: string;
+  index?: number;
+};
 export const mergeStatBlocks = (blockA, blockB) => {
   if (!blockA) {
     return { ...(blockB || {}) };
@@ -90,14 +99,25 @@ const DEFAULT_CREATE_CONFIG_HANDLERS = {
     update(result, p, (prev) => mergeOtherProficiencies(prev, v));
   },
 };
-export const parseCreateConfig = (c, allConfigs, result, pathHandlers = {}) => {
+export const parseCreateConfig = (
+  c: CreateConfigEntry,
+  allConfigs,
+  result,
+  validations: Array<CharacterCreatorValidation> = [],
+  options: { index?: number; pathHandlers?: object } = {},
+) => {
+  const { index, pathHandlers = {} } = options;
   const { value, path, config = {}, choiceCondition = stubTrue, optional } = c;
-  const { getFinalValue, isFullValue = (val) => !!val } = config;
+  const { getFinalValue, isFullValue = (val) => !!val, header } = config;
 
   if (!choiceCondition(allConfigs)) {
     return;
   } else if (!optional && !isFullValue(value)) {
-    console.log('MISSING', get(config, 'header'), value, c);
+    validations.push({
+      type: CharacterCreatorValidationType.REQUIRED,
+      text: `Missing selection for "${header}"`,
+      index,
+    });
     return;
   }
 
@@ -136,8 +156,14 @@ export const parseCreateConfigs = (
   pathHandlers = {},
 ) => {
   const result = {};
+  const validations = [];
 
-  configs.forEach((c) => parseCreateConfig(c, configs, result, pathHandlers));
+  configs.forEach((c, i) =>
+    parseCreateConfig(c, configs, result, validations, {
+      index: i,
+      pathHandlers,
+    }),
+  );
 
-  return result;
+  return [result, validations];
 };

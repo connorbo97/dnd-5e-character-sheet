@@ -2,11 +2,11 @@ import { isObject, values } from 'lodash';
 import styles from './staticSection.module.scss';
 import { WALKING_TYPE } from 'constants/raceTypes';
 import { SKILL_CONFIGS } from 'constants/skills';
-import { getStatStringFromBlock } from 'utils/raceCreatorUtils';
 import {
   CreateConfigEntryConfig,
   SECTION_CONFIG_FORMAT,
 } from 'constants/characterCreatorSections';
+import { getStatStringFromBlock } from 'utils/statUtils';
 
 type Props = {
   value: any;

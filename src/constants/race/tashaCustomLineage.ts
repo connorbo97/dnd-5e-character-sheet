@@ -14,12 +14,10 @@ import {
   getStaticWithChoices,
 } from './commonCreatorConfigs';
 import { STATS_OPTIONS_W_LABELS } from 'constants/stats';
-import {
-  convertCustomStatsToStatBlock,
-  getStatStringFromBlock,
-} from 'utils/raceCreatorUtils';
+import { getStatStringFromBlock } from 'utils/statUtils';
 import { addNumberSign } from 'utils/stringUtils';
 import { SKILL_OPTIONS } from 'constants/skills';
+import { convertCustomStatsToStatBlock } from 'utils/characterCreator/ccUtils';
 
 export const TASHA_CUSTOM_LINEAGE_CREATE_CONFIG: RaceConfigsCreateConfig = {
   base: [

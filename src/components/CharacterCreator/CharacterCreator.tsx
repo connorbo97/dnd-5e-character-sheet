@@ -34,8 +34,7 @@ export const CharacterCreator = () => {
     (p) => p === curPage,
   );
 
-  const sheet = useCharacterCreatorSheet();
-  console.log(sheet);
+  const { sheet } = useCharacterCreatorSheet();
 
   return (
     <div className={styles['container']}>
