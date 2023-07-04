@@ -8,6 +8,7 @@ import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { RACE_CONFIGS, RACE_OPTIONS } from 'constants/race';
 import { RACES } from 'constants/raceTypes';
 import { CreateSection } from '../common/CreateSection';
+import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 
 export const RaceCreator = () => {
   const [, setRace] = useCharacterCreatorPath(CHARACTER_CREATOR_PATHS['race']);
@@ -33,7 +34,9 @@ export const RaceCreator = () => {
 
   return (
     <div className={styles['container']}>
-      <h1>Race</h1>
+      <h1>
+        Race <RequiredIcon />
+      </h1>
       <div className={styles['race']}>
         <Dropdown
           allowEmpty
@@ -52,7 +55,9 @@ export const RaceCreator = () => {
         )}
         {config?.subRaceOptions && (
           <div>
-            <h2>Subrace</h2>
+            <h2>
+              Subrace <RequiredIcon />
+            </h2>
             <Dropdown
               allowEmpty
               placeholder="Choose"

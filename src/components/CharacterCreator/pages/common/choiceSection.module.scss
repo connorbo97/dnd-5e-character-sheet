@@ -9,6 +9,10 @@
 .header {
   font-size: 2rem;
   font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
 }
 
 .content {
@@ -29,4 +33,8 @@
 
 .description {
   white-space: pre-wrap;
+}
+
+.required {
+  color: $red;
 }

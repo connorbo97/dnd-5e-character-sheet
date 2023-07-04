@@ -118,6 +118,7 @@ export const HUMANOID_TYPE_FEATURE = {
   format: SECTION_CONFIG_FORMAT.BASIC,
   path: 'creatureType',
   value: CREATURE_TYPE.HUMANOID,
+  optional: true,
   config: {
     header: 'Creature Type',
   },

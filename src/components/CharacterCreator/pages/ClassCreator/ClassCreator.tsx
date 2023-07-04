@@ -4,6 +4,7 @@ import { CLASS_CONFIGS, CLASS_OPTIONS } from 'constants/classes';
 import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { CreateSection } from '../common/CreateSection';
+import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 
 type Props = any;
 export const ClassCreator = (props: Props) => {
@@ -25,7 +26,9 @@ export const ClassCreator = (props: Props) => {
 
   return (
     <div className={styles['container']}>
-      <h1>Class</h1>
+      <h1>
+        Class <RequiredIcon />
+      </h1>
       <div className={styles['class-dropdown']}>
         <Dropdown
           allowEmpty

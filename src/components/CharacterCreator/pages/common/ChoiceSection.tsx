@@ -6,6 +6,10 @@ import {
   CreateConfigEntryConfig,
   SECTION_CONFIG_FORMAT,
 } from 'constants/characterCreatorSections';
+import classnames from 'classnames/bind';
+import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
+
+const classNameBuilder = classnames.bind(styles);
 
 type Props = {
   value?: any;
@@ -15,6 +19,7 @@ type Props = {
   isSubRace?: boolean;
   config?: CreateConfigEntryConfig;
   onUpdate: Function;
+  optional?: boolean;
 };
 
 export const ChoiceSection = ({
@@ -22,6 +27,7 @@ export const ChoiceSection = ({
   format,
   options = [],
   config = {},
+  optional = false,
   updatePath,
   onUpdate,
 }: Props) => {
@@ -54,7 +60,11 @@ export const ChoiceSection = ({
 
   return (
     <div className={styles['container']}>
-      <div className={styles['header']}>{finalHeader}</div>
+      <div className={classNameBuilder('header')}>
+        {finalHeader}
+        {!optional && <RequiredIcon />}
+        {optional && '(Optional)'}
+      </div>
       <div className={styles['content']}>
         {finalDescription && (
           <div className={styles['description']}>{finalDescription}</div>

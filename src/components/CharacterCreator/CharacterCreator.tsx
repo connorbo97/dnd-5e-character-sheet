@@ -13,6 +13,7 @@ import { BackgroundCreator } from './pages/BackgroundCreator/BackgroundCreator';
 import { BioCreator } from './pages/BioCreator/BioCreator';
 import { ClassCreator } from './pages/ClassCreator/ClassCreator';
 import { EquipmentCreator } from './pages/EquipmentCreator/EquipmentCreator';
+import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -66,6 +67,9 @@ export const CharacterCreator = () => {
             <div className={styles['label']}>{STATS_CONFIGS[stat].label}</div>
           </div>
         ))}
+      </div>
+      <div className={styles['help-required-text']}>
+        <RequiredIcon /> means Required
       </div>
       <div className={styles['content']}>
         <Routes>

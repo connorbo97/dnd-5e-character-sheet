@@ -1,10 +1,11 @@
+import { ReactNode } from 'react';
 import styles from './tag.module.scss';
 import classnames from 'classnames/bind';
 
 const classNameBuilder = classnames.bind(styles);
 
 type Props = {
-  label: string;
+  label: string | ReactNode;
   value?: any;
   className?: string;
   labelClassName?: string;

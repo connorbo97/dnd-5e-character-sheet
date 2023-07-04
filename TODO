@@ -4,6 +4,9 @@ General Features
 
 Character Creator
 
+- class subclasses
+- options
+  - add ability to disable options you've already selected
 - Final Calc
   - implement mechanism to generate sheet from all selections
 - Background

@@ -2,6 +2,7 @@ import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import styles from './backgroundCreator.module.scss';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { CreateSection } from '../common/CreateSection';
+import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 
 type Props = any;
 export const BackgroundCreator = (props: Props) => {
@@ -30,7 +31,9 @@ export const BackgroundCreator = (props: Props) => {
           "Your character's background is largely dependent on the setting and story.\n\nYour character's past experiences can be boiled down into some basic equipment, a special feature, skills, and a couple sentences.\n\nTalk with the DM if you want to start with something that does not show up in this section."
         }
       </div>
-      <h3>Summary</h3>
+      <h3>
+        Summary <RequiredIcon />
+      </h3>
       <input
         className={styles['label']}
         value={name}
@@ -43,7 +46,7 @@ export const BackgroundCreator = (props: Props) => {
         onChange={(e) => setSummary(e.target.value)}
         rows={4}
         placeholder={
-          'Background Description\ne.g, I grew up poor and decided to see what the rest of the world had to offer me.\n\nI grabbed my cloak and my savings and hit the road. I did odd jobs for small villages and lived off the land.'
+          '2-3 short sentences describing your past.\n\ne.g, Wanderer: I grew up poor and decided to see what the rest of the world had to offer me. I grabbed my cloak and my savings and hit the road. I did odd jobs for small villages and lived off the land.'
         }
       />
       <CreateSection config={config} onUpdate={updateConfig} />

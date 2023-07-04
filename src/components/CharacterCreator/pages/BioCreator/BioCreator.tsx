@@ -5,10 +5,17 @@ import { Tag } from 'common/components/Tag/Tag';
 import { useMemo } from 'react';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { ALIGNMENT_OPTIONS } from 'constants/alignments';
+import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 
 type Props = any;
 
-const BioFieldInput = ({ path, label, isTextarea = false, ...rest }) => {
+const BioFieldInput = ({
+  path,
+  label,
+  isTextarea = false,
+  required = false,
+  ...rest
+}) => {
   const [value = '', setValue] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS[path],
   );
@@ -22,7 +29,11 @@ const BioFieldInput = ({ path, label, isTextarea = false, ...rest }) => {
   );
   return (
     <Tag
-      label={label}
+      label={
+        <>
+          {label} {required && <RequiredIcon />}
+        </>
+      }
       valueClassName={styles['input']}
       value={
         <>
@@ -51,6 +62,7 @@ export const BioCreator = (props: Props) => {
             label="Name"
             path={'bio.name'}
             placeholder="Your Name"
+            required
           />
           <Tag
             label={'Alignment'}
