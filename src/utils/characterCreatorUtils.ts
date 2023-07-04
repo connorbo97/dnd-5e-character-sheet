@@ -5,6 +5,7 @@ import {
 } from 'constants/characterCreator';
 import { calcFinalRace } from './raceCreatorUtils';
 import { get, identity, stubTrue } from 'lodash';
+import memoizeOne from 'memoize-one';
 import { BACKGROUND_SKILL_CONFIG } from 'constants/backgrounds';
 import {
   mergeStatBlocks,
@@ -59,7 +60,7 @@ const calcFinalEquipment = (equipment: CharacterEquipmentForm) => {
   return result;
 };
 
-export const calcCharacterSheet = (form: CharacterCreatorForm) => {
+export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
   const { race, stats, bio, background, class: rawClass, equipment } = form;
   const finalRace = calcFinalRace(
     get(race, 'config', { base: [] }),
@@ -84,4 +85,4 @@ export const calcCharacterSheet = (form: CharacterCreatorForm) => {
   console.log(result);
 
   return result;
-};
+});

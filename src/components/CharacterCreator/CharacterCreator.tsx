@@ -1,19 +1,11 @@
 import { findIndex, get, values } from 'lodash';
 import styles from './characterCreator.module.scss';
-import { RaceCreator } from './pages/RaceCreator/RaceCreator';
-import { Link, Route, Routes, useMatch, useNavigate } from 'react-router-dom';
+import { Link, useMatch, useNavigate } from 'react-router-dom';
 import classnames from 'classnames/bind';
-import { StatsCreator } from './pages/StatsCreator/StatsCreator';
-import { useMemo } from 'react';
-import { calcCharacterSheet } from 'utils/characterCreatorUtils';
-import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
-import { STATE_SELECTOR_PATH } from 'utils/reduxUtils';
+import { useCharacterCreatorSheet } from 'providers/CharacterCreatorProvider';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
-import { BackgroundCreator } from './pages/BackgroundCreator/BackgroundCreator';
-import { BioCreator } from './pages/BioCreator/BioCreator';
-import { ClassCreator } from './pages/ClassCreator/ClassCreator';
-import { EquipmentCreator } from './pages/EquipmentCreator/EquipmentCreator';
 import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
+import { CharacterCreatorPages } from './CharacterCreatorPages';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -42,9 +34,8 @@ export const CharacterCreator = () => {
     (p) => p === curPage,
   );
 
-  const [form, ,] = useCharacterCreatorPath(STATE_SELECTOR_PATH);
-
-  const finalForm = useMemo(() => calcCharacterSheet(form), [form]);
+  const sheet = useCharacterCreatorSheet();
+  console.log(sheet);
 
   return (
     <div className={styles['container']}>
@@ -62,7 +53,7 @@ export const CharacterCreator = () => {
         {STATS_LIST.map((stat) => (
           <div key={stat} className={styles['stat']}>
             <div className={styles['value']}>
-              {finalForm?.stats?.[stat] || '-'}{' '}
+              {sheet?.stats?.[stat] || '-'}{' '}
             </div>
             <div className={styles['label']}>{STATS_CONFIGS[stat].label}</div>
           </div>
@@ -72,48 +63,7 @@ export const CharacterCreator = () => {
         <RequiredIcon /> means Required
       </div>
       <div className={styles['content']}>
-        <Routes>
-          <Route
-            path={CHARACTER_CREATOR_PAGES.RACE}
-            element={<RaceCreator />}
-          />
-          <Route
-            path={CHARACTER_CREATOR_PAGES.CLASS}
-            element={<ClassCreator />}
-          />
-          <Route
-            path={CHARACTER_CREATOR_PAGES.STATS}
-            element={<StatsCreator />}
-          />
-          <Route
-            path={CHARACTER_CREATOR_PAGES.BACKGROUND}
-            element={<BackgroundCreator />}
-          />
-          <Route
-            path={CHARACTER_CREATOR_PAGES.EQUIPMENT}
-            element={<EquipmentCreator />}
-          />
-          <Route
-            path={CHARACTER_CREATOR_PAGES.FEATS}
-            element={<div>FEATS</div>}
-          />
-          <Route path={CHARACTER_CREATOR_PAGES.BIO} element={<BioCreator />} />
-          <Route
-            path={CHARACTER_CREATOR_PAGES.REVIEW}
-            element={<div>Review</div>}
-          />
-          <Route
-            path={'*'}
-            element={
-              <div>
-                <h1>Welcome to the Character Creator</h1>
-                <p>
-                  Use the tabs above or the buttons below to navigate the pages.
-                </p>
-              </div>
-            }
-          />
-        </Routes>
+        <CharacterCreatorPages />
       </div>
       <div className={styles['footer']}>
         <button

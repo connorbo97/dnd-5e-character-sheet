@@ -8,6 +8,7 @@ import {
 } from 'constants/characterCreatorSections';
 import classnames from 'classnames/bind';
 import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
+import React from 'react';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -22,86 +23,88 @@ type Props = {
   optional?: boolean;
 };
 
-export const ChoiceSection = ({
-  value,
-  format,
-  options = [],
-  config = {},
-  optional = false,
-  updatePath,
-  onUpdate,
-}: Props) => {
-  const {
-    header,
-    subHeader,
-    description,
-    getDescription,
-    getPostDescription,
-    getLabelValue,
-    getPlaceholder = noop,
-  } = config;
-  const statics = get(value, 'statics', []);
-  const customValue = get(value, 'custom');
-  const finalHeader = header || 'HEADER';
-  let finalDescription = description;
+export const ChoiceSection = React.memo(
+  ({
+    value,
+    format,
+    options = [],
+    config = {},
+    optional = false,
+    updatePath,
+    onUpdate,
+  }: Props) => {
+    const {
+      header,
+      subHeader,
+      description,
+      getDescription,
+      getPostDescription,
+      getLabelValue,
+      getPlaceholder = noop,
+    } = config;
+    const statics = get(value, 'statics', []);
+    const customValue = get(value, 'custom');
+    const finalHeader = header || 'HEADER';
+    let finalDescription = description;
 
-  if (getDescription) {
-    finalDescription = getDescription(value);
-  }
+    if (getDescription) {
+      finalDescription = getDescription(value);
+    }
 
-  const onChangeDropdown = (newValue) => {
-    onUpdate((prev) => iSet(prev, `${updatePath}.value`, newValue));
-  };
+    const onChangeDropdown = (newValue) => {
+      onUpdate((prev) => iSet(prev, `${updatePath}.value`, newValue));
+    };
 
-  const onChangeCustom = (index, value) =>
-    onUpdate((prev) =>
-      iSet(prev, `${updatePath}.value.custom.${index}.value`, value),
-    );
+    const onChangeCustom = (index, value) =>
+      onUpdate((prev) =>
+        iSet(prev, `${updatePath}.value.custom.${index}.value`, value),
+      );
 
-  return (
-    <div className={styles['container']}>
-      <div className={classNameBuilder('header')}>
-        {finalHeader}
-        {!optional && <RequiredIcon />}
-        {optional && '(Optional)'}
-      </div>
-      <div className={styles['content']}>
-        {finalDescription && (
-          <div className={styles['description']}>{finalDescription}</div>
-        )}
-        {subHeader && <h3>{subHeader}</h3>}
-        {format === SECTION_CONFIG_FORMAT.DROPDOWN && options && (
-          <Dropdown
-            options={options}
-            onChange={(e) => onChangeDropdown(e.target.value)}
-            value={value}
-            allowEmpty
-            placeholder={getPlaceholder(config) || 'Choose'}
-          />
-        )}
+    return (
+      <div className={styles['container']}>
+        <div className={classNameBuilder('header')}>
+          {finalHeader}
+          {!optional && <RequiredIcon />}
+          {optional && '(Optional)'}
+        </div>
+        <div className={styles['content']}>
+          {finalDescription && (
+            <div className={styles['description']}>{finalDescription}</div>
+          )}
+          {subHeader && <h3>{subHeader}</h3>}
+          {format === SECTION_CONFIG_FORMAT.DROPDOWN && options && (
+            <Dropdown
+              options={options}
+              onChange={(e) => onChangeDropdown(e.target.value)}
+              value={value}
+              allowEmpty
+              placeholder={getPlaceholder(config) || 'Choose'}
+            />
+          )}
 
-        {format === SECTION_CONFIG_FORMAT.STATIC_CHOICE && customValue && (
-          <div>
-            {getLabelValue && getLabelValue(customValue, statics)}
-            <div className={styles['custom-stat-dropdowns']}>
-              {customValue.map((config, i) => (
-                <Dropdown
-                  key={i}
-                  value={config.value}
-                  options={config.options}
-                  placeholder={getPlaceholder && getPlaceholder(config)}
-                  onChange={(e) => onChangeCustom(i, e.target.value)}
-                />
-              ))}
+          {format === SECTION_CONFIG_FORMAT.STATIC_CHOICE && customValue && (
+            <div>
+              {getLabelValue && getLabelValue(customValue, statics)}
+              <div className={styles['custom-stat-dropdowns']}>
+                {customValue.map((config, i) => (
+                  <Dropdown
+                    key={i}
+                    value={config.value}
+                    options={config.options}
+                    placeholder={getPlaceholder && getPlaceholder(config)}
+                    onChange={(e) => onChangeCustom(i, e.target.value)}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-        {getPostDescription && (
-          <div className={styles['description']}>
-            {getPostDescription(value)}
-          </div>
-        )}
+          )}
+          {getPostDescription && (
+            <div className={styles['description']}>
+              {getPostDescription(value)}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  },
+);
