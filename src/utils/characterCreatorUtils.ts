@@ -22,7 +22,7 @@ import {
 } from './characterCreator/ccParserUtils';
 import { RaceConfigsCreateConfig } from 'constants/raceTypes';
 import { RACE_CONFIGS } from 'constants/race';
-import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
+import { STATS, STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { joinAndStrings } from './stringUtils';
 import { CharacterSheetPath } from 'constants/characterSheetPaths';
 import { CLASS_CONFIGS } from 'constants/classConfigs';
@@ -32,7 +32,9 @@ import { WHISPER_TOGGLE } from 'constants/whisperToggle';
 import { SKILL_SORT } from 'constants/skills';
 import { MONEY } from 'constants/money';
 import { InventoryItem } from 'constants/inventory';
-import { DICE } from 'constants/dice';
+import { ClassConfig } from 'constants/classes';
+import { getDiceMax } from './diceUtils';
+import { getModifier } from './statUtils';
 
 const calcFinalBackground = (
   background: CharacterBackgroundForm,
@@ -252,19 +254,24 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       text: 'Missing name',
     });
   }
+  const selectedClass = finalClass.class;
+  const selectedClassConfig: ClassConfig = CLASS_CONFIGS[selectedClass];
 
-  console.log(finalRace, finalClass, finalBackground);
+  const finalStats = mergeAllStatBlocks([finalRace?.stats, stats]);
+
   const result = {
     [CharacterSheetPath.name]: bio.name || 'New Character',
     [CharacterSheetPath.advantageToggle]: ADVANTAGE_TOGGLE.NORMAL,
     [CharacterSheetPath.whisperToggle]: WHISPER_TOGGLE.NORMAL,
     [CharacterSheetPath.skillSort]: SKILL_SORT.ALPHABETICAL,
-    [CharacterSheetPath.levels]: {
-      [finalClass.class]: {
-        total: 1,
-        isMain: true,
-      },
-    },
+    [CharacterSheetPath.levels]: selectedClass
+      ? {
+          [selectedClass]: {
+            total: 1,
+            isMain: true,
+          },
+        }
+      : {},
     [CharacterSheetPath.spellcastingAbility]:
       finalClass?.spellcastingAbility || 'NONE',
     [CharacterSheetPath.race]: {
@@ -277,7 +284,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       description: finalBackground?.summary,
     },
     [CharacterSheetPath.alignment]: bio.alignment || ALIGNMENTS.N,
-    [CharacterSheetPath.stats]: mergeAllStatBlocks([finalRace?.stats, stats]),
+    [CharacterSheetPath.stats]: finalStats,
     [CharacterSheetPath.savingThrows]: finalClass?.savingThrows,
     [CharacterSheetPath.skills]: mergeAllProficiencies([
       finalRace?.skills,
@@ -326,17 +333,20 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       failures: [false, false, false],
     },
     [CharacterSheetPath.inspiration]: false,
-    // TODO: implement
-    [CharacterSheetPath.curHp]: 0,
+    [CharacterSheetPath.curHp]: selectedClassConfig
+      ? getDiceMax(selectedClassConfig.hitDice) +
+        getModifier(finalStats[STATS.CON])
+      : 0,
     [CharacterSheetPath.tempHp]: 0,
     [CharacterSheetPath.tempMaxHp]: 0,
-    // TODO: implement
-    [CharacterSheetPath.hitDice]: {
-      [DICE.d10]: {
-        total: 1,
-        max: 1,
-      },
-    },
+    [CharacterSheetPath.hitDice]: selectedClassConfig
+      ? {
+          [selectedClassConfig.hitDice]: {
+            total: 1,
+            max: 1,
+          },
+        }
+      : {},
     [CharacterSheetPath.customBonuses]: getMergedCustomBonuses([
       finalRace.customBonuses,
       finalClass.customBonuses,
