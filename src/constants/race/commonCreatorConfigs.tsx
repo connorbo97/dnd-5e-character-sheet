@@ -237,6 +237,7 @@ export const getChoiceToolProficiencies = (
           })),
         customChecks: custom.map(({ value }) => ({
           label: TOOLS_CONFIG[value].label,
+          proficient: true,
         })),
       }),
     },

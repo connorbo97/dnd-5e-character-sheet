@@ -63,7 +63,7 @@ export const mergeProficiencies = (
   }
 
   if (profA.category || profB.category) {
-    result.category = [profA.category, profB.category].join('/');
+    result.category = [profA.category, profB.category].join('|');
   }
 
   if (profA.source || profB.source) {

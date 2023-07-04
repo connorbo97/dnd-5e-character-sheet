@@ -4,7 +4,7 @@ import {
   CharacterCreatorForm,
   CharacterEquipmentForm,
 } from 'constants/characterCreator';
-import { concat, entries, get, size } from 'lodash';
+import { concat, entries, get, size, values } from 'lodash';
 import memoizeOne from 'memoize-one';
 import {
   CharacterCreatorValidation,
@@ -12,6 +12,7 @@ import {
   appendSourceToMap,
   mergeAllSkillProficiencies,
   mergeAllStatBlocks,
+  mergeProficiencies,
   parseCreateConfig,
   parseCreateConfigs,
 } from './characterCreator/ccParserUtils';
@@ -22,6 +23,10 @@ import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { joinAndStrings } from './stringUtils';
 import { CharacterSheetPath } from 'constants/characterSheetPaths';
 import { CLASS_CONFIGS } from 'constants/classes';
+import { ALIGNMENTS } from 'constants/alignments';
+import { ADVANTAGE_TOGGLE } from 'constants/advantageToggle';
+import { WHISPER_TOGGLE } from 'constants/whisperToggle';
+import { SKILL_SORT } from 'constants/skills';
 
 const calcFinalBackground = (
   background: CharacterBackgroundForm,
@@ -66,6 +71,7 @@ const calcFinalBackground = (
 
   return [
     {
+      name,
       summary,
       ...result,
     },
@@ -242,28 +248,54 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
   }
 
   const result = {
-    stats: mergeAllStatBlocks([finalRace?.stats, stats]),
+    [CharacterSheetPath.name]: bio.name || 'New Character',
+    [CharacterSheetPath.advantageToggle]: ADVANTAGE_TOGGLE.NORMAL,
+    [CharacterSheetPath.whisperToggle]: WHISPER_TOGGLE.NORMAL,
+    [CharacterSheetPath.skillSort]: SKILL_SORT.ALPHABETICAL,
+    [CharacterSheetPath.levels]: {
+      [finalClass.class]: {
+        total: 1,
+        isMain: true,
+      },
+    },
+    [CharacterSheetPath.spellcastingAbility]:
+      finalClass?.spellcastingAbility || 'NONE',
     [CharacterSheetPath.race]: {
       value: race.value,
       subRace: race.subRace,
     },
+    [CharacterSheetPath.background]: {
+      value: finalBackground?.name,
+      label: finalBackground?.name,
+      description: finalBackground?.summary,
+    },
+    [CharacterSheetPath.alignment]: bio.alignment || ALIGNMENTS.N,
+    [CharacterSheetPath.stats]: mergeAllStatBlocks([finalRace?.stats, stats]),
+    [CharacterSheetPath.savingThrows]: finalClass?.savingThrows,
     [CharacterSheetPath.skills]: mergeAllSkillProficiencies([
       finalRace?.skills,
       finalClass?.skills,
       finalBackground?.skills,
     ]),
+    [CharacterSheetPath.customChecks]: values(
+      [
+        ...(finalRace?.customChecks || []),
+        ...(finalClass?.customChecks || []),
+        ...(finalBackground?.customChecks || []),
+      ].reduce((acc, cur) => {
+        const label = cur.label;
+
+        acc[label] = mergeProficiencies(acc[label] || {}, cur);
+
+        return acc;
+      }, {}),
+    ),
     bio,
-    background: finalBackground,
     class: finalClass,
     equipment: finalEquipment,
   };
 
-  console.log(
-    result,
-    finalRace?.skills,
-    finalClass?.skills,
-    finalBackground?.skills,
-  );
+  console.log(result);
 
   return {
     sheet: result,

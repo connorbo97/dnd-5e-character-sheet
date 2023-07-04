@@ -1,4 +1,18 @@
 export enum CharacterSheetPath {
+  name = 'name',
+  advantageToggle = 'advantageToggle',
+  whisperToggle = 'whisperToggle',
+  skillSort = 'skillSort',
+  profBonus = 'profBonus',
+  levels = 'levels',
+  spellcastingAbility = 'spellcastingAbility',
+  race = 'race',
+  background = 'background',
+  alignment = 'alignment',
+  stats = 'stats',
+  savingThrows = 'savingThrows',
+  customChecks = 'customChecks',
+
   globalAttackModifier = 'globalAttackModifier',
   globalACModifier = 'globalACModifier',
   globalDamageModifier = 'globalDamageModifier',
@@ -6,6 +20,5 @@ export enum CharacterSheetPath {
   attacks = 'attacks',
   inventory = 'inventory',
   resources = 'resources',
-  race = 'race',
   skills = 'skills',
 }

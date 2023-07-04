@@ -14,7 +14,10 @@ import {
   getProficiencies,
   getStatsFeature,
   getMovementFeature,
+  getChoiceToolProficiencies,
 } from './commonCreatorConfigs';
+import { ARTISAN_TOOLS, TOOL_OPTIONS } from 'constants/tools';
+import { WEAPONS, WEAPON_CONFIGS } from 'constants/weapons';
 
 export const DWARF_CREATE_CONFIG = {
   base: [
@@ -24,31 +27,25 @@ export const DWARF_CREATE_CONFIG = {
     HUMANOID_TYPE_FEATURE,
     MEDIUM_SIZE_FEATURE,
     getMovementFeature(25),
-    getProficiencies('Weapon', [
-      'Battleaxe',
-      'Handaxe',
-      'Light Hammer',
-      'Warhammer',
-    ]),
-    {
-      type: SECTION_CONFIG_TYPE.CHOICE,
-      format: SECTION_CONFIG_FORMAT.DROPDOWN,
-      path: MULTI_PATH,
-      options: [
-        { value: "Smith's Tools", label: "Smith's Tools" },
-        { value: "Brewer's Tools", label: "Brewer's Tools" },
-        { value: "Mason's Tools", label: "Mason's Tools" },
-      ],
-      config: {
-        header: 'Tool Proficiency',
-        getFinalValue: (val) => {
-          return {
-            otherProficiencies: [{ label: val, category: 'Tool' }],
-            customChecks: [{ label: val }],
-          };
-        },
-      },
-    },
+    getProficiencies(
+      'Weapon',
+      [
+        WEAPONS.BATTLEAXE,
+        WEAPONS.HANDAXE,
+        WEAPONS.LIGHT_HAMMER,
+        WEAPONS.WARHAMMER,
+      ].map((k) => WEAPON_CONFIGS[k].label),
+    ),
+    getChoiceToolProficiencies(
+      TOOL_OPTIONS.filter(({ value }) =>
+        [
+          ARTISAN_TOOLS.MASON,
+          ARTISAN_TOOLS.BREWER,
+          ARTISAN_TOOLS.SMITH,
+        ].includes(value),
+      ),
+      1,
+    ),
     getLanguageFeature(
       ['Dwarvish'],
       'You can speak, read, and write Common and Dwarvish. Dwarvish is full of hard consonants and guttural sounds, and those characteristics spill over into whatever other language a dwarf might speak.',

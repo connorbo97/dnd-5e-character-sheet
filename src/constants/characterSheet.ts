@@ -40,32 +40,32 @@ export type GlobalACModifierType = {
   source?: string;
 };
 export type CharacterSheet = {
-  name: string;
-  advantageToggle: ADVANTAGE_TOGGLE;
-  whisperToggle: WHISPER_TOGGLE;
-  skillSort: SKILL_SORT;
-  profBonus: number;
-  levels: CharacterSheetLevels;
-  spellcastingAbility: STATS | 'NONE';
+  [CharacterSheetPath.name]: string;
+  [CharacterSheetPath.advantageToggle]: ADVANTAGE_TOGGLE;
+  [CharacterSheetPath.whisperToggle]: WHISPER_TOGGLE;
+  [CharacterSheetPath.skillSort]: SKILL_SORT;
+  [CharacterSheetPath.profBonus]: number;
+  [CharacterSheetPath.levels]: CharacterSheetLevels;
+  [CharacterSheetPath.spellcastingAbility]: STATS | 'NONE';
   [CharacterSheetPath.race]: {
     value: RACES;
     subRace: string;
     custom?: object;
   };
-  background: {
-    value: BACKGROUNDS;
-    custom?: object;
+  [CharacterSheetPath.background]: {
+    value: string;
+    label?: string;
+    description?: string;
   };
-  subRace?: string;
-  alignment: ALIGNMENTS;
-  stats: CharacterSheetStats;
-  savingThrows: {
+  [CharacterSheetPath.alignment]: ALIGNMENTS;
+  [CharacterSheetPath.stats]: CharacterSheetStats;
+  [CharacterSheetPath.savingThrows]: {
     [s in STATS]?: ProficiencyConfig;
   };
   [CharacterSheetPath.skills]: {
     [s in SKILLS]?: ProficiencyConfig;
   };
-  customChecks: Array<ProficiencyConfig>;
+  [CharacterSheetPath.customChecks]: Array<ProficiencyConfig>;
   [CharacterSheetPath.resources]: Array<ResourceConfig>;
   [CharacterSheetPath.features]: Array<FeatureConfig>;
   otherProficiencies: {
