@@ -1,11 +1,11 @@
 import {
+  CharacterBackgroundForm,
   CharacterClassForm,
   CharacterCreatorForm,
   CharacterEquipmentForm,
 } from 'constants/characterCreator';
-import { concat, entries, get, identity, size, stubTrue } from 'lodash';
+import { concat, entries, get, size } from 'lodash';
 import memoizeOne from 'memoize-one';
-import { BACKGROUND_SKILL_CONFIG } from 'constants/backgrounds';
 import {
   CharacterCreatorValidation,
   CharacterCreatorValidationType,
@@ -19,27 +19,52 @@ import { RACE_CONFIGS } from 'constants/race';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { joinAndStrings } from './stringUtils';
 
-const calcFinalBackground = (background) => {
-  const { skills, summary, equipment, config } = background;
-  const equipmentVal = get(equipment, 'value');
-  const skillsVal = get(skills, 'value', {});
-  const skillsConfig = BACKGROUND_SKILL_CONFIG.config || {};
+const calcFinalBackground = (
+  background: CharacterBackgroundForm,
+): [any, Array<CharacterCreatorValidation>] => {
+  const { name, specialFeature, summary, config } = background;
+  const nonConfigValidations: Array<CharacterCreatorValidation> = [];
 
-  if (
-    !equipmentVal ||
-    !skillsVal ||
-    !(skillsConfig?.isFullValue || stubTrue)(skillsVal)
-  ) {
-    console.log('missing background', equipmentVal, skillsVal);
+  if (!name) {
+    nonConfigValidations.push({
+      type: CharacterCreatorValidationType.REQUIRED,
+      text: 'Missing background name',
+    });
   }
 
-  const result = parseCreateConfigs(config);
+  if (!summary) {
+    nonConfigValidations.push({
+      type: CharacterCreatorValidationType.WARNING,
+      text: 'No background description provided',
+    });
+  }
 
-  return {
-    skills: (skillsConfig?.getFinalValue || identity)(skillsVal),
-    summary,
-    ...result,
-  };
+  if (!specialFeature?.label && !specialFeature?.description) {
+    nonConfigValidations.push({
+      type: CharacterCreatorValidationType.WARNING,
+      text: 'No Special Feature provided',
+    });
+  } else if (!specialFeature?.description) {
+    nonConfigValidations.push({
+      type: CharacterCreatorValidationType.WARNING,
+      text: 'No Special Feature description provided',
+    });
+  } else if (!specialFeature?.label) {
+    nonConfigValidations.push({
+      type: CharacterCreatorValidationType.WARNING,
+      text: 'No Special Feature name provided',
+    });
+  }
+
+  const [result, validations] = parseCreateConfigs(config);
+
+  return [
+    {
+      summary,
+      ...result,
+    },
+    [...nonConfigValidations, ...validations],
+  ];
 };
 
 const calcFinalClass = (
@@ -160,7 +185,8 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     race.value,
     race.subRace,
   );
-  const finalBackground = calcFinalBackground(background);
+  const [finalBackground, backgroundValidations] =
+    calcFinalBackground(background);
   const [finalClass, classValidations] = calcFinalClass(rawClass);
   const finalEquipment = calcFinalEquipment(equipment);
   const statEntries = entries(stats);
@@ -196,6 +222,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       [CHARACTER_CREATOR_PAGES.RACE]: raceValidations,
       [CHARACTER_CREATOR_PAGES.CLASS]: classValidations,
       [CHARACTER_CREATOR_PAGES.STATS]: statsValidation,
+      [CHARACTER_CREATOR_PAGES.BACKGROUND]: backgroundValidations,
     },
   };
 });

@@ -31,6 +31,7 @@ export const getPresentationConfig = (header) => ({
   config: {
     header,
     hideContent: true,
+    disableValidation: true,
   },
 });
 export const getNoteConfig = (header) => ({

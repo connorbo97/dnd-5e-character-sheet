@@ -36,6 +36,7 @@ export type CreateConfigEntryConfig = {
   isFullValue?: Function;
   hideValue?: boolean;
   hideContent?: boolean;
+  disableValidation?: boolean;
 };
 
 export type CreateConfigEntry = {

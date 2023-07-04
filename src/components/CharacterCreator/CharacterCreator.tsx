@@ -1,4 +1,4 @@
-import { findIndex, get, values } from 'lodash';
+import { findIndex, get, mapValues, values } from 'lodash';
 import styles from './characterCreator.module.scss';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import classnames from 'classnames/bind';
@@ -8,6 +8,7 @@ import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 import { CharacterCreatorPages } from './CharacterCreatorPages';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Tooltip } from 'react-mint';
+import { CharacterCreatorValidationType } from 'utils/characterCreator/ccParserUtils';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -58,11 +59,12 @@ export const CharacterCreator = () => {
   }, [curPage]);
 
   const { sheet, validationsBySection } = useCharacterCreatorSheet();
-  console.log({
-    sheet,
-    validationsBySection,
-    visitedPagesSet,
-  });
+  const errorValidationsBySection = mapValues(validationsBySection, (v) =>
+    v.filter((v) => v.type === CharacterCreatorValidationType.REQUIRED),
+  );
+  const warningValidationsBySection = mapValues(validationsBySection, (v) =>
+    v.filter((v) => v.type === CharacterCreatorValidationType.WARNING),
+  );
 
   return (
     <div className={styles['container']}>
@@ -75,12 +77,24 @@ export const CharacterCreator = () => {
               selected: curPage === p,
             })}>
             {p}
-            {visitedPagesSet.has(p) && validationsBySection[p]?.length > 0 && (
-              <div className={styles['validation']}></div>
+            {visitedPagesSet.has(p) && p !== CHARACTER_CREATOR_PAGES.START && (
+              <div
+                className={classNameBuilder('validation', {
+                  good: (validationsBySection[p]?.length || 0) === 0,
+                  warning:
+                    warningValidationsBySection[p]?.length &&
+                    errorValidationsBySection[p]?.length === 0,
+                })}
+              />
             )}
             {visitedPagesSet.has(p) && validationsBySection[p]?.length > 0 && (
               <Tooltip position={'bottom'}>
-                {validationsBySection[p].map(({ text }) => (
+                <span>Required</span>
+                {errorValidationsBySection[p].map(({ text }) => (
+                  <div>- {text}</div>
+                ))}
+                {warningValidationsBySection[p]?.length > 0 && 'Optional'}
+                {warningValidationsBySection[p].map(({ text }) => (
                   <div>- {text}</div>
                 ))}
               </Tooltip>
