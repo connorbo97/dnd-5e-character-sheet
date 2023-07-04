@@ -3,7 +3,7 @@ import {
   CharacterCreatorForm,
   CharacterEquipmentForm,
 } from 'constants/characterCreator';
-import { concat, get, identity, stubTrue } from 'lodash';
+import { concat, entries, get, identity, size, stubTrue } from 'lodash';
 import memoizeOne from 'memoize-one';
 import { BACKGROUND_SKILL_CONFIG } from 'constants/backgrounds';
 import {
@@ -16,6 +16,8 @@ import {
 import { CHARACTER_CREATOR_PAGES } from 'components/CharacterCreator/CharacterCreator';
 import { RaceConfigsCreateConfig } from 'constants/raceTypes';
 import { RACE_CONFIGS } from 'constants/race';
+import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
+import { joinAndStrings } from './stringUtils';
 
 const calcFinalBackground = (background) => {
   const { skills, summary, equipment, config } = background;
@@ -161,6 +163,20 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
   const finalBackground = calcFinalBackground(background);
   const [finalClass, classValidations] = calcFinalClass(rawClass);
   const finalEquipment = calcFinalEquipment(equipment);
+  const statEntries = entries(stats);
+  const statsValidation =
+    size(stats) === 6 && statEntries.every(([stat, v]) => v > 0)
+      ? []
+      : [
+          {
+            type: CharacterCreatorValidationType.REQUIRED,
+            text: `Missing selection for ${joinAndStrings(
+              STATS_LIST.filter((s) => (stats[s] || 0) <= 0).map(
+                (s) => STATS_CONFIGS[s].label,
+              ),
+            )}`,
+          },
+        ];
 
   const result = {
     stats: mergeStatBlocks(stats, finalRace?.stats || {}),
@@ -179,6 +195,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     validationsBySection: {
       [CHARACTER_CREATOR_PAGES.RACE]: raceValidations,
       [CHARACTER_CREATOR_PAGES.CLASS]: classValidations,
+      [CHARACTER_CREATOR_PAGES.STATS]: statsValidation,
     },
   };
 });
