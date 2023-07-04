@@ -40,18 +40,35 @@ const calcFinalBackground = (background) => {
   };
 };
 
-const calcFinalClass = (rawClass: CharacterClassForm) => {
+const calcFinalClass = (
+  rawClass: CharacterClassForm,
+): [object, Array<CharacterCreatorValidation>] => {
   const { value, static: staticConfigs = [], config = [] } = rawClass;
 
   if (!value) {
     console.log('missing class', value, rawClass);
+    return [
+      {},
+      [
+        {
+          type: CharacterCreatorValidationType.REQUIRED,
+          text: 'Missing class selection',
+        },
+      ],
+    ];
   }
-  const result = parseCreateConfigs([...staticConfigs, ...config]);
+  const [result, validations] = parseCreateConfigs([
+    ...staticConfigs,
+    ...config,
+  ]);
 
-  return {
-    class: value,
-    ...result,
-  };
+  return [
+    {
+      class: value,
+      ...result,
+    },
+    validations,
+  ];
 };
 const calcFinalEquipment = (equipment: CharacterEquipmentForm) => {
   const { config = [] } = equipment;
@@ -65,11 +82,11 @@ const calcFinalEquipment = (equipment: CharacterEquipmentForm) => {
   return result;
 };
 
-export const calcFinalRace = (
+const calcFinalRace = (
   createConfig: RaceConfigsCreateConfig,
   selectedRace: string = '',
   selectedSubRace: string = '',
-) => {
+): [any, Array<CharacterCreatorValidation>] => {
   let result: any = {};
 
   if (!selectedRace || !RACE_CONFIGS[selectedRace]) {
@@ -142,7 +159,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     race.subRace,
   );
   const finalBackground = calcFinalBackground(background);
-  const finalClass = calcFinalClass(rawClass);
+  const [finalClass, classValidations] = calcFinalClass(rawClass);
   const finalEquipment = calcFinalEquipment(equipment);
 
   const result = {
@@ -161,6 +178,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     sheet: result,
     validationsBySection: {
       [CHARACTER_CREATOR_PAGES.RACE]: raceValidations,
+      [CHARACTER_CREATOR_PAGES.CLASS]: classValidations,
     },
   };
 });

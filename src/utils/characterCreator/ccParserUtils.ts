@@ -110,9 +110,10 @@ export const parseCreateConfig = (
   const { value, path, config = {}, choiceCondition = stubTrue, optional } = c;
   const { getFinalValue, isFullValue = (val) => !!val, header } = config;
 
+  console.log({ optional, c, header, test: isFullValue(value) });
   if (!choiceCondition(allConfigs)) {
     return;
-  } else if (!optional && !isFullValue(value)) {
+  } else if (path !== IGNORE_PATH && !optional && !isFullValue(value)) {
     validations.push({
       type: CharacterCreatorValidationType.REQUIRED,
       text: `Missing selection for "${header}"`,
@@ -154,7 +155,7 @@ export const parseCreateConfig = (
 export const parseCreateConfigs = (
   configs: Array<CreateConfigEntry>,
   pathHandlers = {},
-) => {
+): [any, Array<CharacterCreatorValidation>] => {
   const result = {};
   const validations = [];
 
