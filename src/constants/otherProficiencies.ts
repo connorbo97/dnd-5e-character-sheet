@@ -1,7 +1,7 @@
-import { mapValues, pickBy } from 'lodash';
+import { keyBy, mapValues, pickBy } from 'lodash';
 import { WEAPON_CONFIGS } from './weapons';
 import { TOOLS_CONFIG } from './tools';
-import { LANGUAGES } from './languages';
+import { LANGUAGES_LIST } from './languages';
 
 export enum OTHER_PROFICIENCY_CATEGORY {
   ARMOR = 'Armor',
@@ -9,7 +9,7 @@ export enum OTHER_PROFICIENCY_CATEGORY {
   TOOL = 'Tool',
   LANGUAGE = 'Language',
 }
-const { ARMOR, WEAPON, TOOL } = OTHER_PROFICIENCY_CATEGORY;
+const { ARMOR, WEAPON, TOOL, LANGUAGE } = OTHER_PROFICIENCY_CATEGORY;
 
 export const getBasicProficiencyConfig = (label, category) => ({
   proficient: true,
@@ -42,8 +42,9 @@ export const WEAPON_PROFICIENCIES = mapValues(WEAPON_CONFIGS, (c, k) => ({
 export const TOOL_PROFICIENCIES = mapValues(TOOLS_CONFIG, (c, k) => ({
   [k]: getBasicProficiencyConfig(c.label, TOOL),
 }));
-export const LANGUAGE_PROFICIENCIES = mapValues(LANGUAGES, (l, k) => ({
-  [k]: getBasicProficiencyConfig(l, TOOL),
-}));
+export const LANGUAGE_PROFICIENCIES = mapValues(keyBy(LANGUAGES_LIST), (l) =>
+  getBasicProficiencyConfig(l, LANGUAGE),
+);
+console.log(LANGUAGE_PROFICIENCIES);
 export const getLanguageProficiencies = (languages) =>
   pickBy(LANGUAGE_PROFICIENCIES, (value, key) => languages.includes(key));

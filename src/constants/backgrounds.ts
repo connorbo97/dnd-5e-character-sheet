@@ -66,7 +66,7 @@ const generateConditionalTraits = (index) => [
       getFinalValue: (v) => ({
         otherProficiencies: v
           ? {
-              v: {
+              [v]: {
                 category: OTHER_PROFICIENCY_CATEGORY.TOOL,
                 label: TOOLS_CONFIG[v].label,
               },
@@ -86,7 +86,7 @@ const generateConditionalTraits = (index) => [
       getFinalValue: (v) => ({
         otherProficiencies: v
           ? {
-              v: {
+              [v]: {
                 category: OTHER_PROFICIENCY_CATEGORY.TOOL,
                 label: TOOLS_CONFIG[v].label,
               },
@@ -106,7 +106,7 @@ const generateConditionalTraits = (index) => [
       getFinalValue: (v) => ({
         otherProficiencies: v
           ? {
-              v: {
+              [v]: {
                 category: OTHER_PROFICIENCY_CATEGORY.TOOL,
                 label: TOOLS_CONFIG[v].label,
               },
@@ -125,7 +125,7 @@ const generateConditionalTraits = (index) => [
       getFinalValue: (v) => ({
         otherProficiencies: v
           ? {
-              v: {
+              [v]: {
                 category: OTHER_PROFICIENCY_CATEGORY.TOOL,
                 label: TOOLS_CONFIG[v].label,
               },
@@ -145,7 +145,7 @@ const generateConditionalTraits = (index) => [
       getFinalValue: (v) => ({
         otherProficiencies: v
           ? {
-              v: {
+              [v]: {
                 category: OTHER_PROFICIENCY_CATEGORY.TOOL,
                 label: TOOLS_CONFIG[v].label,
               },

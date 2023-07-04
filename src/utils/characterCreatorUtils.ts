@@ -11,6 +11,7 @@ import {
   CharacterCreatorValidation,
   CharacterCreatorValidationType,
   appendSourceToMap,
+  mergeAllMoney,
   mergeAllProficiencies,
   mergeAllStatBlocks,
   mergeInventoryItems,
@@ -299,9 +300,12 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       finalClass?.otherProficiencies,
       finalBackground?.otherProficiencies,
     ]),
-    [CharacterSheetPath.money]: {
-      [MONEY.GOLD]: 25,
-    },
+    [CharacterSheetPath.money]: mergeAllMoney([
+      {
+        [MONEY.GOLD]: 25,
+      },
+      finalBackground?.money,
+    ]),
     [CharacterSheetPath.inventory]: values(
       [
         ...(finalRace?.inventory || []),

@@ -37,11 +37,13 @@ export const StaticSection = ({ format, value, config = {} }: Props) => {
           `${value}${type !== WALKING_TYPE ? ' ' + type : ''}`,
       )
       .join(', ');
-  } else if (format === 'FEATURE') {
+  } else if (format === SECTION_CONFIG_FORMAT.FEATURE) {
     finalHeader = value?.label;
     finalValue = value?.description;
-  } else if (format === 'PROFICIENCY') {
-    finalValue = value.map(({ label }) => label).join(', ');
+  } else if (format === SECTION_CONFIG_FORMAT.PROFICIENCY) {
+    finalValue = values(value)
+      .map(({ label }) => label)
+      .join(', ');
   } else if (format === SECTION_CONFIG_FORMAT.SKILL_PROFICIENCY) {
     finalValue = Object.keys(value)
       .map((s) => SKILL_CONFIGS[s].label)

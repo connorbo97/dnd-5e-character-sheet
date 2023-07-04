@@ -126,6 +126,15 @@ export const mergeAllProficiencies = (prof) =>
     }, acc);
   }, {});
 
+export const mergeAllMoney = (moneys) =>
+  moneys.filter(identity).reduce((acc, m) => {
+    entries(m).forEach(([type, value]) => {
+      acc[type] = (acc[type] || 0) + value;
+    });
+
+    return acc;
+  }, {});
+
 const DEFAULT_CREATE_CONFIG_HANDLERS = {
   stats: (p, v, result) => {
     const mergedStatBlocks = mergeStatBlocks(result[p], v);
@@ -149,6 +158,11 @@ const DEFAULT_CREATE_CONFIG_HANDLERS = {
     }, curSkills);
 
     set(result, p, newSkills);
+  },
+  money: (p, v, result) => {
+    const curMoney = result[p] || {};
+
+    set(result, p, mergeAllMoney([curMoney, v]));
   },
   featChoices: (p, v, result) => {
     update(result, p, (prevCount) => (prevCount || 0) + v);

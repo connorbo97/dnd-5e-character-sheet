@@ -24,9 +24,3 @@ export const LANGUAGE_OPTIONS = LANGUAGES_LIST.map((l) => ({
   label: l,
   value: l,
 }));
-
-export const LANGUAGE_PROFICIENCIES = LANGUAGES_LIST.reduce((acc, l) => {
-  acc[l] = l;
-
-  return acc;
-}, {});
