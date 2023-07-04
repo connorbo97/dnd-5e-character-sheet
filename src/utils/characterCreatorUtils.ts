@@ -9,7 +9,7 @@ import memoizeOne from 'memoize-one';
 import {
   CharacterCreatorValidation,
   CharacterCreatorValidationType,
-  mergeStatBlocks,
+  mergeAllStatBlocks,
   parseCreateConfig,
   parseCreateConfigs,
 } from './characterCreator/ccParserUtils';
@@ -217,9 +217,17 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
             )}`,
           },
         ];
+  const bioValidations: Array<CharacterCreatorValidation> = [];
+  const { name } = bio;
+  if (!name) {
+    bioValidations.push({
+      type: CharacterCreatorValidationType.REQUIRED,
+      text: 'Missing name',
+    });
+  }
 
   const result = {
-    stats: mergeStatBlocks(stats, finalRace?.stats || {}),
+    stats: mergeAllStatBlocks([finalRace?.stats, stats]),
     race: {
       value: race.value,
       subRace: race.subRace,
@@ -229,6 +237,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     class: finalClass,
     equipment: finalEquipment,
   };
+  console.log(form, result);
 
   return {
     sheet: result,
@@ -238,6 +247,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       [CHARACTER_CREATOR_PAGES.STATS]: statsValidation,
       [CHARACTER_CREATOR_PAGES.BACKGROUND]: backgroundValidations,
       [CHARACTER_CREATOR_PAGES.EQUIPMENT]: equipmentValidations,
+      [CHARACTER_CREATOR_PAGES.BIO]: bioValidations,
     },
   };
 });

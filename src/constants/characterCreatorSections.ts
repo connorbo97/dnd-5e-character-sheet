@@ -37,6 +37,7 @@ export type CreateConfigEntryConfig = {
   hideValue?: boolean;
   hideContent?: boolean;
   disableValidation?: boolean;
+  allowPartial?: boolean;
 };
 
 export type CreateConfigEntry = {

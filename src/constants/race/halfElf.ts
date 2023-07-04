@@ -37,6 +37,7 @@ export const HALF_ELF_CREATE_CONFIG = {
         getFinalValue: ({ custom, statics }) =>
           convertCustomStatsToStatBlock([...statics, ...custom]),
         getPlaceholder: ({ mod }) => `Choose stat for ${addNumberSign(mod)}`,
+        allowPartial: true,
       },
     ),
     HUMANOID_TYPE_FEATURE,

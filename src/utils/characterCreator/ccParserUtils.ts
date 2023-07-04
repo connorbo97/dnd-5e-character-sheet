@@ -20,10 +20,11 @@ export const mergeStatBlocks = (blockA, blockB) => {
   }
   return entries(blockB).reduce(
     (acc, [stat, mod]) => {
+      const safeMod = mod || 0;
       if (!isNil(acc[stat])) {
-        acc[stat] += mod;
+        acc[stat] += safeMod;
       } else {
-        acc[stat] = mod;
+        acc[stat] = safeMod;
       }
 
       return acc;
@@ -31,6 +32,11 @@ export const mergeStatBlocks = (blockA, blockB) => {
     { ...blockA },
   );
 };
+export const mergeAllStatBlocks = (blocks) =>
+  blocks.reduce((acc, b) => {
+    console.log(b, acc);
+    return mergeStatBlocks(acc, b);
+  }, {});
 
 export const mergeProficiencies = (
   profA: ProficiencyConfig,
@@ -113,6 +119,7 @@ export const parseCreateConfig = (
     isFullValue = (val) => !!val,
     header,
     disableValidation,
+    allowPartial,
   } = config;
 
   if (!choiceCondition(allConfigs)) {
@@ -123,7 +130,9 @@ export const parseCreateConfig = (
       text: `Missing selection for "${header}"`,
       index,
     });
-    return;
+    if (!allowPartial) {
+      return;
+    }
   }
 
   const finalPathHandlers = {
