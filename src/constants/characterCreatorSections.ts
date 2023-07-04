@@ -47,4 +47,5 @@ export type CreateConfigEntry = {
   choiceCondition?: Function;
   options?: Array<{ value: any; label: any }>;
   config?: CreateConfigEntryConfig;
+  getDisabledOptions: (form, index) => Array<any>;
 };
