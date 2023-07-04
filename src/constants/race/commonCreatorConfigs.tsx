@@ -5,9 +5,12 @@ import {
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
 import { FIGHTING_STYLE_CONFIGS } from 'constants/fightingStyles';
-import { LANGUAGES, getLanguageProficiencies } from 'constants/languages';
+import { LANGUAGES } from 'constants/languages';
 import { MONEY_CONFIGS } from 'constants/money';
-import { OTHER_PROFICIENCY_CATEGORY } from 'constants/otherProficiencies';
+import {
+  OTHER_PROFICIENCY_CATEGORY,
+  getLanguageProficiencies,
+} from 'constants/otherProficiencies';
 import {
   CREATURE_SIZE,
   CREATURE_TYPE,
@@ -154,7 +157,7 @@ export const getWeaponProficienciesFeature = (weapons) => ({
     };
 
     return acc;
-  }),
+  }, {}),
   config: {
     header: `Weapon Proficiencies`,
   },

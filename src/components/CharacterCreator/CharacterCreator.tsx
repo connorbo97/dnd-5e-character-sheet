@@ -9,20 +9,10 @@ import { CharacterCreatorPages } from './CharacterCreatorPages';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Tooltip } from 'react-mint';
 import { CharacterCreatorValidationType } from 'utils/characterCreator/ccParserUtils';
+import { CHARACTER_CREATOR_PAGES } from 'constants/characterCreator';
 
 const classNameBuilder = classnames.bind(styles);
 
-export enum CHARACTER_CREATOR_PAGES {
-  START = 'start',
-  RACE = 'race',
-  CLASS = 'class',
-  STATS = 'stats',
-  BACKGROUND = 'background',
-  EQUIPMENT = 'equipment',
-  FEATS = 'feats',
-  BIO = 'bio',
-  REVIEW = 'review',
-}
 const CHARACTER_CREATOR_PAGES_LIST = values(CHARACTER_CREATOR_PAGES);
 
 export const CharacterCreator = () => {

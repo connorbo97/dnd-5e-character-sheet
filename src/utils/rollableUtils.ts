@@ -3,12 +3,12 @@ import {
   ROLLABLES,
   Rollable,
   RollableEntry,
-  RollableUtilConfig,
   StaticRollable,
   StaticRollableEntry,
   OPERATORS,
   OPERATORS_SET,
   ROLLABLES_SET,
+  RollableUtilConfig,
 } from 'constants/rollable';
 import { STATS, STATS_SET } from 'constants/stats';
 import { isNil, isNumber, partition, sum } from 'lodash';

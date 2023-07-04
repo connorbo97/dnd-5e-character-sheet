@@ -1,6 +1,6 @@
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import styles from './classCreator.module.scss';
-import { CLASS_CONFIGS, CLASS_OPTIONS } from 'constants/classes';
+import { CLASS_CONFIGS, CLASS_OPTIONS } from 'constants/classConfigs';
 import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { CreateSection } from '../common/CreateSection';

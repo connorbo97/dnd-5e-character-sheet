@@ -3,7 +3,7 @@ import styles from './hitPoints.module.scss';
 import { entries, findKey, partition } from 'lodash';
 import { STATS } from 'constants/stats';
 import { getDiceAverage, getDiceMax } from 'utils/diceUtils';
-import { CLASS_CONFIGS } from 'constants/classes';
+import { CLASS_CONFIGS } from 'constants/classConfigs';
 import { Tag } from 'common/components/Tag/Tag';
 
 export const HitPoints = () => {

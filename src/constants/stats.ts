@@ -50,3 +50,7 @@ export const STATS_OPTIONS_W_LABELS = values(STATS).map((v) => ({
   value: v,
   label: STATS_CONFIGS[v].label,
 }));
+
+export type STAT_BLOCK_TYPE = {
+  [s in STATS]: number;
+};

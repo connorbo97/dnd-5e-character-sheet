@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import { CHARACTER_CREATOR_PAGES } from './CharacterCreator';
 import { BioCreator } from './pages/BioCreator/BioCreator';
 import { EquipmentCreator } from './pages/EquipmentCreator/EquipmentCreator';
 import { BackgroundCreator } from './pages/BackgroundCreator/BackgroundCreator';
@@ -7,6 +6,7 @@ import { StatsCreator } from './pages/StatsCreator/StatsCreator';
 import { ClassCreator } from './pages/ClassCreator/ClassCreator';
 import { RaceCreator } from './pages/RaceCreator/RaceCreator';
 import React from 'react';
+import { CHARACTER_CREATOR_PAGES } from 'constants/characterCreator';
 
 type Props = any;
 export const CharacterCreatorPages = React.memo((props: Props) => {

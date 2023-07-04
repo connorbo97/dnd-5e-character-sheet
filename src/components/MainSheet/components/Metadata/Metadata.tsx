@@ -1,7 +1,7 @@
 import { useFullSheet } from 'providers/CharacterSheetProvider/useFullSheet';
 import styles from './metadata.module.scss';
 import { entries, identity } from 'lodash';
-import { CLASS_CONFIGS } from 'constants/classes';
+import { CLASS_CONFIGS } from 'constants/classConfigs';
 import { Tag } from 'common/components/Tag/Tag';
 import { RACE_CONFIGS } from 'constants/race';
 import { BACKGROUND_CONFIGS } from 'constants/backgrounds';

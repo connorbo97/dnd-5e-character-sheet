@@ -1,4 +1,5 @@
 import {
+  CHARACTER_CREATOR_PAGES,
   CharacterBackgroundForm,
   CharacterClassForm,
   CharacterCreatorForm,
@@ -17,13 +18,12 @@ import {
   parseCreateConfig,
   parseCreateConfigs,
 } from './characterCreator/ccParserUtils';
-import { CHARACTER_CREATOR_PAGES } from 'components/CharacterCreator/CharacterCreator';
 import { RaceConfigsCreateConfig } from 'constants/raceTypes';
 import { RACE_CONFIGS } from 'constants/race';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { joinAndStrings } from './stringUtils';
 import { CharacterSheetPath } from 'constants/characterSheetPaths';
-import { CLASS_CONFIGS } from 'constants/classes';
+import { CLASS_CONFIGS } from 'constants/classConfigs';
 import { ALIGNMENTS } from 'constants/alignments';
 import { ADVANTAGE_TOGGLE } from 'constants/advantageToggle';
 import { WHISPER_TOGGLE } from 'constants/whisperToggle';

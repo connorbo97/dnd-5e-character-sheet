@@ -8,6 +8,18 @@ import { ALIGNMENTS } from './alignments';
 
 export const CHARACTER_CREATOR_REDUCER_NAME = 'characterCreator';
 
+export enum CHARACTER_CREATOR_PAGES {
+  START = 'start',
+  RACE = 'race',
+  CLASS = 'class',
+  STATS = 'stats',
+  BACKGROUND = 'background',
+  EQUIPMENT = 'equipment',
+  FEATS = 'feats',
+  BIO = 'bio',
+  REVIEW = 'review',
+}
+
 export type CharacterRaceForm = {
   value?: RACES;
   config?: RaceConfigsCreateConfig;

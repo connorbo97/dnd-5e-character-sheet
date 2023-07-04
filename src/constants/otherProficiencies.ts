@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash';
+import { mapValues, pickBy } from 'lodash';
 import { WEAPON_CONFIGS } from './weapons';
 import { TOOLS_CONFIG } from './tools';
 import { LANGUAGES } from './languages';
@@ -45,3 +45,5 @@ export const TOOL_PROFICIENCIES = mapValues(TOOLS_CONFIG, (c, k) => ({
 export const LANGUAGE_PROFICIENCIES = mapValues(LANGUAGES, (l, k) => ({
   [k]: getBasicProficiencyConfig(l, TOOL),
 }));
+export const getLanguageProficiencies = (languages) =>
+  pickBy(LANGUAGE_PROFICIENCIES, (value, key) => languages.includes(key));

@@ -1,10 +1,12 @@
 import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import styles from './equipmentCreator.module.scss';
-import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
-import { CLASS_CONFIGS } from 'constants/classes';
+import {
+  CHARACTER_CREATOR_PAGES,
+  CHARACTER_CREATOR_PATHS,
+} from 'constants/characterCreator';
+import { CLASS_CONFIGS } from 'constants/classConfigs';
 import { useLayoutEffect } from 'react';
 import { CreateSection } from '../common/CreateSection';
-import { CHARACTER_CREATOR_PAGES } from 'components/CharacterCreator/CharacterCreator';
 import { TextLink } from 'common/components/TextLink/TextLink';
 
 type Props = any;

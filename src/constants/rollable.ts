@@ -1,7 +1,6 @@
 import { values } from 'lodash';
-import { CharacterSheetStats } from './characterSheet';
 import { DICE } from './dice';
-import { STATS } from './stats';
+import { STATS, STAT_BLOCK_TYPE } from './stats';
 
 export enum ROLLABLES {
   PB = 'PB',
@@ -10,18 +9,17 @@ export enum ROLLABLES {
 }
 export const ROLLABLES_SET = new Set(values(ROLLABLES));
 
+export type RollableUtilConfig = {
+  stats: STAT_BLOCK_TYPE;
+  spellcastingAbility: STATS | 'NONE';
+  profBonus: number;
+};
 export type StaticRollableEntry = number | STATS | ROLLABLES;
 export type DiceRoll = [number, DICE];
 export type RollableEntry = StaticRollableEntry | DiceRoll;
 
 export type StaticRollable = Array<StaticRollableEntry>;
 export type Rollable = Array<RollableEntry>;
-
-export type RollableUtilConfig = {
-  stats: CharacterSheetStats;
-  spellcastingAbility: STATS | 'NONE';
-  profBonus: number;
-};
 
 export enum OPERATORS {
   PLUS = '+',

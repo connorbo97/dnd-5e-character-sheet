@@ -13,12 +13,8 @@ import { RACES } from './raceTypes';
 import { ResourceConfig } from './resources';
 import { ROLLABLES, Rollable } from './rollable';
 import { SKILLS, SKILL_SORT } from './skills';
-import { STATS } from './stats';
+import { STATS, STAT_BLOCK_TYPE } from './stats';
 import { WHISPER_TOGGLE } from './whisperToggle';
-
-export type CharacterSheetStats = {
-  [s in STATS]: number;
-};
 
 export type CharacterSheetLevels = {
   [c in CLASSES]?: {
@@ -58,7 +54,7 @@ export type CharacterSheet = {
     description?: string;
   };
   [CharacterSheetPath.alignment]: ALIGNMENTS;
-  [CharacterSheetPath.stats]: CharacterSheetStats;
+  [CharacterSheetPath.stats]: STAT_BLOCK_TYPE;
   [CharacterSheetPath.savingThrows]: {
     [s in STATS]?: ProficiencyConfig;
   };

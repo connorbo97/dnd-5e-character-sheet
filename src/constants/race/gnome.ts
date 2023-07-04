@@ -15,7 +15,8 @@ import {
   SECTION_CONFIG_FORMAT,
   SECTION_CONFIG_TYPE,
 } from 'constants/characterCreatorSections';
-import { ARTISAN_TOOLS, TOOL_PROFICIENCIES } from 'constants/tools';
+import { ARTISAN_TOOLS } from 'constants/tools';
+import { TOOL_PROFICIENCIES } from 'constants/otherProficiencies';
 
 export const GNOME_CREATE_CONFIG = {
   base: [
