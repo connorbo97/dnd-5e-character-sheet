@@ -45,6 +45,5 @@ export const TOOL_PROFICIENCIES = mapValues(TOOLS_CONFIG, (c, k) => ({
 export const LANGUAGE_PROFICIENCIES = mapValues(keyBy(LANGUAGES_LIST), (l) =>
   getBasicProficiencyConfig(l, LANGUAGE),
 );
-console.log(LANGUAGE_PROFICIENCIES);
 export const getLanguageProficiencies = (languages) =>
   pickBy(LANGUAGE_PROFICIENCIES, (value, key) => languages.includes(key));

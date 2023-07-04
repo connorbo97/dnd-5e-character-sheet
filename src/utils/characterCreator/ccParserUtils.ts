@@ -103,9 +103,7 @@ export const mergeProficiencies = (
   profA: ProficiencyConfig,
   profB: ProficiencyConfig,
 ) => {
-  console.log(profA, profB);
   let result = { ...(profA || {}), ...(profB || {}) };
-  console.log(result);
 
   if (profA?.proficient || profB.proficient) {
     result.proficient = true;
