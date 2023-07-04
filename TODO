@@ -4,11 +4,16 @@ General Features
 
 Character Creator
 
-- class subclasses
+- utils
+  - add a util that grabs the key from all objects and mushes it so i don't have to repeat everywhere
+- "finals"
+  - check I used all values from "finals"
+  - rename to forms
+- sources
+  - add sources to everything that needs them
+- spells
 - options
   - add ability to disable options you've already selected
-- Final Calc
-  - implement mechanism to generate sheet from all selections
 - Background
   - add presets
   - implement Tasha's Rules
@@ -18,6 +23,10 @@ Character Creator
   - implement parser
 - Classes
   - manual data entry i think for level ups :(
+  - subclasses
+
+Main Sheet
+
 - AC
   - handle globalACModifier and inventory AC vs AC Mods
 - Attacks
