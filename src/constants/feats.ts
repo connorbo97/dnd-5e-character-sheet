@@ -1,3 +1,5 @@
+import { values } from 'lodash';
+
 export enum FEATS {
   ABERRANT_DRAGONMARK = 'ABERRANT_DRAGONMARK',
   ACTOR = 'ACTOR',
@@ -509,3 +511,7 @@ export const FEAT_CONFIGS: {
       'You have practiced extensively with a variety of weapons, gaining the following benefits:\n\nIncrease your Strength or Dexterity score by 1, to a maximum of 20.\n\n\nYou gain proficiency with four weapons of your choice. Each one must be a simple or a martial weapon.\n',
   },
 };
+export const FEAT_OPTIONS = values(FEATS).map((f) => ({
+  value: f,
+  label: FEAT_CONFIGS[f].label,
+}));
