@@ -92,7 +92,6 @@ export const ChoiceSection = React.memo(
       path,
     );
 
-    console.log(formPath, path, sheetValue, allowDupes);
     if (
       !allowDupes &&
       formPath &&

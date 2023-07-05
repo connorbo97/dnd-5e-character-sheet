@@ -8,13 +8,14 @@ import {
   getStaticWithChoices,
   getStatsFeature,
 } from './commonCreatorConfigs';
-import { LANGUAGE_OPTIONS } from 'constants/languages';
+import { LANGUAGES, LANGUAGE_OPTIONS } from 'constants/languages';
 import { STATS, STATS_OPTIONS_W_LABELS } from 'constants/stats';
 import { getStatStringFromBlock } from 'utils/statUtils';
 import { convertCustomStatsToStatBlock } from 'utils/characterCreator/ccUtils';
 import { addNumberSign } from 'utils/stringUtils';
 import { SKILL_OPTIONS } from 'constants/skills';
 import { identity } from 'lodash';
+import { OTHER_PROFICIENCY_CATEGORY } from 'constants/otherProficiencies';
 
 export const HUMAN_CREATE_CONFIG: RaceConfigsCreateConfig = {
   base: [
@@ -23,9 +24,9 @@ export const HUMAN_CREATE_CONFIG: RaceConfigsCreateConfig = {
     getMovementFeature(30),
     getStaticWithChoices(
       {
-        path: 'features',
+        path: 'otherProficiencies',
         custom: [{ options: LANGUAGE_OPTIONS }],
-        statics: ['Common'],
+        statics: [LANGUAGES.COMMON],
       },
       {
         header: 'Languages',
@@ -34,15 +35,20 @@ export const HUMAN_CREATE_CONFIG: RaceConfigsCreateConfig = {
           'You can speak, read, and write Common and one extra language of your choice. Humans typically learn the languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their speech⁠ with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish military phrases, and so on.',
         getPlaceholder: () => `Choose`,
         getFinalValue: ({ custom, statics }) =>
-          [
-            ...statics,
-            ...custom.map(({ value }) => value).filter(identity),
-          ].map((label) => ({
-            label,
-            type: 'Language',
-          })),
+          [...statics, ...custom.map(({ value }) => value).filter(identity)]
+            .filter(identity)
+            .reduce((acc, label) => {
+              acc[label] = {
+                label,
+                category: OTHER_PROFICIENCY_CATEGORY.LANGUAGE,
+              };
+
+              return acc;
+            }, {}),
         getLabelValue: (custom, statics) =>
-          [...statics, ...custom.map(({ value }) => value)].join(', '),
+          [...statics, ...custom.map(({ value }) => value)]
+            .filter(identity)
+            .join(', '),
       },
     ),
   ],

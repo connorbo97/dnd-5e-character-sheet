@@ -38,6 +38,7 @@ import { InventoryItem } from 'constants/inventory';
 import { ClassConfig } from 'constants/classes';
 import { getDiceMax } from './diceUtils';
 import { getModifier } from './statUtils';
+import { OTHER_PROFICIENCY_CATEGORY } from 'constants/otherProficiencies';
 
 const calcFinalBackground = (
   background: CharacterBackgroundForm,
@@ -155,7 +156,7 @@ const calcFinalRace = (
   selectedSubRace: string = '',
 ): [any, Array<CharacterCreatorValidation>] => {
   let result: any = {};
-
+  console.log(createConfig, selectedRace, selectedSubRace);
   if (!selectedRace || !RACE_CONFIGS[selectedRace]) {
     return [
       result,
@@ -399,14 +400,56 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
   const multiSourceSkills = entries(get(result, CharacterSheetPath.skills, {}))
     .map(([type, { source }]: any) => ({
       label: SKILL_CONFIGS[type]?.label,
-      sources: source?.split('|') || [],
+      sources: (source?.split('|') || []).map((s) => s.split(':')[0]),
     }))
     .filter(({ sources }) => sources.length > 1);
-  console.log(multiSourceSkills, get(result, CharacterSheetPath.skills, {}));
   if (size(multiSourceSkills) > 0) {
     reviewValidations.push({
       type: CharacterCreatorValidationType.WARNING,
       text: `Gained proficiency in the following skills from multiple sources:\n${multiSourceSkills
+        .map(
+          ({ label, sources }) => `\t- ${label} -> ${joinAndStrings(sources)}`,
+        )
+        .join('\n')}`,
+    });
+  }
+  const multiSourceOtherProficiencies: {
+    [s: string]: any;
+  } = values(get(result, CharacterSheetPath.otherProficiencies, {}))
+    .map(({ label, source, category }) => ({
+      label,
+      category,
+      sources: (source?.split('|') || []).map((s) => s.split(':')[0]),
+    }))
+    .filter(({ sources }) => sources.length > 1)
+    .reduce((acc, c) => {
+      if (acc[c.category]) {
+        acc[c.category] = acc[c.category].push(c);
+      } else {
+        acc[c.category] = [c];
+      }
+
+      return acc;
+    }, {});
+  const multiSourceToolProficiencies =
+    multiSourceOtherProficiencies[OTHER_PROFICIENCY_CATEGORY.TOOL];
+  const multiSourceLanguageProficiencies =
+    multiSourceOtherProficiencies[OTHER_PROFICIENCY_CATEGORY.LANGUAGE];
+
+  if (size(multiSourceToolProficiencies) > 0) {
+    reviewValidations.push({
+      type: CharacterCreatorValidationType.WARNING,
+      text: `Gained proficiency in the following tools from multiple sources:\n${multiSourceToolProficiencies
+        .map(
+          ({ label, sources }) => `\t- ${label} -> ${joinAndStrings(sources)}`,
+        )
+        .join('\n')}`,
+    });
+  }
+  if (size(multiSourceLanguageProficiencies) > 0) {
+    reviewValidations.push({
+      type: CharacterCreatorValidationType.WARNING,
+      text: `Gained proficiency in the following languages from multiple sources:\n${multiSourceLanguageProficiencies
         .map(
           ({ label, sources }) => `\t- ${label} -> ${joinAndStrings(sources)}`,
         )

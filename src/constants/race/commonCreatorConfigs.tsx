@@ -62,7 +62,8 @@ export const getStaticWithChoices = (
   config: {
     isFullValue: ({ custom }) =>
       custom.length === custom.filter(({ value }) => value).length,
-    allowPartial: custom.length > 1,
+    allowPartial:
+      custom.length > 1 || (statics.length > 0 && custom.length > 0),
     ...config,
   },
 });

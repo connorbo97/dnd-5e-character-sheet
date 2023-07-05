@@ -6,6 +6,7 @@ import {
 import {
   LIGHT_ARMOR_PROFICIENCY,
   MEDIUM_ARMOR_PROFICIENCY,
+  OTHER_PROFICIENCY_CATEGORY,
   SHIELD_PROFICIENCY,
   SIMPLE_WEAPON_PROFICIENCY,
 } from 'constants/otherProficiencies';
@@ -15,11 +16,12 @@ import {
   getFeatureWithResource,
   getOtherProficiencyForClass,
   getPresentationConfig,
+  getStaticWithChoices,
 } from 'constants/race/commonCreatorConfigs';
 import { MULTI_PATH } from 'constants/raceTypes';
 import { SKILLS, SKILL_OPTIONS } from 'constants/skills';
 import { STATS } from 'constants/stats';
-import { entries, filter } from 'lodash';
+import { entries, filter, identity } from 'lodash';
 import {
   convertEquipmentConfigEntryToOption,
   getEquipmentChoice,
@@ -32,8 +34,14 @@ import {
   pickEquipmentConfigsByList,
 } from 'constants/equipment';
 import { SIMPLE_WEAPON_EQUIPMENT_CONFIGS, WEAPONS } from 'constants/weapons';
-import { SKILL_TOOLS } from 'constants/tools';
+import {
+  ARTISAN_TOOLS,
+  ARTISAN_TOOL_OPTIONS,
+  SKILL_TOOLS,
+  TOOLS_CONFIG,
+} from 'constants/tools';
 import { ARMORS } from 'constants/armor';
+import { CharacterSheetPath } from 'constants/characterSheetPaths';
 
 const ARTIFICER_SKILLS = new Set([
   SKILLS.ARCANA,
@@ -66,6 +74,33 @@ export const ARTIFICER_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
       header: 'Saving Throws',
     },
   },
+  getStaticWithChoices(
+    {
+      statics: [SKILL_TOOLS.THIEVES, ARTISAN_TOOLS.TINKER],
+      custom: [{ options: ARTISAN_TOOL_OPTIONS }],
+      path: CharacterSheetPath.otherProficiencies,
+    },
+    {
+      header: 'Tool Proficiencies',
+      getPlaceholder: () => `Choose`,
+      getFinalValue: ({ custom, statics }) =>
+        [...statics, ...custom.map(({ value }) => value).filter(identity)]
+          .filter(identity)
+          .reduce((acc, value) => {
+            acc[value] = {
+              label: TOOLS_CONFIG[value]?.label || value,
+              category: OTHER_PROFICIENCY_CATEGORY.TOOL,
+            };
+
+            return acc;
+          }, {}),
+      getLabelValue: (custom, statics) =>
+        [...statics, ...custom.map(({ value }) => value)]
+          .filter(identity)
+          .map((v) => TOOLS_CONFIG[v]?.label || v)
+          .join(', '),
+    },
+  ),
   getChoiceSkillProficiencies(
     filter(SKILL_OPTIONS, (s) => ARTIFICER_SKILLS.has(s.value)),
     2,
@@ -126,6 +161,10 @@ export const ARTIFICER_EQUIPMENT = [
       getInventoryItemFromEquipmentConfig(
         EQUIPMENT_CONFIGS[ADVENTURING_GEAR.CROSSBOW_BOLT],
         20,
+      ),
+      getInventoryItemFromEquipmentConfig(
+        EQUIPMENT_CONFIGS[ARTISAN_TOOLS.TINKER],
+        1,
       ),
       getInventoryItemFromEquipmentConfig(
         EQUIPMENT_CONFIGS[SKILL_TOOLS.THIEVES],

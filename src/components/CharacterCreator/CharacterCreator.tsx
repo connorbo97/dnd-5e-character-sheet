@@ -56,15 +56,15 @@ export const CharacterCreator = () => {
     <div className={styles['container']}>
       <div className={styles['header']}>
         {CHARACTER_CREATOR_PAGES_LIST.map((p) => {
-          const hasValidations = (validationsBySection[p]?.length || 0) === 0;
+          const hasValidations = (validationsBySection[p]?.length || 0) > 0;
           const classNameObj = {
             good:
               // if the page is review, there can be no error validations also
               // OR if its another page, it has to have warningValidations and no error validations
               (p === CHARACTER_CREATOR_PAGES.REVIEW &&
                 !hasErrorValidations &&
-                hasValidations) ||
-              (p !== CHARACTER_CREATOR_PAGES.REVIEW && hasValidations),
+                !hasValidations) ||
+              (p !== CHARACTER_CREATOR_PAGES.REVIEW && !hasValidations),
             warning:
               warningValidationsBySection[p]?.length &&
               errorValidationsBySection[p]?.length === 0,
@@ -77,33 +77,38 @@ export const CharacterCreator = () => {
                 selected: curPage === p,
               })}>
               {CHARACTER_CREATOR_PAGE_CONFIGS[p].label}
-              {visitedPagesSet.has(p) && !NON_REQUIRED_PAGES.has(p) && (
-                <div className={classNameBuilder('validation', classNameObj)} />
-              )}
-              {visitedPagesSet.has(p) &&
-                validationsBySection[p]?.length > 0 && (
-                  <Tooltip position={'bottom'}>
-                    {errorValidationsBySection[p]?.length > 0 && (
-                      <>
-                        <span>Required</span>
-                        <ul>
-                          {errorValidationsBySection[p].map(({ text }, i) => (
-                            <li key={i}>{text}</li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-                    {warningValidationsBySection[p]?.length > 0 && (
-                      <>
-                        <span>Optional</span>
-                        <ul>
-                          {warningValidationsBySection[p].map(({ text }, i) => (
-                            <li key={i}>{text}</li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-                  </Tooltip>
+              {(visitedPagesSet.has(p) ||
+                (p === CHARACTER_CREATOR_PAGES.REVIEW && hasValidations)) &&
+                !NON_REQUIRED_PAGES.has(p) && (
+                  <>
+                    <div
+                      className={classNameBuilder('validation', classNameObj)}
+                    />
+                    <Tooltip position={'bottom'}>
+                      {errorValidationsBySection[p]?.length > 0 && (
+                        <>
+                          <span>Required</span>
+                          <ul>
+                            {errorValidationsBySection[p].map(({ text }, i) => (
+                              <li key={i}>{text}</li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                      {warningValidationsBySection[p]?.length > 0 && (
+                        <>
+                          <span>Optional</span>
+                          <ul>
+                            {warningValidationsBySection[p].map(
+                              ({ text }, i) => (
+                                <li key={i}>{text}</li>
+                              ),
+                            )}
+                          </ul>
+                        </>
+                      )}
+                    </Tooltip>
+                  </>
                 )}
             </Link>
           );
