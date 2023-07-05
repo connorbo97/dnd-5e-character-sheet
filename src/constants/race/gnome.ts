@@ -77,7 +77,6 @@ You know the minor illusion cantrip. Intelligence is your spellcasting ability f
             resources: [
               {
                 label: 'Tinker',
-                source: 'Rock Gnome',
                 total: 3,
                 max: 3,
               } as ResourceConfig,

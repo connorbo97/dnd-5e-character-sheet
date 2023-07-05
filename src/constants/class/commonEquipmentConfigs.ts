@@ -32,7 +32,6 @@ export const getInventoryItemFromEquipmentConfig = (
   return {
     ...rest,
     label: customLabel || label,
-    source: '',
     total,
     weight,
     equipped: true,

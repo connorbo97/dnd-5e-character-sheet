@@ -109,7 +109,6 @@ export const WIZARD_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
           {
             label: 'Arcane Recovery',
             max: 1,
-            source: 'Wizard',
             resetOnLongRest: true,
             resetOnShortRest: true,
           },

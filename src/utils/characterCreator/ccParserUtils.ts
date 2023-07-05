@@ -16,6 +16,7 @@ import {
   set,
   size,
   stubTrue,
+  uniq,
   update,
 } from 'lodash';
 
@@ -29,7 +30,7 @@ export type CharacterCreatorValidation = {
   index?: number;
 };
 export const getMergedSources = (sourceA, sourceB) =>
-  [sourceA, sourceB].filter(identity).join('|');
+  uniq([sourceA, sourceB].filter(identity).join('|').split('|')).join('|');
 
 export const getMergedCustomBonuses = (
   bonuses: Array<CharacterSheetCustomBonuses>,
@@ -121,7 +122,7 @@ export const mergeProficiencies = (
   }
 
   if (profA.category || profB.category) {
-    result.category = [profA.category, profB.category].join('|');
+    result.category = getMergedSources(profA.category, profB.category);
   }
 
   if (profA.source || profB.source) {
@@ -265,36 +266,49 @@ export const parseCreateConfigs = (
   return [result, validations];
 };
 
-export const appendSourceToMap = (map, source): any =>
-  !size(map)
-    ? map
-    : mapValues(map, (v) => ({
-        ...v,
-        source: getMergedSources(v?.source, source),
-      }));
-export const appendSourceToArray = (array, source): Array<any> => {
+export const appendSourceToMap = (map, source, overridePrev = false): any => {
+  if (!size(map)) {
+    return map;
+  }
+
+  return mapValues(map, (v) => ({
+    ...v,
+    source: overridePrev ? source : getMergedSources(v?.source, source),
+  }));
+};
+export const appendSourceToArray = (
+  array,
+  source,
+  overridePrev = false,
+): Array<any> => {
   if (!size(array)) {
     return array;
   }
 
   return array.map((v) => ({
     ...v,
-    source: getMergedSources(v?.source, source),
+    source: overridePrev ? source : getMergedSources(v?.source, source),
   }));
 };
-export const addSourceToSheet = (result: CharacterSheet, source) => {
+export const addSourceToSheet = (
+  result: CharacterSheet,
+  source,
+  { overridePrev = false }: { overridePrev?: boolean } = {},
+) => {
   const finalResult = { ...result };
 
   if (finalResult[CharacterSheetPath.attacks]) {
     finalResult[CharacterSheetPath.attacks] = appendSourceToArray(
       finalResult[CharacterSheetPath.attacks],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.inventory]) {
     finalResult[CharacterSheetPath.inventory] = appendSourceToArray(
       finalResult[CharacterSheetPath.inventory],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.customBonuses]) {
@@ -302,10 +316,12 @@ export const addSourceToSheet = (result: CharacterSheet, source) => {
       initiative: appendSourceToMap(
         finalResult[CharacterSheetPath.customBonuses]?.initiative,
         source,
+        overridePrev,
       ),
       hp: appendSourceToMap(
         finalResult[CharacterSheetPath.customBonuses]?.hp,
         source,
+        overridePrev,
       ),
     };
   }
@@ -313,60 +329,70 @@ export const addSourceToSheet = (result: CharacterSheet, source) => {
     finalResult[CharacterSheetPath.customChecks] = appendSourceToArray(
       finalResult[CharacterSheetPath.customChecks],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.features]) {
     finalResult[CharacterSheetPath.features] = appendSourceToArray(
       finalResult[CharacterSheetPath.features],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.globalACModifier]) {
     finalResult[CharacterSheetPath.globalACModifier] = appendSourceToArray(
       finalResult[CharacterSheetPath.globalACModifier],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.globalAttackModifier]) {
     finalResult[CharacterSheetPath.globalAttackModifier] = appendSourceToArray(
       finalResult[CharacterSheetPath.globalAttackModifier],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.globalDamageModifier]) {
     finalResult[CharacterSheetPath.globalDamageModifier] = appendSourceToArray(
       finalResult[CharacterSheetPath.globalDamageModifier],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.inventory]) {
     finalResult[CharacterSheetPath.inventory] = appendSourceToArray(
       finalResult[CharacterSheetPath.inventory],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.otherProficiencies]) {
     finalResult[CharacterSheetPath.otherProficiencies] = appendSourceToMap(
       finalResult[CharacterSheetPath.otherProficiencies],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.resources]) {
     finalResult[CharacterSheetPath.resources] = appendSourceToArray(
       finalResult[CharacterSheetPath.resources],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.savingThrows]) {
     finalResult[CharacterSheetPath.savingThrows] = appendSourceToMap(
       finalResult[CharacterSheetPath.savingThrows],
       source,
+      overridePrev,
     );
   }
   if (finalResult[CharacterSheetPath.skills]) {
     finalResult[CharacterSheetPath.skills] = appendSourceToMap(
       finalResult[CharacterSheetPath.skills],
       source,
+      overridePrev,
     );
   }
 

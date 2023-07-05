@@ -37,7 +37,6 @@ const generateSubRaceConfig = (subRace, damageType, range, dcSave) => {
           attacks: [
             {
               label: 'Breath Weapon',
-              source: 'Race',
               attack: {
                 isEnabled: false,
               },

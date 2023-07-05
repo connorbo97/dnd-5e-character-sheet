@@ -76,7 +76,6 @@ export const BARD_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
           {
             label: 'Bardic Inspiration',
             max: STATS.CHA,
-            source: 'Bard',
             resetOnLongRest: true,
           },
         ],

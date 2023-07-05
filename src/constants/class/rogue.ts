@@ -78,7 +78,6 @@ export const ROGUE_LEVEL_ONE_CONFIG = [
           {
             label: 'Sneak Attack',
             base: [[1, DICE.d6]],
-            source: 'Rogue',
           },
         ],
       }),

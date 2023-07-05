@@ -10,7 +10,7 @@ import memoizeOne from 'memoize-one';
 import {
   CharacterCreatorValidation,
   CharacterCreatorValidationType,
-  appendSourceToMap,
+  addSourceToSheet,
   getFormJointArrayByPath,
   getFormJointObjectArrayFromPath,
   getMergedCustomBonuses,
@@ -77,13 +77,11 @@ const calcFinalBackground = (
 
   const [result, validations] = parseCreateConfigs(config);
 
-  result.skills = appendSourceToMap(result.skills, 'Background');
-
   return [
     {
+      ...addSourceToSheet(result, `Background: ${name || 'Background'}`),
       name,
       summary,
-      ...result,
     },
     [...nonConfigValidations, ...validations],
   ];
@@ -110,15 +108,13 @@ const calcFinalClass = (
     ...config,
   ]);
 
-  result.skills = appendSourceToMap(
-    result.skills,
-    CLASS_CONFIGS[value]?.label || 'Class',
-  );
-
   return [
     {
       class: value,
-      ...result,
+      ...addSourceToSheet(
+        result,
+        `Class: ${CLASS_CONFIGS[value]?.label || value}`,
+      ),
     },
     validations,
   ];
@@ -143,7 +139,13 @@ const calcFinalEquipment = (
 
   const [result, validations] = parseCreateConfigs(config);
 
-  return [result, validations];
+  return [
+    addSourceToSheet(
+      result,
+      `Class: ${CLASS_CONFIGS[curClass]?.label || curClass}`,
+    ),
+    validations,
+  ];
 };
 
 const calcFinalRace = (
@@ -212,12 +214,15 @@ const calcFinalRace = (
     });
   }
 
-  result.skills = appendSourceToMap(
-    result.skills,
-    RACE_CONFIGS[selectedRace]?.label || 'Race',
-  );
-
-  return [result, validations];
+  return [
+    addSourceToSheet(
+      result,
+      `Race: ${RACE_CONFIGS[selectedRace].label}${
+        selectedSubRace ? ` (${selectedSubRace})` : ''
+      }`,
+    ),
+    validations,
+  ];
 };
 
 export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {

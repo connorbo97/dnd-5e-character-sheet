@@ -34,7 +34,7 @@ export type AttackEntrySavingThrow = {
 
 export type AttackEntry = {
   label: string;
-  source: string;
+  source?: string;
   description?: string;
   attack: AttackEntryAttack;
   damage: [AttackEntryDamage, AttackEntryDamage];

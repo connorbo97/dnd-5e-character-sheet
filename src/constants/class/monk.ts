@@ -82,7 +82,6 @@ export const MONK_LEVEL_ONE_CONFIG = [
             base: [10, STATS.DEX, STATS.WIS],
             isNotCompatibleWithArmor: true,
             label: 'Unarmored Defense',
-            source: 'Barbarian',
             newACFormula: true,
           } as GlobalACModifierType,
         ],
@@ -101,7 +100,6 @@ export const MONK_LEVEL_ONE_CONFIG = [
         [CharacterSheetPath.attacks]: [
           {
             label: 'Unarmed Strike',
-            source: 'Monk',
             attack: {
               isEnabled: true,
               stat: STATS.DEX,

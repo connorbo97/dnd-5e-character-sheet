@@ -86,7 +86,6 @@ export const WARLOCK_LEVEL_ONE_CONFIG: Array<CreateConfigEntry> = [
         resources: [
           {
             label: 'Pact Magic',
-            source: 'Warlock',
             max: 1,
           },
         ],

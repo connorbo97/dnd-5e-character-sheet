@@ -72,7 +72,6 @@ export const RANGER_LEVEL_ONE_CONFIG = [
           {
             label: 'Favored Foe',
             max: ROLLABLES.PB,
-            source: 'Ranger',
             resetOnLongRest: true,
           } as ResourceConfig,
         ],
@@ -80,7 +79,6 @@ export const RANGER_LEVEL_ONE_CONFIG = [
           {
             label: 'Favored Foe',
             base: [[1, DICE.d4]],
-            source: 'Ranger',
           },
         ],
       }),

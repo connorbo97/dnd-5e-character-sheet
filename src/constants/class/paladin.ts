@@ -90,7 +90,6 @@ export const PALADIN_LEVEL_ONE_CONFIG = [
           {
             label: 'Divine Sense',
             max: [1, STATS.CHA],
-            source: 'Paladin',
             resetOnLongRest: true,
           } as ResourceConfig,
         ],
@@ -111,7 +110,6 @@ export const PALADIN_LEVEL_ONE_CONFIG = [
           {
             label: 'Lay on Hands',
             max: 5,
-            source: 'Paladin',
             resetOnLongRest: true,
           } as ResourceConfig,
         ],

@@ -6,7 +6,7 @@ export type InventoryItemMods = {
 };
 export type InventoryItem = {
   label: string;
-  source: string;
+  source?: string;
   total: number;
   weight: number;
   equipped: boolean;
