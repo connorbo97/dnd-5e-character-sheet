@@ -20,7 +20,7 @@ export enum CHARACTER_CREATOR_PAGES {
   REVIEW = 'review',
 }
 export const CHARACTER_CREATOR_PAGE_CONFIGS: {
-  [s in CHARACTER_CREATOR_PAGES]: { label: string };
+  [s in CHARACTER_CREATOR_PAGES]: { label: string; validationLabel?: string };
 } = {
   [CHARACTER_CREATOR_PAGES.START]: {
     label: 'Start',
@@ -47,6 +47,7 @@ export const CHARACTER_CREATOR_PAGE_CONFIGS: {
     label: 'Bio',
   },
   [CHARACTER_CREATOR_PAGES.REVIEW]: {
+    validationLabel: 'General',
     label: 'Review',
   },
 };

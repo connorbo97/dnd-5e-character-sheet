@@ -2,11 +2,19 @@ import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 import styles from './reviewCreator.module.scss';
 import { useSubmitSheet } from 'components/CharacterCreator/hooks/useSubmitSheet';
 import {
+  CHARACTER_CREATOR_PAGES,
   CHARACTER_CREATOR_PAGES_LIST,
   CHARACTER_CREATOR_PAGE_CONFIGS,
   NON_REQUIRED_PAGES,
 } from 'constants/characterCreator';
 
+const ValidationPageList = [
+  CHARACTER_CREATOR_PAGES.REVIEW,
+  ...CHARACTER_CREATOR_PAGES_LIST.filter(
+    (p: any) =>
+      !NON_REQUIRED_PAGES.has(p) && p !== CHARACTER_CREATOR_PAGES.REVIEW,
+  ),
+];
 type Props = any;
 export const ReviewCreator = (props: Props) => {
   const {
@@ -24,46 +32,35 @@ export const ReviewCreator = (props: Props) => {
       <div className={styles['content']}>
         {!hasErrorValidations && (
           <div className={styles['submit']}>
-            <div>Ready To Submit!</div>
+            <h2>Ready to Submit!</h2>
             <button onClick={onSubmitSheet}>Create Character</button>
           </div>
         )}
         {(hasErrorValidations || hasWarningValidations) && (
           <div className={styles['validations']}>
-            <h2>Please check the following sections</h2>
-            {CHARACTER_CREATOR_PAGES_LIST.filter(
-              (p) =>
-                !NON_REQUIRED_PAGES.has(p) &&
-                validationsBySection[p]?.length > 0,
+            <h2>Missing/Misconfigured Fields</h2>
+            {ValidationPageList.filter(
+              (p: any) => validationsBySection[p]?.length > 0,
             ).map((p) => (
               <div key={p} className={styles['validation']}>
                 <h3>
-                  {CHARACTER_CREATOR_PAGE_CONFIGS[p].label}
-                  {(warningValidationsBySection[p]?.length || 0) === 0 &&
-                    errorValidationsBySection[p]?.length > 0 && (
-                      <RequiredIcon />
-                    )}
+                  {CHARACTER_CREATOR_PAGE_CONFIGS[p].validationLabel ||
+                    CHARACTER_CREATOR_PAGE_CONFIGS[p].label ||
+                    p}
                 </h3>
-                {warningValidationsBySection[p]?.length > 0 &&
-                  errorValidationsBySection[p]?.length > 0 && (
-                    <h5>
-                      Required <RequiredIcon />
-                    </h5>
-                  )}
                 {errorValidationsBySection[p]?.length > 0 && (
                   <ul>
                     {errorValidationsBySection[p].map((v, i) => (
-                      <li key={i}>{v.text}</li>
+                      <li key={i}>
+                        {v.text} <RequiredIcon />
+                      </li>
                     ))}
                   </ul>
                 )}
                 {warningValidationsBySection[p]?.length > 0 && (
-                  <h5>Optional</h5>
-                )}
-                {warningValidationsBySection[p]?.length > 0 && (
                   <ul>
                     {warningValidationsBySection[p].map((v, i) => (
-                      <li key={i}>{v.text}</li>
+                      <li key={i}>(Optional): {v.text}</li>
                     ))}
                   </ul>
                 )}

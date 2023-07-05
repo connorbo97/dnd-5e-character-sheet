@@ -32,13 +32,12 @@ import { CLASS_CONFIGS } from 'constants/classConfigs';
 import { ALIGNMENTS } from 'constants/alignments';
 import { ADVANTAGE_TOGGLE } from 'constants/advantageToggle';
 import { WHISPER_TOGGLE } from 'constants/whisperToggle';
-import { SKILL_SORT } from 'constants/skills';
+import { SKILL_CONFIGS, SKILL_SORT } from 'constants/skills';
 import { MONEY } from 'constants/money';
 import { InventoryItem } from 'constants/inventory';
 import { ClassConfig } from 'constants/classes';
 import { getDiceMax } from './diceUtils';
 import { getModifier } from './statUtils';
-import { ProficiencyConfig } from 'constants/general';
 
 const calcFinalBackground = (
   background: CharacterBackgroundForm,
@@ -56,24 +55,24 @@ const calcFinalBackground = (
   if (!summary) {
     nonConfigValidations.push({
       type: CharacterCreatorValidationType.WARNING,
-      text: 'No background description provided',
+      text: 'Missing background description',
     });
   }
 
   if (!specialFeature?.label && !specialFeature?.description) {
     nonConfigValidations.push({
       type: CharacterCreatorValidationType.WARNING,
-      text: 'No Special Feature provided',
+      text: 'Missing Special Feature',
     });
   } else if (!specialFeature?.description) {
     nonConfigValidations.push({
       type: CharacterCreatorValidationType.WARNING,
-      text: 'No Special Feature description provided',
+      text: 'Missing Special Feature description',
     });
   } else if (!specialFeature?.label) {
     nonConfigValidations.push({
       type: CharacterCreatorValidationType.WARNING,
-      text: 'No Special Feature name provided',
+      text: 'Missing Special Feature name',
     });
   }
 
@@ -397,17 +396,20 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
 
   const reviewValidations: Array<CharacterCreatorValidation> = [];
 
-  const multiSourceSkills = values(get(result, CharacterSheetPath.skills, {}))
-    .map(({ label, source }: ProficiencyConfig) => ({
-      label,
+  const multiSourceSkills = entries(get(result, CharacterSheetPath.skills, {}))
+    .map(([type, { source }]: any) => ({
+      label: SKILL_CONFIGS[type]?.label,
       sources: source?.split('|') || [],
     }))
     .filter(({ sources }) => sources.length > 1);
-  if (multiSourceSkills) {
+  console.log(multiSourceSkills, get(result, CharacterSheetPath.skills, {}));
+  if (size(multiSourceSkills) > 0) {
     reviewValidations.push({
       type: CharacterCreatorValidationType.WARNING,
       text: `Gained proficiency in the following skills from multiple sources:\n${multiSourceSkills
-        .map(({ label, sources }) => `- ${label} -> ${joinAndStrings(sources)}`)
+        .map(
+          ({ label, sources }) => `\t- ${label} -> ${joinAndStrings(sources)}`,
+        )
         .join('\n')}`,
     });
   }

@@ -1,11 +1,11 @@
-import { findIndex, get, values } from 'lodash';
+import { findIndex, get } from 'lodash';
 import styles from './characterCreator.module.scss';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 import { CharacterCreatorPages } from './CharacterCreatorPages';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Tooltip } from 'react-mint';
 import {
   CHARACTER_CREATOR_PAGES,
@@ -29,25 +29,18 @@ export const CharacterCreator = () => {
     (p) => p === curPage,
   );
 
-  const prevPage = useRef(curPage);
-
   const [visitedPagesSet, setVisitedPagesSet] = useState(new Set());
 
   useLayoutEffect(() => {
-    const oldPage = prevPage.current;
+    setVisitedPagesSet((prev) => {
+      if (prev.has(curPage)) {
+        return prev;
+      }
 
-    if (oldPage !== curPage) {
-      setVisitedPagesSet((prev) => {
-        if (prev.has(oldPage)) {
-          return prev;
-        }
+      const newSet = new Set(prev);
 
-        const newSet = new Set(prev);
-
-        return newSet.add(oldPage);
-      });
-    }
-    prevPage.current = curPage;
+      return newSet.add(curPage);
+    });
   }, [curPage]);
 
   const {
@@ -62,42 +55,59 @@ export const CharacterCreator = () => {
   return (
     <div className={styles['container']}>
       <div className={styles['header']}>
-        {CHARACTER_CREATOR_PAGES_LIST.map((p) => (
-          <Link
-            to={p}
-            key={p}
-            className={classNameBuilder('link', {
-              selected: curPage === p,
-            })}>
-            {CHARACTER_CREATOR_PAGE_CONFIGS[p].label}
-            {visitedPagesSet.has(p) && !NON_REQUIRED_PAGES.has(p) && (
-              <div
-                className={classNameBuilder('validation', {
-                  good: (validationsBySection[p]?.length || 0) === 0,
-                  warning:
-                    warningValidationsBySection[p]?.length &&
-                    errorValidationsBySection[p]?.length === 0,
-                })}
-              />
-            )}
-            {visitedPagesSet.has(p) && validationsBySection[p]?.length > 0 && (
-              <Tooltip position={'bottom'}>
-                {errorValidationsBySection[p]?.length > 0 && 'Required'}
-                {errorValidationsBySection[p].map(({ text }, i) => (
-                  <div key={i}>- {text}</div>
-                ))}
-                {warningValidationsBySection[p]?.length > 0 && 'Optional'}
-                {warningValidationsBySection[p].map(({ text }, i) => (
-                  <div key={i}>- {text}</div>
-                ))}
-              </Tooltip>
-            )}
-            {visitedPagesSet.has(p) &&
-              validationsBySection[p]?.length === 0 && (
-                <div className={classNameBuilder('validation', 'good')}></div>
+        {CHARACTER_CREATOR_PAGES_LIST.map((p) => {
+          const test = {
+            good:
+              // if the page is review, there can be no error validations also
+              // OR if its another page, it has to have warningValidations and no error validations
+              (p === CHARACTER_CREATOR_PAGES.REVIEW &&
+                !hasErrorValidations &&
+                (validationsBySection[p]?.length || 0) === 0) ||
+              (p !== CHARACTER_CREATOR_PAGES.REVIEW &&
+                (validationsBySection[p]?.length || 0) === 0),
+            warning:
+              warningValidationsBySection[p]?.length &&
+              errorValidationsBySection[p]?.length === 0,
+          };
+          return (
+            <Link
+              to={p}
+              key={p}
+              className={classNameBuilder('link', {
+                selected: curPage === p,
+              })}>
+              {CHARACTER_CREATOR_PAGE_CONFIGS[p].label}
+              {visitedPagesSet.has(p) && !NON_REQUIRED_PAGES.has(p) && (
+                <div className={classNameBuilder('validation', test)} />
               )}
-          </Link>
-        ))}
+              {visitedPagesSet.has(p) &&
+                validationsBySection[p]?.length > 0 && (
+                  <Tooltip position={'bottom'}>
+                    {errorValidationsBySection[p]?.length > 0 && (
+                      <>
+                        <span>Required</span>
+                        <ul>
+                          {errorValidationsBySection[p].map(({ text }, i) => (
+                            <li key={i}>{text}</li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                    {warningValidationsBySection[p]?.length > 0 && (
+                      <>
+                        <span>Optional</span>
+                        <ul>
+                          {warningValidationsBySection[p].map(({ text }, i) => (
+                            <li key={i}>{text}</li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                  </Tooltip>
+                )}
+            </Link>
+          );
+        })}
       </div>
       <div className={styles['stat-display']}>
         {STATS_LIST.map((stat) => (

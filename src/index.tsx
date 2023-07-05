@@ -25,6 +25,7 @@ root.render(
         style: {
           background: '#3f0071',
           fontSize: '1.5rem',
+          whiteSpace: 'pre-wrap',
         },
       },
     }}
