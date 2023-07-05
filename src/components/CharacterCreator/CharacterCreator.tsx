@@ -84,30 +84,34 @@ export const CharacterCreator = () => {
                     <div
                       className={classNameBuilder('validation', classNameObj)}
                     />
-                    <Tooltip position={'bottom'}>
-                      {errorValidationsBySection[p]?.length > 0 && (
-                        <>
-                          <span>Required</span>
-                          <ul>
-                            {errorValidationsBySection[p].map(({ text }, i) => (
-                              <li key={i}>{text}</li>
-                            ))}
-                          </ul>
-                        </>
-                      )}
-                      {warningValidationsBySection[p]?.length > 0 && (
-                        <>
-                          <span>Optional</span>
-                          <ul>
-                            {warningValidationsBySection[p].map(
-                              ({ text }, i) => (
-                                <li key={i}>{text}</li>
-                              ),
-                            )}
-                          </ul>
-                        </>
-                      )}
-                    </Tooltip>
+                    {hasValidations && (
+                      <Tooltip position={'bottom'}>
+                        {errorValidationsBySection[p]?.length > 0 && (
+                          <>
+                            <span>Required</span>
+                            <ul>
+                              {errorValidationsBySection[p].map(
+                                ({ text }, i) => (
+                                  <li key={i}>{text}</li>
+                                ),
+                              )}
+                            </ul>
+                          </>
+                        )}
+                        {warningValidationsBySection[p]?.length > 0 && (
+                          <>
+                            <span>Optional</span>
+                            <ul>
+                              {warningValidationsBySection[p].map(
+                                ({ text }, i) => (
+                                  <li key={i}>{text}</li>
+                                ),
+                              )}
+                            </ul>
+                          </>
+                        )}
+                      </Tooltip>
+                    )}
                   </>
                 )}
             </Link>
