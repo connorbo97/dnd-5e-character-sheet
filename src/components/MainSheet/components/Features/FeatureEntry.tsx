@@ -18,7 +18,9 @@ export const FeatureEntry = ({ index, feature }: Props) => {
         header={
           <div className={styles['header']}>
             <span className={styles['label']}>{label}</span>
-            <span className={styles['sub-label']}>{source}</span>
+            <span className={styles['sub-label']}>
+              {(source || '').split('|').join(', ')}
+            </span>
           </div>
         }
         transitionTime={100}
