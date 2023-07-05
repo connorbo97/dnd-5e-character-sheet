@@ -5,15 +5,30 @@
     display: flex;
     column-gap: 0.5rem;
   }
+
   .button {
     border: 0;
     border-radius: 100%;
     width: 4rem;
     height: 4rem;
+    font-size: 1.5rem;
+
     &.selected {
       background-color: $tertiary;
       color: $white;
+      font-weight: bold;
     }
+
+    &.other-selected {
+      background-color: $dark-gray;
+      color: $white;
+    }
+
+    &.used {
+      background-color: $dark-gray;
+      color: $white;
+    }
+
     cursor: pointer;
   }
 }
@@ -28,7 +43,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
-  
+
   .label {
     text-decoration: underline;
   }

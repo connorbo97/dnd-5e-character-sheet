@@ -2,7 +2,7 @@ import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import styles from './statsCreator.module.scss';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
-import { invert, isNil } from 'lodash';
+import { identity, invert, isNil, values } from 'lodash';
 import classnames from 'classnames/bind';
 import { useMemo } from 'react';
 import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
@@ -19,6 +19,8 @@ export const StatsCreator = ({ finalForm }: Props) => {
   );
 
   const valToStat = useMemo(() => invert(stats), [stats]);
+
+  const selectedStatsSet = new Set(values(stats).filter(identity));
 
   return (
     <div className={styles['container']}>
@@ -40,6 +42,9 @@ export const StatsCreator = ({ finalForm }: Props) => {
                     key={val}
                     className={classNameBuilder('button', {
                       selected: !isNil(stats[stat]) && val === stats[stat],
+                      'other-selected':
+                        !isNil(stats[stat]) && val !== stats[stat],
+                      used: isNil(stats[stat]) && selectedStatsSet.has(val),
                     })}
                     onClick={() =>
                       updateStats((prev) => {
