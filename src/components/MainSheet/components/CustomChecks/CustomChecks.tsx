@@ -49,7 +49,7 @@ export const CustomChecks = () => {
                 <span>+</span>
                 <Dropdown
                   options={ATTACK_STAT_DROPDOWN_OPTIONS}
-                  value={check.stat || null}
+                  value={check.stat || ''}
                   onChange={(e) =>
                     onChangeCustomCheckStatByIndex(index, e.target.value)
                   }

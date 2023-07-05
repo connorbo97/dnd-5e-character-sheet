@@ -332,6 +332,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       [
         ...(finalRace?.inventory || []),
         ...(finalClass?.inventory || []),
+        ...(finalBackground?.inventory || []),
         ...(finalEquipment?.inventory || []),
       ].reduce((acc, cur: InventoryItem) => {
         const label = cur.label;
