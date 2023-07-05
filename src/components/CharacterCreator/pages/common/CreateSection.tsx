@@ -13,6 +13,7 @@ const classNameBuilder = classnames.bind(styles);
 const HIDDEN_BORDER_FORMATS = new Set([
   SECTION_CONFIG_FORMAT.EQUIPMENT,
   SECTION_CONFIG_FORMAT.PROFICIENCY_CLASS,
+  SECTION_CONFIG_FORMAT.HIDDEN,
 ]);
 
 type Props = any;
@@ -28,8 +29,11 @@ export const CreateSection = ({
   }
 
   return config.map((curConfig, index) => {
-    const shouldRender = get(curConfig, 'choiceCondition', stubTrue)(config);
+    const shouldRender =
+      get(curConfig, 'choiceCondition', stubTrue)(config) &&
+      curConfig.format !== SECTION_CONFIG_FORMAT.HIDDEN;
 
+    console.log(curConfig, shouldRender);
     if (!shouldRender) {
       return null;
     }
@@ -41,7 +45,7 @@ export const CreateSection = ({
 
     const hideBorder =
       HIDDEN_BORDER_FORMATS.has(curConfig?.format) ||
-      shouldDisableBorder?.(index);
+      shouldDisableBorder?.(index, curConfig);
     return (
       <div
         key={index}

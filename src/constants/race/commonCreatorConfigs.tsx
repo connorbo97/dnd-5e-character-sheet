@@ -274,6 +274,23 @@ export const getBasicFeature = (value) => ({
 export const getBasicFeatureByLD = (label, description) =>
   getBasicFeature({ label, description });
 
+export const getHiddenBasicFeatureByLD = (label, description) => ({
+  ...getBasicFeatureByLD(label, description),
+  format: SECTION_CONFIG_FORMAT.HIDDEN,
+});
+
+export const getHiddenFeature = ({
+  value,
+  path,
+  config = {},
+}): CreateConfigEntry => ({
+  type: SECTION_CONFIG_TYPE.STATIC,
+  format: SECTION_CONFIG_FORMAT.HIDDEN,
+  value,
+  path,
+  config,
+});
+
 export const getFeatureWithResource = (
   label,
   description,

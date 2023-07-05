@@ -1,4 +1,12 @@
 import { values } from 'lodash';
+import {
+  getHiddenBasicFeatureByLD,
+  getHiddenFeature,
+} from './race/commonCreatorConfigs';
+import { STATS } from './stats';
+import { CreateConfigEntry } from './characterCreatorSections';
+import { CharacterSheetCustomBonuses } from './characterSheet';
+import { getFeatStatBoost } from './commonFeatConfigs';
 
 export enum FEATS {
   ABERRANT_DRAGONMARK = 'ABERRANT_DRAGONMARK',
@@ -76,7 +84,12 @@ export enum FEATS {
 }
 
 export const FEAT_CONFIGS: {
-  [f: string]: { label: string; sourceBook: string; description: string };
+  [f: string]: {
+    label: string;
+    sourceBook: string;
+    description: string;
+    config?: Array<CreateConfigEntry>;
+  };
 } = {
   ABERRANT_DRAGONMARK: {
     label: 'Aberrant Dragonmark',
@@ -87,6 +100,18 @@ export const FEAT_CONFIGS: {
   ACTOR: {
     label: 'Actor',
     sourceBook: "Player's Handbook",
+    config: [
+      getHiddenBasicFeatureByLD(
+        'Alert',
+        "Always on the lookout for danger, you gain the following benefits\n- Other creatures don't gain advantage on attack rolls against you as a result of being unseen by you.\n- You can't be surprised while you are conscious.\n- You gain a +5 bonus to initiative.",
+      ),
+      getHiddenFeature({
+        path: 'customBonuses.initiative',
+        value: {
+          initiative: [{ source: 'Alert', value: 5, isStatic: true }],
+        } as CharacterSheetCustomBonuses,
+      }),
+    ],
     description:
       '<div><p>Skilled at mimicry and dramatics, you gain the following benefits:</p><ul><li>Increase your Charisma score by 1, to a maximum of 20.</li></ul><ul><li>You have an advantage on Charisma (Deception) and Charisma (Performance) checks when trying to pass yourself off as a different person.</li></ul><ul><li>You can mimic the speech of another person or the sounds made by other creatures. You must have heard the person speaking, or heard the creature make the sound, for at least 1 minute. A successful Wisdom (Insight) check contested by your Charisma (Deception) check allows a listener to determine that the effect is faked.</li></ul></div>',
   },
@@ -111,6 +136,18 @@ export const FEAT_CONFIGS: {
   ALERT: {
     label: 'Alert',
     sourceBook: "Player's Handbook",
+    config: [
+      getHiddenBasicFeatureByLD(
+        'Alert',
+        "Always on the lookout for danger, you gain the following benefits\n- Other creatures don't gain advantage on attack rolls against you as a result of being unseen by you.\n- You can't be surprised while you are conscious.\n- You gain a +5 bonus to initiative.",
+      ),
+      getHiddenFeature({
+        path: 'customBonuses.initiative',
+        value: {
+          initiative: [{ source: 'Alert', value: 5, isStatic: true }],
+        } as CharacterSheetCustomBonuses,
+      }),
+    ],
     description:
       "<div><p>Always on the lookout for danger, you gain the following benefits:</p><ul><li>You can't be surprised while you are conscious.</li></ul><ul><li>You gain a +5 bonus to initiative.</li></ul><ul><li>Other creatures don't gain advantage on attack rolls against you as a result of being unseen by you.</li></ul></div>",
   },
@@ -369,6 +406,13 @@ export const FEAT_CONFIGS: {
   PIERCER: {
     label: 'Piercer',
     sourceBook: "Tasha's Cauldron of Everything",
+    config: [
+      getFeatStatBoost([STATS.STR, STATS.DEX]),
+      getHiddenBasicFeatureByLD(
+        'Piercer',
+        'You have achieved a penetrating precision in combat, granting you the following benefits:\n- Increase your Strength or Dexterity by 1, to a maximum of 20.\n- Once per turn, when you hit a creature with an attack that deals piercing damage, you can re-roll one of the attack’s damage dice, and you must use the new roll.\n- When you score a critical hit that deals piercing damage to a creature, you can roll one additional damage die when determining the extra piercing damage the target takes.',
+      ),
+    ],
     description:
       '<div><p>You have achieved a penetrating precision in combat, granting you the following benefits:</p><ul><li>Increase your Strength or Dexterity by 1, to a maximum of 20.</li></ul><ul><li>Once per turn, when you hit a creature with an attack that deals piercing damage, you can re-roll one of the attack’s damage dice, and you must use the new roll.</li></ul><ul><li>When you score a critical hit that deals piercing damage to a creature, you can roll one additional damage die when determining the extra piercing damage the target takes.</li></ul></div>',
   },
