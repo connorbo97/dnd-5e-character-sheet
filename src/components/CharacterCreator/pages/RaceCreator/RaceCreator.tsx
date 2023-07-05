@@ -51,6 +51,7 @@ export const RaceCreator = () => {
             config={config?.base}
             getUpdatePath={(i) => `base.${i}`}
             onUpdate={updateRaceConfig}
+            formPath={CHARACTER_CREATOR_PATHS['race']}
           />
         )}
         {config?.subRaceOptions && (
@@ -71,6 +72,7 @@ export const RaceCreator = () => {
           <CreateSection
             config={config?.subRace[subRace]}
             getUpdatePath={(i) => `subRace.${subRace}.${i}`}
+            formPath={CHARACTER_CREATOR_PATHS['race']}
             onUpdate={updateRaceConfig}
           />
         )}

@@ -116,6 +116,7 @@ export const getEquipmentChoice = (
   return getStaticWithChoices(
     { path: MULTI_PATH, custom },
     {
+      allowDupes: true,
       getDescription:
         custom.length > 1
           ? ({ custom }) =>

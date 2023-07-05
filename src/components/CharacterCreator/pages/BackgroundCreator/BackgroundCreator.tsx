@@ -49,7 +49,11 @@ export const BackgroundCreator = (props: Props) => {
           '2-3 short sentences describing your past.\n\ne.g, Wanderer: I grew up poor and decided to see what the rest of the world had to offer me. I grabbed my cloak and my savings and hit the road. I did odd jobs for small villages and lived off the land.'
         }
       />
-      <CreateSection config={config} onUpdate={updateConfig} />
+      <CreateSection
+        config={config}
+        onUpdate={updateConfig}
+        formPath={CHARACTER_CREATOR_PATHS['background']}
+      />
       <div className={styles['special-feature']}>
         <h3>Special Feature (Optional)</h3>
         <div className={styles['summary']}>

@@ -1,5 +1,6 @@
 import {
   CHARACTER_CREATOR_PAGES,
+  CHARACTER_CREATOR_PATHS,
   CharacterBackgroundForm,
   CharacterClassForm,
   CharacterCreatorForm,
@@ -37,6 +38,7 @@ import { InventoryItem } from 'constants/inventory';
 import { ClassConfig } from 'constants/classes';
 import { getDiceMax } from './diceUtils';
 import { getModifier } from './statUtils';
+import { ProficiencyConfig } from 'constants/general';
 
 const calcFinalBackground = (
   background: CharacterBackgroundForm,
@@ -273,6 +275,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     finalBackground,
     finalEquipment,
   ];
+
   const result: { [s in CharacterSheetPath]: any } = {
     [CharacterSheetPath.name]: bio.name || 'New Character',
     [CharacterSheetPath.advantageToggle]: ADVANTAGE_TOGGLE.NORMAL,
@@ -392,8 +395,31 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
 
   console.log(result);
 
+  const reviewValidations: Array<CharacterCreatorValidation> = [];
+
+  const multiSourceSkills = values(get(result, CharacterSheetPath.skills, {}))
+    .map(({ label, source }: ProficiencyConfig) => ({
+      label,
+      sources: source?.split('|') || [],
+    }))
+    .filter(({ sources }) => sources.length > 1);
+  if (multiSourceSkills) {
+    reviewValidations.push({
+      type: CharacterCreatorValidationType.WARNING,
+      text: `Gained proficiency in the following skills from multiple sources:\n${multiSourceSkills
+        .map(({ label, sources }) => `- ${label} -> ${joinAndStrings(sources)}`)
+        .join('\n')}`,
+    });
+  }
+
   return {
     sheet: result,
+    formSheets: {
+      [CHARACTER_CREATOR_PATHS['race']]: finalRace,
+      [CHARACTER_CREATOR_PATHS['class']]: finalClass,
+      [CHARACTER_CREATOR_PATHS['equipment']]: finalEquipment,
+      [CHARACTER_CREATOR_PATHS['background']]: finalBackground,
+    },
     validationsBySection: {
       [CHARACTER_CREATOR_PAGES.RACE]: raceValidations,
       [CHARACTER_CREATOR_PAGES.CLASS]: classValidations,
@@ -401,6 +427,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       [CHARACTER_CREATOR_PAGES.BACKGROUND]: backgroundValidations,
       [CHARACTER_CREATOR_PAGES.EQUIPMENT]: equipmentValidations,
       [CHARACTER_CREATOR_PAGES.BIO]: bioValidations,
+      [CHARACTER_CREATOR_PAGES.REVIEW]: reviewValidations,
     },
   };
 });

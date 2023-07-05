@@ -18,6 +18,7 @@ const HIDDEN_BORDER_FORMATS = new Set([
 type Props = any;
 export const CreateSection = ({
   config,
+  formPath = '',
   getUpdatePath = (i) => i,
   onUpdate,
   shouldDisableBorder = stubFalse,
@@ -49,6 +50,7 @@ export const CreateSection = ({
         })}>
         <Component
           {...curConfig}
+          formPath={formPath}
           updatePath={getUpdatePath(index)}
           onUpdate={onUpdate}
         />

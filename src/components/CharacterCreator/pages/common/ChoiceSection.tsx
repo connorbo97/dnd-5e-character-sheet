@@ -1,27 +1,35 @@
 import styles from './choiceSection.module.scss';
 import { Dropdown } from 'common/components/Dropdown/Dropdown';
 import { iSet } from 'utils/lodashUtils';
-import { get, noop } from 'lodash';
+import { get, keys, noop } from 'lodash';
 import {
-  CreateConfigEntryConfig,
+  CreateConfigEntry,
   SECTION_CONFIG_FORMAT,
 } from 'constants/characterCreatorSections';
 import classnames from 'classnames/bind';
 import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 import React from 'react';
+import {
+  CHARACTER_SHEET_PATH_SET,
+  CharacterSheetPath,
+} from 'constants/characterSheetPaths';
+import { useCharacterCreatorSheet } from 'providers/CharacterCreatorProvider';
+import { IGNORE_PATH } from 'constants/raceTypes';
+// import { useCharacterCreatorSheet } from 'providers/CharacterCreatorProvider';
+// import {
+//   CHARACTER_SHEET_PATH_SET,
+//   CharacterSheetPath,
+// } from 'constants/characterSheetPaths';
 
 const classNameBuilder = classnames.bind(styles);
 
-type Props = {
-  value?: any;
-  format: string;
+interface Props extends CreateConfigEntry {
   updatePath: string;
-  options?: Array<{ value: any; label: any }>;
   isSubRace?: boolean;
-  config?: CreateConfigEntryConfig;
   onUpdate: Function;
   optional?: boolean;
-};
+  formPath?: string;
+}
 
 export const ChoiceSection = React.memo(
   ({
@@ -30,9 +38,12 @@ export const ChoiceSection = React.memo(
     options = [],
     config = {},
     optional = false,
+    formPath,
     updatePath,
+    path,
     onUpdate,
   }: Props) => {
+    const { formSheets } = useCharacterCreatorSheet();
     const {
       header,
       subHeader,
@@ -41,6 +52,7 @@ export const ChoiceSection = React.memo(
       getPostDescription,
       getLabelValue,
       getPlaceholder = noop,
+      allowDupes = false,
     } = config;
     const statics = get(value, 'statics', []);
     const customValue = get(value, 'custom');
@@ -60,6 +72,42 @@ export const ChoiceSection = React.memo(
         iSet(prev, `${updatePath}.value.custom.${index}.value`, value),
       );
 
+    // let disabledValues: Array<any> = [];
+
+    // if (CHARACTER_SHEET_PATH_SET.has(path as CharacterSheetPath)) {
+    //   const sheetValue = get(sheet, path);
+
+    //   switch (path) {
+    //     case CharacterSheetPath.skills:
+    //     case CharacterSheetPath.otherProficiencies:
+    //       disabledValues = keys(sheetValue);
+    //       break;
+    //     default:
+    //   }
+    // }
+
+    let disabledValues: Array<any> = [];
+    const sheetValue = get(
+      get(formSheets, formPath || IGNORE_PATH) || {},
+      path,
+    );
+
+    console.log(formPath, path, sheetValue, allowDupes);
+    if (
+      !allowDupes &&
+      formPath &&
+      CHARACTER_SHEET_PATH_SET.has(path as CharacterSheetPath) &&
+      sheetValue
+    ) {
+      switch (path) {
+        case CharacterSheetPath.skills:
+        case CharacterSheetPath.otherProficiencies:
+          disabledValues = keys(sheetValue);
+          break;
+        default:
+      }
+    }
+
     return (
       <div className={styles['container']}>
         <div className={classNameBuilder('header')}>
@@ -77,6 +125,7 @@ export const ChoiceSection = React.memo(
               options={options}
               onChange={(e) => onChangeDropdown(e.target.value)}
               value={value}
+              disabledValues={disabledValues}
               allowEmpty
               placeholder={getPlaceholder(config) || 'Choose'}
             />
@@ -90,6 +139,7 @@ export const ChoiceSection = React.memo(
                   <Dropdown
                     key={i}
                     value={config.value}
+                    disabledValues={disabledValues}
                     options={config.options}
                     placeholder={getPlaceholder && getPlaceholder(config)}
                     onChange={(e) => onChangeCustom(i, e.target.value)}

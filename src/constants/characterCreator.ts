@@ -51,10 +51,7 @@ export const CHARACTER_CREATOR_PAGE_CONFIGS: {
   },
 };
 export const CHARACTER_CREATOR_PAGES_LIST = values(CHARACTER_CREATOR_PAGES);
-export const NON_REQUIRED_PAGES = new Set([
-  CHARACTER_CREATOR_PAGES.START,
-  CHARACTER_CREATOR_PAGES.REVIEW,
-]);
+export const NON_REQUIRED_PAGES = new Set([CHARACTER_CREATOR_PAGES.START]);
 
 export type CharacterRaceForm = {
   value?: RACES;

@@ -60,7 +60,13 @@ export const ClassCreator = (props: Props) => {
           {classConfig?.label || curClass}
         </h1>
       )}
-      {config && <CreateSection config={config} onUpdate={updateConfig} />}
+      {config && (
+        <CreateSection
+          config={config}
+          onUpdate={updateConfig}
+          formPath={CHARACTER_CREATOR_PATHS['class']}
+        />
+      )}
     </div>
   );
 };
