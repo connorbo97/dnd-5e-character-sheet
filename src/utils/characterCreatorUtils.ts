@@ -156,7 +156,6 @@ const calcFinalRace = (
   selectedSubRace: string = '',
 ): [any, Array<CharacterCreatorValidation>] => {
   let result: any = {};
-  console.log(createConfig, selectedRace, selectedSubRace);
   if (!selectedRace || !RACE_CONFIGS[selectedRace]) {
     return [
       result,
@@ -275,6 +274,10 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     finalBackground,
     finalEquipment,
   ];
+  const featChoices = forms.reduce(
+    (acc, cur) => acc + get(cur, 'featChoices', 0),
+    0,
+  );
 
   const result: { [s in CharacterSheetPath]: any } = {
     [CharacterSheetPath.name]: bio.name || 'New Character',
@@ -393,8 +396,6 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     ),
   };
 
-  console.log(result);
-
   const reviewValidations: Array<CharacterCreatorValidation> = [];
 
   const multiSourceSkills = entries(get(result, CharacterSheetPath.skills, {}))
@@ -465,6 +466,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       [CHARACTER_CREATOR_PATHS['equipment']]: finalEquipment,
       [CHARACTER_CREATOR_PATHS['background']]: finalBackground,
     },
+    featChoices,
     validationsBySection: {
       [CHARACTER_CREATOR_PAGES.RACE]: raceValidations,
       [CHARACTER_CREATOR_PAGES.CLASS]: classValidations,
@@ -472,6 +474,7 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
       [CHARACTER_CREATOR_PAGES.BACKGROUND]: backgroundValidations,
       [CHARACTER_CREATOR_PAGES.EQUIPMENT]: equipmentValidations,
       [CHARACTER_CREATOR_PAGES.BIO]: bioValidations,
+      [CHARACTER_CREATOR_PAGES.FEATS]: [],
       [CHARACTER_CREATOR_PAGES.REVIEW]: reviewValidations,
     },
   };

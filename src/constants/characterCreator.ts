@@ -143,6 +143,14 @@ export type CharacterEquipmentForm = {
 export const EMPTY_EQUIPMENT_FORM = {
   config: undefined,
 };
+export type CharacterFeatForm = {
+  value?: string;
+  config: Array<CreateConfigEntry>;
+};
+export const EMPTY_FEAT_FORM = {
+  value: undefined,
+  config: [],
+};
 
 export type CharacterCreatorForm = {
   race: CharacterRaceForm;
@@ -151,6 +159,7 @@ export type CharacterCreatorForm = {
   background: CharacterBackgroundForm;
   equipment: CharacterEquipmentForm;
   bio: CharacterBioForm;
+  feats: Array<CharacterFeatForm>;
 };
 
 export const EMPTY_FORM: CharacterCreatorForm = {
@@ -160,6 +169,7 @@ export const EMPTY_FORM: CharacterCreatorForm = {
   equipment: EMPTY_EQUIPMENT_FORM,
   bio: EMPTY_BIO_FORM,
   class: EMPTY_CLASS_FORM,
+  feats: [],
 };
 
 export const CHARACTER_CREATOR_PATHS_LIST = getAllPaths(EMPTY_FORM);

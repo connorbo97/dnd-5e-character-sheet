@@ -1,4 +1,4 @@
-import { findIndex, get } from 'lodash';
+import { fill, findIndex, get } from 'lodash';
 import styles from './characterCreator.module.scss';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import classnames from 'classnames/bind';
@@ -11,9 +11,11 @@ import {
   CHARACTER_CREATOR_PAGES,
   CHARACTER_CREATOR_PAGES_LIST,
   CHARACTER_CREATOR_PAGE_CONFIGS,
+  CHARACTER_CREATOR_PATHS,
   NON_REQUIRED_PAGES,
 } from 'constants/characterCreator';
 import { useSubmitSheet } from './hooks/useSubmitSheet';
+import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 
 const classNameBuilder = classnames.bind(styles);
 
@@ -45,12 +47,20 @@ export const CharacterCreator = () => {
 
   const {
     sheet,
+    featChoices,
     onSubmitSheet,
     validationsBySection,
     errorValidationsBySection,
     warningValidationsBySection,
     hasErrorValidations,
   } = useSubmitSheet();
+  const [, setFeats] = useCharacterCreatorPath(
+    CHARACTER_CREATOR_PATHS['feats'],
+  );
+
+  useLayoutEffect(() => {
+    setFeats(fill(Array(featChoices), { value: undefined, config: [] }));
+  }, [featChoices, setFeats]);
 
   return (
     <div className={styles['container']}>

@@ -828,7 +828,7 @@ export const ADVENTURING_GEAR_CONFIG: {
     weight: 1,
   },
 };
-console.log(ADVENTURING_GEAR_CONFIG);
+
 export const ARCANE_FOCUS_GEAR = pickBy(
   ADVENTURING_GEAR,
   (v) => ADVENTURING_GEAR_CONFIG[v].type === ADVENTURING_GEAR_TYPE.ARCANE_FOCUS,

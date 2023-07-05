@@ -9,7 +9,7 @@ import { CharacterCreatorValidationType } from 'utils/characterCreator/ccParserU
 export const useSubmitSheet = () => {
   const navigate = useNavigate();
   const { setSheet } = useCharacterSheet();
-  const { sheet, validationsBySection } = useCharacterCreatorSheet();
+  const { sheet, validationsBySection, ...rest } = useCharacterCreatorSheet();
   const {
     errorValidationsBySection,
     warningValidationsBySection,
@@ -41,6 +41,7 @@ export const useSubmitSheet = () => {
   }, [navigate, setSheet, sheet]);
 
   return {
+    ...rest,
     sheet,
     validationsBySection,
     errorValidationsBySection,

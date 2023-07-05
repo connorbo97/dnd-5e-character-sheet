@@ -13,3 +13,6 @@ export const sleep = async (time) => {
     setTimeout(() => resolve('done'), time);
   });
 };
+
+export const filterByIndex = (arr, iToRemove) =>
+  arr.filter((_, i) => i !== iToRemove);

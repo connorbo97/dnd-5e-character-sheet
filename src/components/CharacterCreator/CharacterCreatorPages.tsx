@@ -8,6 +8,7 @@ import { RaceCreator } from './pages/RaceCreator/RaceCreator';
 import React from 'react';
 import { CHARACTER_CREATOR_PAGES } from 'constants/characterCreator';
 import { ReviewCreator } from './pages/ReviewCreator/ReviewCreator';
+import { FeatsCreator } from './pages/FeatsCreator/FeatsCreator';
 
 type Props = any;
 export const CharacterCreatorPages = React.memo((props: Props) => {
@@ -24,7 +25,7 @@ export const CharacterCreatorPages = React.memo((props: Props) => {
         path={CHARACTER_CREATOR_PAGES.EQUIPMENT}
         element={<EquipmentCreator />}
       />
-      <Route path={CHARACTER_CREATOR_PAGES.FEATS} element={<div>FEATS</div>} />
+      <Route path={CHARACTER_CREATOR_PAGES.FEATS} element={<FeatsCreator />} />
       <Route path={CHARACTER_CREATOR_PAGES.BIO} element={<BioCreator />} />
       <Route
         path={CHARACTER_CREATOR_PAGES.REVIEW}

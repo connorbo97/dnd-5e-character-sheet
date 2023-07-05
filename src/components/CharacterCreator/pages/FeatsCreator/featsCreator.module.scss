@@ -1,0 +1,10 @@
+@import "src/styles/_colors";
+
+.container {
+
+  table,
+  th,
+  td {
+    border: 1px solid $white;
+  }
+}
