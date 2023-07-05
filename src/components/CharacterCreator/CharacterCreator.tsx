@@ -56,15 +56,15 @@ export const CharacterCreator = () => {
     <div className={styles['container']}>
       <div className={styles['header']}>
         {CHARACTER_CREATOR_PAGES_LIST.map((p) => {
-          const test = {
+          const hasValidations = (validationsBySection[p]?.length || 0) === 0;
+          const classNameObj = {
             good:
               // if the page is review, there can be no error validations also
               // OR if its another page, it has to have warningValidations and no error validations
               (p === CHARACTER_CREATOR_PAGES.REVIEW &&
                 !hasErrorValidations &&
-                (validationsBySection[p]?.length || 0) === 0) ||
-              (p !== CHARACTER_CREATOR_PAGES.REVIEW &&
-                (validationsBySection[p]?.length || 0) === 0),
+                hasValidations) ||
+              (p !== CHARACTER_CREATOR_PAGES.REVIEW && hasValidations),
             warning:
               warningValidationsBySection[p]?.length &&
               errorValidationsBySection[p]?.length === 0,
@@ -78,7 +78,7 @@ export const CharacterCreator = () => {
               })}>
               {CHARACTER_CREATOR_PAGE_CONFIGS[p].label}
               {visitedPagesSet.has(p) && !NON_REQUIRED_PAGES.has(p) && (
-                <div className={classNameBuilder('validation', test)} />
+                <div className={classNameBuilder('validation', classNameObj)} />
               )}
               {visitedPagesSet.has(p) &&
                 validationsBySection[p]?.length > 0 && (
