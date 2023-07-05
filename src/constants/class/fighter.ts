@@ -93,7 +93,6 @@ export const FIGHTER_LEVEL_ONE_CONFIG = [
           {
             label: 'Second Wind',
             max: 1,
-            source: 'Fighter',
             resetOnLongRest: true,
             resetOnShortRest: true,
           },
