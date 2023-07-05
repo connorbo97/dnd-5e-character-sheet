@@ -11,6 +11,7 @@ type Props = any;
 export const ReviewCreator = (props: Props) => {
   const {
     hasErrorValidations,
+    hasWarningValidations,
     onSubmitSheet,
     warningValidationsBySection,
     errorValidationsBySection,
@@ -27,7 +28,7 @@ export const ReviewCreator = (props: Props) => {
             <button onClick={onSubmitSheet}>Create Character</button>
           </div>
         )}
-        {hasErrorValidations && (
+        {(hasErrorValidations || hasWarningValidations) && (
           <div className={styles['validations']}>
             <h2>Please check the following sections</h2>
             {CHARACTER_CREATOR_PAGES_LIST.filter(
@@ -51,8 +52,8 @@ export const ReviewCreator = (props: Props) => {
                   )}
                 {errorValidationsBySection[p]?.length > 0 && (
                   <ul>
-                    {errorValidationsBySection[p].map((v) => (
-                      <li>{v.text}</li>
+                    {errorValidationsBySection[p].map((v, i) => (
+                      <li key={i}>{v.text}</li>
                     ))}
                   </ul>
                 )}
@@ -61,8 +62,8 @@ export const ReviewCreator = (props: Props) => {
                 )}
                 {warningValidationsBySection[p]?.length > 0 && (
                   <ul>
-                    {warningValidationsBySection[p].map((v) => (
-                      <li>{v.text}</li>
+                    {warningValidationsBySection[p].map((v, i) => (
+                      <li key={i}>{v.text}</li>
                     ))}
                   </ul>
                 )}

@@ -254,10 +254,12 @@ export const getChoiceToolProficiencies = (
 
             return acc;
           }, {}),
-        customChecks: custom.map(({ value }) => ({
-          label: TOOLS_CONFIG[value].label,
-          proficient: true,
-        })),
+        customChecks: custom
+          .filter(({ value }) => value)
+          .map(({ value }) => ({
+            label: TOOLS_CONFIG[value].label,
+            proficient: true,
+          })),
       }),
     },
   );

@@ -5,12 +5,14 @@ import { useCharacterCreatorPath } from 'providers/CharacterCreatorProvider';
 import { CHARACTER_CREATOR_PATHS } from 'constants/characterCreator';
 import { CreateSection } from '../common/CreateSection';
 import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
+import { useLayoutEffect, useRef } from 'react';
 
 type Props = any;
 export const ClassCreator = (props: Props) => {
   const [curClass, setCurClass] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS['class.value'],
   );
+  const prevClassRef = useRef(curClass);
   // const [staticConfig, setStatic] = useCharacterCreatorPath(
   //   CHARACTER_CREATOR_PATHS['class.static'],
   // );
@@ -18,6 +20,21 @@ export const ClassCreator = (props: Props) => {
     CHARACTER_CREATOR_PATHS['class.config'],
   );
   const classConfig = CLASS_CONFIGS[curClass];
+  const [, setEquipmentConfig] = useCharacterCreatorPath(
+    CHARACTER_CREATOR_PATHS['equipment.config'],
+  );
+
+  // update the equipment config whenever you change the class
+  useLayoutEffect(() => {
+    if (
+      prevClassRef.current !== curClass &&
+      curClass &&
+      CLASS_CONFIGS[curClass]?.equipment
+    ) {
+      setEquipmentConfig(CLASS_CONFIGS[curClass]?.equipment);
+    }
+    prevClassRef.current = curClass;
+  }, [curClass, setEquipmentConfig]);
 
   const onChangeClass = (e) => {
     setCurClass(e.target.value);

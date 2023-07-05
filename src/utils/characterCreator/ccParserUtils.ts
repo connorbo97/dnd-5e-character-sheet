@@ -1,5 +1,9 @@
 import { CreateConfigEntry } from 'constants/characterCreatorSections';
-import { CharacterSheetCustomBonuses } from 'constants/characterSheet';
+import {
+  CharacterSheet,
+  CharacterSheetCustomBonuses,
+} from 'constants/characterSheet';
+import { CharacterSheetPath } from 'constants/characterSheetPaths';
 import { ProficiencyConfig } from 'constants/general';
 import { InventoryItem } from 'constants/inventory';
 import { IGNORE_PATH, MULTI_PATH } from 'constants/raceTypes';
@@ -10,6 +14,7 @@ import {
   isNil,
   mapValues,
   set,
+  size,
   stubTrue,
   update,
 } from 'lodash';
@@ -260,5 +265,123 @@ export const parseCreateConfigs = (
   return [result, validations];
 };
 
-export const appendSourceToMap = (map, source) =>
-  mapValues(map, (v) => ({ ...v, source }));
+export const appendSourceToMap = (map, source): any =>
+  !size(map)
+    ? map
+    : mapValues(map, (v) => ({
+        ...v,
+        source: getMergedSources(v?.source, source),
+      }));
+export const appendSourceToArray = (array, source): Array<any> => {
+  if (!size(array)) {
+    return array;
+  }
+
+  return array.map((v) => ({
+    ...v,
+    source: getMergedSources(v?.source, source),
+  }));
+};
+export const addSourceToSheet = (result: CharacterSheet, source) => {
+  const finalResult = { ...result };
+
+  if (finalResult[CharacterSheetPath.attacks]) {
+    finalResult[CharacterSheetPath.attacks] = appendSourceToArray(
+      finalResult[CharacterSheetPath.attacks],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.inventory]) {
+    finalResult[CharacterSheetPath.inventory] = appendSourceToArray(
+      finalResult[CharacterSheetPath.inventory],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.customBonuses]) {
+    finalResult[CharacterSheetPath.customBonuses] = {
+      initiative: appendSourceToMap(
+        finalResult[CharacterSheetPath.customBonuses]?.initiative,
+        source,
+      ),
+      hp: appendSourceToMap(
+        finalResult[CharacterSheetPath.customBonuses]?.hp,
+        source,
+      ),
+    };
+  }
+  if (finalResult[CharacterSheetPath.customChecks]) {
+    finalResult[CharacterSheetPath.customChecks] = appendSourceToArray(
+      finalResult[CharacterSheetPath.customChecks],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.features]) {
+    finalResult[CharacterSheetPath.features] = appendSourceToArray(
+      finalResult[CharacterSheetPath.features],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.globalACModifier]) {
+    finalResult[CharacterSheetPath.globalACModifier] = appendSourceToArray(
+      finalResult[CharacterSheetPath.globalACModifier],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.globalAttackModifier]) {
+    finalResult[CharacterSheetPath.globalAttackModifier] = appendSourceToArray(
+      finalResult[CharacterSheetPath.globalAttackModifier],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.globalDamageModifier]) {
+    finalResult[CharacterSheetPath.globalDamageModifier] = appendSourceToArray(
+      finalResult[CharacterSheetPath.globalDamageModifier],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.inventory]) {
+    finalResult[CharacterSheetPath.inventory] = appendSourceToArray(
+      finalResult[CharacterSheetPath.inventory],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.otherProficiencies]) {
+    finalResult[CharacterSheetPath.otherProficiencies] = appendSourceToMap(
+      finalResult[CharacterSheetPath.otherProficiencies],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.resources]) {
+    finalResult[CharacterSheetPath.resources] = appendSourceToArray(
+      finalResult[CharacterSheetPath.resources],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.savingThrows]) {
+    finalResult[CharacterSheetPath.savingThrows] = appendSourceToMap(
+      finalResult[CharacterSheetPath.savingThrows],
+      source,
+    );
+  }
+  if (finalResult[CharacterSheetPath.skills]) {
+    finalResult[CharacterSheetPath.skills] = appendSourceToMap(
+      finalResult[CharacterSheetPath.skills],
+      source,
+    );
+  }
+
+  return finalResult;
+};
+
+export const getFormJointArrayByPath = (
+  forms,
+  path,
+  {
+    defaultValue = [],
+    disableFlat = false,
+  }: { defaultValue?: any; disableFlat?: boolean } = {},
+) => {
+  return forms.map((f) => get(f, path) || defaultValue).flat();
+};
+export const getFormJointObjectArrayFromPath = (forms, path) =>
+  getFormJointArrayByPath(forms, path, { disableFlat: true, defaultValue: {} });

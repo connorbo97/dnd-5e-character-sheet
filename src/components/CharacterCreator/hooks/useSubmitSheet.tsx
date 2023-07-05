@@ -14,6 +14,7 @@ export const useSubmitSheet = () => {
     errorValidationsBySection,
     warningValidationsBySection,
     hasErrorValidations,
+    hasWarningValidations,
   } = useMemo(() => {
     const errorValidationsBySection = mapValues(validationsBySection, (v) =>
       v.filter((v) => v.type === CharacterCreatorValidationType.REQUIRED),
@@ -23,11 +24,14 @@ export const useSubmitSheet = () => {
     );
     const hasErrorValidations =
       values(errorValidationsBySection).flat().length > 0;
+    const hasWarningValidations =
+      values(warningValidationsBySection).flat().length > 0;
 
     return {
       errorValidationsBySection,
       warningValidationsBySection,
       hasErrorValidations,
+      hasWarningValidations,
     };
   }, [validationsBySection]);
 
@@ -42,6 +46,7 @@ export const useSubmitSheet = () => {
     errorValidationsBySection,
     warningValidationsBySection,
     hasErrorValidations,
+    hasWarningValidations,
     onSubmitSheet,
   };
 };

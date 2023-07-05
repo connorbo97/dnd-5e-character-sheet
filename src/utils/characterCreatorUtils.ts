@@ -11,6 +11,8 @@ import {
   CharacterCreatorValidation,
   CharacterCreatorValidationType,
   appendSourceToMap,
+  getFormJointArrayByPath,
+  getFormJointObjectArrayFromPath,
   getMergedCustomBonuses,
   mergeAllMoney,
   mergeAllProficiencies,
@@ -259,6 +261,13 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
 
   const finalStats = mergeAllStatBlocks([finalRace?.stats, stats]);
 
+  const forms = [
+    finalRace,
+    finalBackground,
+    finalClass,
+    finalBackground,
+    finalEquipment,
+  ];
   const result: { [s in CharacterSheetPath]: any } = {
     [CharacterSheetPath.name]: bio.name || 'New Character',
     [CharacterSheetPath.advantageToggle]: ADVANTAGE_TOGGLE.NORMAL,
@@ -287,60 +296,54 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
     [CharacterSheetPath.alignment]: bio.alignment || ALIGNMENTS.N,
     [CharacterSheetPath.stats]: finalStats || {},
     [CharacterSheetPath.savingThrows]: finalClass?.savingThrows || {},
-    [CharacterSheetPath.skills]: mergeAllProficiencies([
-      finalRace?.skills,
-      finalClass?.skills,
-      finalBackground?.skills,
-    ]),
-    [CharacterSheetPath.customChecks]: values(
-      [
-        ...(finalRace?.customChecks || []),
-        ...(finalClass?.customChecks || []),
-        ...(finalBackground?.customChecks || []),
-      ].reduce((acc, cur) => {
-        const label = cur.label;
-
-        acc[label] = mergeProficiencies(acc[label] || {}, cur);
-
-        return acc;
-      }, {}),
+    [CharacterSheetPath.skills]: mergeAllProficiencies(
+      getFormJointObjectArrayFromPath(forms, CharacterSheetPath.skills),
     ),
-    [CharacterSheetPath.resources]: [
-      ...(finalRace.resources || []),
-      ...(finalClass.resources || []),
-      ...(finalBackground.resources || []),
-      ...(finalEquipment.resources || []),
-    ],
-    [CharacterSheetPath.features]: [
-      ...(finalRace.features || []),
-      ...(finalClass.features || []),
-      ...(finalBackground.features || []),
-      ...(finalEquipment.features || []),
-    ],
-    [CharacterSheetPath.otherProficiencies]: mergeAllProficiencies([
-      finalRace?.otherProficiencies,
-      finalClass?.otherProficiencies,
-      finalBackground?.otherProficiencies,
-    ]),
+    [CharacterSheetPath.customChecks]: values(
+      getFormJointArrayByPath(forms, CharacterSheetPath.customChecks).reduce(
+        (acc, cur) => {
+          const label = cur.label;
+
+          acc[label] = mergeProficiencies(acc[label] || {}, cur);
+
+          return acc;
+        },
+        {},
+      ),
+    ),
+    [CharacterSheetPath.resources]: getFormJointArrayByPath(
+      forms,
+      CharacterSheetPath.resources,
+    ),
+    [CharacterSheetPath.features]: getFormJointArrayByPath(
+      forms,
+      CharacterSheetPath.features,
+    ),
+    [CharacterSheetPath.otherProficiencies]: mergeAllProficiencies(
+      getFormJointObjectArrayFromPath(
+        forms,
+        CharacterSheetPath.otherProficiencies,
+      ),
+    ),
     [CharacterSheetPath.money]: mergeAllMoney([
       {
         [MONEY.GOLD]: 25,
       },
-      finalBackground?.money,
+      ...getFormJointArrayByPath(forms, CharacterSheetPath.money, {
+        defaultValue: {},
+      }),
     ]),
     [CharacterSheetPath.inventory]: values(
-      [
-        ...(finalRace?.inventory || []),
-        ...(finalClass?.inventory || []),
-        ...(finalBackground?.inventory || []),
-        ...(finalEquipment?.inventory || []),
-      ].reduce((acc, cur: InventoryItem) => {
-        const label = cur.label;
+      getFormJointArrayByPath(forms, CharacterSheetPath.inventory).reduce(
+        (acc, cur: InventoryItem) => {
+          const label = cur.label;
 
-        acc[label] = mergeInventoryItems(acc[label] || null, cur);
+          acc[label] = mergeInventoryItems(acc[label] || null, cur);
 
-        return acc;
-      }, {}),
+          return acc;
+        },
+        {},
+      ),
     ).filter(identity),
     [CharacterSheetPath.deathSaves]: {
       successes: [false, false, false],
@@ -361,31 +364,25 @@ export const calcCharacterSheet = memoizeOne((form: CharacterCreatorForm) => {
           },
         }
       : {},
-    [CharacterSheetPath.customBonuses]: getMergedCustomBonuses([
-      finalRace.customBonuses,
-      finalClass.customBonuses,
-    ]),
-    [CharacterSheetPath.attacks]: uniqBy(
-      [
-        ...(finalRace?.attacks || []),
-        ...(finalClass?.attacks || []),
-        ...(finalBackground?.attacks || []),
-        ...(finalEquipment?.attacks || []),
-      ],
-      ({ label }) => label,
+    [CharacterSheetPath.customBonuses]: getMergedCustomBonuses(
+      getFormJointObjectArrayFromPath(forms, CharacterSheetPath.customBonuses),
     ),
-    [CharacterSheetPath.globalAttackModifier]: [
-      ...(finalRace?.globalAttackModifier || []),
-      ...(finalClass?.globalAttackModifier || []),
-    ],
-    [CharacterSheetPath.globalACModifier]: [
-      ...(finalRace?.globalACModifier || []),
-      ...(finalClass?.globalACModifier || []),
-    ],
-    [CharacterSheetPath.globalDamageModifier]: [
-      ...(finalRace?.globalDamageModifier || []),
-      ...(finalClass?.globalDamageModifier || []),
-    ],
+    [CharacterSheetPath.attacks]: uniqBy(
+      getFormJointArrayByPath(forms, CharacterSheetPath.attacks),
+      ({ label }: any) => label,
+    ),
+    [CharacterSheetPath.globalAttackModifier]: getFormJointArrayByPath(
+      forms,
+      CharacterSheetPath.globalAttackModifier,
+    ),
+    [CharacterSheetPath.globalACModifier]: getFormJointArrayByPath(
+      forms,
+      CharacterSheetPath.globalACModifier,
+    ),
+    [CharacterSheetPath.globalDamageModifier]: getFormJointArrayByPath(
+      forms,
+      CharacterSheetPath.globalDamageModifier,
+    ),
   };
 
   console.log(result);

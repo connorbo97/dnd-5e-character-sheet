@@ -5,7 +5,6 @@ import {
   CHARACTER_CREATOR_PATHS,
 } from 'constants/characterCreator';
 import { CLASS_CONFIGS } from 'constants/classConfigs';
-import { useLayoutEffect } from 'react';
 import { CreateSection } from '../common/CreateSection';
 import { TextLink } from 'common/components/TextLink/TextLink';
 
@@ -14,15 +13,9 @@ export const EquipmentCreator = (props: Props) => {
   const [selectedClass] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS['class.value'],
   );
-  const [config, setConfig, updateConfig] = useCharacterCreatorPath(
+  const [config, , updateConfig] = useCharacterCreatorPath(
     CHARACTER_CREATOR_PATHS['equipment.config'],
   );
-
-  useLayoutEffect(() => {
-    if (selectedClass && CLASS_CONFIGS[selectedClass]?.equipment) {
-      setConfig(CLASS_CONFIGS[selectedClass]?.equipment);
-    }
-  }, [selectedClass, setConfig]);
 
   const classConfig = CLASS_CONFIGS?.[selectedClass];
 
