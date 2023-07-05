@@ -1,4 +1,4 @@
-import { keyBy } from 'lodash';
+import { keyBy, values } from 'lodash';
 import { RACES, RaceConfigsCreateConfig } from './raceTypes';
 import { getAllPaths } from 'utils/objectUtils';
 import { STATS } from './stats';
@@ -19,6 +19,42 @@ export enum CHARACTER_CREATOR_PAGES {
   BIO = 'bio',
   REVIEW = 'review',
 }
+export const CHARACTER_CREATOR_PAGE_CONFIGS: {
+  [s in CHARACTER_CREATOR_PAGES]: { label: string };
+} = {
+  [CHARACTER_CREATOR_PAGES.START]: {
+    label: 'Start',
+  },
+  [CHARACTER_CREATOR_PAGES.RACE]: {
+    label: 'Race',
+  },
+  [CHARACTER_CREATOR_PAGES.CLASS]: {
+    label: 'Class',
+  },
+  [CHARACTER_CREATOR_PAGES.STATS]: {
+    label: 'Stats',
+  },
+  [CHARACTER_CREATOR_PAGES.BACKGROUND]: {
+    label: 'Background',
+  },
+  [CHARACTER_CREATOR_PAGES.EQUIPMENT]: {
+    label: 'Equipment',
+  },
+  [CHARACTER_CREATOR_PAGES.FEATS]: {
+    label: 'Feats',
+  },
+  [CHARACTER_CREATOR_PAGES.BIO]: {
+    label: 'Bio',
+  },
+  [CHARACTER_CREATOR_PAGES.REVIEW]: {
+    label: 'Review',
+  },
+};
+export const CHARACTER_CREATOR_PAGES_LIST = values(CHARACTER_CREATOR_PAGES);
+export const NON_REQUIRED_PAGES = new Set([
+  CHARACTER_CREATOR_PAGES.START,
+  CHARACTER_CREATOR_PAGES.REVIEW,
+]);
 
 export type CharacterRaceForm = {
   value?: RACES;

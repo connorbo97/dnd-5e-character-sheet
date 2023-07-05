@@ -25,7 +25,7 @@ export const Stats = () => {
     <div className={styles['container']}>
       <h3>Stats</h3>
       <div>
-        {Object.entries(stats).map(([stat, value]) => (
+        {Object.values(STATS).map((stat) => (
           <div className={styles['stat-container']} key={stat}>
             <RollableText
               className={styles['label']}
@@ -33,25 +33,27 @@ export const Stats = () => {
               roll={[D20_DICE, stat as STATS]}
               chatConfig={{
                 label: `${STATS_CONFIGS[stat].label} Check`,
-                labelSuffix: wrapInParens(addNumberSign(getModifier(value))),
+                labelSuffix: wrapInParens(
+                  addNumberSign(getModifier(stats[stat])),
+                ),
               }}
             />
             <div className={styles['content']}>
               <input
-                value={value}
+                value={stats[stat]}
                 onChange={(e) => onChangeStat(e.target.value, stat)}
                 type="number"
                 min={1}
                 max={30}
               />
-              <div>{wrapInParens(addNumberSign(getModifier(value)))}</div>
+              <div>{wrapInParens(addNumberSign(getModifier(stats[stat])))}</div>
             </div>
           </div>
         ))}
       </div>
       <h5>Saving Throws</h5>
       <div>
-        {Object.entries(stats).map(([stat, value]) => (
+        {Object.values(STATS).map((stat) => (
           <div className={styles['stat-container']} key={stat}>
             <ProficiencyButton
               config={savingThrows[stat]}
@@ -61,7 +63,7 @@ export const Stats = () => {
               className={styles['label']}
               value={`${STATS_CONFIGS[stat].label}:`}
               roll={
-                hasProficiency(savingThrows[stat])
+                hasProficiency(savingThrows[stats[stat]])
                   ? [D20_DICE, stat as STATS, ROLLABLES.PB]
                   : [D20_DICE, stat as STATS]
               }
@@ -70,7 +72,7 @@ export const Stats = () => {
                 labelSuffix: wrapInParens(
                   addNumberSign(
                     calculateRollable(
-                      hasProficiency(savingThrows[stat])
+                      hasProficiency(savingThrows[stats[stat]])
                         ? [stat as STATS, ROLLABLES.PB]
                         : [stat as STATS],
                       rollableConfig,
@@ -81,7 +83,7 @@ export const Stats = () => {
             />
             <span>
               {addNumberSign(
-                getModifier(value) +
+                getModifier(stats[stat]) +
                   getProficiencyBonus(savingThrows[stat], profBonus),
               )}
             </span>

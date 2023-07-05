@@ -7,6 +7,7 @@ import { ClassCreator } from './pages/ClassCreator/ClassCreator';
 import { RaceCreator } from './pages/RaceCreator/RaceCreator';
 import React from 'react';
 import { CHARACTER_CREATOR_PAGES } from 'constants/characterCreator';
+import { ReviewCreator } from './pages/ReviewCreator/ReviewCreator';
 
 type Props = any;
 export const CharacterCreatorPages = React.memo((props: Props) => {
@@ -27,7 +28,7 @@ export const CharacterCreatorPages = React.memo((props: Props) => {
       <Route path={CHARACTER_CREATOR_PAGES.BIO} element={<BioCreator />} />
       <Route
         path={CHARACTER_CREATOR_PAGES.REVIEW}
-        element={<div>Review</div>}
+        element={<ReviewCreator />}
       />
       <Route
         path={'*'}

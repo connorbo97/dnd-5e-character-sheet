@@ -1,25 +1,22 @@
-import { findIndex, get, mapValues, values } from 'lodash';
+import { findIndex, get, values } from 'lodash';
 import styles from './characterCreator.module.scss';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import classnames from 'classnames/bind';
-import { useCharacterCreatorSheet } from 'providers/CharacterCreatorProvider';
 import { STATS_CONFIGS, STATS_LIST } from 'constants/stats';
 import { RequiredIcon } from 'common/components/RequiredIcon/RequiredIcon';
 import { CharacterCreatorPages } from './CharacterCreatorPages';
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Tooltip } from 'react-mint';
-import { CharacterCreatorValidationType } from 'utils/characterCreator/ccParserUtils';
-import { CHARACTER_CREATOR_PAGES } from 'constants/characterCreator';
-import { useCharacterSheet } from 'providers/CharacterSheetProvider';
-import { PAGES, PAGE_CONFIGS } from 'constants/pages';
+import {
+  CHARACTER_CREATOR_PAGES,
+  CHARACTER_CREATOR_PAGES_LIST,
+  CHARACTER_CREATOR_PAGE_CONFIGS,
+  NON_REQUIRED_PAGES,
+} from 'constants/characterCreator';
+import { useSubmitSheet } from './hooks/useSubmitSheet';
 
 const classNameBuilder = classnames.bind(styles);
 
-const CHARACTER_CREATOR_PAGES_LIST = values(CHARACTER_CREATOR_PAGES);
-const NON_PROGRESS_PAGES = new Set([
-  CHARACTER_CREATOR_PAGES.START,
-  CHARACTER_CREATOR_PAGES.REVIEW,
-]);
 export const CharacterCreator = () => {
   const match = useMatch('/character-creator/:page');
   const navigate = useNavigate();
@@ -53,28 +50,14 @@ export const CharacterCreator = () => {
     prevPage.current = curPage;
   }, [curPage]);
 
-  const { sheet, validationsBySection } = useCharacterCreatorSheet();
-  const { setSheet } = useCharacterSheet();
   const {
+    sheet,
+    onSubmitSheet,
+    validationsBySection,
     errorValidationsBySection,
     warningValidationsBySection,
     hasErrorValidations,
-  } = useMemo(() => {
-    const errorValidationsBySection = mapValues(validationsBySection, (v) =>
-      v.filter((v) => v.type === CharacterCreatorValidationType.REQUIRED),
-    );
-    const warningValidationsBySection = mapValues(validationsBySection, (v) =>
-      v.filter((v) => v.type === CharacterCreatorValidationType.WARNING),
-    );
-    const hasErrorValidations =
-      values(errorValidationsBySection).flat().length > 0;
-
-    return {
-      errorValidationsBySection,
-      warningValidationsBySection,
-      hasErrorValidations,
-    };
-  }, [validationsBySection]);
+  } = useSubmitSheet();
 
   return (
     <div className={styles['container']}>
@@ -86,8 +69,8 @@ export const CharacterCreator = () => {
             className={classNameBuilder('link', {
               selected: curPage === p,
             })}>
-            {p}
-            {visitedPagesSet.has(p) && !NON_PROGRESS_PAGES.has(p) && (
+            {CHARACTER_CREATOR_PAGE_CONFIGS[p].label}
+            {visitedPagesSet.has(p) && !NON_REQUIRED_PAGES.has(p) && (
               <div
                 className={classNameBuilder('validation', {
                   good: (validationsBySection[p]?.length || 0) === 0,
@@ -141,12 +124,7 @@ export const CharacterCreator = () => {
           Back
         </button>
         {curPage === CHARACTER_CREATOR_PAGES.REVIEW ? (
-          <button
-            disabled={hasErrorValidations}
-            onClick={() => {
-              setSheet(sheet);
-              navigate(`/${PAGE_CONFIGS[PAGES.HOME].route}`);
-            }}>
+          <button disabled={hasErrorValidations} onClick={onSubmitSheet}>
             Create Character
           </button>
         ) : (

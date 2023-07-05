@@ -11,16 +11,14 @@ type Props = {
 
 export const FeatureEntry = ({ index, feature }: Props) => {
   const containerRef: any = useRef();
-  const { label, source, sourceLabel, description } = feature;
+  const { label, source, description } = feature;
   return (
     <div className={styles['container']} ref={containerRef}>
       <CollapsibleCard
         header={
           <div className={styles['header']}>
             <span className={styles['label']}>{label}</span>
-            <span className={styles['sub-label']}>
-              {source}: {sourceLabel}
-            </span>
+            <span className={styles['sub-label']}>{source}</span>
           </div>
         }
         transitionTime={100}
