@@ -4,16 +4,10 @@ General Features
 
 Character Creator
 
-- utils
-  - add a util that grabs the key from all objects and mushes it so i don't have to repeat everywhere
 - "finals"
   - check I used all values from "finals"
   - rename to forms
-- sources
-  - add sources to everything that needs them
 - spells
-- options
-  - add ability to disable options you've already selected
 - Background
   - add presets
   - implement Tasha's Rules
